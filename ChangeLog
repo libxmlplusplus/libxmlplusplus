@@ -1,3 +1,9 @@
+2004-02-16  Christophe de VIENNE  <cdevienne@netcourrier.com>
+
+	* libxml++/nodes/node.[h|cc], libxml++/parsers/parser.h:
+	Merged in patches from Albert Chin to get libxml++ build using the SUN,
+	HP, SGI & AIX C++ compilers.
+
 2004-02-06  Christophe de Vienne  <cdevienne@netcourrier.com>
 
 	* libxml++/parsers/sax_parser.cc: Fixed issue #132014.

@@ -62,7 +62,7 @@ public:
   /** Discover at what line number this node occurs in the XML file.
    * @returns The line number.
    */
-  int get_line() const;;
+  int get_line() const;
 
   /** Obtain the list of child nodes. You may optionally obtain a list of only the child nodes which have a certain name.
    * @param name The names of the child nodes to get. If you do not specigy a name, then the list will contain all nodes, regardless of their names.

@@ -1,3 +1,8 @@
+1.0.2:
+
+* Fixed issue #132014.
+* Made libxml++ build using the Sun, HP, SGI, and AIX C++ compilers (Albert Chin).
+
 2004-01-22 1.0.1:
 
 * Fixed Bug #131329

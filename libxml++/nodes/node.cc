@@ -4,12 +4,13 @@
  * included with libxml++ as the file COPYING.
  */
 
+#include <libxml++/nodes/element.h>
 #include <libxml++/nodes/node.h>
 #include <libxml++/exceptions/internal_error.h>
-#include <iostream>
 #include <libxml/xpath.h>
 #include <libxml/tree.h>
 
+#include <iostream>
 
 namespace xmlpp
 {
