@@ -1,5 +1,10 @@
 2004-02-16  Christophe de VIENNE  <cdevienne@netcourrier.com>
 
+	* libxml++/nodes/element.cc: Check return value of xmlHasNsProp to
+	fix issue #134390 (as reported by John Coyle).
+
+2004-02-16  Christophe de VIENNE  <cdevienne@netcourrier.com>
+
 	* libxml++-1.0.pc.in: Added libxml-2.0 to Requires: and removed
 	@LIBXML_LIBS@ from libs, as suggested by Albert Chin.
 

@@ -52,7 +52,10 @@ Attribute* Element::get_attribute(const std::string& name,
     std::string ns_uri = get_namespace_uri_for_prefix(ns_prefix);  
     xmlAttr* attr = xmlHasNsProp(const_cast<xmlNode*>(cobj()), (const xmlChar*)name.c_str(),
                                  (const xmlChar*)ns_uri.c_str());
-    return reinterpret_cast<Attribute*>(attr->_private);
+	if( attr )
+	{
+      return reinterpret_cast<Attribute*>(attr->_private);
+	}
   }
 
   return 0;
