@@ -1,3 +1,13 @@
+2004-04-26  Christophe de VIENNE  <cdevienne@netcourrier.com>
+
+	* libxml++/nodes/contentnode.cc: Fixed set_content which used xmlNodeAddContent
+	instead of xmlNodeSetContent (thanks to Marcello Orizi who outlined it).
+
+2004-04-26  Christophe de VIENNE  <cdevienne@netcourrier.com>
+
+	* libxml++/api_export.h: Fixed the LIBXMLPP_DLL macro which made the
+	compilation failed when not compiling a dll.
+
 2004-03-03  Christophe de VIENNE  <cdevienne@netcourrier.com>
 
 	Made necessary changes to be able to compile a dll under mingw32. Tested

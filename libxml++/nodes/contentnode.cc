@@ -32,7 +32,7 @@ void ContentNode::set_content(const std::string& content)
    if(cobj()->type == XML_ELEMENT_NODE)
       throw internal_error("can't set content for this node type");
 
-   xmlNodeAddContent(cobj(), (xmlChar*)content.c_str());
+   xmlNodeSetContent(cobj(), (xmlChar*)content.c_str());
 }
 
 bool ContentNode::is_white_space() const
