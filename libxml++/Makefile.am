@@ -4,7 +4,7 @@ INCLUDES = -I$(top_srcdir) @LIBXML_CFLAGS@
 
 DEFS=@DEFS@ -DLIBXMLPP_COMPILATION
 
-h_sources_public = libxml++.h attribute.h dtd.h document.h noncopyable.h keepblanks.h
+h_sources_public = libxml++.h attribute.h dtd.h document.h noncopyable.h keepblanks.h api_export.h
 h_sources_private = 
 cc_sources = attribute.cc dtd.cc document.cc noncopyable.cc keepblanks.cc
 cc_sources_private =
