@@ -189,7 +189,7 @@ void Parser::check_for_exception()
   
   if(exception_)
   {
-    exception* tmp = exception_;
+	  std::auto_ptr<exception> tmp ( exception_ );
     exception_ = 0;
     tmp->Raise();
   }
