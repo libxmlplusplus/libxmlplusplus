@@ -76,6 +76,11 @@ void Parser::release_underlying()
   {
     context_->_private = 0; //Not really necessary.
     
+    if( context_->myDoc != NULL )
+    {
+      xmlFreeDoc(context_->myDoc);
+    }
+
     xmlFreeParserCtxt(context_);
     context_ = 0;
   }
