@@ -31,7 +31,7 @@
   #define LIBXMLPP_API
  #endif /* LIBXMLPP_COMPILATION - DLL_EXPORT */
 #else
- #define LIBSIGC_API
+ #define LIBXMLPP_API
 #endif // LIBXMLPP_DLL
 
 #endif
