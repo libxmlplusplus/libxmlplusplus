@@ -10,6 +10,7 @@ EXTRA_DIST = Makefile_web.am_fragment
 include $(top_srcdir)/docs/Makefile_web.am_fragment
 html_docs = index.html reference
 
-post-html: reference/@GENERIC_MAJOR_VERSION@.@GENERIC_MINOR_VERSION@/html/index.html
-	rsync $(rsync_args) -r $(html_docs) $$USER@shell.sourceforge.net:$(web_path_docs)
+post-html:
+	@echo "Warning: publishing only reference documentation. To updated the main site use the HEAD branch"
+	cd reference && make post-html
 
