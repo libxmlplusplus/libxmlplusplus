@@ -190,8 +190,8 @@ void Document::set_internal_subset(const std::string& name,
 {
   xmlDtd* dtd = xmlCreateIntSubset(impl_,
 				   (const xmlChar*)name.c_str(),
-				   (const xmlChar*)external_id.c_str(),
-				   (const xmlChar*)system_id.c_str());
+				   external_id.empty() ? (const xmlChar*)NULL : (const xmlChar*)external_id.c_str(),
+				   system_id.empty() ? (const xmlChar*)NULL : (const xmlChar*)system_id.c_str());
            
   if (dtd && !dtd->_private)
     dtd->_private = new Dtd(dtd);

@@ -1,3 +1,8 @@
+2004-01-13  Christophe de Vienne  <cdevienne@alphacent.com>
+
+	* libxml++/io/document.cc: Gives NULL strings instead of empty ones to
+	xmlCreateIntSubset. Fixes issue #131329.
+
 2004-01-12  Christophe de Vienne  <cdevienne@alphacent.com>
 
 	* libxml++/io/outputbuffer.cc: Fix return value of xmlIO callbacks. (Fixes
