@@ -1,6 +1,8 @@
 2005-02-12  Christophe de Vienne  <cdevienne@netcourrier.com>
 
-	reviewed by: <delete if not using a buddy>
+	* libxml++/nodes/node.cc: Fixed a little inefficency in find (#161925)
+
+2005-02-12  Christophe de Vienne  <cdevienne@netcourrier.com>
 
 	* libxml++/attribute.h, libxml++/document.h, libxml++/dtd.h,
 	libxml++/io/outputbuffer.h, libxml++/nodes/node.h,
