@@ -18,7 +18,7 @@
 #ifndef DOXYGEN_SHOULD_SKIP_THIS
 extern "C" {
   struct _xmlNode;
-};
+}
 #endif //DOXYGEN_SHOULD_SKIP_THIS
 
 namespace xmlpp {

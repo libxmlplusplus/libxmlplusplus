@@ -19,7 +19,7 @@
 extern "C"
 {
   struct _xmlOutputBuffer;
-};
+}
 #endif //DOXYGEN_SHOULD_SKIP_THIS
 
 namespace xmlpp
@@ -80,6 +80,6 @@ namespace xmlpp
       friend struct OutputBufferCallback;
   };
 
-};
+}
 
 #endif

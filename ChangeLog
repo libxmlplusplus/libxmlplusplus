@@ -1,3 +1,12 @@
+2005-02-12  Christophe de Vienne  <cdevienne@netcourrier.com>
+
+	reviewed by: <delete if not using a buddy>
+
+	* libxml++/attribute.h, libxml++/document.h, libxml++/dtd.h,
+	libxml++/io/outputbuffer.h, libxml++/nodes/node.h,
+	libxml++/parsers/parser.h, libxml++/parsers/saxparser.h:
+	Removed extra semicolons so gcc 3.4 won't complain (#162350).
+
 2004-08-13  Christophe de Vienne <cdevienne@netcourrier.com>
 
 	* libxml++/parsers/domparser.cc, libxml++/parsers/parser.cc: Fixed
