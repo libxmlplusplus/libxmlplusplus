@@ -19,13 +19,13 @@ namespace xmlpp
     static int on_write(void * context, const char * buffer, int len)
     {
       OutputBuffer * tmp = static_cast<OutputBuffer*>(context);
-      return tmp->do_write(buffer, len);
+      return tmp->on_write(buffer, len)?len:-1;
     }
 
     static int on_close(void * context)
     {
       OutputBuffer * tmp = static_cast<OutputBuffer*>(context);
-      return tmp->do_close();
+      return tmp->on_close()?0:-1;
     }
   };
 
