@@ -1,3 +1,9 @@
+1.0.4:
+
+2004-05-23  Christophe de VIENNE  <cdevienne@netcourrier.com>
+
+	* libxml++/Makefile.am: Added api_export.h to h_sources_public.
+
 1.0.3:
 
 2004-04-26  Christophe de VIENNE  <cdevienne@netcourrier.com>
