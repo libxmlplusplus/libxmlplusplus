@@ -1,3 +1,8 @@
+2004-05-05 1.0.3:
+
+* Fixed ContentNode::SetContent behavior.
+* Made libxml++ build as a dll with mingw32 (tested under linux).
+
 2004-02-08 1.0.2:
 
 * Fixed issue #132014: "Memory leak in throwing exception".
