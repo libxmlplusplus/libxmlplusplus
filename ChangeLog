@@ -1,3 +1,7 @@
+2004-12-20  Murray Cumming  <murrayc@murrayc.com>
+
+	* This is the gnome-2-8 branch, for libxml++ 2.8.
+
 2004-12-18  Murray Cumming  <murrayc@murrayc.com>
 
 	* libxml++/nodes/node.cc: Node::find(): Check the result of 

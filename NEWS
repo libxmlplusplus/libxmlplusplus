@@ -1,3 +1,12 @@
+2.8.1:
+
+* SaxParser, DomParser: parse_memory(), parse_chunk():
+  Get the array length in bytes instead of characters, 
+  to avoid weirdness. (Tim Alexeevsky, Murray Cumming)
+* Node::find(): Throw an exception about invalid xpaths, 
+  instead of crashing. (Caleb Epstein, Murray Cumming)
+* Fix build for gcc 3.4. (Murray Cumming)
+
 2.8.0:
 
 * Code Cleaning.
