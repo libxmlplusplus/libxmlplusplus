@@ -1,6 +1,7 @@
-1.0.2:
+2004-02-08 1.0.2:
 
-* Fixed issue #132014.
+* Fixed issue #132014: "Memory leak in throwing exception".
+* Fixed issue #134390: "SEGFAULT in Element::get_attribute" (John Coyle).
 * Made libxml++ build using the Sun, HP, SGI, and AIX C++ compilers (Albert Chin).
 
 2004-01-22 1.0.1:
