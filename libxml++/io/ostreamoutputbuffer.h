@@ -11,6 +11,7 @@
 #define __LIBXMLPP_OSTREAMOUTPUTBUFFER_H
 
 #include <libxml++/io/outputbuffer.h>
+#include <libxml++/api_export.h>
 
 #include <ostream>
 
@@ -18,7 +19,7 @@ namespace xmlpp
 {
   /** An OutputBuffer implementation that send datas to a std::ostream.
    */
-  class OStreamOutputBuffer: public OutputBuffer
+  class LIBXMLPP_API OStreamOutputBuffer: public OutputBuffer
   {
     public:
       /**

@@ -8,6 +8,7 @@
 #define __LIBXMLPP_NODES_CDATANODE_H
 
 #include <libxml++/nodes/contentnode.h>
+#include <libxml++/api_export.h>
 
 namespace xmlpp
 {
@@ -15,7 +16,7 @@ namespace xmlpp
 /** CData node. This will be instantiated by the parser.
  *
  */
-class CdataNode : public ContentNode
+class LIBXMLPP_API CdataNode : public ContentNode
 {
 public:
   explicit CdataNode(_xmlNode* node);

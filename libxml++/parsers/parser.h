@@ -14,6 +14,7 @@
 #include <libxml++/nodes/element.h>
 #include <libxml++/exceptions/validity_error.h>
 #include <libxml++/exceptions/internal_error.h>
+#include <libxml++/api_export.h>
 
 #include <istream>
 
@@ -32,7 +33,7 @@ namespace xmlpp {
 /** XML parser.
  *
  */
-class Parser : NonCopyable
+class LIBXMLPP_API Parser : NonCopyable
 {
 public:
   Parser();

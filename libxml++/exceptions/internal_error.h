@@ -23,13 +23,14 @@
 #define __LIBXMLPP_INTERNAL_ERROR_H
 
 #include <libxml++/exceptions/exception.h>
+#include <libxml++/api_export.h>
 
 #include <exception>
 #include <string>
 
 namespace xmlpp {
   
-class internal_error: public exception
+class LIBXMLPP_API internal_error: public exception
 {
 public:
   explicit internal_error(const std::string& message);

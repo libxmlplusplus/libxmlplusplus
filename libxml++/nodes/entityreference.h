@@ -8,13 +8,14 @@
 #define __LIBXMLPP_NODES_ENTITYREFERENCE_H
 
 #include <libxml++/nodes/node.h>
+#include <libxml++/api_export.h>
 
 namespace xmlpp
 {
 
 /** Entity references refer to previously declared entities. This will be instantiated by the parser.
  */
-class EntityReference : public Node
+class LIBXMLPP_API EntityReference : public Node
 {
 public:
   explicit EntityReference(_xmlNode* node);

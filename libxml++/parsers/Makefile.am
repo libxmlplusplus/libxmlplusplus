@@ -1,8 +1,9 @@
 INCLUDES = -I$(top_srcdir) @LIBXML_CFLAGS@
 
+DEFS=@DEFS@ -DLIBXMLPP_COMPILATION
+
 h_sources_public = parser.h saxparser.h domparser.h
 cc_sources = parser.cc saxparser.cc domparser.cc
-
 
 noinst_LTLIBRARIES = libparsers.la
 libparsers_la_SOURCES = $(h_sources_public) $(cc_sources)

@@ -13,6 +13,8 @@
 #include <string>
 #include <libxml++/noncopyable.h>
 
+#include <libxml++/api_export.h>
+
 #ifndef DOXYGEN_SHOULD_SKIP_THIS
 extern "C"
 {
@@ -30,7 +32,7 @@ namespace xmlpp
    * A child class has to override do_write, and eventually
    * do_close if some actions are required before buffer closing.
    */
-  class OutputBuffer: public NonCopyable
+  class LIBXMLPP_API OutputBuffer: public NonCopyable
   {
     public:
       /**

@@ -8,13 +8,14 @@
 #define __LIBXMLPP_NODES_CONTENTNODE_H
 
 #include <libxml++/nodes/node.h>
+#include <libxml++/api_export.h>
 
 namespace xmlpp
 {
 
 /** Content Node. This will be instantiated by the parser.
  */
-class ContentNode : public Node
+class LIBXMLPP_API ContentNode : public Node
 {
 public:
   explicit ContentNode(_xmlNode* node);

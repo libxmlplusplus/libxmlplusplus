@@ -23,13 +23,14 @@
 #define __LIBXMLPP_VALIDITY_ERROR_H
 
 #include <libxml++/exceptions/parse_error.h>
+#include <libxml++/api_export.h>
 
 namespace xmlpp
 {
 
 /** This exception will be thrown when the parser encounters a validity error in the XML document.
  */
-class validity_error: public parse_error
+class LIBXMLPP_API validity_error: public parse_error
 {
 public:
   explicit validity_error(const std::string& message);

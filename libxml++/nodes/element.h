@@ -10,13 +10,14 @@
 #include <libxml++/nodes/node.h>
 #include <libxml++/attribute.h>
 #include <libxml++/nodes/commentnode.h>
+#include <libxml++/api_export.h>
 
 namespace xmlpp
 {
 
 /** Element nodes have attributes as well as child nodes. This will be instantiated by the parser.
  */
-class Element : public Node
+class LIBXMLPP_API Element : public Node
 {
 public:
   explicit Element(_xmlNode* node);

@@ -1,3 +1,18 @@
+2004-03-03  Christophe de VIENNE  <cdevienne@netcourrier.com>
+
+	Made necessary changes to be able to compile a dll under mingw32. Tested
+	under linux, should work as well with msys. This will normaly not break the
+	ABI under unix.
+	* configure.in:
+	- Added detection of mingw and definition of WIN32_LDFLAGS and WIN32_LIBADD.
+	- Tells LIBTOOL to construct a dll.
+	- Changed version number to 1.0.3 for future release (not scheduled yet).
+	* libxml++/api_export.h: Defines LIBXMLPP macro.
+	* libxml++/(*/)Makefile.am: Added -DLIBXMLPP_COMPILATION to DEFS
+	* libxml++/(*/)*.h: Added LIBXMLPP to each class declaration.
+
+1.0.2:
+
 2004-02-16  Christophe de VIENNE  <cdevienne@netcourrier.com>
 
 	* libxml++/nodes/element.cc: Check return value of xmlHasNsProp to

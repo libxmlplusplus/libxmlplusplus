@@ -23,6 +23,7 @@
 #define __LIBXMLPP_PARSE_ERROR_H
 
 #include <libxml++/exceptions/exception.h>
+#include <libxml++/api_export.h>
 
 #include <exception>
 #include <string>
@@ -32,7 +33,7 @@ namespace xmlpp
 
 /** This exception will be thrown when the parser encounters an error in the XML document.
  */  
-class parse_error: public exception
+class LIBXMLPP_API parse_error: public exception
 {
 public:
   explicit parse_error(const std::string& message);

@@ -8,11 +8,12 @@
 #define __LIBXMLPP_PARSERS_SAXPARSER_H
 
 #include <libxml++/parsers/parser.h>
+#include <libxml++/document.h>
+#include <libxml++/api_export.h>
 
 #include <list>
 #include <deque>
 #include <memory>
-#include "libxml++/document.h"
 
 #ifndef DOXYGEN_SHOULD_SKIP_THIS
 extern "C" {
@@ -26,7 +27,7 @@ namespace xmlpp {
 /** SAX XML parser.
  * Derive your own class and override the on_*() methods.
  */
-class SaxParser : public Parser
+class LIBXMLPP_API SaxParser : public Parser
 {
 public:
   /**

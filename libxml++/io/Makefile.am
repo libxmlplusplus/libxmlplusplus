@@ -1,5 +1,7 @@
 INCLUDES = -I$(top_srcdir) @LIBXML_CFLAGS@
 
+DEFS=@DEFS@ -DLIBXMLPP_COMPILATION
+
 h_sources_public = outputbuffer.h ostreamoutputbuffer.h
 h_sources_private = 
 cc_sources = outputbuffer.cc ostreamoutputbuffer.cc

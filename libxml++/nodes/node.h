@@ -9,6 +9,7 @@
 
 #include <libxml++/noncopyable.h>
 #include <libxml++/exceptions/exception.h>
+#include <libxml++/api_export.h>
 #include <string>
 #include <list>
 #include <map>
@@ -32,7 +33,7 @@ typedef std::vector<Node*> NodeSet;
 /** Represents XML Nodes.
  * You should never new or delete Nodes. The Parser will create and manage them for you.
  */
-class Node : public NonCopyable
+class LIBXMLPP_API Node : public NonCopyable
 {
 public:
   typedef std::list<Node*> NodeList;

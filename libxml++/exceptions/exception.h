@@ -25,12 +25,14 @@
 #include <exception>
 #include <string>
 
+#include <libxml++/api_export.h>
+
 namespace xmlpp
 {
 
 /** Base class for all xmlpp exceptions.
  */
-class exception: public std::exception
+class LIBXMLPP_API exception: public std::exception
 {
 public:
   explicit exception(const std::string& message);

@@ -8,13 +8,15 @@
 #ifndef __LIBXMLPP_NONCOPYABLE_H
 #define __LIBXMLPP_NONCOPYABLE_H
 
+#include <libxml++/api_export.h>
+
 namespace xmlpp
 {
 
 /**
  * Herited by classes which cannot be copied.
  */
-class NonCopyable
+class LIBXMLPP_API NonCopyable
 {
 protected:
   NonCopyable();

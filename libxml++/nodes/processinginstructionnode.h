@@ -8,11 +8,12 @@
 #define __LIBXMLPP_NODES_PINODE_H
 
 #include <libxml++/nodes/contentnode.h>
+#include <libxml++/api_export.h>
 
 namespace xmlpp
 {
 
-class ProcessingInstructionNode : public ContentNode
+class LIBXMLPP_API ProcessingInstructionNode : public ContentNode
 {
 public:
   explicit ProcessingInstructionNode(_xmlNode* node);

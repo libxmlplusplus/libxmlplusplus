@@ -9,6 +9,8 @@
 #ifndef __LIBXMLPP_KEEPBLANKS_H
 #define __LIBXMLPP_KEEPBLANKS_H
 
+#include <libxml++/api_export.h>
+
 namespace xmlpp
 {
 
@@ -17,7 +19,7 @@ namespace xmlpp
    * and restore their initial value in its destructor. As a consequence
    * the wanted setting is kept during instance lifetime.
    */
-  class KeepBlanks {
+  class LIBXMLPP_API KeepBlanks {
     public:
 #if _MSC_VER == 1200 // detect MSVC 6.0
       static const bool Default;

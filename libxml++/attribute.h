@@ -11,6 +11,7 @@
 #include <string>
 
 #include <libxml++/nodes/node.h>
+#include <libxml++/api_export.h>
 
 #ifndef DOXYGEN_SHOULD_SKIP_THIS
 extern "C" {
@@ -24,7 +25,7 @@ namespace xmlpp
 /** Represents XML Node attributes.
  *
  */
-class Attribute : public Node
+class LIBXMLPP_API Attribute : public Node
 {
 public:
   explicit Attribute(_xmlNode* node);

@@ -10,13 +10,14 @@
 #include <libxml++/parsers/parser.h>
 #include <libxml++/dtd.h>
 #include <libxml++/document.h>
+#include <libxml++/api_export.h>
 
 namespace xmlpp {
 
 /** XML DOM parser.
  *
  */
-class DomParser : public Parser
+class LIBXMLPP_API DomParser : public Parser
 {
 public:
 

@@ -8,6 +8,7 @@
 #define __LIBXMLPP_DTD_H
 
 #include <libxml++/attribute.h>
+#include <libxml++/api_export.h>
 #include <list>
 #include <map>
 
@@ -23,7 +24,7 @@ namespace xmlpp
 /** Represents XML DTDs.
  *
  */
-class Dtd //TODO: Derive from Node?
+class LIBXMLPP_API Dtd //TODO: Derive from Node?
 {
 public:
   Dtd(_xmlDtd* dtd);

@@ -1,5 +1,7 @@
 INCLUDES = -I$(top_srcdir) @LIBXML_CFLAGS@
 
+DEFS=@DEFS@ -DLIBXMLPP_COMPILATION
+
 h_sources_public = \
 	cdatanode.h \
 	commentnode.h \

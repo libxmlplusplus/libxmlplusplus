@@ -15,6 +15,7 @@
 #include <libxml++/exceptions/internal_error.h>
 #include <libxml++/nodes/element.h>
 #include <libxml++/dtd.h>
+#include <libxml++/api_export.h>
 
 #include <ostream>
 
@@ -37,12 +38,10 @@ typedef enum {
     XML_INTERNAL_PREDEFINED_ENTITY = 6
 } XmlEntityType;
 
-class Document;
-
 /**
  * Represents a XML document in the dom model.
  */
-class Document : NonCopyable
+class LIBXMLPP_API Document : NonCopyable
 {
   //Ensure that libxml is properly initialised:
   class Init
