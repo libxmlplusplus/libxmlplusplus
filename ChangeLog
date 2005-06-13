@@ -1,3 +1,9 @@
+2005-06-13  Christophe de Vienne  <cdevienne@netcourrier.com>
+
+	* libxml++/parsers/saxparser.cc: As suggested by Darko Miletic, replaced
+	"" by std::string() in expressions using ?: operator. This avoid
+	Borland compilers to complain.
+
 2005-02-12  Christophe de Vienne  <cdevienne@netcourrier.com>
 
 	* libxml++/nodes/node.cc: Fixed a little inefficency in find (#161925)

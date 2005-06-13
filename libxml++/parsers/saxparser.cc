@@ -294,11 +294,11 @@ void SaxParserCallback::entity_decl(void* context, const xmlChar* name, int type
   try
   {
     parser->on_entity_declaration(
-      ( name ? std::string((const char*)name) : ""),
+      ( name ? std::string((const char*)name) : std::string()),
       static_cast<XmlEntityType>(type),
-      ( publicId ? std::string((const char*)publicId) : ""),
-      ( systemId ? std::string((const char*)systemId) : ""),
-      ( content ? std::string((const char*)content) : "") );
+      ( publicId ? std::string((const char*)publicId) : std::string()),
+      ( systemId ? std::string((const char*)systemId) : std::string()),
+      ( content ? std::string((const char*)content) : std::string()) );
   }
   catch(const exception& e)
   {
