@@ -1,3 +1,10 @@
+2005-09-27 1.0.5:
+
+* Fixed warnings with borland compilers (thanks to Darko Miletic)
+* Fixed issue #161925: "Inefficency in Node::find"
+* Fixed issue #162350: "gcc-3.4 new pedantic behavior"
+* Fixed issue #150082: "Memory Leak in DomParser"
+
 2004-05-23 1.0.4:
 
 * Fixed the dist tarball (Christophe de Vienne).

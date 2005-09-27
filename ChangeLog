@@ -1,3 +1,5 @@
+1.0.5:
+
 2005-06-13  Christophe de Vienne  <cdevienne@netcourrier.com>
 
 	* libxml++/parsers/saxparser.cc: As suggested by Darko Miletic, replaced
