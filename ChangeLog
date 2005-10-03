@@ -1,3 +1,8 @@
+2005-10-03  Darko Miletic  <darko@uvcms.com>
+
+	* win32_bcc: Added borland makefile.
+	* libxml++/parsers/saxparser.cc: replaced "" by std::string.
+
 1.0.5:
 
 2005-06-13  Christophe de Vienne  <cdevienne@netcourrier.com>

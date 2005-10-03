@@ -501,8 +501,8 @@ void SaxParserCallback::internal_subset(void* context, const xmlChar* name,
   
   try
   {
-    std::string pid = publicId ? std::string((const char*) publicId) : "";
-    std::string sid = systemId ? std::string((const char*) systemId) : "";
+    std::string pid = publicId ? std::string((const char*) publicId) : std::string();
+    std::string sid = systemId ? std::string((const char*) systemId) : std::string();
 
     parser->on_internal_subset( std::string((const char*) name), pid, sid);
   }
