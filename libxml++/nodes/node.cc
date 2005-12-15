@@ -224,7 +224,7 @@ Glib::ustring Node::get_namespace_uri() const
 void Node::set_namespace(const Glib::ustring& ns_prefix)
 {
   //Look for the existing namespace to use:
-  xmlNs* ns = xmlSearchNs( cobj()->doc, cobj(), (xmlChar*)ns_prefix.c_str() );
+  xmlNs* ns = xmlSearchNs( cobj()->doc, cobj(), (xmlChar*)(ns_prefix.empty() ? 0 : ns_prefix.c_str()) );
   if(ns)
   {
       //Use it for this element:

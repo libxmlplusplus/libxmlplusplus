@@ -1,3 +1,18 @@
+2005-12-15  Murray Cumming  <murrayc@murrayc.com>
+
+	* libxml++/nodes/node.cc: set_namespace(): Pass 0 to 
+	xmlSearchNs() for empty (default) namespaces, instead of 
+	an empty string, as we do elsewhere. This makes 
+	Document::create_root_node() for when not specifying a 
+	namespace. Bug #318186 from Erik Oestby.
+
+2005-12-15  Vadim Zeitlin  <vadim@wxwindows.org >
+
+	* docs/reference/Doxyfile.in: Fix paths so buildir!=srcdir 
+	builds work. Bug #319863.
+
+This is the gnome-2-12 branch.
+
 2.12.0:
 
 2005-08-26  Christophe de Vienne  <cdevienne@gmail.com>

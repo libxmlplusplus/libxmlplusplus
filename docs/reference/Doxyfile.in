@@ -68,13 +68,13 @@ WARN_LOGFILE           =
 #---------------------------------------------------------------------------
 # configuration options related to the input files
 #---------------------------------------------------------------------------
-INPUT                  = ../../libxml++/
+INPUT                  = @top_srcdir@/libxml++
 FILE_PATTERNS          = *.h
 RECURSIVE              = YES
 EXCLUDE                = 
 EXCLUDE_SYMLINKS       = NO
 EXCLUDE_PATTERNS       = */wrap_init.h
-EXAMPLE_PATH           = ../../examples
+EXAMPLE_PATH           = @top_srcdir@/examples
 EXAMPLE_PATTERNS       = *.h \
                          *.cc
 EXAMPLE_RECURSIVE      = YES
