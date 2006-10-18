@@ -98,9 +98,9 @@ void DomParser::parse_context()
 
   if(context_->errNo != 0)
   {
-    release_underlying();
     std::ostringstream o;
     o << "libxml error " << context_->errNo;
+    release_underlying();
     throw parse_error(o.str());
   }
 

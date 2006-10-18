@@ -1,3 +1,7 @@
+2006-10-18  Jonathan Atkins  <jcatki@jonatkins.org>
+
+	* libxml++/parsers/domparser.cc: Fix a potential segfault (#362956)
+
 2005-10-03  Darko Miletic  <darko@uvcms.com>
 
 	* win32_bcc: Added borland makefile.
