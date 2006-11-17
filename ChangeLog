@@ -1,3 +1,5 @@
+This is the gnome-2-14 branch.
+
 2005-09-21  Christophe de Vienne  <cdevienne@netcourrier.com>
 
 	* libxml++.spec.in: Fixed include and .pc paths. Fixes #316827.
