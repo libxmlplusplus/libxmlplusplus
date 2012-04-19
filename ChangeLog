@@ -1,3 +1,13 @@
+2012-04-19  Kjell Ahlstedt  <kjell.ahlstedt@bredband.net>
+
+	Node: Fix memory problems in import_node().
+
+	* libxml++/nodes/node.[h|cc]: Return added_node instead of imported_node,
+	which libxml2 may delete. Delete the C++ wrapper of a deleted attribute node.
+	* examples/import_node/example[1|2].xml:
+	* examples/import_node/main.cc: Import attributes and a text node which is
+	merged with an existing text node. Bug #672992.
+
 2012-04-12  Kjell Ahlstedt  <kjell.ahlstedt@bredband.net>
 
 	Define LIBXMLCPP_EXCEPTIONS_ENABLED unconditionally.

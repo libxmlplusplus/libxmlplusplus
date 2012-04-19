@@ -163,9 +163,16 @@ public:
   void remove_child(Node* node);
 
   /** Import node(s) from another document under this node, without affecting the source node.
+   *
+   * If the imported node is an attribute node, and this node has an attribute with
+   * the same name as the imported attribute, the existing attribute is destroyed
+   * before the imported attribute is added. Any pointer to a destroyed attribute
+   * node becomes invalid.
+   *
    * @param node The node to copy and insert under the current node.
    * @param recursive Whether to import the child nodes also. Defaults to true.
-   * @returns The newly-created node.
+   * @returns Usually the newly created node, but adjacent text nodes are merged,
+   *          and the old text node with merged contents is returned.
    * @throws exception
    */
   Node* import_node(const Node* node, bool recursive = true);

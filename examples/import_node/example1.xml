@@ -1,6 +1,6 @@
 <?xml version="1.0"?>
-<root>
-<child>content</child>
+<root name="example1">
+<child>content </child>
 <child>more content</child>
 <child>even more content</child>
 </root>

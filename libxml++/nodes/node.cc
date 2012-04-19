@@ -231,8 +231,22 @@ Node* Node::import_node(const Node* node, bool recursive)
     throw exception("Unable to import node");
   }
 
+  // If the copied node is an attribute node, and there is an attribute with
+  // the same name, the old attribute is destroyed (freed). If it's an attribute,
+  // Node::free_wrappers() is registered as a callback that will delete the
+  // C++ wrapper before the C object is deleted.
+  xmlDeregisterNodeFunc old_callback = 0;
+  const bool register_callback = imported_node->type == XML_ATTRIBUTE_NODE;
+  if (register_callback)
+    old_callback = xmlDeregisterNodeDefault(Node::free_wrappers);
+
   //Add the node:
-  xmlNode* added_node = xmlAddChild(this->cobj(),imported_node);
+  xmlNode* added_node = xmlAddChild(this->cobj(), imported_node);
+
+  // Remove the free_wrappers() callback and reinsert old callback function, if any.
+  if (register_callback)
+    xmlDeregisterNodeDefault(old_callback);
+
   if (!added_node)
   {
     Node::free_wrappers(imported_node);
@@ -241,8 +255,11 @@ Node* Node::import_node(const Node* node, bool recursive)
     throw exception("Unable to add imported node to current node");
   }
 
-  Node::create_wrapper(imported_node);
-  return static_cast<Node*>(imported_node->_private);
+  // Usually added_node == imported_node, but a text node is merged with an
+  // adjacent text node. In that case, xmlAddChild() frees imported_node, and
+  // added_node is a pointer to the old text node.
+  Node::create_wrapper(added_node);
+  return static_cast<Node*>(added_node->_private);
 }
 
 Glib::ustring Node::get_name() const
