@@ -231,21 +231,21 @@ Node* Node::import_node(const Node* node, bool recursive)
     throw exception("Unable to import node");
   }
 
-  // If the copied node is an attribute node, and there is an attribute with
-  // the same name, the old attribute is destroyed (freed). If it's an attribute,
-  // Node::free_wrappers() is registered as a callback that will delete the
-  // C++ wrapper before the C object is deleted.
-  xmlDeregisterNodeFunc old_callback = 0;
-  const bool register_callback = imported_node->type == XML_ATTRIBUTE_NODE;
-  if (register_callback)
-    old_callback = xmlDeregisterNodeDefault(Node::free_wrappers);
+  if (imported_node->type == XML_ATTRIBUTE_NODE && impl_->type == XML_ELEMENT_NODE)
+  {
+    xmlAttr* old_attr = xmlHasNsProp(impl_, imported_node->name,
+      imported_node->ns ? imported_node->ns->href : 0);
+    if (old_attr && old_attr->type != XML_ATTRIBUTE_DECL)
+    {
+      // *this has an attribute with the same name as the imported attribute.
+      // xmlAddChild() will delete the existing attribute.
+      // Delete the C++ wrapper before the call to xmlAddChild().
+      Node::free_wrappers(reinterpret_cast<xmlNode*>(old_attr));
+    }
+  }
 
   //Add the node:
   xmlNode* added_node = xmlAddChild(this->cobj(), imported_node);
-
-  // Remove the free_wrappers() callback and reinsert old callback function, if any.
-  if (register_callback)
-    xmlDeregisterNodeDefault(old_callback);
 
   if (!added_node)
   {

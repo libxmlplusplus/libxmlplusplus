@@ -1,5 +1,12 @@
 2012-04-19  Kjell Ahlstedt  <kjell.ahlstedt@bredband.net>
 
+	Node: Make the previous fix thread-safe.
+
+	* libxml++/nodes/node.cc: Delete the C++ wrapper of a deleted attribute node
+	without using xmlDeregisterNodeDefault. Bug #672992 comments 9-12.
+
+2012-04-19  Kjell Ahlstedt  <kjell.ahlstedt@bredband.net>
+
 	Node: Fix memory problems in import_node().
 
 	* libxml++/nodes/node.[h|cc]: Return added_node instead of imported_node,
