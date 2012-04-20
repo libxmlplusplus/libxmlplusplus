@@ -11,8 +11,9 @@
     <title>Another section</title>
     <section id="section3">
       <title>A sub-section</title>
-      <para>This paragraph refers to <xref linkend="section1"/>,
-        <xref linkend="section2"/>, and <xref linkend="section4"/>.</para>
+      <para>This paragraph refers to <literal>3</literal> sections:
+        <xref linkend="section1"/>, <xref linkend="section2"/>, and
+        <xref linkend="section4"/>.</para>
     </section>
   </section>
 </article>

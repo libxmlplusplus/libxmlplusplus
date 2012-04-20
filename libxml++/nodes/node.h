@@ -30,6 +30,23 @@ class Attribute;
 class Node;
 typedef std::vector<Node*> NodeSet;
 
+// xmlpp::XPathResultType is similar to xmlXPathObjectType in libxml2.
+/** An XPath expression is evaluated to yield a result, which
+ * has one of the following four basic types:
+ *   - node-set
+ *   - boolean
+ *   - number
+ *   - string
+ */
+enum XPathResultType
+{
+    XPATH_RESULT_UNDEFINED = 0,
+    XPATH_RESULT_NODESET = 1,
+    XPATH_RESULT_BOOLEAN = 2,
+    XPATH_RESULT_NUMBER = 3,
+    XPATH_RESULT_STRING = 4
+};
+
 /** Represents XML Nodes.
  * You should never new or delete Nodes. The Parser will create and manage them for you.
  */
@@ -111,13 +128,13 @@ public:
   Node* get_first_child(const Glib::ustring& name = Glib::ustring());
 
   /** Obtain the list of child nodes. You may optionally obtain a list of only the child nodes which have a certain name.
-   * @param name The names of the child nodes to get. If you do not specigy a name, then the list will contain all nodes, regardless of their names.
+   * @param name The names of the child nodes to get. If you do not specify a name, then the list will contain all nodes, regardless of their names.
    * @returns The list of child nodes.
    */
   NodeList get_children(const Glib::ustring& name = Glib::ustring());
 
   /** Obtain the list of child nodes. You may optionally obtain a list of only the child nodes which have a certain name.
-   * @param name The names of the child nodes to get. If you do not specigy a name, then the list will contain all nodes, regardless of their names.
+   * @param name The names of the child nodes to get. If you do not specify a name, then the list will contain all nodes, regardless of their names.
    * @returns The list of child nodes.
    */
   const NodeList get_children(const Glib::ustring& name = Glib::ustring()) const;
@@ -183,7 +200,7 @@ public:
    */
   Glib::ustring get_path() const;
 
-  /** Find nodes from a XPath expression.
+  /** Find nodes from an XPath expression.
    * @param xpath The XPath of the nodes.
    * @throws exception
    */
@@ -193,13 +210,91 @@ public:
    */
   typedef std::map<Glib::ustring, Glib::ustring> PrefixNsMap;
 
-  /** Find nodes from a XPath expression.
+  /** Find nodes from an XPath expression.
    * @param xpath The XPath of the nodes.
    * @param namespaces A map of namespace prefixes to namespace URIs to be used while finding.
    * @throws exception
    */
   NodeSet find(const Glib::ustring& xpath, const PrefixNsMap& namespaces) const;
 
+  /** Evaluate an XPath expression.
+   * @param xpath The XPath expression.
+   * @param[out] result_type Result type of the XPath expression before conversion
+   *             to boolean. If 0, the result type is not returned.
+   * @returns The value of the XPath expression. If the value is not of type boolean,
+   *          it is converted to boolean.
+   * @throws xmlpp::exception If the XPath expression cannot be evaluated.
+   *
+   * @newin{2,36}
+   */
+  bool eval_to_boolean(const Glib::ustring& xpath, XPathResultType* result_type = 0) const;
+
+
+  /** Evaluate an XPath expression.
+   * @param xpath The XPath expression.
+   * @param namespaces A map of namespace prefixes to namespace URIs to be used while evaluating.
+   * @param[out] result_type Result type of the XPath expression before conversion
+   *             to boolean. If 0, the result type is not returned.
+   * @returns The value of the XPath expression. If the value is not of type boolean,
+   *          it is converted to boolean.
+   * @throws xmlpp::exception If the XPath expression cannot be evaluated.
+   *
+   * @newin{2,36}
+   */
+  bool eval_to_boolean(const Glib::ustring& xpath, const PrefixNsMap& namespaces,
+    XPathResultType* result_type = 0) const;
+
+  /** Evaluate an XPath expression.
+   * @param xpath The XPath expression.
+   * @param[out] result_type Result type of the XPath expression before conversion
+   *             to number. If 0, the result type is not returned.
+   * @returns The value of the XPath expression. If the value is not of type number,
+   *          it is converted to number.
+   * @throws xmlpp::exception If the XPath expression cannot be evaluated.
+   *
+   * @newin{2,36}
+   */
+  double eval_to_number(const Glib::ustring& xpath, XPathResultType* result_type = 0) const;
+
+  /** Evaluate an XPath expression.
+   * @param xpath The XPath expression.
+   * @param namespaces A map of namespace prefixes to namespace URIs to be used while evaluating.
+   * @param[out] result_type Result type of the XPath expression before conversion
+   *             to number. If 0, the result type is not returned.
+   * @returns The value of the XPath expression. If the value is not of type number,
+   *          it is converted to number.
+   * @throws xmlpp::exception If the XPath expression cannot be evaluated.
+   *
+   * @newin{2,36}
+   */
+  double eval_to_number(const Glib::ustring& xpath, const PrefixNsMap& namespaces,
+    XPathResultType* result_type = 0) const;
+
+  /** Evaluate an XPath expression.
+   * @param xpath The XPath expression.
+   * @param[out] result_type Result type of the XPath expression before conversion
+   *             to string. If 0, the result type is not returned.
+   * @returns The value of the XPath expression. If the value is not of type string,
+   *          it is converted to string.
+   * @throws xmlpp::exception If the XPath expression cannot be evaluated.
+   *
+   * @newin{2,36}
+   */
+  Glib::ustring eval_to_string(const Glib::ustring& xpath, XPathResultType* result_type = 0) const;
+
+  /** Evaluate an XPath expression.
+   * @param xpath The XPath expression.
+   * @param namespaces A map of namespace prefixes to namespace URIs to be used while evaluating.
+   * @param[out] result_type Result type of the XPath expression before conversion
+   *             to string. If 0, the result type is not returned.
+   * @returns The value of the XPath expression. If the value is not of type string,
+   *          it is converted to string.
+   * @throws xmlpp::exception If the XPath expression cannot be evaluated.
+   *
+   * @newin{2,36}
+   */
+  Glib::ustring eval_to_string(const Glib::ustring& xpath, const PrefixNsMap& namespaces,
+    XPathResultType* result_type = 0) const;
 
   ///Access the underlying libxml implementation.
   _xmlNode* cobj();
@@ -211,7 +306,7 @@ public:
    *
    * This is only for use by the libxml++ implementation.
    *
-   * @para node A pointer to an xmlNode or a "derived" struct, such as xmlDoc, xmlAttr, etc.
+   * @param node A pointer to an xmlNode or a "derived" struct, such as xmlDoc, xmlAttr, etc.
    */
   static void create_wrapper(_xmlNode* node);
   
@@ -219,9 +314,9 @@ public:
    * recursively destroy the C++ instances for any children.
    *
    * This is only for use by the libxml++ implementation.
-   * @para node A pointer to an xmlNode or a "derived" struct, such as xmlDoc, xmlAttr, etc.
+   * @param node A pointer to an xmlNode or a "derived" struct, such as xmlDoc, xmlAttr, etc.
    */
-  static void free_wrappers(_xmlNode* attr);
+  static void free_wrappers(_xmlNode* node);
   
 protected:
 

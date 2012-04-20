@@ -22,6 +22,93 @@
 
 #include <iostream>
 
+namespace // anonymous
+{
+// Common part of xmlpp::Node::eval_to_[boolean|number|string]
+xmlXPathObject* eval_common(const Glib::ustring& xpath,
+  const xmlpp::Node::PrefixNsMap* namespaces,
+  xmlpp::XPathResultType* result_type, xmlNode* node)
+{
+  xmlXPathContext* ctxt = xmlXPathNewContext(node->doc);
+  ctxt->node = node;
+
+  if (namespaces)
+  {
+    for (xmlpp::Node::PrefixNsMap::const_iterator it = namespaces->begin();
+         it != namespaces->end(); ++it)
+      xmlXPathRegisterNs(ctxt,
+        reinterpret_cast<const xmlChar*>(it->first.c_str()),
+        reinterpret_cast<const xmlChar*>(it->second.c_str()));
+  }
+
+  xmlXPathObject* xpath_value = xmlXPathEvalExpression(
+    reinterpret_cast<const xmlChar*>(xpath.c_str()), ctxt);
+
+  xmlXPathFreeContext(ctxt);
+
+  if (!xpath_value)
+  {
+    if (result_type)
+      *result_type = xmlpp::XPATH_RESULT_UNDEFINED;
+
+    throw xmlpp::exception("Invalid XPath: " + xpath);
+  }
+
+  if (result_type)
+  {
+    if (xpath_value->type == XPATH_NODESET ||
+        xpath_value->type == XPATH_BOOLEAN ||
+        xpath_value->type == XPATH_NUMBER ||
+        xpath_value->type == XPATH_STRING)
+      *result_type = static_cast<xmlpp::XPathResultType>(xpath_value->type);
+    else
+      *result_type = xmlpp::XPATH_RESULT_UNDEFINED;
+  }
+
+  return xpath_value;
+}
+
+// Common part of all overloaded xmlpp::Node::eval_to_boolean() methods.
+bool eval_common_to_boolean(const Glib::ustring& xpath,
+  const xmlpp::Node::PrefixNsMap* namespaces,
+  xmlpp::XPathResultType* result_type, xmlNode* node)
+{
+  xmlXPathObject* xpath_value = eval_common(xpath, namespaces, result_type, node);
+  const int result = xmlXPathCastToBoolean(xpath_value);
+  xmlXPathFreeObject(xpath_value);
+  return static_cast<bool>(result);
+}
+
+// Common part of all overloaded xmlpp::Node::eval_to_number() methods.
+double eval_common_to_number(const Glib::ustring& xpath,
+  const xmlpp::Node::PrefixNsMap* namespaces,
+  xmlpp::XPathResultType* result_type, xmlNode* node)
+{
+  xmlXPathObject* xpath_value = eval_common(xpath, namespaces, result_type, node);
+  const double result = xmlXPathCastToNumber(xpath_value);
+  xmlXPathFreeObject(xpath_value);
+  return result;
+}
+
+// Common part of all overloaded xmlpp::Node::eval_to_string() methods.
+Glib::ustring eval_common_to_string(const Glib::ustring& xpath,
+  const xmlpp::Node::PrefixNsMap* namespaces,
+  xmlpp::XPathResultType* result_type, xmlNode* node)
+{
+  xmlXPathObject* xpath_value = eval_common(xpath, namespaces, result_type, node);
+  xmlChar* result = xmlXPathCastToString(xpath_value);
+  xmlXPathFreeObject(xpath_value);
+  if (result)
+  {
+    const Glib::ustring uresult(reinterpret_cast<const char*>(result));
+    xmlFree(result);
+    return uresult;
+  }
+  return Glib::ustring();
+}
+
+} // anonymous namespace
+
 namespace xmlpp
 {
 
@@ -377,6 +464,39 @@ NodeSet Node::find(const Glib::ustring& xpath,
 		       reinterpret_cast<const xmlChar*>(it->second.c_str()));
 
   return find_impl(ctxt, xpath);
+}
+
+bool Node::eval_to_boolean(const Glib::ustring& xpath, XPathResultType* result_type) const
+{
+  return eval_common_to_boolean(xpath, 0, result_type, impl_);
+}
+
+bool Node::eval_to_boolean(const Glib::ustring& xpath, const PrefixNsMap& namespaces,
+  XPathResultType* result_type) const
+{
+  return eval_common_to_boolean(xpath, &namespaces, result_type, impl_);
+}
+
+double Node::eval_to_number(const Glib::ustring& xpath, XPathResultType* result_type) const
+{
+  return eval_common_to_number(xpath, 0, result_type, impl_);
+}
+
+double Node::eval_to_number(const Glib::ustring& xpath, const PrefixNsMap& namespaces,
+  XPathResultType* result_type) const
+{
+  return eval_common_to_number(xpath, &namespaces, result_type, impl_);
+}
+
+Glib::ustring Node::eval_to_string(const Glib::ustring& xpath, XPathResultType* result_type) const
+{
+  return eval_common_to_string(xpath, 0, result_type, impl_);
+}
+
+Glib::ustring Node::eval_to_string(const Glib::ustring& xpath, const PrefixNsMap& namespaces,
+  XPathResultType* result_type) const
+{
+  return eval_common_to_string(xpath, &namespaces, result_type, impl_);
 }
 
 Glib::ustring Node::get_namespace_prefix() const

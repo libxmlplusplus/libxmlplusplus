@@ -1,3 +1,12 @@
+2012-04-20  Kjell Ahlstedt  <kjell.ahlstedt@bredband.net>
+ 
+	Node: Add functions eval_to_[boolean|number|string]().
+
+	* examples/dom_xpath/example.xml: Add an element with numeric value.
+	* examples/dom_xpath/main.cc: Add calls to the new functions.
+	* libxml++/nodes/node.[h|cc]:
+	Add the functions eval_to_[boolean|number|string](). Bug #316244.
+
 2012-04-19  Kjell Ahlstedt  <kjell.ahlstedt@bredband.net>
 
 	Node: Make the previous fix thread-safe.

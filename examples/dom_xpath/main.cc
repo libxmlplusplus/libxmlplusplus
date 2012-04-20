@@ -24,23 +24,78 @@
 #endif
 
 #include <libxml++/libxml++.h>
-
+#include <stdlib.h>
 #include <iostream>
 
+Glib::ustring result_type_to_ustring(xmlpp::XPathResultType result_type)
+{
+  switch (result_type)
+  {
+    case xmlpp::XPATH_RESULT_NODESET: return "nodeset";
+    case xmlpp::XPATH_RESULT_BOOLEAN: return "boolean";
+    case xmlpp::XPATH_RESULT_NUMBER:  return "number";
+    case xmlpp::XPATH_RESULT_STRING:  return "string";
+
+    case xmlpp::XPATH_RESULT_UNDEFINED:
+    default:
+      return "undefined";
+  }
+}
 
 void xpath_test(const xmlpp::Node* node, const Glib::ustring& xpath)
 {
   std::cout << std::endl; //Separate tests by an empty line.
   std::cout << "searching with xpath '" << xpath << "' in root node: " << std::endl;
 
-  xmlpp::NodeSet set = node->find(xpath);
-  
-  std::cout << set.size() << " nodes have been found:" << std::endl;
-
-  //Print the structural paths:
-  for(xmlpp::NodeSet::iterator i = set.begin(); i != set.end(); ++i)
+  try
   {
-    std::cout << " " << (*i)->get_path() << std::endl;
+    xmlpp::NodeSet set = node->find(xpath);
+
+    std::cout << set.size() << " nodes have been found:" << std::endl;
+
+    //Print the structural paths and the values:
+    for(xmlpp::NodeSet::iterator i = set.begin(); i != set.end(); ++i)
+    {
+      std::cout << " " << (*i)->get_path();
+
+      xmlpp::Attribute* attribute = dynamic_cast<xmlpp::Attribute*>(*i);
+      if (attribute)
+        std::cout << ", value=\"" << attribute->get_value() << "\"";
+
+      xmlpp::ContentNode* content_node = dynamic_cast<xmlpp::ContentNode*>(*i);
+      if (content_node)
+        std::cout << ", content=\"" << content_node->get_content() << "\"";
+
+      xmlpp::EntityReference* entity_reference = dynamic_cast<xmlpp::EntityReference*>(*i);
+      if (entity_reference)
+        std::cout << ", text=\"" << entity_reference->get_original_text() << "\"";
+
+      xmlpp::Element* element = dynamic_cast<xmlpp::Element*>(*i);
+      if (element)
+      {
+        xmlpp::TextNode* text_node = element->get_child_text();
+        if (text_node)
+          std::cout << ", child_text=\"" << text_node->get_content() << "\"";
+      }
+      std::cout << std::endl;
+    }
+  }
+  catch (const xmlpp::exception& ex)
+  {
+    std::cout << "Exception caught from find: " << ex.what() << std::endl;
+  }
+
+  try
+  {
+    xmlpp::XPathResultType result_type;
+    std::cout << "Boolean=" << (node->eval_to_boolean(xpath) ? "true" : "false")
+              << ", Number=" << node->eval_to_number(xpath, &result_type)
+              << ", String=\"" << node->eval_to_string(xpath) << "\"";
+    std::cout << ", Result_type=" << result_type_to_ustring(result_type) << std::endl;
+  }
+  catch (const xmlpp::exception& ex)
+  {
+    std::cout << "Exception caught from eval: " << ex.what() << std::endl;
   }
 }
 
@@ -51,7 +106,7 @@ int main(int argc, char* argv[])
   std::locale::global(std::locale(""));
 
   std::string filepath;
-  if(argc > 1 )
+  if (argc > 1)
     filepath = argv[1]; //Allow the user to specify a different XML file to parse.
   else
     filepath = "example.xml";
@@ -71,6 +126,17 @@ int main(int argc, char* argv[])
         // Find the title node (if there is one):
         xpath_test(root, "title");
 
+        // Find all literal text, in any paragraph:
+        xpath_test(root, "//para/literal");
+
+        // Evaluate some XPath expressions with result types other than nodeset:
+        xpath_test(root, "boolean(//para/literal)");
+        xpath_test(root, "number(//para/literal)+2");
+        xpath_test(root, "concat(string(title),\" !\")");
+
+        // Don't find anything:
+        xpath_test(root, "/wont_find");
+
         std::cout << std::endl;
 
         // And finally test whether intra-document links are well-formed.
@@ -82,6 +148,7 @@ int main(int argc, char* argv[])
         std::cout << "searching for unresolved internal references "
                   << "(see docbook manual):" << std::endl;
 
+        xpath_test(root, "//@id");
         xpath_test(root, "//xref/@linkend");
       }
     }
@@ -91,6 +158,5 @@ int main(int argc, char* argv[])
     std::cout << "Exception caught: " << ex.what() << std::endl;
   }
 
-  return 0;
+  return EXIT_SUCCESS;
 }
-
