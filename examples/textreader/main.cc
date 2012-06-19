@@ -27,6 +27,7 @@
 #include <libxml++/parsers/textreader.h>
 
 #include <iostream>
+#include <stdlib.h>
 
 struct indent {
   int depth_;
@@ -83,7 +84,9 @@ int main(int /* argc */, char** /* argv */)
   }
   catch(const std::exception& e)
   {
-    std::cout << "Exception caught: " << e.what() << std::endl;
+    std::cerr << "Exception caught: " << e.what() << std::endl;
+    return EXIT_FAILURE;
   }
+  return EXIT_SUCCESS;
 }
 

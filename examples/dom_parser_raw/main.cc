@@ -24,7 +24,7 @@
 #include <iostream>
 #include <fstream>
 #include <glibmm/convert.h>
-
+#include <stdlib.h>
 
 void print_node(const xmlpp::Node* node, unsigned int indentation = 0)
 {
@@ -109,9 +109,10 @@ int main(int argc, char* argv[])
   }
   catch(const std::exception& ex)
   {
-    std::cout << "Exception caught: " << ex.what() << std::endl;
+    std::cerr << "Exception caught: " << ex.what() << std::endl;
+    return EXIT_FAILURE;
   }
 
-  return 0;
+  return EXIT_SUCCESS;
 }
 

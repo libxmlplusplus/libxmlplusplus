@@ -25,6 +25,7 @@
 
 #include <fstream>
 #include <iostream>
+#include <stdlib.h>
 
 #include "myparser.h"
 
@@ -42,6 +43,7 @@ main(int argc, char* argv[])
     filepath = "example.xml";
     
   // Parse the entire document in one go:
+  int return_code = EXIT_SUCCESS;
   try
   {
     MySaxParser parser;
@@ -50,7 +52,8 @@ main(int argc, char* argv[])
   }
   catch(const xmlpp::exception& ex)
   {
-    std::cout << "libxml++ exception: " << ex.what() << std::endl;
+    std::cerr << "libxml++ exception: " << ex.what() << std::endl;
+    return_code = EXIT_FAILURE;
   }
 
  
@@ -84,7 +87,6 @@ main(int argc, char* argv[])
 */
   }
 
-
-  return 0;
+  return return_code;
 }
 

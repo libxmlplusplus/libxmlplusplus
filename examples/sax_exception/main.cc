@@ -29,6 +29,7 @@
 
 #include "myparser.h"
 #include <iostream>
+#include <stdlib.h>
 
 int main(int /* argc */, char** /* argv */)
 {
@@ -42,11 +43,18 @@ int main(int /* argc */, char** /* argv */)
   {
     parser.parse_file("example.xml");
   }
+  catch(const MyException& ex)
+  {
+    std::cout << "Exception caught (expected): " << ex.what() << std::endl;
+    return EXIT_SUCCESS;
+  }
   catch(const std::exception& ex)
   {
-    std::cout << "Exception caught: " << ex.what() << std::endl;
+    std::cerr << "Exception caught: " << ex.what() << std::endl;
+    return EXIT_FAILURE;
   }
 
-  return 0;
+  std::cerr << "No exception caught" << std::endl;
+  return EXIT_FAILURE;
 }
 

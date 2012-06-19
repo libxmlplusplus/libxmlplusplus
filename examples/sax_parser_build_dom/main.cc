@@ -27,6 +27,7 @@
 
 #include <fstream>
 #include <iostream>
+#include <stdlib.h>
 
 #include "svgparser.h"
 #include "svgdocument.h"
@@ -70,9 +71,10 @@ main(int argc, char* argv[])
   }
   catch(const xmlpp::exception& ex)
   {
-    std::cout << "libxml++ exception: " << ex.what() << std::endl;
+    std::cerr << "libxml++ exception: " << ex.what() << std::endl;
+    return EXIT_FAILURE;
   }
   
-  return 0;
+  return EXIT_SUCCESS;
 }
 

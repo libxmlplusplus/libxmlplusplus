@@ -25,6 +25,7 @@
 
 #include <libxml++/libxml++.h>
 #include <iostream>
+#include <stdlib.h>
 
 int
 main(int /* argc */, char** /* argv */)
@@ -72,9 +73,10 @@ main(int /* argc */, char** /* argv */)
   }
   catch(const std::exception& ex)
   {
-    std::cout << "Exception caught: " << ex.what() << std::endl;
+    std::cerr << "Exception caught: " << ex.what() << std::endl;
+    return EXIT_FAILURE;
   }
 
-  return 0;
+  return EXIT_SUCCESS;
 }
 

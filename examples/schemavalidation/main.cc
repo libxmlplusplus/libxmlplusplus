@@ -25,9 +25,8 @@
 #endif
 
 #include <libxml++/libxml++.h>
-
 #include <iostream>
-
+#include <stdlib.h>
 
 int main(int argc, char* argv[])
 {
@@ -39,35 +38,39 @@ int main(int argc, char* argv[])
               docfilepath("example.xml");
 
   if(argc!=1 && argc!=3)
-    std::cout << "usage : " << argv[0] << " [document schema]" << std::endl;
-  else
   {
-    if(argc == 3)
-    {
-      docfilepath = argv[1];
-      schemafilepath = argv[2];
-    }
+    std::cout << "usage : " << argv[0] << " [document schema]" << std::endl;
+    return EXIT_FAILURE;
+  }
+
+  if(argc == 3)
+  {
+    docfilepath = argv[1];
+    schemafilepath = argv[2];
+  }
+
+  try
+  {
+    xmlpp::DomParser       parser(docfilepath);
+    xmlpp::SchemaValidator validator(schemafilepath);
 
     try
     {
-      xmlpp::DomParser       parser(docfilepath);
-      xmlpp::SchemaValidator validator(schemafilepath);
-
-      try
-      {
-        validator.validate( parser.get_document() );
-        std::cout << "Valid document" << std::endl;
-      }
-      catch( const xmlpp::validity_error& error)
-      {
-        std::cout << "Error validating the document" << std::endl;
-        std::cout << error.what();		
-      }
+      validator.validate( parser.get_document() );
+      std::cout << "Valid document" << std::endl;
     }
-    catch( const xmlpp::parse_error& )
+    catch( const xmlpp::validity_error& error)
     {
-      std::cerr << "Error parsing the schema" << std::endl;
+      std::cerr << "Error validating the document" << std::endl;
+      std::cerr << error.what();
+      return EXIT_FAILURE;
     }
   }
+  catch( const xmlpp::parse_error& error)
+  {
+    std::cerr << "Error parsing the schema: " << error.what() << std::endl;
+    return EXIT_FAILURE;
+  }
+  return EXIT_SUCCESS;
 }
 

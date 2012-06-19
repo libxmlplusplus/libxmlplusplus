@@ -24,8 +24,8 @@
 #endif
 
 #include <libxml++/libxml++.h>
-
 #include <iostream>
+#include <stdlib.h>
 
 void print_node(const xmlpp::Node* node, bool substitute_entities, unsigned int indentation = 0)
 {  
@@ -78,6 +78,7 @@ int main(int argc, char* argv[])
     filepath = "example.xml";
   
   // Parse first without, then with, entity substitution.
+  int return_code = EXIT_SUCCESS;
   bool substitute_entities = false;
   while (true)
   {
@@ -101,7 +102,8 @@ int main(int argc, char* argv[])
     }
     catch(const std::exception& ex)
     {
-      std::cout << "Exception caught: " << ex.what() << std::endl;
+      std::cerr << "Exception caught: " << ex.what() << std::endl;
+      return_code = EXIT_FAILURE;
     }
 
     if (substitute_entities) break;
@@ -109,6 +111,6 @@ int main(int argc, char* argv[])
     substitute_entities = true;
   }
 
-  return 0;
+  return return_code;
 }
 

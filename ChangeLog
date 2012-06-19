@@ -1,3 +1,11 @@
+2012-06-19  Kjell Ahlstedt  <kjell.ahlstedt@bredband.net>
+ 
+	Example programs: Fix return codes and print errors on std::cerr.
+
+	* examples/*/main.cc: Return EXIT_FAILURE in case of failure. Print error
+	messages on std::cerr. The example programs can then be run by 'make check'.
+	Bug #678390.
+
 2012-04-20  Kjell Ahlstedt  <kjell.ahlstedt@bredband.net>
  
 	Node: Add functions eval_to_[boolean|number|string]().

@@ -25,8 +25,8 @@
 #endif
 
 #include <libxml++/libxml++.h>
-
 #include <iostream>
+#include <stdlib.h>
 
 int main(int argc, char* argv[])
 {
@@ -40,6 +40,7 @@ int main(int argc, char* argv[])
   else
     dtdfilepath = "example.dtd";
 
+  int return_code = EXIT_SUCCESS;
   xmlpp::Document document;
   /* xmlpp::Element* nodeRoot = */document.create_root_node("incorrect");
 
@@ -49,12 +50,13 @@ int main(int argc, char* argv[])
 
     try
     {
-      validator.validate( &document );
-      std::cout << "Validation successful" << std::endl;
+      validator.validate( &document ); // Shall fail
+      std::cerr << "Validation successful (not expected)" << std::endl;
+      return_code = EXIT_FAILURE;
     }
     catch( const xmlpp::validity_error& )
     {
-      std::cout << "Error validating the document" << std::endl;
+      std::cout << "Error validating the document (expected)" << std::endl;
     }
 
     /* xmlpp::Element* nodeRoot2 = */document.create_root_node("example");
@@ -70,12 +72,15 @@ int main(int argc, char* argv[])
     }
     catch( const xmlpp::validity_error& )
     {
-      std::cout << "Error validating the document" << std::endl;
+      std::cerr << "Error validating the document" << std::endl;
+      return_code = EXIT_FAILURE;
     }
   }
   catch( const xmlpp::parse_error& )
   {
     std::cerr << "Error parsing the dtd" << std::endl;
+    return_code = EXIT_FAILURE;
   }
+  return return_code;
 }
 

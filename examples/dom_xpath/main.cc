@@ -42,8 +42,9 @@ Glib::ustring result_type_to_ustring(xmlpp::XPathResultType result_type)
   }
 }
 
-void xpath_test(const xmlpp::Node* node, const Glib::ustring& xpath)
+bool xpath_test(const xmlpp::Node* node, const Glib::ustring& xpath)
 {
+  bool result = true;
   std::cout << std::endl; //Separate tests by an empty line.
   std::cout << "searching with xpath '" << xpath << "' in root node: " << std::endl;
 
@@ -82,7 +83,8 @@ void xpath_test(const xmlpp::Node* node, const Glib::ustring& xpath)
   }
   catch (const xmlpp::exception& ex)
   {
-    std::cout << "Exception caught from find: " << ex.what() << std::endl;
+    std::cerr << "Exception caught from find: " << ex.what() << std::endl;
+    result = false;
   }
 
   try
@@ -95,8 +97,10 @@ void xpath_test(const xmlpp::Node* node, const Glib::ustring& xpath)
   }
   catch (const xmlpp::exception& ex)
   {
-    std::cout << "Exception caught from eval: " << ex.what() << std::endl;
+    std::cerr << "Exception caught from eval: " << ex.what() << std::endl;
+    result = false;
   }
+  return result;
 }
 
 int main(int argc, char* argv[])
@@ -111,6 +115,7 @@ int main(int argc, char* argv[])
   else
     filepath = "example.xml";
 
+  bool result = true;
   try
   {
     xmlpp::DomParser parser(filepath);
@@ -121,21 +126,23 @@ int main(int argc, char* argv[])
       if(root)
       {
         // Find all sections, no matter where:
-        xpath_test(root, "//section");
+        result &= xpath_test(root, "//section");
 
         // Find the title node (if there is one):
-        xpath_test(root, "title");
+        result &= xpath_test(root, "title");
 
         // Find all literal text, in any paragraph:
-        xpath_test(root, "//para/literal");
+        result &= xpath_test(root, "//para/literal");
 
         // Evaluate some XPath expressions with result types other than nodeset:
-        xpath_test(root, "boolean(//para/literal)");
-        xpath_test(root, "number(//para/literal)+2");
-        xpath_test(root, "concat(string(title),\" !\")");
+        // These tests shall fail.
+        std::cerr << "Expecting 3 exceptions" << std::endl;
+        result &= !xpath_test(root, "boolean(//para/literal)");
+        result &= !xpath_test(root, "number(//para/literal)+2");
+        result &= !xpath_test(root, "concat(string(title),\" !\")");
 
         // Don't find anything:
-        xpath_test(root, "/wont_find");
+        result &= xpath_test(root, "/wont_find");
 
         std::cout << std::endl;
 
@@ -148,15 +155,16 @@ int main(int argc, char* argv[])
         std::cout << "searching for unresolved internal references "
                   << "(see docbook manual):" << std::endl;
 
-        xpath_test(root, "//@id");
-        xpath_test(root, "//xref/@linkend");
+        result &= xpath_test(root, "//@id");
+        result &= xpath_test(root, "//xref/@linkend");
       }
     }
   }
   catch(const std::exception& ex)
   {
-    std::cout << "Exception caught: " << ex.what() << std::endl;
+    std::cerr << "Exception caught: " << ex.what() << std::endl;
+    result = false;
   }
 
-  return EXIT_SUCCESS;
+  return result ? EXIT_SUCCESS : EXIT_FAILURE;
 }
