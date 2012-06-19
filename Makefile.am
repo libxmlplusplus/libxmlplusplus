@@ -1,3 +1,5 @@
+SUBDIRS = . examples
+
 ACLOCAL_AMFLAGS = -I macros ${ACLOCAL_FLAGS}
 DISTCHECK_CONFIGURE_FLAGS = --enable-warnings=fatal
 
@@ -12,23 +14,6 @@ libxml___libxml___@LIBXMLXX_API_VERSION@_la_LDFLAGS = \
 	-version-info $(LIBXMLXX_SO_VERSION) -no-undefined
 libxml___libxml___@LIBXMLXX_API_VERSION@_la_LIBADD = $(LIBXMLXX_LIBS)
 libxml___libxml___@LIBXMLXX_API_VERSION@_la_SOURCES = $(cc_sources) $(h_sources_public)
-
-if ENABLE_EXAMPLES
-noinst_PROGRAMS = examples/dom_build/dom_build \
-	examples/dom_parse_entities/dom_parse_entities \
-	examples/dom_parser/dom_parser \
-	examples/dom_parser_raw/dom_parser_raw \
-	examples/dom_read_write/dom_read_write \
-	examples/dom_xpath/dom_xpath \
-	examples/dtdvalidation/dtdvalidation \
-	examples/import_node/import_node \
-	examples/sax_exception/sax_exception \
-	examples/sax_parser/sax_parser \
-	examples/sax_parser_build_dom/sax_parser_build_dom \
-	examples/sax_parser_entities/sax_parser_entities \
-	examples/schemavalidation/schemavalidation \
-	examples/textreader/textreader
-endif
 
 AM_CPPFLAGS = -I$(top_builddir) -I$(top_srcdir) -I. $(LIBXMLXX_CFLAGS)
 AM_CXXFLAGS = $(LIBXMLXX_WXXFLAGS)
@@ -121,73 +106,6 @@ library_nodes_include_HEADERS = $(h_nodes_sources_public)
 library_parsers_include_HEADERS = $(h_parsers_sources_public)
 library_validators_include_HEADERS = $(h_validators_sources_public)
 
-if ENABLE_EXAMPLES
-
-examples_dom_build_dom_build_SOURCES = examples/dom_build/main.cc
-examples_dom_parse_entities_dom_parse_entities_SOURCES = \
-	examples/dom_parse_entities/main.cc
-examples_dom_parser_dom_parser_SOURCES = examples/dom_parser/main.cc
-examples_dom_parser_raw_dom_parser_raw_SOURCES = examples/dom_parser_raw/main.cc
-examples_dom_read_write_dom_read_write_SOURCES = examples/dom_read_write/main.cc
-examples_dom_xpath_dom_xpath_SOURCES = examples/dom_xpath/main.cc
-examples_dtdvalidation_dtdvalidation_SOURCES = examples/dtdvalidation/main.cc
-examples_import_node_import_node_SOURCES = examples/import_node/main.cc
-examples_sax_exception_sax_exception_SOURCES = examples/sax_exception/main.cc \
-	examples/sax_exception/myparser.cc \
-	examples/sax_exception/myparser.h
-examples_sax_parser_sax_parser_SOURCES = examples/sax_parser/main.cc \
-	examples/sax_parser/myparser.cc \
-	examples/sax_parser/myparser.h
-examples_sax_parser_build_dom_sax_parser_build_dom_SOURCES = \
-	examples/sax_parser_build_dom/main.cc \
-	examples/sax_parser_build_dom/svgparser.cc \
-	examples/sax_parser_build_dom/svgparser.h \
-	examples/sax_parser_build_dom/svgdocument.cc \
-	examples/sax_parser_build_dom/svgdocument.h \
-	examples/sax_parser_build_dom/svgelement.cc \
-	examples/sax_parser_build_dom/svgelement.h \
-	examples/sax_parser_build_dom/svgpath.h \
-	examples/sax_parser_build_dom/svggroup.h
-examples_sax_parser_entities_sax_parser_entities_SOURCES = \
-	examples/sax_parser_entities/main.cc \
-	examples/sax_parser_entities/myparser.cc \
-	examples/sax_parser_entities/myparser.h
-examples_schemavalidation_schemavalidation_SOURCES = \
-	examples/schemavalidation/main.cc
-examples_textreader_textreader_SOURCES = examples/textreader/main.cc
-
-examples_ldadd = libxml++/libxml++-$(LIBXMLXX_API_VERSION).la $(LIBXMLXX_LIBS)
-
-examples_dom_build_dom_build_LDADD = \
-	$(examples_ldadd)
-examples_dom_parse_entities_dom_parse_entities_LDADD = \
-	$(examples_ldadd)
-examples_dom_parser_dom_parser_LDADD = \
-	$(examples_ldadd)
-examples_dom_parser_raw_dom_parser_raw_LDADD = \
-	$(examples_ldadd)
-examples_dom_read_write_dom_read_write_LDADD = \
-	$(examples_ldadd)
-examples_dom_xpath_dom_xpath_LDADD = \
-	$(examples_ldadd)
-examples_dtdvalidation_dtdvalidation_LDADD = \
-	$(examples_ldadd)
-examples_import_node_import_node_LDADD = \
-	$(examples_ldadd)
-examples_sax_exception_sax_exception_LDADD = \
-	$(examples_ldadd)
-examples_sax_parser_sax_parser_LDADD = \
-	$(examples_ldadd)
-examples_sax_parser_build_dom_sax_parser_build_dom_LDADD = \
-	$(examples_ldadd)
-examples_sax_parser_entities_sax_parser_entities_LDADD = \
-	$(examples_ldadd)
-examples_schemavalidation_schemavalidation_LDADD = \
-	$(examples_ldadd)
-examples_textreader_textreader_LDADD = \
-	$(examples_ldadd)
-endif # ENABLE_EXAMPLES
-
 docs/manual/libxml++.xml: docs/manual/libxml++_without_code.xml docs/manual/insert_example_code.pl
 	$(AM_V_GEN)$(PERL) -- docs/manual/insert_example_code.pl examples $< >$@
 
@@ -231,30 +149,6 @@ dist_noinst_DATA += libxml++config.h.in \
 	$(manual_html_files) \
 	docs/manual/libxml++.xml \
 	docs/manual/libxml++_without_code.xml \
-	examples/README \
-	examples/dom_parser/example.xml \
-	examples/dom_parser/example_with_namespace.xml \
-	examples/dom_parser/example_invalid.xml \
-	examples/dom_parser/example.dtd \
-	examples/dom_parser_raw/example.xml \
-	examples/dom_parser_raw/example.dtd \
-	examples/dom_parse_entities/example.xml \
-	examples/dom_parse_entities/example.dtd \
-	examples/dom_read_write/README \
-	examples/dom_read_write/example.xml \
-	examples/dom_read_write/example.dtd \
-	examples/dom_xpath/example.xml \
-	examples/dtdvalidation/example.dtd \
-	examples/import_node/example1.xml \
-	examples/import_node/example2.xml \
-	examples/sax_parser/example.xml \
-	examples/sax_parser_entities/example.xml \
-	examples/sax_exception/example.xml \
-	examples/sax_parser_build_dom/README \
-	examples/sax_parser_build_dom/example.xml \
-	examples/schemavalidation/example.xml \
-	examples/schemavalidation/example.xsd \
-	examples/textreader/example.xml \
 	MSVC_Net2005/blank.cpp \
 	MSVC_Net2005/libxml++.sln \
 	MSVC_Net2005/README \

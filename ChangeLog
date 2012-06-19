@@ -1,5 +1,16 @@
 2012-06-19  Kjell Ahlstedt  <kjell.ahlstedt@bredband.net>
  
+	Add examples/Makefile.am. Let 'make check' run the examples.
+
+	* examples/Makefile.am: New file. Let 'make check' both compile and run the
+	example programs.
+	* Makefile.am: Call examples/Makefile. Move all 'examples' stuff to
+	examples/Makefile.am.
+	* configure.ac: Remove --enable-examples. Generate examples/Makefile.
+	* .gitignore: Ignore make-check-sh. Bug #678390.
+
+2012-06-19  Kjell Ahlstedt  <kjell.ahlstedt@bredband.net>
+ 
 	Example programs: Fix return codes and print errors on std::cerr.
 
 	* examples/*/main.cc: Return EXIT_FAILURE in case of failure. Print error

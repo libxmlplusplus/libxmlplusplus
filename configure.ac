@@ -34,14 +34,6 @@ PKG_CHECK_MODULES([LIBXMLXX], [$LIBXMLXX_MODULES])
 AC_LANG([C++])
 AC_CHECK_HEADERS([string list map], [], [AC_MSG_ERROR([required headers not found])])
 
-AC_ARG_ENABLE([examples],
-        [AS_HELP_STRING([--enable-examples],
-                [build the examples])],
-        [enable_examples=$enableval],
-        [enable_examples=yes])
-
-AM_CONDITIONAL([ENABLE_EXAMPLES], [test "x$enable_examples" = xyes])
-
 
 MM_ARG_ENABLE_DOCUMENTATION
 MM_ARG_WITH_TAGFILE_DOC([glibmm-2.4.tag], [glibmm-2.4])
@@ -60,6 +52,7 @@ MM_CHECK_PERL()
 AC_DEFINE([LIBXMLCPP_EXCEPTIONS_ENABLED],[1], [This is always set. This is only for backwards compatibility.])
 
 AC_CONFIG_FILES([Makefile
+        examples/Makefile
         docs/reference/Doxyfile
         MSVC_Net2005/libxml++/libxml++.rc
         MSVC_Net2008/libxml++/libxml++.rc
