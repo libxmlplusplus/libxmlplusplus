@@ -1,3 +1,16 @@
+2.35.3 (unstable):
+
+* Node:
+  - Add eval_to_[boolean|number|string]() methods.
+  (Kjell Ahlstedt) Bug #316244
+  - Fix memory problems in import_node().
+  (Kjell Ahlstedt) Bug #672992
+* Build:
+  - The examples are now built and run during make check.
+  (Kjell Ahlstedt) Bug #678390
+  - Define LIBXMLCPP_EXCEPTIONS_ENABLED unconditionally.
+  (Kjell Ahlstedt)
+
 2.35.2 (unstable):
 
 * Node: Add get_first_child().

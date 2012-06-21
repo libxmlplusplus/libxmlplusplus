@@ -1,3 +1,5 @@
+2.35.3:
+
 2012-06-19  Kjell Ahlstedt  <kjell.ahlstedt@bredband.net>
  
 	Add examples/Makefile.am. Let 'make check' run the examples.
