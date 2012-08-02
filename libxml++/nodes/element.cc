@@ -157,13 +157,18 @@ TextNode* Element::add_child_text(const Glib::ustring& content)
 {
   if(cobj()->type == XML_ELEMENT_NODE)
   {
-     xmlNode* node = xmlNewText((const xmlChar*)content.c_str());
+    xmlNode* child = xmlNewText((const xmlChar*)content.c_str());
 
-     // Use the result, because node can be freed when merging text nodes:
-     node = xmlAddChild(cobj(), node); 
-
-     Node::create_wrapper(node);
-     return static_cast<TextNode*>(node->_private);
+    // Use the result, because child can be freed when merging text nodes:
+    xmlNode* node = xmlAddChild(cobj(), child);
+    if (!node)
+    {
+      if (child)
+        xmlFreeNode(child);
+      throw internal_error("Could not add text node \"" + content + "\"");
+    }
+    Node::create_wrapper(node);
+    return static_cast<TextNode*>(node->_private);
   }
   return 0;
 }
@@ -175,13 +180,18 @@ TextNode* Element::add_child_text(xmlpp::Node* previous_sibling, const Glib::ust
 
   if(cobj()->type == XML_ELEMENT_NODE)
   {
-     xmlNode* node = xmlNewText((const xmlChar*)content.c_str());
+    xmlNode* child = xmlNewText((const xmlChar*)content.c_str());
 
-     // Use the result, because node can be freed when merging text nodes:
-     node = xmlAddNextSibling(previous_sibling->cobj(), node); 
-
-     Node::create_wrapper(node);
-     return static_cast<TextNode*>(node->_private);
+    // Use the result, because child can be freed when merging text nodes:
+    xmlNode* node = xmlAddNextSibling(previous_sibling->cobj(), child);
+    if (!node)
+    {
+      if (child)
+        xmlFreeNode(child);
+      throw internal_error("Could not add text node \"" + content + "\"");
+    }
+    Node::create_wrapper(node);
+    return static_cast<TextNode*>(node->_private);
   }
   return 0;
 }
@@ -193,13 +203,18 @@ TextNode* Element::add_child_text_before(xmlpp::Node* next_sibling, const Glib::
 
   if(cobj()->type == XML_ELEMENT_NODE)
   {
-     xmlNode* node = xmlNewText((const xmlChar*)content.c_str());
+    xmlNode* child = xmlNewText((const xmlChar*)content.c_str());
 
-     // Use the result, because node can be freed when merging text nodes:
-     node = xmlAddPrevSibling(next_sibling->cobj(), node); 
-
-     Node::create_wrapper(node);
-     return static_cast<TextNode*>(node->_private);
+    // Use the result, because child can be freed when merging text nodes:
+    xmlNode* node = xmlAddPrevSibling(next_sibling->cobj(), child);
+    if (!node)
+    {
+      if (child)
+        xmlFreeNode(child);
+      throw internal_error("Could not add text node \"" + content + "\"");
+    }
+    Node::create_wrapper(node);
+    return static_cast<TextNode*>(node->_private);
   }
   return 0;
 }
@@ -212,9 +227,12 @@ bool Element::has_child_text() const
 void Element::set_namespace_declaration(const Glib::ustring& ns_uri, const Glib::ustring& ns_prefix)
 {
   //Create a new namespace declaration for this element:
-  xmlNewNs(cobj(), (const xmlChar*)(ns_uri.empty() ? 0 : ns_uri.c_str()),
-                   (const xmlChar*)(ns_prefix.empty() ? 0 : ns_prefix.c_str()) );
-  //We ignore the returned xmlNs*. Hopefully this is owned by the node. murrayc.
+  xmlNs* ns = xmlNewNs(cobj(), (const xmlChar*)(ns_uri.empty() ? 0 : ns_uri.c_str()),
+                       (const xmlChar*)(ns_prefix.empty() ? 0 : ns_prefix.c_str()) );
+  if (!ns)
+    throw exception("Could not add namespace declaration with URI=" + ns_uri +
+                    ", prefix=" + ns_prefix);
+  //We ignore the returned xmlNs*. It's owned by the XML_ELEMENT_NODE.
 }
 
 Glib::ustring Element::get_namespace_uri_for_prefix(const Glib::ustring& ns_prefix) const
@@ -236,10 +254,16 @@ Glib::ustring Element::get_namespace_uri_for_prefix(const Glib::ustring& ns_pref
 
 CommentNode* Element::add_child_comment(const Glib::ustring& content)
 {
-  xmlNode* node = xmlNewComment((const xmlChar*)content.c_str());
+  xmlNode* child = xmlNewComment((const xmlChar*)content.c_str());
  
-  // Use the result, because node can be freed when merging text nodes:
-  node = xmlAddChild(cobj(), node);
+  // Use the result, because child can be freed when merging text nodes:
+  xmlNode* node = xmlAddChild(cobj(), child);
+  if (!node)
+  {
+    if (child)
+      xmlFreeNode(child);
+    throw internal_error("Could not add comment node \"" + content + "\"");
+  }
   Node::create_wrapper(node);
   return static_cast<CommentNode*>(node->_private);
 }
@@ -247,8 +271,14 @@ CommentNode* Element::add_child_comment(const Glib::ustring& content)
 
 CdataNode* Element::add_child_cdata(const Glib::ustring& content)
 {
-  xmlNode* node = xmlNewCDataBlock(cobj()->doc, (const xmlChar*)content.c_str(), content.bytes());
-  node = xmlAddChild(cobj(), node);
+  xmlNode* child = xmlNewCDataBlock(cobj()->doc, (const xmlChar*)content.c_str(), content.bytes());
+  xmlNode* node = xmlAddChild(cobj(), child);
+  if (!node)
+  {
+    if (child)
+      xmlFreeNode(child);
+    throw internal_error("Could not add CDATA node \"" + content + "\"");
+  }
   Node::create_wrapper(node);
   return static_cast<CdataNode*>(node->_private);
 }
@@ -262,24 +292,35 @@ EntityReference* Element::add_child_entity_reference(const Glib::ustring& name)
 
   // Is it an entity reference or a character reference?
   // libxml uses xmlNode::type == XML_ENTITY_REF_NODE for both.
-  xmlNode* node = 0;
+  xmlNode* child = 0;
   if (extended_name[ichar] == '#')
-    node = xmlNewCharRef(cobj()->doc, (const xmlChar*)name.c_str());
+    child = xmlNewCharRef(cobj()->doc, (const xmlChar*)name.c_str());
   else
-    node = xmlNewReference(cobj()->doc, (const xmlChar*)name.c_str());
-  node = xmlAddChild(cobj(), node);
+    child = xmlNewReference(cobj()->doc, (const xmlChar*)name.c_str());
+  xmlNode* node = xmlAddChild(cobj(), child);
+  if (!node)
+  {
+    if (child)
+      xmlFreeNode(child);
+    throw internal_error("Could not add entity reference node " + name);
+  }
   Node::create_wrapper(node);
-  return node ? static_cast<EntityReference*>(node->_private) : 0;
+  return static_cast<EntityReference*>(node->_private);
 }
 
 ProcessingInstructionNode* Element::add_child_processing_instruction(
   const Glib::ustring& name, const Glib::ustring& content)
 {
-  xmlNode* node = xmlNewDocPI(cobj()->doc, (const xmlChar*)name.c_str(), (const xmlChar*)content.c_str());
-  node = xmlAddChild(cobj(), node);
+  xmlNode* child = xmlNewDocPI(cobj()->doc, (const xmlChar*)name.c_str(), (const xmlChar*)content.c_str());
+  xmlNode* node = xmlAddChild(cobj(), child);
+  if (!node)
+  {
+    if (child)
+      xmlFreeNode(child);
+    throw internal_error("Could not add processing instruction node " + name);
+  }
   Node::create_wrapper(node);
-  return node ? static_cast<ProcessingInstructionNode*>(node->_private) : 0;
+  return static_cast<ProcessingInstructionNode*>(node->_private);
 }
-
 
 } //namespace xmlpp

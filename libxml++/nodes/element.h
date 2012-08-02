@@ -29,8 +29,12 @@ public:
   typedef std::list<Attribute*> AttributeList;
 
   /** This adds a namespace declaration to this node which will apply to this node and all children.
-   * @param ns_uri The namespace to associate with the prefix, or to use as the default namespace if no prefix is specified.
-   * @param ns_prefix The namespace prefix. If no prefix is specified then the namespace URI will be the default namespace.
+   * @param ns_uri The namespace to associate with the prefix,
+   *               or to use as the default namespace if no prefix is specified.
+   * @param ns_prefix The namespace prefix. If no prefix is specified then the
+   *                  namespace URI will be the default namespace.
+   * @throws xmlpp::exception If a new namespace node cannot be created,
+   *         e.g. because a namespace with the same prefix already exists.
    */
   void set_namespace_declaration(const Glib::ustring& ns_uri, const Glib::ustring& ns_prefix = Glib::ustring());
 
@@ -75,7 +79,7 @@ public:
    * @param value The new value for the attribute
    * @param ns_prefix Namespace prefix. If the prefix has not been declared then this method will throw an exception.
    * @return The attribute that was changed, or 0 is no suitable Attribute was found.
-   * @throws exception
+   * @throws xmlpp::exception
    */
   Attribute* set_attribute(const Glib::ustring& name, const Glib::ustring& value,
                            const Glib::ustring& ns_prefix = Glib::ustring());
@@ -103,6 +107,7 @@ public:
   /** Append a new text node.
    * @param content The text. This should be unescaped - see ContentNode::set_content().
    * @returns The new text node.
+   * @throws xmlpp::internal_error
    */
   TextNode* add_child_text(const Glib::ustring& content = Glib::ustring());
 
@@ -113,6 +118,7 @@ public:
    * @param previous_sibling An existing child node.
    * @param content The text. This should be unescaped - see ContentNode::set_content().
    * @returns The new text node.
+   * @throws xmlpp::internal_error
    */
   TextNode* add_child_text(xmlpp::Node* previous_sibling, const Glib::ustring& content = Glib::ustring());
 
@@ -123,12 +129,14 @@ public:
    * @param next_sibling An existing child node.
    * @param content The text. This should be unescaped - see ContentNode::set_content().
    * @returns The new text node.
+   * @throws xmlpp::internal_error
    */
   TextNode* add_child_text_before(xmlpp::Node* next_sibling, const Glib::ustring& content = Glib::ustring());
 
   /** Set the text of the first text node, adding one if necessary.
    * This is a convenience method, meant as an alternative to iterating over all the child nodes to find the first suitable node then and setting the text directly.
    * @param content The text. This should be unescaped - see ContentNode::set_content().
+   * @throws xmlpp::internal_error
    */
   void set_child_text(const Glib::ustring& content);
 
@@ -141,12 +149,14 @@ public:
   /** Append a new comment node.
    * @param content The text. This should be unescaped - see ContentNode::set_content().
    * @returns The new comment node.
+   * @throws xmlpp::internal_error
    */
   CommentNode* add_child_comment(const Glib::ustring& content);
 
   /** Append a new CDATA node.
    * @param content The raw text.
    * @returns The new CDATA node.
+   * @throws xmlpp::internal_error
    */
   CdataNode* add_child_cdata(const Glib::ustring& content);
 
@@ -162,6 +172,7 @@ public:
    *
    * @param name The name of the entity.
    * @returns The new entity reference node.
+   * @throws xmlpp::internal_error
    */
   EntityReference* add_child_entity_reference(const Glib::ustring& name);
 
@@ -172,6 +183,7 @@ public:
    * @param name The name of the application to which the instruction is directed.
    * @param content The content of the instruction. This should be unescaped - see ContentNode::set_content().
    * @returns The new processing instruction node.
+   * @throws xmlpp::internal_error
    */
   ProcessingInstructionNode* add_child_processing_instruction(
     const Glib::ustring& name, const Glib::ustring& content);

@@ -1,3 +1,11 @@
+2012-08-02  Kjell Ahlstedt  <kjell.ahlstedt@bredband.net>
+ 
+	Element, Node: Improve the error handling.
+
+	* libxml++/nodes/element.[h|cc]:
+	* libxml++/nodes/node.[h|cc]: Check more return codes from libxml2 functions.
+	Improve the description of errors in the reference documentation. Bug #635846.
+
 2.35.3:
 
 2012-06-19  Kjell Ahlstedt  <kjell.ahlstedt@bredband.net>

@@ -30,6 +30,8 @@ xmlXPathObject* eval_common(const Glib::ustring& xpath,
   xmlpp::XPathResultType* result_type, xmlNode* node)
 {
   xmlXPathContext* ctxt = xmlXPathNewContext(node->doc);
+  if (!ctxt)
+    throw xmlpp::internal_error("Could not create XPath context for " + xpath);
   ctxt->node = node;
 
   if (namespaces)
@@ -221,13 +223,13 @@ Element* Node::add_child(const Glib::ustring& name,
                          const Glib::ustring& ns_prefix)
 {
   _xmlNode* child = create_new_child_node(name, ns_prefix);
-  if(!child)
-    return 0;
-
   _xmlNode* node = xmlAddChild(impl_, child);
-  if(!node)
-    return 0;
- 
+  if (!node)
+  {
+    if (child)
+      xmlFreeNode(child);
+    throw internal_error("Could not add child element node " + name);
+  }
   Node::create_wrapper(node);
   return static_cast<Element*>(node->_private);
 }
@@ -240,13 +242,13 @@ Element* Node::add_child(xmlpp::Node* previous_sibling,
     return 0;
 
   _xmlNode* child = create_new_child_node(name, ns_prefix);
-  if(!child)
-    return 0;
-
   _xmlNode* node = xmlAddNextSibling(previous_sibling->cobj(), child);
-  if(!node)
-    return 0;
-
+  if (!node)
+  {
+    if (child)
+      xmlFreeNode(child);
+    throw internal_error("Could not add child element node " + name);
+  }
   Node::create_wrapper(node);
   return static_cast<Element*>(node->_private);
 }
@@ -259,13 +261,13 @@ Element* Node::add_child_before(xmlpp::Node* next_sibling,
     return 0;
 
   _xmlNode* child = create_new_child_node(name, ns_prefix);
-  if(!child)
-    return 0;
-
   _xmlNode* node = xmlAddPrevSibling(next_sibling->cobj(), child);
-  if(!node)
-    return 0;
-
+  if (!node)
+  {
+    if (child)
+      xmlFreeNode(child);
+    throw internal_error("Could not add child element node " + name);
+  }
   Node::create_wrapper(node);
   return static_cast<Element*>(node->_private);
 }
@@ -302,7 +304,8 @@ void Node::remove_child(Node* node)
 {
   //TODO: Allow a node to be removed without deleting it, to allow it to be moved?
   //This would require a more complex memory management API.
-  
+  if (!node)
+    return;
   xmlNode* cnode = node->cobj();
   Node::free_wrappers(cnode); //This delete the C++ node (not this) itself.
   xmlUnlinkNode(cnode);
@@ -311,11 +314,14 @@ void Node::remove_child(Node* node)
 
 Node* Node::import_node(const Node* node, bool recursive)
 {
+  if (!node)
+    return 0;
+
   //Create the node, by copying:
   xmlNode* imported_node = xmlDocCopyNode(const_cast<xmlNode*>(node->cobj()), impl_->doc, recursive);
   if (!imported_node)
   {
-    throw exception("Unable to import node");
+    throw exception("Unable to copy the node that shall be imported");
   }
 
   if (imported_node->type == XML_ATTRIBUTE_NODE && impl_->type == XML_ELEMENT_NODE)
@@ -446,6 +452,8 @@ static NodeSet find_impl(xmlXPathContext* ctxt, const Glib::ustring& xpath)
 NodeSet Node::find(const Glib::ustring& xpath) const
 {
   xmlXPathContext* ctxt = xmlXPathNewContext(impl_->doc);
+  if (!ctxt)
+    throw internal_error("Could not create XPath context for " + xpath);
   ctxt->node = impl_;
   
   return find_impl(ctxt, xpath);
@@ -455,6 +463,8 @@ NodeSet Node::find(const Glib::ustring& xpath,
 		   const PrefixNsMap& namespaces) const
 {
   xmlXPathContext* ctxt = xmlXPathNewContext(impl_->doc);
+  if (!ctxt)
+    throw internal_error("Could not create XPath context for " + xpath);
   ctxt->node = impl_;
 
   for (PrefixNsMap::const_iterator it=namespaces.begin();
