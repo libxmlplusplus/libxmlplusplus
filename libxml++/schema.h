@@ -37,6 +37,7 @@ public:
    * @param embed If true, the document will be deleted when
    *   the schema is deleted or another document is set.
    * @throws xmlpp::parse_error
+   * @throws xmlpp::internal_error If an empty schema document can't be created.
    */
   explicit Schema(Document* document = 0, bool embed = false);
   ~Schema();
@@ -47,6 +48,7 @@ public:
    * @param document XMLSchema document, 0 to create an empty schema document.
    * @param embed If true, the document will be deleted when the schema is deleted or another document is set.
    * @throws xmlpp::parse_error
+   * @throws xmlpp::internal_error If an empty schema document can't be created.
    */
   virtual void set_document(Document* document = 0, bool embed = false);
 

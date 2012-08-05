@@ -36,11 +36,20 @@ void Schema::set_document(Document* document, bool embed)
 {
   release_underlying();
 
+  bool has_created_document = false;
+  if (!document)
+  {
+    document = new Document();
+    has_created_document = true;
+  }
+
   xmlResetLastError();
   xmlSchemaParserCtxtPtr context = xmlSchemaNewDocParserCtxt( document->cobj() );
 
   if(!context)
   {
+    if (has_created_document)
+      delete document;
     throw parse_error("Schema could not be parsed.\n" + format_xml_error());
   }
   
@@ -48,6 +57,8 @@ void Schema::set_document(Document* document, bool embed)
   if(!impl_)
   {
     xmlSchemaFreeParserCtxt(context);
+    if (has_created_document)
+      delete document;
     throw parse_error("Schema could not be parsed.\n" + format_xml_error());
   }
 
