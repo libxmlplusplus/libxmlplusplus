@@ -1,3 +1,11 @@
+2012-08-05  Kjell Ahlstedt  <kjell.ahlstedt@bredband.net>
+ 
+	Document, Schema: Improve the error handling.
+
+	* libxml++/document.[h|cc]:
+	* libxml++/schema.[h|cc]: Check more return codes from libxml2 functions.
+	Improve the description of errors in the reference documentation. Bug #635846.
+
 2012-08-02  Kjell Ahlstedt  <kjell.ahlstedt@bredband.net>
  
 	Element, Node: Improve the error handling.

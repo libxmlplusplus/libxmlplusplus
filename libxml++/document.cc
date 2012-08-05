@@ -59,6 +59,8 @@ Document::Init Document::init_;
 Document::Document(const Glib::ustring& version)
   : impl_(xmlNewDoc((const xmlChar*)version.c_str()))
 {
+  if (!impl_)
+    throw internal_error("Could not create Document.");
   impl_->_private = this;
 }
 
@@ -125,7 +127,16 @@ Element* Document::create_root_node(const Glib::ustring& name,
                                     const Glib::ustring& ns_prefix)
 {
   xmlNode* node = xmlNewDocNode(impl_, 0, (const xmlChar*)name.c_str(), 0);
-  xmlDocSetRootElement(impl_, node);
+  if (!node)
+    throw internal_error("Could not create root element node " + name);
+
+  node = xmlDocSetRootElement(impl_, node);
+  if (node)
+  {
+    // An old root element node has been replaced.
+    Node::free_wrappers(node);
+    xmlFreeNode(node);
+  }
 
   Element* element = get_root_node();
 
@@ -141,28 +152,39 @@ Element* Document::create_root_node(const Glib::ustring& name,
 Element* Document::create_root_node_by_import(const Node* node,
 					      bool recursive)
 {
+  if (!node)
+    return 0;
+
   //Create the node, by copying:
   xmlNode* imported_node = xmlDocCopyNode(const_cast<xmlNode*>(node->cobj()), impl_, recursive);
   if (!imported_node)
   {
-    throw exception("Unable to import node");
+    throw exception("Unable to copy the node that shall be imported");
   }
 
-  xmlDocSetRootElement(impl_, imported_node);
+  xmlNode* old_node = xmlDocSetRootElement(impl_, imported_node);
+  if (old_node)
+  {
+    // An old root element node has been replaced.
+    Node::free_wrappers(old_node);
+    xmlFreeNode(old_node);
+  }
 
   return get_root_node();
 }
 
 CommentNode* Document::add_comment(const Glib::ustring& content)
 {
-  xmlNode* node = xmlNewComment((const xmlChar*)content.c_str());
-  if(!node)
+  xmlNode* child = xmlNewComment((const xmlChar*)content.c_str());
+ 
+  // Use the result, because child can be freed when merging text nodes:
+  xmlNode* node = xmlAddChild((xmlNode*)impl_, child);
+  if (!node)
   {
-    throw internal_error("Cannot create comment node");
+    if (child)
+      xmlFreeNode(child);
+    throw internal_error("Could not add comment node \"" + content + "\"");
   }
-
-  // Use the result, because node can be freed when merging text nodes:
-  node = xmlAddChild( (xmlNode*)impl_, node);
   Node::create_wrapper(node);
   return static_cast<CommentNode*>(node->_private);
 }
@@ -170,14 +192,16 @@ CommentNode* Document::add_comment(const Glib::ustring& content)
 ProcessingInstructionNode* Document::add_processing_instruction(
   const Glib::ustring& name, const Glib::ustring& content)
 {
-  xmlNode* node = xmlNewDocPI(impl_, (const xmlChar*)name.c_str(), (const xmlChar*)content.c_str());
-  if(!node)
+  xmlNode* child = xmlNewDocPI(impl_, (const xmlChar*)name.c_str(), (const xmlChar*)content.c_str());
+  xmlNode* node = xmlAddChild((xmlNode*)impl_, child);
+  if (!node)
   {
-    throw internal_error("Cannot create processing instruction node");
+    if (child)
+      xmlFreeNode(child);
+    throw internal_error("Could not add processing instruction node " + name);
   }
-  node = xmlAddChild((xmlNode*)impl_, node);
   Node::create_wrapper(node);
-  return node ? static_cast<ProcessingInstructionNode*>(node->_private) : 0;
+  return static_cast<ProcessingInstructionNode*>(node->_private);
 }
 
 void Document::write_to_file(const Glib::ustring& filename, const Glib::ustring& encoding)
@@ -217,12 +241,13 @@ void Document::do_write_to_file(
 {
   KeepBlanks k(KeepBlanks::Default);
   xmlIndentTreeOutput = format?1:0;
+  xmlResetLastError();
   const int result = xmlSaveFormatFileEnc(filename.c_str(), impl_,
     get_encoding_or_utf8(encoding), format?1:0);
 
   if(result == -1)
   {
-    throw exception("do_write_to_file() failed.");
+    throw exception("do_write_to_file() failed.\n" + format_xml_error());
   }
 }
 
@@ -235,12 +260,13 @@ Glib::ustring Document::do_write_to_string(
   xmlChar* buffer = 0;
   int length = 0;
 
+  xmlResetLastError();
   xmlDocDumpFormatMemoryEnc(impl_, &buffer, &length,
     get_encoding_or_utf8(encoding), format?1:0);
 
   if(!buffer)
   {
-    throw exception("do_write_to_string() failed.");
+    throw exception("do_write_to_string() failed.\n" + format_xml_error());
   }
 
   // Create a Glib::ustring copy of the buffer
@@ -260,12 +286,13 @@ void Document::do_write_to_stream(std::ostream& output, const Glib::ustring& enc
 {
   // TODO assert document encoding is UTF-8 if encoding is different than UTF-8
   OStreamOutputBuffer buffer(output, encoding);
+  xmlResetLastError();
   const int result = xmlSaveFormatFileTo(buffer.cobj(), impl_,
     get_encoding_or_utf8(encoding), format ? 1 : 0);
   
   if(result == -1)
   {
-    throw exception("do_write_to_stream() failed.");
+    throw exception("do_write_to_stream() failed.\n" + format_xml_error());
   }
 }
 
@@ -273,10 +300,12 @@ void Document::set_entity_declaration(const Glib::ustring& name, XmlEntityType t
                               const Glib::ustring& publicId, const Glib::ustring& systemId,
                               const Glib::ustring& content)
 {
-  xmlAddDocEntity( impl_, (const xmlChar*) name.c_str(), type,
+  xmlEntity* entity = xmlAddDocEntity( impl_, (const xmlChar*) name.c_str(), type,
     publicId.empty() ? (const xmlChar*)0 : (const xmlChar*)publicId.c_str(),
     systemId.empty() ? (const xmlChar*)0 : (const xmlChar*)systemId.c_str(),
     (const xmlChar*) content.c_str() );
+  if (!entity)
+    throw internal_error("Could not add entity declaration " + name);
 }
 
 _xmlEntity* Document::get_entity(const Glib::ustring& name)

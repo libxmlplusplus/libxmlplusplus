@@ -36,18 +36,19 @@ void Schema::set_document(Document* document, bool embed)
 {
   release_underlying();
 
+  xmlResetLastError();
   xmlSchemaParserCtxtPtr context = xmlSchemaNewDocParserCtxt( document->cobj() );
 
   if(!context)
   {
-   throw parse_error("Schema could not be parsed");
+    throw parse_error("Schema could not be parsed.\n" + format_xml_error());
   }
   
   impl_ = xmlSchemaParse(context);
   if(!impl_)
   {
     xmlSchemaFreeParserCtxt(context);
-    throw parse_error("Schema could not be parsed");
+    throw parse_error("Schema could not be parsed.\n" + format_xml_error());
   }
 
   impl_->_private = this;
@@ -57,22 +58,22 @@ void Schema::set_document(Document* document, bool embed)
 
 Glib::ustring Schema::get_name() const
 {
-  return (char*)impl_->name;
+  return impl_ ? (char*)impl_->name : "";
 }
 
 Glib::ustring Schema::get_target_namespace() const
 {
-  return (char*)impl_->targetNamespace;
+  return impl_ ? (char*)impl_->targetNamespace : "";
 }
 
 Glib::ustring Schema::get_version() const
 {
-  return (char*)impl_->version;
+  return impl_ ? (char*)impl_->version : "";
 }
 
 void Schema::release_underlying()
 {
-  if(embedded_doc_ && impl_ && impl_->doc->_private)
+  if(embedded_doc_ && impl_ && impl_->doc && impl_->doc->_private)
   {
     delete (Document*) impl_->doc->_private;
     embedded_doc_ = false;
@@ -87,18 +88,18 @@ void Schema::release_underlying()
 
 Document* Schema::get_document()
 {
-  if(impl_)
-    return (Document*) impl_->doc->_private;
-  else
+  if (!(impl_ && impl_->doc))
     return 0;
+
+  if (!impl_->doc->_private) // Possible if *this was created with Schema(xmlSchema* schema).
+    new Document(impl_->doc); // Sets impl_->doc->_private
+
+  return (Document*) impl_->doc->_private;
 }
 
-const Document* Schema::get_document()const
+const Document* Schema::get_document() const
 {
-  if(impl_)
-    return (Document*) impl_->doc->_private;
-  else
-    return 0;
+  return const_cast<Schema*>(this)->get_document();
 }
 
 _xmlSchema* Schema::cobj()

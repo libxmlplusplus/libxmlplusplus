@@ -32,17 +32,21 @@ public:
    */
   explicit Schema(_xmlSchema* schema);
 
-  /** Create a schema from a XML document.
+  /** Create a schema from an XML document.
    * @param document XMLSchema document, 0 to create an empty schema document.
    * @param embed If true, the document will be deleted when
    *   the schema is deleted or another document is set.
+   * @throws xmlpp::parse_error
    */
   explicit Schema(Document* document = 0, bool embed = false);
   ~Schema();
 
   /** Set a new document to the schema.
+   * If the old schema document is owned by the schema (embed == true), the old
+   * schema document and all its nodes are deleted.
    * @param document XMLSchema document, 0 to create an empty schema document.
    * @param embed If true, the document will be deleted when the schema is deleted or another document is set.
+   * @throws xmlpp::parse_error
    */
   virtual void set_document(Document* document = 0, bool embed = false);
 
@@ -50,8 +54,15 @@ public:
   Glib::ustring get_target_namespace() const;
   Glib::ustring get_version() const;
 
+  /** Get the schema document.
+   * @returns A pointer to the schema document, or <tt>0</tt> if none exists.
+   */
   Document* get_document();
-  const Document* get_document()const;
+
+  /** Get the schema document.
+   * @returns A pointer to the schema document, or <tt>0</tt> if none exists.
+   */
+  const Document* get_document() const;
   
   /** Access the underlying libxml implementation. */
   _xmlSchema* cobj();
@@ -65,13 +76,10 @@ protected:
 private:
   _xmlSchema* impl_;
 
-  /** Is the base document is created with the schema. */
+  /** If the base document is created with the schema. */
   bool embedded_doc_;
 };
 
 } // namespace xmlpp
 
 #endif //__LIBXMLPP_SCHEMA_H
-
-
-

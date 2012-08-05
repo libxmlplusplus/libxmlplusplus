@@ -58,8 +58,13 @@ class Document : NonCopyable
 
   friend class DomParser;
   friend class SaxParser;
+  friend class Schema;
 
 public:
+  /** Create a new document.
+   * @param version XML version.
+   * @throws xmlpp::internal_error If memory allocation fails.
+   */
   explicit Document(const Glib::ustring& version = "1.0");
   
 protected:
@@ -69,11 +74,20 @@ public:
   virtual ~Document();
 
   /** @return The encoding used in the source from which the document has been loaded.
-    */
+   */
   Glib::ustring get_encoding() const;
 
+  /** Get the internal subset of this document.
+   * @returns A pointer to the DTD, or <tt>0</tt> if not found.
+   */
   Dtd* get_internal_subset() const;
 
+  /** Create the internal subset of this document.
+   * If the document already has an internal subset, a new one is not created.
+   * @param name The DTD name.
+   * @param external_id The external (PUBLIC) ID, or an empty string.
+   * @param system_id The system ID, or an empty string.
+   */
   void set_internal_subset(const Glib::ustring& name,
                            const Glib::ustring& external_id,
                            const Glib::ustring& system_id);
@@ -81,27 +95,36 @@ public:
   //TODO: There should be a const and non-const version.
   //See the patch here: https://bugzilla.gnome.org/show_bug.cgi?id=632522
   /** Return the root node.
-   * This function does _not_ create a default root node if it doesn't exist.
-   * @return A pointer to the root node if it exists, 0 otherwise.
+   * This function does @b not create a default root node if it doesn't exist.
+   * @return A pointer to the root node if it exists, <tt>0</tt> otherwise.
    */
   Element* get_root_node() const;
 
-  /** Creates the root node.
+  /** Create the root element node.
+   * If the document already contains a root element node, it is replaced, and
+   * the old root element node and all its descendants are deleted.
    * @param name The node's name.
-   * @param ns_uri The namespace URI. A namespace declaration will be added to this node, because it could not have
-     been declared before.
-   * @param ns_prefix The namespace prefix to associate with the namespace. If no namespace prefix is specified then
-     the namespace URI will be the default namespace.
-   * @return A pointer to the new root node
+   * @param ns_uri The namespace URI. A namespace declaration will be added to
+   *        this node, because it could not have been declared before.
+   * @param ns_prefix The namespace prefix to associate with the namespace.
+   *        If no namespace prefix is specified then the namespace URI will be the default namespace.
+   * @return A pointer to the new root node.
+   * @throws xmlpp::internal_error If memory allocation fails.
+   * @throws xmlpp::exception If a new namespace node cannot be created.
    */
   Element* create_root_node(const Glib::ustring& name,
                             const Glib::ustring& ns_uri = Glib::ustring(),
                             const Glib::ustring& ns_prefix = Glib::ustring() );
 
-  /** Creates a root node by importing the node from another document, without affecting the source node.
-   * @param node The node to copy and insert as the root node of the document
+  /** Create a root element node by importing the node from another document,
+   * without affecting the source node.
+   * If the document already contains a root element node, it is replaced, and
+   * the old root element node and all its descendants are deleted.
+   * @param node The node to copy and insert as the root node of the document.
+   *             It must be an element node.
    * @param recursive Whether to import the child nodes also. Defaults to true.
    * @return A pointer to the new root node
+   * @throws xmlpp::exception If the node can't be copied.
    */
   Element* create_root_node_by_import(const Node* node,
 				      bool recursive = true);
@@ -109,6 +132,7 @@ public:
   /** Append a new comment node.
    * @param content The text. This should be unescaped - see ContentNode::set_content().
    * @returns The new comment node.
+   * @throws xmlpp::internal_error
    */
   CommentNode* add_comment(const Glib::ustring& content);
 
@@ -119,7 +143,7 @@ public:
    * @param name The name of the application to which the instruction is directed.
    * @param content The content of the instruction. This should be unescaped - see ContentNode::set_content().
    * @returns The new processing instruction node.
-   * @throws internal_error
+   * @throws xmlpp::internal_error
    */
   ProcessingInstructionNode* add_processing_instruction(
     const Glib::ustring& name, const Glib::ustring& content);
@@ -128,6 +152,7 @@ public:
   /** Write the document to a file.
    * @param filename
    * @param encoding If not provided, UTF-8 is used
+   * @throws xmlpp::exception
    */
   void write_to_file(const Glib::ustring& filename, const Glib::ustring& encoding = Glib::ustring());
 
@@ -136,11 +161,14 @@ public:
    * but may insert unwanted significant whitespaces. Use with care !
    * @param filename
    * @param encoding If not provided, UTF-8 is used
+   * @throws xmlpp::exception
    */
   void write_to_file_formatted(const Glib::ustring& filename, const Glib::ustring& encoding = Glib::ustring());
 
   /** Write the document to the memory.
    * @param encoding If not provided, UTF-8 is used
+   * @returns The written document.
+   * @throws xmlpp::exception
    */
   Glib::ustring write_to_string(const Glib::ustring& encoding = Glib::ustring());
 
@@ -148,13 +176,16 @@ public:
    * The output is formatted by inserting whitespaces, which is easier to read for a human,
    * but may insert unwanted significant whitespaces. Use with care !
    * @param encoding If not provided, UTF-8 is used
-   * @return The written document.
+   * @returns The written document.
+   * @throws xmlpp::exception
    */
   Glib::ustring write_to_string_formatted(const Glib::ustring& encoding = Glib::ustring());
 
   /** Write the document to a std::ostream.
    * @param output A reference to the stream in which the document will be written
    * @param encoding If not provided, UTF-8 is used
+   * @throws xmlpp::exception
+   * @throws xmlpp::internal_error
    * @warning This method is much less efficient than write_to_string if you want to dump the
    * document to a buffer or the standard output. Writing to a fstream is almost as fast as write_to_file
    */
@@ -165,6 +196,8 @@ public:
    * but may insert unwanted significant whitespaces. Use with care !
    * @param output A reference to the stream in which the document will be written
    * @param encoding If not provided, UTF-8 is used
+   * @throws xmlpp::exception
+   * @throws xmlpp::internal_error
    * @warning See write_to_stream
    */
   void write_to_stream_formatted(std::ostream & output, const Glib::ustring& encoding = Glib::ustring());
@@ -176,6 +209,7 @@ public:
    * @param systemId The system ID of the subset.
    * @param content The value of the Entity. In entity reference substitutions, this
    * is the replacement value.
+   * @throws xmlpp::internal_error
    */
   virtual void set_entity_declaration(const Glib::ustring& name, XmlEntityType type,
                                       const Glib::ustring& publicId, const Glib::ustring& systemId,
@@ -191,7 +225,7 @@ protected:
   /** Retrieve an Entity.
    * The entity can be from an external subset or internally declared.
    * @param name The name of the entity to get.
-   * @returns A pointer to the libxml2 entity structure.
+   * @returns A pointer to the libxml2 entity structure, or <tt>0</tt> if not found.
    */
   _xmlEntity* get_entity(const Glib::ustring& name);
 
