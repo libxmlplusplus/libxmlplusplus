@@ -50,13 +50,12 @@ void DomParser::parse_file(const Glib::ustring& filename)
 
   if(!context_)
   {
-    throw internal_error("Couldn't create parsing context\n" + format_xml_error());
+    throw internal_error("Could not create parser context\n" + format_xml_error());
   }
 
   if(context_->directory == 0)
   {
-    char* directory = xmlParserGetDirectory(filename.c_str());
-    context_->directory = (char*) xmlStrdup((xmlChar*) directory);
+    context_->directory = xmlParserGetDirectory(filename.c_str());
   }
 
   parse_context();
@@ -74,7 +73,7 @@ void DomParser::parse_memory_raw(const unsigned char* contents, size_type bytes_
 
   if(!context_)
   {
-    throw internal_error("Couldn't create parsing context\n" + format_xml_error());
+    throw internal_error("Could not create parser context\n" + format_xml_error());
   }
 
   parse_context();
@@ -96,19 +95,28 @@ void DomParser::parse_context()
 
   if(!context_)
   {
-    throw internal_error("Context not initialized\n" + format_xml_error());
+    throw internal_error("Parser context not initialized\n" + format_xml_error());
   }
 
-  xmlParseDocument(context_);
+  const int parseError = xmlParseDocument(context_);
 
-  check_for_exception();
+  try
+  {
+    check_for_exception();
+  }
+  catch (...)
+  {
+    release_underlying(); //Free doc_ and context_
+    throw; // re-throw exception
+  }
 
-  const Glib::ustring error_str = format_xml_parser_error(context_);
+  Glib::ustring error_str = format_xml_parser_error(context_);
+  if (error_str.empty() && parseError == -1)
+    error_str = "xmlParseDocument() failed.";
 
   if(!error_str.empty())
   {
     release_underlying(); //Free doc_ and context_
-
     throw parse_error(error_str);
   }
 
@@ -120,10 +128,7 @@ void DomParser::parse_context()
   //Free the parse context, but keep the document alive so people can navigate the DOM tree:
   //TODO: Why not keep the context alive too?
   Parser::release_underlying();
-
-  check_for_exception();
 }
-
 
 void DomParser::parse_stream(std::istream& in)
 {
@@ -133,20 +138,21 @@ void DomParser::parse_stream(std::istream& in)
   xmlResetLastError();
 
   context_ = xmlCreatePushParserCtxt(
-      0, // setting thoses two parameters to 0 force the parser
+      0, // Setting those two parameters to 0 force the parser
       0, // to create a document while parsing.
-      0,
-      0,
-      ""); // here should come the filename. I don't know if it is a problem to let it empty
+      0, // chunk
+      0, // size
+      0); // no filename for fetching external entities
 
   if(!context_)
   {
-    throw internal_error("Couldn't create parsing context\n" + format_xml_error());
+    throw internal_error("Could not create parser context\n" + format_xml_error());
   }
 
   initialize_context();
 
   //TODO: Shouldn't we use a Glib::ustring here, and some alternative to std::getline()?
+  int firstParseError = XML_ERR_OK;
   std::string line;
   while(std::getline(in, line))
   {
@@ -154,19 +160,36 @@ void DomParser::parse_stream(std::istream& in)
     // about layout in certain cases.
     line += '\n';
 
-    xmlParseChunk(context_, line.c_str(), line.size() /* This is a std::string, not a ustring, so this is the number of bytes. */, 0);
+    const int parseError = xmlParseChunk(context_, line.c_str(),
+      line.size() /* This is a std::string, not a ustring, so this is the number of bytes. */, 0);
+
+    // Save the first error code if any, but read on.
+    // More errors might be reported and then thrown by check_for_exception().
+    if (parseError != XML_ERR_OK && firstParseError == XML_ERR_OK)
+      firstParseError = parseError;
   }
 
-  xmlParseChunk(context_, 0, 0, 1);
+  const int parseError = xmlParseChunk(context_, 0, 0, 1 /* last chunk */);
+  if (parseError != XML_ERR_OK && firstParseError == XML_ERR_OK)
+    firstParseError = parseError;
 
-  check_for_exception();
+  try
+  {
+    check_for_exception();
+  }
+  catch (...)
+  {
+    release_underlying(); //Free doc_ and context_
+    throw; // re-throw exception
+  }
 
-  const Glib::ustring error_str = format_xml_parser_error(context_);
+  Glib::ustring error_str = format_xml_parser_error(context_);
+  if (error_str.empty() && firstParseError != XML_ERR_OK)
+    error_str = "Error code from xmlParseChunk(): " + Glib::ustring::format(firstParseError);
 
   if(!error_str.empty())
   {
     release_underlying(); //Free doc_ and context_
-
     throw parse_error(error_str);
   }
 
@@ -179,8 +202,6 @@ void DomParser::parse_stream(std::istream& in)
   //Free the parse context, but keep the document alive so people can navigate the DOM tree:
   //TODO: Why not keep the context alive too?
   Parser::release_underlying();
-
-  check_for_exception();
 }
 
 void DomParser::release_underlying()
@@ -210,5 +231,3 @@ const Document* DomParser::get_document() const
 }
 
 } // namespace xmlpp
-
-

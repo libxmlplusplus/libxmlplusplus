@@ -15,7 +15,6 @@
 #include <libxml/parserInternals.h> // for xmlCreateFileParserCtxt
 
 #include <cstdarg> //For va_list.
-#include <cassert> // for assert()
 #include <iostream>
 
 namespace xmlpp {
@@ -147,28 +146,41 @@ void SaxParser::on_internal_subset(const Glib::ustring& name,
 // (http://www.daa.com.au/~james/gnome/xml-sax/implementing.html)
 void SaxParser::parse()
 {
-  
+  //TODO If this is not the first parsing with this SaxParser, the xmlDoc object
+  // in entity_resolver_doc_ should be deleted and replaced by a new one.
+  // Otherwise entity declarations from a previous parsing may erroneously affect
+  // this parsing. This would be much easier if entity_resolver_doc_ were a
+  // std::auto_ptr<Document>, so the xmlpp::Document could be deleted and a new
+  // one created. A good place for such code would be in an overridden
+  // SaxParser::initialize_context(). It would be an ABI break.
+
   if(!context_)
   {
-    throw internal_error("Parse context not created.");
+    throw internal_error("Parser context not created.");
   }
 
   xmlSAXHandlerPtr old_sax = context_->sax;
   context_->sax = sax_handler_.get();
 
+  xmlResetLastError();
   initialize_context();
   
-  xmlParseDocument(context_);
+  const int parseError = xmlParseDocument(context_);
 
   context_->sax = old_sax;
 
-  if( (! context_->wellFormed)
-      && (! exception_) )
-    exception_ = new parse_error("Document not well-formed");
+  Glib::ustring error_str = format_xml_parser_error(context_);
+  if (error_str.empty() && parseError == -1)
+    error_str = "xmlParseDocument() failed.";
 
-  release_underlying();
+  release_underlying(); // Free context_
 
   check_for_exception();
+
+  if(!error_str.empty())
+  {
+    throw parse_error(error_str);
+  }
 }
 
 void SaxParser::parse_file(const Glib::ustring& filename)
@@ -210,17 +222,24 @@ void SaxParser::parse_stream(std::istream& in)
   }
 
   KeepBlanks k(KeepBlanks::Default);
+  xmlResetLastError();
 
   context_ = xmlCreatePushParserCtxt(
       sax_handler_.get(),
       0, // user_data
-      0,
-      0,
-      ""); // This should be the filename. I don't know if it is a problem to leave it empty.
+      0, // chunk
+      0, // size
+      0); // no filename for fetching external entities
+
+  if(!context_)
+  {
+    throw internal_error("Could not create parser context\n" + format_xml_error());
+  }
 
   initialize_context();
 
   //TODO: Shouldn't we use a Glib::ustring here, and some alternative to std::getline()?
+  int firstParseError = XML_ERR_OK;
   std::string line;
   while( ( ! exception_ )
       && std::getline(in, line))
@@ -229,15 +248,37 @@ void SaxParser::parse_stream(std::istream& in)
     // about layout in certain cases.
     line += '\n';
 
-    xmlParseChunk(context_, line.c_str(), line.size() /* This is a std::string, not a ustring, so this is the number of bytes. */, 0 /* don't terminate */);
+    const int parseError = xmlParseChunk(context_, line.c_str(),
+      line.size() /* This is a std::string, not a ustring, so this is the number of bytes. */,
+      0 /* don't terminate */);
+
+    // Save the first error code if any, but read on.
+    // More errors might be reported and then thrown by check_for_exception().
+    if (parseError != XML_ERR_OK && firstParseError == XML_ERR_OK)
+      firstParseError = parseError;
   }
 
   if( ! exception_ )
-    xmlParseChunk(context_, 0 /* chunk */, 0 /* size */, 1 /* terminate (1 or 0) */); //This seems to be called just to terminate parsing.
+  {
+     //This is called just to terminate parsing.
+    const int parseError = xmlParseChunk(context_, 0 /* chunk */, 0 /* size */, 1 /* terminate (1 or 0) */);
 
-  release_underlying();
+    if (parseError != XML_ERR_OK && firstParseError == XML_ERR_OK)
+      firstParseError = parseError;
+  }
+
+  Glib::ustring error_str = format_xml_parser_error(context_);
+  if (error_str.empty() && firstParseError != XML_ERR_OK)
+    error_str = "Error code from xmlParseChunk(): " + Glib::ustring::format(firstParseError);
+
+  release_underlying(); // Free context_
 
   check_for_exception();
+
+  if(!error_str.empty())
+  {
+    throw parse_error(error_str);
+  }
 }
 
 void SaxParser::parse_chunk(const Glib::ustring& chunk)
@@ -248,23 +289,39 @@ void SaxParser::parse_chunk(const Glib::ustring& chunk)
 void SaxParser::parse_chunk_raw(const unsigned char* contents, size_type bytes_count)
 {
   KeepBlanks k(KeepBlanks::Default);
+  xmlResetLastError();
 
   if(!context_)
   {
     context_ = xmlCreatePushParserCtxt(
       sax_handler_.get(),
       0, // user_data
-      0,
-      0,
-      ""); // This should be the filename. I don't know if it is a problem to let it empty
+      0, // chunk
+      0, // size
+      0); // no filename for fetching external entities
 
+    if(!context_)
+    {
+      throw internal_error("Could not create parser context\n" + format_xml_error());
+    }
     initialize_context();
   }
+  else
+    xmlCtxtResetLastError(context_);
   
+  int parseError = XML_ERR_OK;
   if(!exception_)
-    xmlParseChunk(context_, (const char*)contents, bytes_count, 0 /* don't terminate */);
+    parseError = xmlParseChunk(context_, (const char*)contents, bytes_count, 0 /* don't terminate */);
 
   check_for_exception();
+
+  Glib::ustring error_str = format_xml_parser_error(context_);
+  if (error_str.empty() && parseError != XML_ERR_OK)
+    error_str = "Error code from xmlParseChunk(): " + Glib::ustring::format(parseError);
+  if(!error_str.empty())
+  {
+    throw parse_error(error_str);
+  }
 }
 
 void SaxParser::release_underlying()
@@ -274,22 +331,42 @@ void SaxParser::release_underlying()
 
 void SaxParser::finish_chunk_parsing()
 {
+  xmlResetLastError();
   if(!context_)
   {
     context_ = xmlCreatePushParserCtxt(
       sax_handler_.get(),
       0, // this, // user_data
-      0,
-      0,
-      ""); // This should be the filename. I don't know if it is a problem to leave it empty
-  }
-  
-  if(!exception_)
-    xmlParseChunk(context_, 0 /* chunk */, 0 /* size */, 1 /* terminate (1 or 0) */); //This seems to be called just to terminate parsing.
+      0, // chunk
+      0, // size
+      0); // no filename for fetching external entities
 
-  release_underlying();
+    if(!context_)
+    {
+      throw internal_error("Could not create parser context\n" + format_xml_error());
+    }
+    initialize_context();
+  }
+  else
+    xmlCtxtResetLastError(context_);
+
+  int parseError = XML_ERR_OK;
+  if(!exception_)
+    //This is called just to terminate parsing.
+    parseError = xmlParseChunk(context_, 0 /* chunk */, 0 /* size */, 1 /* terminate (1 or 0) */);
+
+  Glib::ustring error_str = format_xml_parser_error(context_);
+  if (error_str.empty() && parseError != XML_ERR_OK)
+    error_str = "Error code from xmlParseChunk(): " + Glib::ustring::format(parseError);
+
+  release_underlying(); // Free context_
 
   check_for_exception();
+
+  if(!error_str.empty())
+  {
+    throw parse_error(error_str);
+  }
 }
 
 
@@ -548,5 +625,3 @@ void SaxParserCallback::internal_subset(void* context, const xmlChar* name,
 }
 
 } // namespace xmlpp
-
-

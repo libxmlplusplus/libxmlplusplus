@@ -22,7 +22,7 @@ extern "C"
 namespace xmlpp
 {
 
-/** A TextReader-style XML parser
+/** A TextReader-style XML parser.
  * A reader that provides fast, non-cached, forward-only access to XML data,
  * in the style of .Net's <a href="http://msdn.microsoft.com/en-us/library/system.xml.xmltextreader.aspx">XmlTextReader</a> class.
  */
@@ -81,6 +81,7 @@ class TextReader: NonCopyable
     /**
      * Creates a new TextReader object to parse a file or URI.
      * @param URI The URI to read.
+     * @throws xmlpp::internal_error If an xmlTextReader object cannot be created.
      */
     TextReader(const Glib::ustring& URI);
 
@@ -88,39 +89,53 @@ class TextReader: NonCopyable
      * Creates a new TextReader object which parses in memory data.
      * @param data The data to parse.
      * @param size The number of bytes in data.
-     * @param uri The base URI of the file.
+     * @param uri The base URI to use for the document.
+     * @throws xmlpp::internal_error If an xmlTextReader object cannot be created.
      */
     TextReader(const unsigned char* data, size_type size, const Glib::ustring& uri = Glib::ustring());
 
     ~TextReader();
 
     /** Moves the position of the current instance to the next node in the stream, exposing its properties.
-     * @return true if the node was read successfully, false if there is no more nodes to read.
+     * @return true if the node was read successfully, false if there are no more nodes to read.
+     * @throws xmlpp::parse_error
+     * @throws xmlpp::validity_error
      */
     bool read();
 
     /** Reads the contents of the current node, including child nodes and markup.
-     * @return A Glib::ustring containing the XML content, or and empty Glib::ustring if the current node is neither an element nor attribute, or has no child nodes.
+     * @return A Glib::ustring containing the XML content, or an empty Glib::ustring if the current node is neither an element nor attribute, or has no child nodes.
+     * @throws xmlpp::parse_error
+     * @throws xmlpp::validity_error
      */
     Glib::ustring read_inner_xml();
 
     /** Reads the current node and its contents, including child nodes and markup.
      * @return A Glib::ustring containing the XML content, or an empty Glib::ustring if the current node is neither an element nor attribute.
+     * @throws xmlpp::parse_error
+     * @throws xmlpp::validity_error
      */
     Glib::ustring read_outer_xml();
 
     /** Reads the contents of an element or a text node as a string.
      * @return A Glib::ustring containing the contents of the Element or Text node, or an empty Glib::ustring if the reader is positioned on any other type of node.
+     * @throws xmlpp::parse_error
+     * @throws xmlpp::validity_error
      */
     Glib::ustring read_string();
 
     /** Parses an attribute value into one or more Text and EntityReference nodes.
      * @return A bool where true indicates the attribute value was parsed, and false indicates the reader was not positioned on an attribute node or all the attribute values have been read.
+     * @throws xmlpp::parse_error
+     * @throws xmlpp::validity_error
      */
     bool read_attribute_value();
 
     /** Gets the number of attributes on the current node.
-     * @return The number of attributes on the current node, or zero if the current node does not support attributes.
+     * @return The number of attributes on the current node, or zero if the current node
+     *         does not support attributes, or -1 in case of error.
+     * @throws xmlpp::parse_error
+     * @throws xmlpp::validity_error
      */
     int get_attribute_count() const;
 
@@ -130,7 +145,7 @@ class TextReader: NonCopyable
     Glib::ustring get_base_uri() const;
 
     /** Gets the depth of the current node in the XML document.
-     * @return The depth of the current node in the XML document.
+     * @return The depth of the current node in the XML document, or -1 in case of error.
      */
     int get_depth() const;
 
@@ -139,7 +154,7 @@ class TextReader: NonCopyable
      */
     bool has_attributes() const;
 
-    /**  Whether the node can have a text value.
+    /** Whether the node can have a text value.
      * @return true if the current node can have an associated text value, false otherwise.
      */
     bool has_value() const;
@@ -158,9 +173,19 @@ class TextReader: NonCopyable
     Glib::ustring get_name() const;
     Glib::ustring get_namespace_uri() const;
 
+    /** Get the node type of the current node.
+     * @returns The xmlpp::xmlNodeType of the current node, or -1 in case of error.
+     */
     xmlNodeType get_node_type() const;
 
+    /** Get the namespace prefix associated with the current node.
+     * @returns The namespace prefix, or an empty string if not available.
+     */
     Glib::ustring get_prefix() const;
+
+    /** Get the quotation mark character used to enclose the value of an attribute.
+     * @returns Returns " or ' and -1 in case of error.
+     */
     char get_quote_char() const;
 
     Glib::ustring get_value() const;
@@ -191,9 +216,33 @@ class TextReader: NonCopyable
     bool get_parser_property(ParserProperties property) const;
     void set_parser_property(ParserProperties property, bool value);
 
+    /** Get a pointer to the current node.
+     * @warning This is dangerous because the underlying node may be destroyed on the next read.
+     * The C++ wrapper is not deleted. Using this method causes memory leaks,
+     * unless you call xmlpp::Node::free_wrappers(), which is not intended to be
+     * called by the application.
+     * @returns A pointer to the current node, or 0 in case of error.
+     */
     Node* get_current_node();
+
+    /** Get a pointer to the current node.
+     * @warning See the non-const get_current_node().
+     * @returns A pointer to the current node, or 0 in case of error.
+     */
     const Node* get_current_node() const;
+
 //    Document* CurrentDocument();
+
+    /** Expand the current node.
+     * Reads the contents of the current node and the full subtree. It then makes
+     * the subtree available until the next call to read() or next().
+     * @warning The C++ wrappers are not deleted. Using this method causes memory leaks,
+     * unless you call xmlpp::Node::free_wrappers(), which is not intended to be
+     * called by the application.
+     * @returns A pointer to the current node, or 0 in case of error.
+     * @throws xmlpp::parse_error
+     * @throws xmlpp::validity_error
+     */
     Node* expand();
 
     bool next();

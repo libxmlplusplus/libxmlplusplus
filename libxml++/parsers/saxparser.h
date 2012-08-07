@@ -81,27 +81,35 @@ public:
   virtual ~SaxParser();
 
   /** Parse an XML document from a file.
-   * @throw exception
    * @param filename The path to the file.
+   * @throws xmlpp::internal_error
+   * @throws xmlpp::parse_error
+   * @throws xmlpp::validity_error
    */
   virtual void parse_file(const Glib::ustring& filename);
 
   /** Parse an XML document from a string.
-   * @throw exception
    * @param contents The XML document as a string.
+   * @throws xmlpp::internal_error
+   * @throws xmlpp::parse_error
+   * @throws xmlpp::validity_error
    */
   virtual void parse_memory(const Glib::ustring& contents);
 
   /** Parse an XML document from raw memory.
-   * @throw exception
    * @param contents The XML document as an array of bytes.
    * @param bytes_count The number of bytes in the @a contents array.
+   * @throws xmlpp::internal_error
+   * @throws xmlpp::parse_error
+   * @throws xmlpp::validity_error
    */
   void parse_memory_raw(const unsigned char* contents, size_type bytes_count);
 
   /** Parse an XML document from a stream.
-   * @throw exception
    * @param in The stream.
+   * @throws xmlpp::internal_error
+   * @throws xmlpp::parse_error
+   * @throws xmlpp::validity_error
    */
   virtual void parse_stream(std::istream& in);
   
@@ -114,8 +122,10 @@ public:
    * The first call to parse_chunk will setup the parser. When the last chunk
    * has been parsed, call finish_chunk_parsing() to finish the parse.
    *
-   * @throw exception
    * @param chunk The next piece of the XML document.
+   * @throws xmlpp::internal_error
+   * @throws xmlpp::parse_error
+   * @throws xmlpp::validity_error
    */
   virtual void parse_chunk(const Glib::ustring& chunk);
 
@@ -130,9 +140,11 @@ public:
    * The first call to parse_chunk will setup the parser. When the last chunk
    * has been parsed, call finish_chunk_parsing() to finish the parse.
    *
-   * @throw exception
    * @param contents The next piece of the XML document as an array of bytes.
    * @param bytes_count The number of bytes in the @a contents array.
+   * @throws xmlpp::internal_error
+   * @throws xmlpp::parse_error
+   * @throws xmlpp::validity_error
    */
   void parse_chunk_raw(const unsigned char* contents, size_type bytes_count);
 
@@ -140,6 +152,9 @@ public:
    *
    * Call this after the last call to parse_chunk(). Don't use this function with
    * the other parsing methods.
+   * @throws xmlpp::internal_error
+   * @throws xmlpp::parse_error
+   * @throws xmlpp::validity_error
    */
   virtual void finish_chunk_parsing();
 
@@ -153,6 +168,8 @@ protected:
   virtual void on_comment(const Glib::ustring& text);
   virtual void on_warning(const Glib::ustring& text);
   virtual void on_error(const Glib::ustring& text);
+  /** @throws xmlpp::parse_error
+   */
   virtual void on_fatal_error(const Glib::ustring& text);
   virtual void on_cdata_block(const Glib::ustring& text);
 
@@ -176,7 +193,8 @@ protected:
    * Unlike the DomParser, the SaxParser will also tell you about entity references for the 5 predefined entities.
    *
    * @param name The entity reference name.
-   * @returns The resolved xmlEntity for the entity reference. You must include libxml/parser.h in order to use this C struct.
+   * @returns The resolved xmlEntity for the entity reference, or <tt>0</tt> if not found.
+   *          You must include libxml/parser.h in order to use this C struct.
    * This instance will not be freed by the caller.
    */
   virtual _xmlEntity* on_get_entity(const Glib::ustring& name);
@@ -185,6 +203,7 @@ protected:
    * If you override this function, and you want normal entity substitution to work, then you must call the base class in your override.
    *
    * This would be useful when overriding on_get_entity().
+   * @throws xmlpp::internal_error
    */
   virtual void on_entity_declaration(const Glib::ustring& name, XmlEntityType type, const Glib::ustring& publicId, const Glib::ustring& systemId, const Glib::ustring& content);
 
@@ -202,12 +221,6 @@ private:
   friend struct SaxParserCallback;
 };
 
-
-
-
 } // namespace xmlpp
 
 #endif //__LIBXMLPP_PARSERS_SAXPARSER_H
-
-
-

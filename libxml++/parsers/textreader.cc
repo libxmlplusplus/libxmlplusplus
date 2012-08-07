@@ -106,7 +106,7 @@ int TextReader::get_attribute_count() const
 Glib::ustring TextReader::get_base_uri() const
 {
   return propertyreader->String(
-      xmlTextReaderBaseUri(impl_));
+      xmlTextReaderBaseUri(impl_), true);
 }
 
 int TextReader::get_depth() const
@@ -306,15 +306,7 @@ Node* TextReader::get_current_node()
 
 const Node* TextReader::get_current_node() const
 {
-  xmlNodePtr node = xmlTextReaderCurrentNode(impl_);
-  if(node)
-  {
-    Node::create_wrapper(node);
-    return static_cast<Node*>(node->_private);
-  }
-
-  check_for_exceptions();
-  return 0;
+  return const_cast<TextReader*>(this)->get_current_node();
 }
 
 /*
@@ -330,7 +322,6 @@ Document* TextReader::CurrentDocument()
 Node* TextReader::expand()
 {
   xmlNodePtr node = xmlTextReaderExpand(impl_);
-  if(node)
   if(node)
   {
     Node::create_wrapper(node);
@@ -384,7 +375,6 @@ void TextReader::check_for_exceptions() const
   int severity = severity_;
   ths->severity_ = 0;
 
-  //TODO: Offer an alternative when not using exceptions?
   if( severity == XML_PARSER_SEVERITY_ERROR )
     throw parse_error(error_);
   else if( severity == XML_PARSER_SEVERITY_VALIDITY_ERROR )
@@ -404,7 +394,7 @@ bool TextReader::PropertyReader::Bool(int value)
   if(value == -1)
     owner_.check_for_exceptions();
     
-  return value;
+  return value > 0;
 }
 
 char TextReader::PropertyReader::Char(int value)
