@@ -26,6 +26,7 @@
 #include <fstream>
 #include <iostream>
 #include <stdlib.h>
+#include <cstring> // std::memset()
 
 #include "myparser.h"
 
@@ -47,7 +48,7 @@ main(int argc, char* argv[])
   try
   {
     MySaxParser parser;
-    parser.set_substitute_entities(true); //
+    parser.set_substitute_entities(true);
     parser.parse_file(filepath);
   }
   catch(const xmlpp::exception& ex)
@@ -56,35 +57,42 @@ main(int argc, char* argv[])
     return_code = EXIT_FAILURE;
   }
 
- 
-  // Demonstrate incremental parsing, sometimes useful for network connections:
+  // Incremental parsing, sometimes useful for network connections:
+  try
   {
-    //std::cout << "Incremental SAX Parser:" << std:endl;
+    std::cout << std::endl << "Incremental SAX Parser:" << std::endl;
     
     std::ifstream is(filepath.c_str());
-    /* char buffer[64];
-    const size_t buffer_size = sizeof(buffer) / sizeof(char); */
+    if (!is)
+      throw xmlpp::exception("Could not open file " + filepath);
+
+    char buffer[64];
+    const size_t buffer_size = sizeof(buffer) / sizeof(char);
 
     //Parse the file:
     MySaxParser parser;
-    parser.parse_file(filepath);
-
-    //Or parse chunks (though this seems to have problems):
-/*
+    parser.set_substitute_entities(true);
     do
     {
-      memset(buffer, 0, buffer_size);
+      std::memset(buffer, 0, buffer_size);
       is.read(buffer, buffer_size-1);
-      if(is && is.gcount())
+      if(is.gcount())
       {
-        Glib::ustring input(buffer, is.gcount());
+        // We use Glib::ustring::ustring(InputIterator begin, InputIterator end)
+        // instead of Glib::ustring::ustring( const char*, size_type ) because it
+        // expects the length of the string in characters, not in bytes.
+        Glib::ustring input(buffer, buffer+is.gcount());
         parser.parse_chunk(input);
       }
     }
     while(is);
 
     parser.finish_chunk_parsing();
-*/
+  }
+  catch(const xmlpp::exception& ex)
+  {
+    std::cerr << "Incremental parsing, libxml++ exception: " << ex.what() << std::endl;
+    return_code = EXIT_FAILURE;
   }
 
   return return_code;

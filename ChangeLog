@@ -1,5 +1,12 @@
 2012-08-07  Kjell Ahlstedt  <kjell.ahlstedt@bredband.net>
 
+	Add incremental parsing to the SaxParser example program.
+
+	* examples/sax_parser/main.cc: Uncomment and correct the code that shows
+	incremental parsing with SaxParser::parse_chunk().
+
+2012-08-07  Kjell Ahlstedt  <kjell.ahlstedt@bredband.net>
+
 	Parsers: Improve the error handling.
 
 	* libxml++/parsers/domparser.[h|cc]:
