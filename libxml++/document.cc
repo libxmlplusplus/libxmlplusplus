@@ -181,8 +181,7 @@ CommentNode* Document::add_comment(const Glib::ustring& content)
   xmlNode* node = xmlAddChild((xmlNode*)impl_, child);
   if (!node)
   {
-    if (child)
-      xmlFreeNode(child);
+    xmlFreeNode(child);
     throw internal_error("Could not add comment node \"" + content + "\"");
   }
   Node::create_wrapper(node);
@@ -196,8 +195,7 @@ ProcessingInstructionNode* Document::add_processing_instruction(
   xmlNode* node = xmlAddChild((xmlNode*)impl_, child);
   if (!node)
   {
-    if (child)
-      xmlFreeNode(child);
+    xmlFreeNode(child);
     throw internal_error("Could not add processing instruction node " + name);
   }
   Node::create_wrapper(node);

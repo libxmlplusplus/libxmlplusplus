@@ -226,8 +226,7 @@ Element* Node::add_child(const Glib::ustring& name,
   _xmlNode* node = xmlAddChild(impl_, child);
   if (!node)
   {
-    if (child)
-      xmlFreeNode(child);
+    xmlFreeNode(child);
     throw internal_error("Could not add child element node " + name);
   }
   Node::create_wrapper(node);
@@ -245,8 +244,7 @@ Element* Node::add_child(xmlpp::Node* previous_sibling,
   _xmlNode* node = xmlAddNextSibling(previous_sibling->cobj(), child);
   if (!node)
   {
-    if (child)
-      xmlFreeNode(child);
+    xmlFreeNode(child);
     throw internal_error("Could not add child element node " + name);
   }
   Node::create_wrapper(node);
@@ -264,8 +262,7 @@ Element* Node::add_child_before(xmlpp::Node* next_sibling,
   _xmlNode* node = xmlAddPrevSibling(next_sibling->cobj(), child);
   if (!node)
   {
-    if (child)
-      xmlFreeNode(child);
+    xmlFreeNode(child);
     throw internal_error("Could not add child element node " + name);
   }
   Node::create_wrapper(node);

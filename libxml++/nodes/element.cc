@@ -163,8 +163,7 @@ TextNode* Element::add_child_text(const Glib::ustring& content)
     xmlNode* node = xmlAddChild(cobj(), child);
     if (!node)
     {
-      if (child)
-        xmlFreeNode(child);
+      xmlFreeNode(child);
       throw internal_error("Could not add text node \"" + content + "\"");
     }
     Node::create_wrapper(node);
@@ -186,8 +185,7 @@ TextNode* Element::add_child_text(xmlpp::Node* previous_sibling, const Glib::ust
     xmlNode* node = xmlAddNextSibling(previous_sibling->cobj(), child);
     if (!node)
     {
-      if (child)
-        xmlFreeNode(child);
+      xmlFreeNode(child);
       throw internal_error("Could not add text node \"" + content + "\"");
     }
     Node::create_wrapper(node);
@@ -209,8 +207,7 @@ TextNode* Element::add_child_text_before(xmlpp::Node* next_sibling, const Glib::
     xmlNode* node = xmlAddPrevSibling(next_sibling->cobj(), child);
     if (!node)
     {
-      if (child)
-        xmlFreeNode(child);
+      xmlFreeNode(child);
       throw internal_error("Could not add text node \"" + content + "\"");
     }
     Node::create_wrapper(node);
@@ -260,8 +257,7 @@ CommentNode* Element::add_child_comment(const Glib::ustring& content)
   xmlNode* node = xmlAddChild(cobj(), child);
   if (!node)
   {
-    if (child)
-      xmlFreeNode(child);
+    xmlFreeNode(child);
     throw internal_error("Could not add comment node \"" + content + "\"");
   }
   Node::create_wrapper(node);
@@ -275,8 +271,7 @@ CdataNode* Element::add_child_cdata(const Glib::ustring& content)
   xmlNode* node = xmlAddChild(cobj(), child);
   if (!node)
   {
-    if (child)
-      xmlFreeNode(child);
+    xmlFreeNode(child);
     throw internal_error("Could not add CDATA node \"" + content + "\"");
   }
   Node::create_wrapper(node);
@@ -300,8 +295,7 @@ EntityReference* Element::add_child_entity_reference(const Glib::ustring& name)
   xmlNode* node = xmlAddChild(cobj(), child);
   if (!node)
   {
-    if (child)
-      xmlFreeNode(child);
+    xmlFreeNode(child);
     throw internal_error("Could not add entity reference node " + name);
   }
   Node::create_wrapper(node);
@@ -315,8 +309,7 @@ ProcessingInstructionNode* Element::add_child_processing_instruction(
   xmlNode* node = xmlAddChild(cobj(), child);
   if (!node)
   {
-    if (child)
-      xmlFreeNode(child);
+    xmlFreeNode(child);
     throw internal_error("Could not add processing instruction node " + name);
   }
   Node::create_wrapper(node);

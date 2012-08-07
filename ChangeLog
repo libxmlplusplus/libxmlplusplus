@@ -1,3 +1,13 @@
+2012-08-07  Kjell Ahlstedt  <kjell.ahlstedt@bredband.net>
+ 
+	Document, Element, Node: Remove unnecessary tests for null pointers.
+
+	* libxml++/document.cc:
+	* libxml++/nodes/element.cc:
+	* libxml++/nodes/node.cc: Remove tests for null pointer before calling
+	xmlFreeNode(), which does nothing if given a null pointer. These unnecessary
+	tests were newly added when error handling was improved. Bug #635846.
+
 2012-08-05  Kjell Ahlstedt  <kjell.ahlstedt@bredband.net>
  
 	Schema::set_document(): Create empty document.
