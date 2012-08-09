@@ -71,11 +71,14 @@ SchemaValidator::~SchemaValidator()
 
 void SchemaValidator::parse_context(_xmlSchemaParserCtxt* context)
 {
-  release_underlying(); // Free any existing dtd.
+  if (!context)
+    throw parse_error("Could not create schema parser context\n" + format_xml_error());
+
+  release_underlying(); // Free any existing schema.
 
   xmlSchema* schema = xmlSchemaParse( context );
   if ( ! schema )
-   throw parse_error("Schema could not be parsed");
+    throw parse_error("Schema could not be parsed\n" + format_xml_error());
 
   schema->_private = new Schema(schema);
 
@@ -85,6 +88,7 @@ void SchemaValidator::parse_context(_xmlSchemaParserCtxt* context)
 
 void SchemaValidator::parse_file(const Glib::ustring& filename)
 {
+  xmlResetLastError();
   xmlSchemaParserCtxtPtr ctx = xmlSchemaNewParserCtxt( filename.c_str() );
   XmlSchemaParserContextHolder holder(ctx);
   parse_context( ctx );
@@ -92,6 +96,7 @@ void SchemaValidator::parse_file(const Glib::ustring& filename)
 
 void SchemaValidator::parse_memory(const Glib::ustring& contents)
 {
+  xmlResetLastError();
   xmlSchemaParserCtxtPtr ctx = xmlSchemaNewMemParserCtxt( contents.c_str(), contents.bytes() );
   XmlSchemaParserContextHolder holder(ctx);
   parse_context( ctx );
@@ -99,6 +104,7 @@ void SchemaValidator::parse_memory(const Glib::ustring& contents)
 
 void SchemaValidator::parse_document(Document& document)
 {
+  xmlResetLastError();
   xmlSchemaParserCtxtPtr ctx = xmlSchemaNewDocParserCtxt( document.cobj() );
   XmlSchemaParserContextHolder holder(ctx);
   parse_context( ctx );
@@ -168,17 +174,22 @@ bool SchemaValidator::validate(const Document* doc)
     throw internal_error("Couldn't create validating context");
   }
 
+  xmlResetLastError();
   initialize_valid();
 
-  int res = xmlSchemaValidateDoc( ctxt_, (xmlDoc*)doc->cobj() );
+  const int res = xmlSchemaValidateDoc( ctxt_, (xmlDoc*)doc->cobj() );
 
   if(res != 0)
   {
     check_for_exception();
-    throw validity_error("Document failed schema validation");
+
+    Glib::ustring error_str = format_xml_error();
+    if (error_str.empty())
+      error_str = "Error code from xmlSchemaValidateDoc(): " + Glib::ustring::format(res);
+    throw validity_error("Document failed schema validation\n" + error_str);
   }
 
-  return res;
+  return res == 0;
 }
 
 bool SchemaValidator::validate(const Glib::ustring& file)
@@ -188,6 +199,7 @@ bool SchemaValidator::validate(const Glib::ustring& file)
 
   if (!schema_)
     throw internal_error("Must have a schema to validate document");
+
   // A context is required at this stage only
   if (!ctxt_)
     ctxt_ = xmlSchemaNewValidCtxt( schema_->cobj() );
@@ -196,17 +208,23 @@ bool SchemaValidator::validate(const Glib::ustring& file)
   {
     throw internal_error("Couldn't create validating context");
   }
+
+  xmlResetLastError();
   initialize_valid();
 
-  int res = xmlSchemaValidateFile( ctxt_, file.c_str(), 0 );
+  const int res = xmlSchemaValidateFile( ctxt_, file.c_str(), 0 );
 
   if(res != 0)
   {
     check_for_exception();
-    throw validity_error("Document failed schema validation");
+
+    Glib::ustring error_str = format_xml_error();
+    if (error_str.empty())
+      error_str = "Error code from xmlSchemaValidateFile(): " + Glib::ustring::format(res);
+    throw validity_error("Document failed schema validation\n" + error_str);
   }
 
-  return res;
+  return res == 0;
 }
 
 } // namespace xmlpp

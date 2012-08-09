@@ -1,3 +1,13 @@
+2012-08-09  Kjell Ahlstedt  <kjell.ahlstedt@bredband.net>
+
+	Validators: Improve the error handling.
+
+	* libxml++/validators/validator.[h|cc]:
+	* libxml++/validators/dtdvalidator.[h|cc]:
+	* libxml++/validators/schemavalidator.[h|cc]: Check more return codes from
+	libxml2 functions. Improve the description of member functions in the
+	reference documentation. Bug #635846.
+
 2012-08-07  Kjell Ahlstedt  <kjell.ahlstedt@bredband.net>
 
 	Add incremental parsing to the SaxParser example program.

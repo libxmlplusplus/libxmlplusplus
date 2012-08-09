@@ -22,8 +22,7 @@ extern "C" {
 
 namespace xmlpp {
 
-/** XML parser.
- *
+/** Base class for XML validators.
  */
 class Validator : NonCopyable
 {

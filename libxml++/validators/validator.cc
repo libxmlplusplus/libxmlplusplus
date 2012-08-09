@@ -26,8 +26,7 @@ Validator::~Validator()
 
 void Validator::initialize_valid()
 {
-  //Tell the validity valid about the callbacks:
-  //(These are only called if validation is on - see above)
+  //Tell the validation context about the callbacks:
   valid_->error = &callback_validity_error;
   valid_->warning = &callback_validity_warning;
 
@@ -64,20 +63,27 @@ void Validator::on_validity_warning(const Glib::ustring& message)
 
 void Validator::check_for_validity_messages()
 {
-  if(!validate_error_.empty())
-  {
-    if(!exception_)
-      exception_ = new validity_error("Validity error:\n" + validate_error_);
+  Glib::ustring msg(exception_ ? exception_->what() : "");
+  bool validity_msg = false;
 
+  if (!validate_error_.empty())
+  {
+    validity_msg = true;
+    msg += "\nValidity error:\n" + validate_error_;
     validate_error_.erase();
   }
 
-  if(!validate_warning_.empty())
+  if (!validate_warning_.empty())
   {
-    if(!exception_)
-      exception_ = new validity_error("Validity warning:\n" + validate_warning_);
-
+    validity_msg = true;
+    msg += "\nValidity warning:\n" + validate_warning_;
     validate_warning_.erase();
+  }
+
+  if (validity_msg)
+  {
+    delete exception_;
+    exception_ = new validity_error(msg);
   }
 }
 
@@ -133,9 +139,19 @@ void Validator::callback_validity_warning(void* valid_, const char* msg, ...)
 
 void Validator::handleException(const exception& e)
 {
+  delete exception_;
   exception_ = e.Clone();
 
-  release_underlying();
+  // Don't delete the DTD validation context or schema validation context
+  // while validating. It would cause accesses to deallocated memory in libxml2
+  // functions after the return from Validator::callback_validity_...().
+  // Parser::handleException() calls xmlStopParser(), but there is no
+  // xmlStopValidator() or similar function to call here.
+  // We don't throw the exception here, since it would have to pass through
+  // C functions. That's not guaranteed to work. It might work, but it depends
+  // on the C compiler and the options used when building libxml2.
+
+  //release_underlying();
 }
 
 void Validator::check_for_exception()
@@ -151,5 +167,3 @@ void Validator::check_for_exception()
 }
 
 } // namespace xmlpp
-
-

@@ -7,15 +7,13 @@
 
 #include "libxml++/validators/dtdvalidator.h"
 #include "libxml++/dtd.h"
-#include "libxml++/nodes/element.h"
-#include "libxml++/nodes/textnode.h"
-#include "libxml++/nodes/commentnode.h"
-#include "libxml++/keepblanks.h"
+#include "libxml++/nodes/node.h"
 #include "libxml++/exceptions/internal_error.h"
+#include "libxml++/exceptions/validity_error.h"
 #include "libxml++/io/istreamparserinputbuffer.h"
 #include "libxml++/document.h"
 
-#include <libxml/parserInternals.h>//For xmlCreateFileParserCtxt().
+#include <libxml/parser.h>
 
 #include <sstream>
 #include <iostream>
@@ -54,6 +52,7 @@ void DtdValidator::parse_file(const Glib::ustring& filename)
 void DtdValidator::parse_subset(const Glib::ustring& external,const Glib::ustring& system)
 {
   release_underlying(); // Free any existing dtd.
+  xmlResetLastError();
 
   xmlDtd* dtd = xmlParseDTD(
     external.empty() ? 0 : (const xmlChar *)external.c_str(),
@@ -61,7 +60,7 @@ void DtdValidator::parse_subset(const Glib::ustring& external,const Glib::ustrin
 
   if (!dtd)
   {
-    throw parse_error("Dtd could not be parsed");
+    throw parse_error("Dtd could not be parsed.\n" + format_xml_error());
   }
 
   Node::create_wrapper(reinterpret_cast<xmlNode*>(dtd));
@@ -78,7 +77,8 @@ void DtdValidator::parse_memory(const Glib::ustring& contents)
 
 void DtdValidator::parse_stream(std::istream& in)
 {
-  release_underlying(); //Free any existing document.
+  release_underlying(); // Free any existing dtd.
+  xmlResetLastError();
 
   IStreamParserInputBuffer ibuff( in );
 
@@ -86,7 +86,7 @@ void DtdValidator::parse_stream(std::istream& in)
 
   if (!dtd)
   {
-    throw parse_error("Dtd could not be parsed");
+    throw parse_error("Dtd could not be parsed.\n" + format_xml_error());
   }
 
   Node::create_wrapper(reinterpret_cast<xmlNode*>(dtd));
@@ -97,9 +97,9 @@ void DtdValidator::release_underlying()
 {
   if(dtd_)
   {
-    //Make a local copy as the wrapper is destroyed first
+    //Make a local pointer to the underlying xmlDtd object as the wrapper is destroyed first.
     //After free_wrappers is called dtd_ will be invalid (e.g. delete dtd_)
-    xmlDtd* dtd=dtd_->cobj();
+    xmlDtd* dtd = dtd_->cobj();
     Node::free_wrappers(reinterpret_cast<xmlNode*>(dtd));
     xmlFreeDtd(dtd);
     dtd_ = 0;
@@ -123,33 +123,37 @@ const Dtd* DtdValidator::get_dtd() const
 
 bool DtdValidator::validate(const Document* doc)
 {
+  if (!doc)
+  {
+    throw internal_error("Document pointer cannot be 0.");
+  }
+
+  if (!dtd_)
+  {
+    throw internal_error("No DTD to use for validation.");
+  }
+
   // A context is required at this stage only
   if (!valid_)
     valid_ = xmlNewValidCtxt();
 
   if(!valid_)
   {
-    throw internal_error("Couldn't create parsing context");
+    throw internal_error("Couldn't create validation context");
   }
 
-  if (!doc)
-  {
-    throw internal_error("Document pointer cannot be 0");
-  }
-
+  xmlResetLastError();
   initialize_valid();
 
   const bool res = (bool)xmlValidateDtd( valid_, (xmlDoc*)doc->cobj(), dtd_->cobj() );
 
-  if(res == 0)
+  if (!res)
   {
     check_for_exception();
-
-    throw validity_error("Document failed Dtd validation");
+    throw validity_error("Document failed DTD validation\n" + format_xml_error());
   }
 
   return res;
 }
 
 } // namespace xmlpp
-
