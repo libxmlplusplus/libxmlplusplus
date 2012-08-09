@@ -54,9 +54,10 @@ int main(int argc, char* argv[])
       std::cerr << "Validation successful (not expected)" << std::endl;
       return_code = EXIT_FAILURE;
     }
-    catch( const xmlpp::validity_error& )
+    catch (const xmlpp::exception& ex)
     {
       std::cout << "Error validating the document (expected)" << std::endl;
+      std::cout << ex.what() << std::endl;
     }
 
     /* xmlpp::Element* nodeRoot2 = */document.create_root_node("example");
@@ -66,19 +67,20 @@ int main(int argc, char* argv[])
 
     try
     {
-      xmlpp::DtdValidator validator2( dtdfilepath );
-      validator2.validate( &document );
+      validator.validate( &document );
       std::cout << "Validation successful" << std::endl;
     }
-    catch( const xmlpp::validity_error& )
+    catch (const xmlpp::exception& ex)
     {
       std::cerr << "Error validating the document" << std::endl;
+      std::cerr << ex.what() << std::endl;
       return_code = EXIT_FAILURE;
     }
   }
-  catch( const xmlpp::parse_error& )
+  catch (const xmlpp::exception& ex)
   {
     std::cerr << "Error parsing the dtd" << std::endl;
+    std::cerr << ex.what() << std::endl;
     return_code = EXIT_FAILURE;
   }
   return return_code;

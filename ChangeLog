@@ -1,5 +1,13 @@
 2012-08-09  Kjell Ahlstedt  <kjell.ahlstedt@bredband.net>
 
+	Improve the DtdValidation and SchemaValidation example programs.
+
+	* examples/dtdvalidation/main.cc:
+	* examples/schemavalidation/main.cc: Print all information from all thrown
+	xmlpp exceptions.
+
+2012-08-09  Kjell Ahlstedt  <kjell.ahlstedt@bredband.net>
+
 	Validators: Improve the error handling.
 
 	* libxml++/validators/validator.[h|cc]:

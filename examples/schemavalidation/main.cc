@@ -51,24 +51,29 @@ int main(int argc, char* argv[])
 
   try
   {
-    xmlpp::DomParser       parser(docfilepath);
     xmlpp::SchemaValidator validator(schemafilepath);
+    Glib::ustring phase;
 
     try
     {
+      phase = "parsing";
+      xmlpp::DomParser parser(docfilepath);
+
+      phase = "validating";
       validator.validate( parser.get_document() );
       std::cout << "Valid document" << std::endl;
     }
-    catch( const xmlpp::validity_error& error)
+    catch (const xmlpp::exception& ex)
     {
-      std::cerr << "Error validating the document" << std::endl;
-      std::cerr << error.what();
+      std::cerr << "Error " << phase << " the document" << std::endl;
+      std::cerr << ex.what() << std::endl;
       return EXIT_FAILURE;
     }
   }
-  catch( const xmlpp::parse_error& error)
+  catch (const xmlpp::exception& ex)
   {
-    std::cerr << "Error parsing the schema: " << error.what() << std::endl;
+    std::cerr << "Error parsing the schema" << std::endl;
+    std::cerr << ex.what() << std::endl;
     return EXIT_FAILURE;
   }
   return EXIT_SUCCESS;
