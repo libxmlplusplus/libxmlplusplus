@@ -56,9 +56,7 @@ class Document : NonCopyable
     virtual ~Init();
   };
 
-  friend class DomParser;
   friend class SaxParser;
-  friend class Schema;
 
 public:
   /** Create a new document.
@@ -67,10 +65,13 @@ public:
    */
   explicit Document(const Glib::ustring& version = "1.0");
   
-protected:
-  Document(_xmlDoc* doc);
+  /** Create a new C++ wrapper for an xmlDoc struct.
+   * The created xmlpp::Document takes ownership of the xmlDoc.
+   * When the Document is deleted, so is the xmlDoc and all its nodes.
+   * @param doc A pointer to an xmlDoc struct. Must not be <tt>0</tt>.
+   */
+  explicit Document(_xmlDoc* doc);
     
-public:
   virtual ~Document();
 
   /** @return The encoding used in the source from which the document has been loaded.

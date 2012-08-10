@@ -1,3 +1,10 @@
+2012-08-10  Kjell Ahlstedt  <kjell.ahlstedt@bredband.net>
+
+	Document: Make the Document(xmlDoc*) constructor public.
+
+	* libxml++/document.h: Make the Document(xmlDoc*) constructor public.
+	Remove friend declarations that become unnecessary. Bug #668980.
+
 2012-08-09  Kjell Ahlstedt  <kjell.ahlstedt@bredband.net>
 
 	Improve the DtdValidation and SchemaValidation example programs.
