@@ -10,6 +10,7 @@
 
 #include <memory> //For auto_ptr.
 #include <map>
+#include <glibmm/threads.h> // For Glib::Threads::Mutex. Needed until the next API/ABI break.
 
 //TODO: See several TODOs in parser.h for changes at the next API/ABI break.
 
@@ -30,15 +31,20 @@ struct ExtraParserData
 };
 
 std::map<const xmlpp::Parser*, ExtraParserData> extra_parser_data;
+// Different Parser instances may run in different threads.
+// Accesses to extra_parser_data must be thread-safe.
+Glib::Threads::Mutex extra_parser_data_mutex;
 
 void on_parser_error(const xmlpp::Parser* parser, const Glib::ustring& message)
 {
+  Glib::Threads::Mutex::Lock lock(extra_parser_data_mutex);
   //Throw an exception later when the whole message has been received:
   extra_parser_data[parser].parser_error_ += message;
 }
 
 void on_parser_warning(const xmlpp::Parser* parser, const Glib::ustring& message)
 {
+  Glib::Threads::Mutex::Lock lock(extra_parser_data_mutex);
   //Throw an exception later when the whole message has been received:
   extra_parser_data[parser].parser_warning_ += message;
 }
@@ -56,6 +62,7 @@ Parser::~Parser()
 {
   release_underlying();
   delete exception_;
+  Glib::Threads::Mutex::Lock lock(extra_parser_data_mutex);
   extra_parser_data.erase(this);
 }
 
@@ -81,12 +88,14 @@ bool Parser::get_substitute_entities() const
 
 void Parser::set_throw_messages(bool val)
 {
+  Glib::Threads::Mutex::Lock lock(extra_parser_data_mutex);
   extra_parser_data[this].throw_parser_messages_ = val;
   extra_parser_data[this].throw_validity_messages_ = val;
 }
 
 bool Parser::get_throw_messages() const
 {
+  Glib::Threads::Mutex::Lock lock(extra_parser_data_mutex);
   return extra_parser_data[this].throw_parser_messages_;
 }
 
@@ -101,6 +110,7 @@ void Parser::initialize_context()
   //Turn on/off validation:
   context_->validate = (validate_ ? 1 : 0);
 
+  Glib::Threads::Mutex::Lock lock(extra_parser_data_mutex);
   if (context_->sax && extra_parser_data[this].throw_parser_messages_)
   {
     //Tell the parser context about the callbacks.
@@ -164,6 +174,7 @@ void Parser::check_for_validity_messages() // Also checks parser messages
   bool parser_msg = false;
   bool validity_msg = false;
 
+  Glib::Threads::Mutex::Lock lock(extra_parser_data_mutex);
   if (!extra_parser_data[this].parser_error_.empty())
   {
     parser_msg = true;

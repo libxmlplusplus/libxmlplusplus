@@ -1,3 +1,11 @@
+2012-08-28  Kjell Ahlstedt  <kjell.ahlstedt@bredband.net>
+
+	Parser: Make it thread-safe.
+
+	* configure.ac: Require glibmm-2.4 >= 2.32.0.
+	* libxml++/parsers/parser.cc: Protect all accesses to extra_parser_data with
+	a Glib::Threads::Mutex. Bug #681467.
+
 2012-08-10  Kjell Ahlstedt  <kjell.ahlstedt@bredband.net>
 
 	Document: Make the Document(xmlDoc*) constructor public.
