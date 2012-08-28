@@ -16,8 +16,121 @@
 #include <libxml++/io/ostreamoutputbuffer.h>
 
 #include <libxml/tree.h>
+#include <libxml/xinclude.h>
+#include <libxml/parser.h> // XML_PARSE_NOXINCNODE
 
 #include <iostream>
+#include <map>
+
+namespace // anonymous
+{
+typedef std::map<xmlpp::Node*, xmlElementType> NodeMap;
+
+// Find all C++ wrappers of 'node' and its descendants.
+// Compare xmlpp::Node::free_wrappers().
+void find_wrappers(xmlNode* node, NodeMap& node_map)
+{
+  if (!node)
+    return;
+    
+  //If an entity declaration contains an entity reference, there can be cyclic
+  //references between entity declarations and entity references. (It's not
+  //a tree.) We must avoid an infinite recursion.
+  //Compare xmlFreeNode(), which frees the children of all node types except
+  //XML_ENTITY_REF_NODE.
+  if (node->type != XML_ENTITY_REF_NODE)
+  {
+    // Walk the children list.
+    for (xmlNode* child = node->children; child; child = child->next)
+      find_wrappers(child, node_map);
+  }
+
+  // Find the local one
+  bool has_attributes = true;
+  switch (node->type)
+  {
+    // Node types that have no attributes.
+    // These are not represented by struct xmlNode.
+    case XML_DTD_NODE:
+    case XML_ATTRIBUTE_NODE:
+    case XML_ELEMENT_DECL:
+    case XML_ATTRIBUTE_DECL:
+    case XML_ENTITY_DECL:
+    case XML_DOCUMENT_NODE:
+      has_attributes = false;
+      break;
+    default:
+      break;
+  }
+
+  if (node->_private)
+    node_map[static_cast<xmlpp::Node*>(node->_private)] = node->type;
+
+  if (!has_attributes)
+    return;
+
+  //Walk the attributes list.
+  //Note that some "derived" structs have a different layout, so 
+  //_xmlNode::properties would be a nonsense value, leading to crashes
+  //(and shown as valgrind warnings), so we return above, to avoid 
+  //checking it here.
+  for (xmlAttr* attr = node->properties; attr; attr = attr->next)
+    find_wrappers(reinterpret_cast<xmlNode*>(attr), node_map);
+}
+
+// Remove from 'node_map' the pointers to the C++ wrappers that are found with
+// unchanged type in 'node' and its descendants.
+void remove_found_wrappers(xmlNode* node, NodeMap& node_map)
+{
+  if (!node)
+    return;
+    
+  if (node->type != XML_ENTITY_REF_NODE)
+  {
+    // Walk the children list.
+    for (xmlNode* child = node->children; child; child = child->next)
+      remove_found_wrappers(child, node_map);
+  }
+
+  // Find the local one
+  bool has_attributes = true;
+  switch (node->type)
+  {
+    // Node types that have no attributes
+    case XML_DTD_NODE:
+    case XML_ATTRIBUTE_NODE:
+    case XML_ELEMENT_DECL:
+    case XML_ATTRIBUTE_DECL:
+    case XML_ENTITY_DECL:
+    case XML_DOCUMENT_NODE:
+      has_attributes = false;
+      break;
+    default:
+      break;
+  }
+
+  if (node->_private)
+  {
+    const NodeMap::iterator iter =
+      node_map.find(static_cast<xmlpp::Node*>(node->_private));
+    if (iter != node_map.end())
+    {
+      if (iter->second == node->type)
+        node_map.erase(iter);
+      else
+        node->_private = 0; // node->type has changed. The wrapper will be deleted.
+    }
+  }
+
+  if (!has_attributes)
+    return;
+
+  // Walk the attributes list.
+  for (xmlAttr* attr = node->properties; attr; attr = attr->next)
+    remove_found_wrappers(reinterpret_cast<xmlNode*>(attr), node_map);
+
+}
+} // anonymous
 
 namespace xmlpp
 {
@@ -304,6 +417,44 @@ void Document::set_entity_declaration(const Glib::ustring& name, XmlEntityType t
     (const xmlChar*) content.c_str() );
   if (!entity)
     throw internal_error("Could not add entity declaration " + name);
+}
+
+int Document::process_xinclude(bool generate_xinclude_nodes)
+{
+  NodeMap node_map;
+
+  xmlNode* root = xmlDocGetRootElement(impl_);
+
+  find_wrappers(root, node_map);
+
+  xmlResetLastError();
+  const int n_substitutions = xmlXIncludeProcessTreeFlags(root,
+    generate_xinclude_nodes ? 0 : XML_PARSE_NOXINCNODE);
+
+  remove_found_wrappers(reinterpret_cast<xmlNode*>(impl_), node_map);
+  // Delete wrappers of nodes that have been deleted or have got their type changed.
+  for (NodeMap::iterator iter = node_map.begin(); iter != node_map.end(); ++iter)
+  {
+    switch (iter->second)
+    {
+    case XML_DTD_NODE:
+      delete reinterpret_cast<Dtd*>(iter->first);
+      break;
+    case XML_DOCUMENT_NODE:
+      delete reinterpret_cast<Document*>(iter->first);
+      break;
+    default:
+      delete iter->first; // Node*
+      break;
+    }
+  }
+
+  if (n_substitutions < 0)
+  {
+    throw exception("Couldn't process XInclude\n" + format_xml_error());
+  }
+
+  return n_substitutions;
 }
 
 _xmlEntity* Document::get_entity(const Glib::ustring& name)

@@ -1,0 +1,7 @@
+<?xml version="1.0"?>
+<document xmlns:xi="http://www.w3.org/2001/XInclude">
+  <p><xi:include href="include1.txt" parse="text">
+    <xi:fallback>Did not find include1.txt.</xi:fallback>
+  </xi:include></p>
+  <xi:include href="include2.xml"/>
+</document>

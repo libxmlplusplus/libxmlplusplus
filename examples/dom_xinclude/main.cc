@@ -1,0 +1,198 @@
+/* Copyright (C) 2012 The libxml++ development team
+ *
+ * This file is part of libxml++.
+ *
+ * This library is free software; you can redistribute it and/or
+ * modify it under the terms of the GNU Lesser General Public
+ * License as published by the Free Software Foundation; either
+ * version 2.1 of the License, or (at your option) any later version.
+ *
+ * This library is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+ * Lesser General Public License for more details.
+ *
+ * You should have received a copy of the GNU Lesser General Public
+ * License along with this library. If not, see <http://www.gnu.org/licenses/>.
+ */
+
+#ifdef HAVE_CONFIG_H
+#include <config.h>
+#endif
+
+#include <libxml++/libxml++.h>
+#include <iostream>
+#include <stdlib.h>
+
+void print_node(const xmlpp::Node* node, unsigned int indentation = 0)
+{
+  const Glib::ustring indent(indentation, ' ');
+
+  const xmlpp::ContentNode* nodeContent = dynamic_cast<const xmlpp::ContentNode*>(node);
+  const xmlpp::TextNode* nodeText = dynamic_cast<const xmlpp::TextNode*>(node);
+  const xmlpp::CommentNode* nodeComment = dynamic_cast<const xmlpp::CommentNode*>(node);
+
+  //Let's ignore the indenting - you don't always want to do this.
+  if (nodeText && nodeText->is_white_space())
+    return;
+
+  const Glib::ustring nodename = node->get_name();
+
+  if (!nodeText && !nodeComment && !nodename.empty()) //Let's not say "name: text".
+  {
+    const Glib::ustring namespace_prefix = node->get_namespace_prefix();
+
+    std::cout << indent << "Node name = ";
+    if (!namespace_prefix.empty())
+      std::cout << namespace_prefix << ":";
+    std::cout << nodename << std::endl;
+  }
+  else if (nodeText) //Let's say when it's text.
+  {
+    std::cout << indent << "Text Node" << std::endl;
+  }
+
+  //Treat the various node types differently:
+  if (nodeText)
+  {
+    std::cout << indent << "text = \"" << nodeText->get_content() << "\"" << std::endl;
+  }
+  else if (nodeComment)
+  {
+    std::cout << indent << "comment = " << nodeComment->get_content() << std::endl;
+  }
+  else if (nodeContent)
+  {
+    std::cout << indent << "content = " << nodeContent->get_content() << std::endl;
+  }
+  else if (const xmlpp::Element* nodeElement = dynamic_cast<const xmlpp::Element*>(node))
+  {
+    //A normal Element node:
+    std::cout << indent << "     Element line = " << node->get_line() << std::endl;
+
+    //Print attributes:
+    const xmlpp::Element::AttributeList attributes = nodeElement->get_attributes();
+    for (xmlpp::Element::AttributeList::const_iterator iter = attributes.begin(); iter != attributes.end(); ++iter)
+    {
+      const xmlpp::Attribute* attribute = *iter;
+      const Glib::ustring namespace_prefix = attribute->get_namespace_prefix();
+
+      std::cout << indent << "  Attribute ";
+      if (!namespace_prefix.empty())
+        std::cout << namespace_prefix  << ":";
+      std::cout << attribute->get_name() << " = " << attribute->get_value() << std::endl;
+    }
+
+    const xmlpp::Attribute* attribute = nodeElement->get_attribute("title");
+    if (attribute)
+    {
+      std::cout << indent << "title = " << attribute->get_value() << std::endl;
+    }
+  }
+  else if (dynamic_cast<const xmlpp::XIncludeStart*>(node))
+  {
+    std::cout << indent << "     " << "XIncludeStart line = " << node->get_line() << std::endl;
+  }
+  else if (dynamic_cast<const xmlpp::XIncludeEnd*>(node))
+  {
+    std::cout << indent << "     " << "XIncludeEnd" << std::endl;
+  }
+
+  if (!nodeContent)
+  {
+    //Recurse through child nodes:
+    xmlpp::Node::NodeList list = node->get_children();
+    for (xmlpp::Node::NodeList::iterator iter = list.begin(); iter != list.end(); ++iter)
+    {
+      print_node(*iter, indentation + 2); //recursive
+    }
+  }
+}
+
+int main(int argc, char* argv[])
+{
+  // Set the global C++ locale to the user-configured locale,
+  // so we can use std::cout with UTF-8, via Glib::ustring, without exceptions.
+  std::locale::global(std::locale(""));
+
+  bool validate = false;
+  bool set_throw_messages = false;
+  bool throw_messages = false;
+  bool substitute_entities = true;
+  bool generate_xinclude_nodes = true;
+
+  int argi = 1;
+  while (argc > argi && *argv[argi] == '-') // option
+  {
+    switch (*(argv[argi]+1))
+    {
+      case 'v':
+        validate = true;
+        break;
+      case 't':
+       set_throw_messages = true;
+       throw_messages = true;
+       break;
+      case 'e':
+       set_throw_messages = true;
+       throw_messages = false;
+       break;
+      case 'E':
+        substitute_entities = false;
+        break;
+      case 'X':
+        generate_xinclude_nodes = false;
+        break;
+     default:
+       std::cout << "Usage: " << argv[0] << " [-v] [-t] [-e] [-x] [filename]" << std::endl
+                 << "       -v  Validate" << std::endl
+                 << "       -t  Throw messages in an exception" << std::endl
+                 << "       -e  Write messages to stderr" << std::endl
+                 << "       -E  Do not substitute entities" << std::endl
+                 << "       -X  Do not generate XInclude nodes" << std::endl;
+       return EXIT_FAILURE;
+     }
+     argi++;
+  }
+  std::string filepath;
+  if (argc > argi)
+    filepath = argv[argi]; //Allow the user to specify a different XML file to parse.
+  else
+    filepath = "example.xml";
+ 
+  try
+  {
+    xmlpp::DomParser parser;
+    if (validate)
+      parser.set_validate();
+    if (set_throw_messages)
+      parser.set_throw_messages(throw_messages);
+    //We can have the text resolved/unescaped automatically.
+    parser.set_substitute_entities(substitute_entities);
+    parser.parse_file(filepath);
+    if (parser)
+    {
+      //Walk the tree:
+      xmlpp::Node* pNode = parser.get_document()->get_root_node(); //deleted by DomParser.
+      print_node(pNode);
+
+      std::cout << std::endl << ">>>>> Number of XInclude substitutions: "
+                << parser.get_document()->process_xinclude(generate_xinclude_nodes)
+                << std::endl << std::endl;
+      pNode = parser.get_document()->get_root_node();
+      print_node(pNode);
+
+      const Glib::ustring whole = parser.get_document()->write_to_string();
+      std::cout << std::endl << ">>>>> XML after XInclude processing: " << std::endl
+                << whole << std::endl;
+    }
+  }
+  catch (const std::exception& ex)
+  {
+    std::cerr << "Exception caught: " << ex.what() << std::endl;
+    return EXIT_FAILURE;
+  }
+
+  return EXIT_SUCCESS;
+}
+

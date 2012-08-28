@@ -53,11 +53,15 @@
 #include <libxml++/parsers/saxparser.h>
 #include <libxml++/parsers/textreader.h>
 #include <libxml++/nodes/node.h>
+#include <libxml++/nodes/cdatanode.h>
 #include <libxml++/nodes/commentnode.h>
 #include <libxml++/nodes/element.h>
 #include <libxml++/nodes/entitydeclaration.h>
 #include <libxml++/nodes/entityreference.h>
+#include <libxml++/nodes/processinginstructionnode.h>
 #include <libxml++/nodes/textnode.h>
+#include <libxml++/nodes/xincludeend.h>
+#include <libxml++/nodes/xincludestart.h>
 #include <libxml++/attribute.h>
 #include <libxml++/attributedeclaration.h>
 #include <libxml++/attributenode.h>

@@ -216,6 +216,22 @@ public:
                                       const Glib::ustring& publicId, const Glib::ustring& systemId,
                                       const Glib::ustring& content);
 
+  /** Perform XInclude substitution on the XML document.
+   * XInclude substitution may both add and delete nodes in the document,
+   * as well as change the type of some nodes. All pointers to deleted nodes
+   * and nodes whose type is changed become invalid.
+   * (The node type represented by an underlying xmlNode struct can change.
+   * The type of a C++ wrapper can't change. The old wrapper is deleted, and a
+   * new one is created if and when it's required.)
+   *
+   * @newin{2,36}
+   *
+   * @param generate_xinclude_nodes Generate XIncludeStart and XIncludeEnd nodes.
+   * @returns The number of substitutions.
+   * @throws xmlpp::exception
+   */
+  int process_xinclude(bool generate_xinclude_nodes = true);
+
   ///Access the underlying libxml implementation.
   _xmlDoc* cobj();
 

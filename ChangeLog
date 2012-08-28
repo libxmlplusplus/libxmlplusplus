@@ -1,5 +1,24 @@
 2012-08-28  Kjell Ahlstedt  <kjell.ahlstedt@bredband.net>
 
+	Add XInclude processing.
+
+	* Makefile.am: Add XIncludeStart and XIncludeEnd nodes.
+	* examples/Makefile.am: Add dom_xinclude example.
+	* examples/README: Add dom_xinclude example and other missing examples.
+	* examples/dom_xinclude/example.xml:
+	* examples/dom_xinclude/include1.txt:
+	* examples/dom_xinclude/include2.xml:
+	* examples/dom_xinclude/main.cc: New files.
+	* libxml++/document.[h|cc]: Add process_xinclude().
+	* libxml++/libxml++.h: Add new header files.
+	* libxml++/nodes/node.cc: create_wrapper(): Create XIncludeStart and
+	XIncludeEnd nodes.
+	* libxml++/nodes/xincludeend.[h|cc]:
+	* libxml++/nodes/xincludestart.[h|cc]: New files.
+	* .gitignore: Ignore /examples/dom_xinclude/dom_xinclude. Bug #338521.
+
+2012-08-28  Kjell Ahlstedt  <kjell.ahlstedt@bredband.net>
+
 	Parser: Make it thread-safe.
 
 	* configure.ac: Require glibmm-2.4 >= 2.32.0.

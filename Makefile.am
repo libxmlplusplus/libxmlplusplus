@@ -44,7 +44,9 @@ h_nodes_sources_public = libxml++/nodes/cdatanode.h \
 	libxml++/nodes/entityreference.h \
 	libxml++/nodes/node.h \
 	libxml++/nodes/processinginstructionnode.h \
-	libxml++/nodes/textnode.h
+	libxml++/nodes/textnode.h \
+	libxml++/nodes/xincludeend.h \
+	libxml++/nodes/xincludestart.h
 h_parsers_sources_public = libxml++/parsers/parser.h \
 	libxml++/parsers/saxparser.h \
 	libxml++/parsers/domparser.h \
@@ -84,6 +86,8 @@ cc_sources = libxml++/attribute.cc \
 	libxml++/nodes/node.cc \
 	libxml++/nodes/processinginstructionnode.cc \
 	libxml++/nodes/textnode.cc \
+	libxml++/nodes/xincludeend.cc \
+	libxml++/nodes/xincludestart.cc \
 	libxml++/parsers/parser.cc \
 	libxml++/parsers/saxparser.cc \
 	libxml++/parsers/domparser.cc \

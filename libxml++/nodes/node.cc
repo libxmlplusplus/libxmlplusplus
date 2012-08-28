@@ -12,6 +12,8 @@
 #include <libxml++/nodes/commentnode.h>
 #include <libxml++/nodes/cdatanode.h>
 #include <libxml++/nodes/processinginstructionnode.h>
+#include <libxml++/nodes/xincludestart.h>
+#include <libxml++/nodes/xincludeend.h>
 #include <libxml++/exceptions/internal_error.h>
 #include <libxml++/attributedeclaration.h>
 #include <libxml++/attributenode.h>
@@ -638,6 +640,16 @@ void Node::create_wrapper(xmlNode* node)
     case XML_ENTITY_REF_NODE:
     {
       node->_private = new xmlpp::EntityReference(node);
+      break;
+    }
+    case XML_XINCLUDE_START:
+    {
+      node->_private = new xmlpp::XIncludeStart(node);
+      break;
+    }
+    case XML_XINCLUDE_END:
+    {
+      node->_private = new xmlpp::XIncludeEnd(node);
       break;
     }
     case XML_DOCUMENT_NODE:

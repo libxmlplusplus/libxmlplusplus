@@ -25,6 +25,7 @@ check_PROGRAMS = \
   dom_parser/dom_parser \
   dom_parser_raw/dom_parser_raw \
   dom_read_write/dom_read_write \
+  dom_xinclude/dom_xinclude \
   dom_xpath/dom_xpath \
   dtdvalidation/dtdvalidation \
   import_node/import_node \
@@ -49,6 +50,8 @@ dom_parser_raw_dom_parser_raw_SOURCES = \
   dom_parser_raw/main.cc
 dom_read_write_dom_read_write_SOURCES = \
   dom_read_write/main.cc
+dom_xinclude_dom_xinclude_SOURCES = \
+  dom_xinclude/main.cc
 dom_xpath_dom_xpath_SOURCES = \
   dom_xpath/main.cc
 dtdvalidation_dtdvalidation_SOURCES = \
@@ -96,6 +99,9 @@ dist_noinst_DATA = \
   dom_read_write/README \
   dom_read_write/example.xml \
   dom_read_write/example.dtd \
+  dom_xinclude/example.xml \
+  dom_xinclude/include1.txt \
+  dom_xinclude/include2.xml \
   dom_xpath/example.xml \
   dtdvalidation/example.dtd \
   import_node/example1.xml \

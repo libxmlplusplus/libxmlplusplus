@@ -1,23 +1,36 @@
-Examples: Enable building with the --enable-examples argument to configure
+Examples: Built and executed by "make check"
 
 Simple parsing examples:
   dom_parser - Shows how to parse an XML Document with the DOM parser.
   sax_parser - Shows how to parse an XML Document with the SAX parser.
+  textreader - Shows how to parse an XML Document with the TextReader parser.
 
-Building XML doxuments:
+Building XML documents:
   dom_build - Shows how to build an XML document using the DOM Parser API.
-  sax_parser_build_dom - Shows how to parse an XML document with the SAX parser, building a separate custom DOM as you parse.
-  dom_read_write: Reads an XML document with the DOM parser and writes it again. The output should be the same as the input.
+  sax_parser_build_dom - Shows how to parse an XML document with the SAX parser,
+                         building a separate custom DOM as you parse.
+  dom_read_write: Reads an XML document with the DOM parser and writes it again.
+                  The output should be the same as the input.
   import_node: Adds a part of an XML document to another, using the DOM parser.
+  dom_xinclude: Adds the contents of other files to an XML document, using the
+                DOM parser and XInclude processing.
   
 Entity parsing:
-  dom_parser_entities: Shows how to detect entity references when using the DOM parser.
-  sax_parser_entities: Shows how to detect (and maybe resolve) entity references when using the SAX Parser.
+  dom_parse_entities: Shows how to detect entity references when using the DOM parser.
+  sax_parser_entities: Shows how to detect (and maybe resolve) entity references
+                       when using the SAX Parser.
 
 XPath:
-  dom_xpath: Shows how to get XML nodes by specifying them with an XPath, when using the DOM parser.
+  dom_xpath: Shows how to get XML nodes by specifying them with an XPath,
+             when using the DOM parser.
 
 Others:
-  sax_exception: Shows how to implement a libxml++ exception that can be thrown by your SAX parser.
-  dom_parser_raw: Test parse_memory_raw() by converting a UTF-8-encoded XML document to UCS-2 and passing the raw memory to the parser.
+  sax_exception: Shows how to implement a libxml++ exception that can be thrown
+                 by your SAX parser.
+  dom_parser_raw: Test parse_memory_raw() by converting a UTF-8-encoded XML document
+                  to UCS-2 and passing the raw memory to the parser.
+  dtdvalidation: Shows how to parse a DTD (document type definition),
+                 and use it for validating a document.
+  schemavalidation: Shows how to parse a schema definition, and use it for
+                    validating a document, using the DOM parser.
 
