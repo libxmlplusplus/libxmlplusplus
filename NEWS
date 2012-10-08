@@ -1,3 +1,25 @@
+2.35.4 (unstable):
+
+* Document:
+  - Add process_xinclude(), using new XIncludeStart
+    and XIncludeEnd classes, derived from Node.
+    (Kjell Ahlsted) Bug #338521.
+  - Make the Document(xmlDoc*) constructor public.
+    (Kjell Ahlsted) Bug #668980.
+* Parser: Make it thread-safe.
+  (Kjell Ahlstedt) Bug #681467.
+* Schema::set_document(): If the argument 'document' is 0 then
+  create an empty document, as the documentation says.
+  (Kjell Ahlstedt)
+* Improve the error handling.
+  (Kjell Ahlstedt) Bug #635846.
+* Documentation:
+  - Add incremental parsing to the SaxParser example program.
+  - DtdValidation and SchemaValidation: Print all exception information.
+  - Improve error descriptions.
+    (Kjell Ahlstedt)
+
+
 2.35.3 (unstable):
 
 * Node:
