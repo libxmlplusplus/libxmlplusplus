@@ -107,8 +107,19 @@ void Parser::initialize_context()
   // could cause this to use the wrong settings:
   context_->linenumbers = 1; // TRUE - This is the default anyway.
 
-  //Turn on/off validation:
-  context_->validate = (validate_ ? 1 : 0);
+  //Turn on/off validation and entity substitution.
+  int options = context_->options;
+  if (validate_)
+    options |= XML_PARSE_DTDVALID;
+  else
+    options &= ~XML_PARSE_DTDVALID;
+
+  if (substitute_entities_)
+    options |= XML_PARSE_NOENT;
+  else
+    options &= ~XML_PARSE_NOENT;
+
+  xmlCtxtUseOptions(context_, options);
 
   Glib::Threads::Mutex::Lock lock(extra_parser_data_mutex);
   if (context_->sax && extra_parser_data[this].throw_parser_messages_)
@@ -129,9 +140,6 @@ void Parser::initialize_context()
 
   //Allow the callback_validity_*() methods to retrieve the C++ instance:
   context_->_private = this;
-
-  //Whether or not we substitute entities:
-  context_->replaceEntities = (substitute_entities_ ? 1 : 0);
 
   //Clear these temporary buffers too:
   extra_parser_data[this].parser_error_.erase();
