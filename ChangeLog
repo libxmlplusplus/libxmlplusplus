@@ -1,5 +1,14 @@
 2012-10-10  Kjell Ahlstedt  <kjell.ahlstedt@bredband.net>
 
+	Require libxml-2.0 >= 2.7.3.
+
+	* configure.ac: Require libxml-2.0 >= 2.7.3.
+	Don't know if it's really necessary, but 2.7.2 from 2008-10-03 is the oldest
+	release available at ftp://xmlsoft.org/libxml2, and 2.7.2 contains a bug that
+	makes examples/import_node segfault.
+
+2012-10-10  Kjell Ahlstedt  <kjell.ahlstedt@bredband.net>
+
 	Parser::initialize_context(): Call xmlCtxtUseOptions().
 
 	* libxml++/parsers/parser.cc: initialize_context(): Call xmlCtxtUseOptions()
