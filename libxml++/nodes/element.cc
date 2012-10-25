@@ -227,8 +227,15 @@ void Element::set_namespace_declaration(const Glib::ustring& ns_uri, const Glib:
   xmlNs* ns = xmlNewNs(cobj(), (const xmlChar*)(ns_uri.empty() ? 0 : ns_uri.c_str()),
                        (const xmlChar*)(ns_prefix.empty() ? 0 : ns_prefix.c_str()) );
   if (!ns)
-    throw exception("Could not add namespace declaration with URI=" + ns_uri +
-                    ", prefix=" + ns_prefix);
+  {
+    // Not an error, if we try to assign the same uri to the prefix once again.
+    ns = xmlSearchNs(cobj()->doc, cobj(),
+                     (const xmlChar*)(ns_prefix.empty() ? 0 : ns_prefix.c_str()));
+    const char* const previous_href = (ns && ns->href) ? (const char*)ns->href : "";
+    if (!ns || ns_uri != previous_href)
+      throw exception("Could not add namespace declaration with URI=" + ns_uri +
+                      ", prefix=" + ns_prefix);
+  }
   //We ignore the returned xmlNs*. It's owned by the XML_ELEMENT_NODE.
 }
 

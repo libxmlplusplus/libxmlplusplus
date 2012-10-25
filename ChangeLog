@@ -1,3 +1,11 @@
+2012-10-25  Kjell Ahlstedt  <kjell.ahlstedt@bredband.net>
+
+	Element::set_namespace_declaration(): No error to set the same URI twice.
+
+	* libxml++/nodes/element.[h|cc]: Don't throw an exception from
+	set_namespace_declaration(), if a namespace prefix is assigned the same URI
+	twice. Bug #635846, comment 27.
+
 2012-10-10  Kjell Ahlstedt  <kjell.ahlstedt@bredband.net>
 
 	Require libxml-2.0 >= 2.7.3.

@@ -34,7 +34,7 @@ public:
    * @param ns_prefix The namespace prefix. If no prefix is specified then the
    *                  namespace URI will be the default namespace.
    * @throws xmlpp::exception If a new namespace node cannot be created,
-   *         e.g. because a namespace with the same prefix already exists.
+   *         e.g. because a namespace with the same prefix but another URI already exists.
    */
   void set_namespace_declaration(const Glib::ustring& ns_uri, const Glib::ustring& ns_prefix = Glib::ustring());
 
