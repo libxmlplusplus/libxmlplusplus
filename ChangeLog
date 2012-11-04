@@ -1,3 +1,5 @@
+2.36.0:
+
 2012-10-25  Kjell Ahlstedt  <kjell.ahlstedt@bredband.net>
 
 	Element::set_namespace_declaration(): No error to set the same URI twice.

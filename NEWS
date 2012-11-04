@@ -1,3 +1,13 @@
+2.36.0 (unstable):
+
+* Element::set_namespace_declaration():
+  It is not an error to set the same URI twice.
+  (Kjell Ahlstedt) Bug #635846, comment 27.
+* Require libxml-2.0 >= 2.7.3.
+  (Kjell Ahlstedt)
+* Parser::initialize_context(): Call xmlCtxtUseOptions().
+  (Kjell Ahlstedt)
+
 2.35.4 (unstable):
 
 * Document:
