@@ -23,9 +23,10 @@
 #include <config.h>
 #endif
 
+#include "../testutilities.h"
 #include <libxml++/libxml++.h>
 #include <iostream>
-#include <stdlib.h>
+#include <cstdlib>
 
 void print_node(const xmlpp::Node* node, unsigned int indentation = 0)
 {
@@ -47,8 +48,8 @@ void print_node(const xmlpp::Node* node, unsigned int indentation = 0)
 
     std::cout << indent << "Node name = ";
     if(!namespace_prefix.empty())
-      std::cout << namespace_prefix << ":";
-    std::cout << nodename << std::endl;
+      std::cout << CatchConvertError(namespace_prefix) << ":";
+    std::cout << CatchConvertError(nodename) << std::endl;
   }
   else if(nodeText) //Let's say when it's text. - e.g. let's say what that white space is.
   {
@@ -58,15 +59,15 @@ void print_node(const xmlpp::Node* node, unsigned int indentation = 0)
   //Treat the various node types differently: 
   if(nodeText)
   {
-    std::cout << indent << "text = \"" << nodeText->get_content() << "\"" << std::endl;
+    std::cout << indent << "text = \"" << CatchConvertError(nodeText->get_content()) << "\"" << std::endl;
   }
   else if(nodeComment)
   {
-    std::cout << indent << "comment = " << nodeComment->get_content() << std::endl;
+    std::cout << indent << "comment = " << CatchConvertError(nodeComment->get_content()) << std::endl;
   }
   else if(nodeContent)
   {
-    std::cout << indent << "content = " << nodeContent->get_content() << std::endl;
+    std::cout << indent << "content = " << CatchConvertError(nodeContent->get_content()) << std::endl;
   }
   else if(const xmlpp::Element* nodeElement = dynamic_cast<const xmlpp::Element*>(node))
   {
@@ -84,14 +85,15 @@ void print_node(const xmlpp::Node* node, unsigned int indentation = 0)
 
       std::cout << indent << "  Attribute ";
       if(!namespace_prefix.empty())
-        std::cout << namespace_prefix  << ":";
-      std::cout << attribute->get_name() << " = " << attribute->get_value() << std::endl;
+        std::cout << CatchConvertError(namespace_prefix) << ":";
+      std::cout << CatchConvertError(attribute->get_name()) << " = "
+                << CatchConvertError(attribute->get_value()) << std::endl;
     }
 
     const xmlpp::Attribute* attribute = nodeElement->get_attribute("title");
     if(attribute)
     {
-      std::cout << indent << "title = " << attribute->get_value() << std::endl;
+      std::cout << indent << "title = " << CatchConvertError(attribute->get_value()) << std::endl;
     }
   }
   
@@ -108,8 +110,8 @@ void print_node(const xmlpp::Node* node, unsigned int indentation = 0)
 
 int main(int argc, char* argv[])
 {
-  // Set the global C++ locale to the user-configured locale,
-  // so we can use std::cout with UTF-8, via Glib::ustring, without exceptions.
+  // Set the global C++ locale to the user-specified locale. Then we can
+  // hopefully use std::cout with UTF-8, via Glib::ustring, without exceptions.
   std::locale::global(std::locale(""));
 
   bool validate = false;
