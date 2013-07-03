@@ -1,0 +1,2839 @@
+2.36.0:
+
+2012-10-25  Kjell Ahlstedt  <kjell.ahlstedt@bredband.net>
+
+	Element::set_namespace_declaration(): No error to set the same URI twice.
+
+	* libxml++/nodes/element.[h|cc]: Don't throw an exception from
+	set_namespace_declaration(), if a namespace prefix is assigned the same URI
+	twice. Bug #635846, comment 27.
+
+2012-10-10  Kjell Ahlstedt  <kjell.ahlstedt@bredband.net>
+
+	Require libxml-2.0 >= 2.7.3.
+
+	* configure.ac: Require libxml-2.0 >= 2.7.3.
+	Don't know if it's really necessary, but 2.7.2 from 2008-10-03 is the oldest
+	release available at ftp://xmlsoft.org/libxml2, and 2.7.2 contains a bug that
+	makes examples/import_node segfault.
+
+2012-10-10  Kjell Ahlstedt  <kjell.ahlstedt@bredband.net>
+
+	Parser::initialize_context(): Call xmlCtxtUseOptions().
+
+	* libxml++/parsers/parser.cc: initialize_context(): Call xmlCtxtUseOptions()
+	instead of setting context_->validate and replaceEntities.
+	xmlCtxtUseOptions() does that and more.
+
+2.35.4:
+
+2012-08-28  Kjell Ahlstedt  <kjell.ahlstedt@bredband.net>
+
+	Add XInclude processing.
+
+	* Makefile.am: Add XIncludeStart and XIncludeEnd nodes.
+	* examples/Makefile.am: Add dom_xinclude example.
+	* examples/README: Add dom_xinclude example and other missing examples.
+	* examples/dom_xinclude/example.xml:
+	* examples/dom_xinclude/include1.txt:
+	* examples/dom_xinclude/include2.xml:
+	* examples/dom_xinclude/main.cc: New files.
+	* libxml++/document.[h|cc]: Add process_xinclude().
+	* libxml++/libxml++.h: Add new header files.
+	* libxml++/nodes/node.cc: create_wrapper(): Create XIncludeStart and
+	XIncludeEnd nodes.
+	* libxml++/nodes/xincludeend.[h|cc]:
+	* libxml++/nodes/xincludestart.[h|cc]: New files.
+	* .gitignore: Ignore /examples/dom_xinclude/dom_xinclude. Bug #338521.
+
+2012-08-28  Kjell Ahlstedt  <kjell.ahlstedt@bredband.net>
+
+	Parser: Make it thread-safe.
+
+	* configure.ac: Require glibmm-2.4 >= 2.32.0.
+	* libxml++/parsers/parser.cc: Protect all accesses to extra_parser_data with
+	a Glib::Threads::Mutex. Bug #681467.
+
+2012-08-10  Kjell Ahlstedt  <kjell.ahlstedt@bredband.net>
+
+	Document: Make the Document(xmlDoc*) constructor public.
+
+	* libxml++/document.h: Make the Document(xmlDoc*) constructor public.
+	Remove friend declarations that become unnecessary. Bug #668980.
+
+2012-08-09  Kjell Ahlstedt  <kjell.ahlstedt@bredband.net>
+
+	Improve the DtdValidation and SchemaValidation example programs.
+
+	* examples/dtdvalidation/main.cc:
+	* examples/schemavalidation/main.cc: Print all information from all thrown
+	xmlpp exceptions.
+
+2012-08-09  Kjell Ahlstedt  <kjell.ahlstedt@bredband.net>
+
+	Validators: Improve the error handling.
+
+	* libxml++/validators/validator.[h|cc]:
+	* libxml++/validators/dtdvalidator.[h|cc]:
+	* libxml++/validators/schemavalidator.[h|cc]: Check more return codes from
+	libxml2 functions. Improve the description of member functions in the
+	reference documentation. Bug #635846.
+
+2012-08-07  Kjell Ahlstedt  <kjell.ahlstedt@bredband.net>
+
+	Add incremental parsing to the SaxParser example program.
+
+	* examples/sax_parser/main.cc: Uncomment and correct the code that shows
+	incremental parsing with SaxParser::parse_chunk().
+
+2012-08-07  Kjell Ahlstedt  <kjell.ahlstedt@bredband.net>
+
+	Parsers: Improve the error handling.
+
+	* libxml++/parsers/domparser.[h|cc]:
+	* libxml++/parsers/saxparser.[h|cc]:
+	* libxml++/parsers/textreader.[h|cc]: Check more return codes from libxml2
+	functions. Improve the description of errors in the reference documentation.
+	Bug #635846.
+
+2012-08-07  Kjell Ahlstedt  <kjell.ahlstedt@bredband.net>
+
+	Document, Element, Node: Remove unnecessary tests for null pointers.
+
+	* libxml++/document.cc:
+	* libxml++/nodes/element.cc:
+	* libxml++/nodes/node.cc: Remove tests for null pointer before calling
+	xmlFreeNode(), which does nothing if given a null pointer. These unnecessary
+	tests were newly added when error handling was improved. Bug #635846.
+
+2012-08-05  Kjell Ahlstedt  <kjell.ahlstedt@bredband.net>
+
+	Schema::set_document(): Create empty document.
+
+	* libxml++/schema.[h|cc]: set_document(): If the argument 'document' is 0,
+	create an empty document, as the documentation says.
+
+2012-08-05  Kjell Ahlstedt  <kjell.ahlstedt@bredband.net>
+
+	Document, Schema: Improve the error handling.
+
+	* libxml++/document.[h|cc]:
+	* libxml++/schema.[h|cc]: Check more return codes from libxml2 functions.
+	Improve the description of errors in the reference documentation. Bug #635846.
+
+2012-08-02  Kjell Ahlstedt  <kjell.ahlstedt@bredband.net>
+
+	Element, Node: Improve the error handling.
+
+	* libxml++/nodes/element.[h|cc]:
+	* libxml++/nodes/node.[h|cc]: Check more return codes from libxml2 functions.
+	Improve the description of errors in the reference documentation. Bug #635846.
+
+2.35.3:
+
+2012-06-19  Kjell Ahlstedt  <kjell.ahlstedt@bredband.net>
+ 
+	Add examples/Makefile.am. Let 'make check' run the examples.
+
+	* examples/Makefile.am: New file. Let 'make check' both compile and run the
+	example programs.
+	* Makefile.am: Call examples/Makefile. Move all 'examples' stuff to
+	examples/Makefile.am.
+	* configure.ac: Remove --enable-examples. Generate examples/Makefile.
+	* .gitignore: Ignore make-check-sh. Bug #678390.
+
+2012-06-19  Kjell Ahlstedt  <kjell.ahlstedt@bredband.net>
+ 
+	Example programs: Fix return codes and print errors on std::cerr.
+
+	* examples/*/main.cc: Return EXIT_FAILURE in case of failure. Print error
+	messages on std::cerr. The example programs can then be run by 'make check'.
+	Bug #678390.
+
+2012-04-20  Kjell Ahlstedt  <kjell.ahlstedt@bredband.net>
+ 
+	Node: Add functions eval_to_[boolean|number|string]().
+
+	* examples/dom_xpath/example.xml: Add an element with numeric value.
+	* examples/dom_xpath/main.cc: Add calls to the new functions.
+	* libxml++/nodes/node.[h|cc]:
+	Add the functions eval_to_[boolean|number|string](). Bug #316244.
+
+2012-04-19  Kjell Ahlstedt  <kjell.ahlstedt@bredband.net>
+
+	Node: Make the previous fix thread-safe.
+
+	* libxml++/nodes/node.cc: Delete the C++ wrapper of a deleted attribute node
+	without using xmlDeregisterNodeDefault. Bug #672992 comments 9-12.
+
+2012-04-19  Kjell Ahlstedt  <kjell.ahlstedt@bredband.net>
+
+	Node: Fix memory problems in import_node().
+
+	* libxml++/nodes/node.[h|cc]: Return added_node instead of imported_node,
+	which libxml2 may delete. Delete the C++ wrapper of a deleted attribute node.
+	* examples/import_node/example[1|2].xml:
+	* examples/import_node/main.cc: Import attributes and a text node which is
+	merged with an existing text node. Bug #672992.
+
+2012-04-12  Kjell Ahlstedt  <kjell.ahlstedt@bredband.net>
+
+	Define LIBXMLCPP_EXCEPTIONS_ENABLED unconditionally.
+
+	* configure.ac: Add AC_DEFINE([LIBXMLCPP_EXCEPTIONS_ENABLED],[1],...
+
+2012-03-30  Murray Cumming  <murrayc@murrayc.com>
+
+	Node: Check for a null pointer, to fix a scan-build warning.
+
+	* libxml++/nodes/node.cc: This seems unlikely.
+
+2.35.2:
+
+2012-03-21  Murray Cumming  <murrayc@murrayc.com>
+
+	Fix a warning found by clang++
+
+	* libxml++/parsers/textreader.h: PropertyReader is a class, not
+	a struct.
+
+2012-03-20  Murray Cumming  <murrayc@murrayc.com>
+
+	Remove the --disable-api-exceptions configure option.
+
+	And remove the #ifdefs and #else blocks from the code.
+	This is not used by anybody now, as far as I know, so this makes the
+	code easier to maintain.
+
+2012-03-20  Murray Cumming  <murrayc@murrayc.com>
+
+	A fix for the previous commit.
+
+	* libxml++/nodes/node.cc: get_first_child() const: Use the name 
+	parameter.
+
+2012-03-19  Murray Cumming  <murrayc@murrayc.com>
+
+	Node: Add get_first_child().
+
+	* libxml++/nodes/node.[h|cc]: This is like get_children(),
+	but it returns only the first node, optionally returning
+	the first one with a certain name.
+	Based on a patch by Ilya Murav'jov in bug #648125 .
+
+2.35.1:
+
+2012-02-15  Kjell Ahlstedt  <kjell.ahlstedt@bredband.net>
+
+	Handle attributes with default values correctly.
+
+	* libxml++/attributedeclaration.[h|cc]:
+	* libxml++/attributenode.[h|cc]: New files.
+	* Makefile.am:
+	* libxml++/Makefile.am: Add the new files.
+	* libxml++/libxml++.h: Add the new .h files.
+	* docs/manual/libxml++_without_code.xml: Add AttributeDeclaration and
+	AttributeNode in the list of node classes.
+	* libxml++/attribute.[h|cc]: Make get_value() useful also for default values
+	(XML_ATTRIBUTE_DECL). Fix set_value() for attributes in a namespace.
+	* libxml++/nodes/element.[h|cc]: get_attribute(): Add description. Don't use
+	xmlHasProp(), it ignores namespace.
+	* libxml++/nodes/node.cc: get_namespace_prefix(), get_namespace_uri(),
+	set_namespace(), create_wrapper(): Add code for XML_ATTRIBUTE_DECL.
+	* examples/dom_parser/example.dtd: Add attribute 'title' with default value.
+	* examples/dom_parser/example.xml: Add attribute 'title' with explicit value.
+	Bug #669635.
+
+2012-02-15  Kjell Ahlstedt  <kjell.ahlstedt@bredband.net>
+
+	Node: Correct mis-spelt LIBXMLCPP_EXCEPTIONS_ENABLED.
+
+	* libxml++/nodes/node.h: Add some "@throws exception".
+	* libxml++/nodes/node.cc: Change LIBXMLCPP_EXCEPTIONS_ENABLE to
+	LIBXMLCPP_EXCEPTIONS_ENABLED in find_impl() and set_namespace().
+
+2012-02-15  Kjell Ahlstedt  <kjell.ahlstedt@bredband.net>
+
+	Improved handling of entity references and processing instructions.
+
+	* libxml++/nodes/entitydeclaration.[h|cc]: New files.
+	* Makefile.am:
+	* libxml++/Makefile.am: Add the new files.
+	* libxml++/libxml++.h: Add the new .h file.
+	* docs/manual/libxml++_without_code.xml: Add EntityDeclaration in the list
+	of node classes.
+	* libxml++/document.[h|cc]: Add add_processing_instruction().
+	* libxml++/nodes/element.[h|cc]: Add add_child_entity_reference() and
+	add_child_processing_instruction().
+	* libxml++/nodes/entityreference.h: Improve the description of
+	get_resolved_text() and get_original_text().
+	* libxml++/nodes/node.cc: get_namespace_prefix() and get_namespace_uri():
+	XML_ENTITY_DECL has no namespace. Don't try to find it.
+	create_wrapper(): Create an EntityDeclaration when type == XML_ENTITY_DECL.
+	free_wrappers(): Don't walk the child list when type == XML_ENTITY_REF_NODE.
+	* examples/dom_build/main.cc: Add entity declarations and references, and
+	processing instructions to the built xml file.
+	* examples/dom_parse_entities/example.dtd: Make it compatible with example.xml.
+	* examples/dom_parse_entities/example.xml: Add an entity definition that
+	contains entity references.
+	* examples/dom_parse_entities/main.cc: Print the parsed file both with and
+	without entity substitution.
+	* examples/dom_parser/example.dtd: Make it compatible with example.xml.
+	* examples/dom_parser/main.cc: Add command flag -E (Don't substitute entities).
+	Bug #669481
+
+2012-02-15  Kjell Ahlstedt  <kjell.ahlstedt@bredband.net>
+
+	Add some files to .gitignore.
+
+	* .gitignore: Add docs files that are copied from mm-common.
+	Add /MSVC_Net2010/libxml++/libxml++.rc and
+	/examples/dom_read_write/example_output.xml.
+
+2012-02-15  Kjell Ahlstedt  <kjell.ahlstedt@bredband.net>
+
+	Add @newin{2,36} to some new functions where it's missing.
+
+	* libxml++/exceptions/exception.h: Add @newin{2,36} to format_xml_error() and
+	format_xml_parser_error().
+	* libxml++/parsers/parser.h: Add @newin{2,36} to [set|get]_throw_messages().
+	Bug #304020.
+
+2012-02-10  Kjell Ahlstedt  <kjell.ahlstedt@bredband.net>
+
+	Make the schema validation example program work with no arguments.
+
+	* examples/schemavalidation/main.cc: Correct the test for number of arguments.
+
+2012-01-30  Kjell Ahlstedt  <kjell.ahlstedt@bredband.net>
+
+	Parser: Throw more detailed error messages.
+
+	* examples/dom_parser/main.cc: Add command parameters -v -e -t.
+	* libxml++/exceptions/exception.[h|cc]: Add format_xml_error() and
+	format_xml_parser_error().
+	* libxml++/parsers/domparser.cc: Call format_xml_error() and
+	format_xml_parser_error() to get more detailed messages in exceptions.
+	* libxml++/parsers/parser.[h|cc]: Add [set|get]_throw_messages() and (local in
+	.cc until ABI can be broken) on_parser_[error|warning](). Bug #304020.
+
+2012-01-30  Murray Cumming  <murrayc@murrayc.com>
+
+	Document: Make the Document(xmlDoc*) constructor protected.
+
+	* libxml++/document.h: This was requested in bug #668980 (A. Pignotti).
+
+2011-09-09  Murray Cumming  <murrayc@murrayc.com>
+
+	Document: write_to_*(): Make sure that we write UTF-8 out.
+
+	* libxml++/document.cc: Because the xmlDocDump*() functions use some other 
+	encoding if you specify NULL, causing errors such as:
+	xmlEscapeEntities : char out of range
+
+2.34.2:
+
+2011-09-06  Mathias Lorente  <mathias.lorente@free.fr>
+
+	Node::create_new_child_node(): Use the default namespace if none is specified.
+
+	* libxml++/nodes/node.cc: This is better than just ignoring it.
+	Bug #656110
+
+2011-07-20  Murray Cumming  <murrayc@murrayc.com>
+
+	ContentNode::get_content(): Fix a documentation typo.
+
+	* libxml++/nodes/contentnode.h: Mention &gt; instead of &qt (a q 
+	instead of a g, and no ;.).
+
+2011-07-20  Mathias Lorente  <mathias.lorente@free.fr>
+
+	Add Element::add_child_cdata().
+
+	* libxml++/nodes/element.[h|cc]: Add add_child_cdata(), using 
+	xmlNewCDataBlock(), like the existing add_child_text().
+	* examples/sax_parser_build_dom/example.xml:
+	* examples/sax_parser_build_dom/svgparser.[h|cc]: Use the new API.
+
+2.34.1:
+
+2011-04-17  Murray Cumming  <murrayc@murrayc.com>
+
+	Fix distcheck.
+
+	* Makefile.am: Specify the full path to docbook-customisation.xsl,
+	which is apparently necessary with the autotools that I have here.
+
+2011-04-17  Murray Cumming  <murrayc@murrayc.com>
+
+	Fix the build with --enable-warnings=fatal.
+
+	* configure.ac: Use -no-long-long to avoid an (apparently new) compiler
+	warning about long long not being supported by C++98. glibmm already had
+	this option.
+
+2011-04-17  Murray Cumming  <murrayc@murrayc.com>
+
+	Do not require mm-common during the tarball build.
+
+	* configure.ac: Add a MM_CONFIG_DOCTOOL_DIR() call.
+
+2.34.0:
+
+2011-02-24  Murray Cumming  <murrayc@murrayc.com>
+
+	Fix the build with the changed linker behaviour on Ubuntu Natty.
+
+	* Makefile.am: Link the examples to glibmm explicitly.
+
+2.33.2:
+
+2011-02-11  Murray Cumming  <murrayc@murrayc.com>
+
+	Node::remove_child(): Fix a use of deleted memory
+
+	* libxml++/nodes/node.cc:
+	Use a temporary variable to avoid accessing the node C++ instance after we
+	have deleted it. Valgrind foudn this.
+	Also remove the comment about the libxml deleting our C++ instance via a
+	callback, because we don't do that anymore.
+
+2010-11-26  Murray Cumming  <murrayc@murrayc.com>
+
+	Check some libxml function return values.
+
+	* libxml++/document.cc: do_write_to_stream():
+	* libxml++/schema.cc: set_document(): Check the results from
+	xmlSchemaNewDocParserCtxt() and xmlSaveFormatFileTo().
+	Bug #635846 (Markus Elfring).
+
+2.33.1:
+
+2010-11-14  Murray Cumming  <murrayc@murrayc.com>
+
+	free_wrappers(): Fix crash.
+
+	* libxml++/nodes/node.cc: free_wrappers(): Revert my change to check
+	xmlNode::properties for all types, because the layout of some structs
+	is apparently completely different (not really deriving fully), and this
+	caused a crash in examples/sax_parser/.
+	Added an explanatory comment.
+
+2010-11-14  Murray Cumming  <murrayc@murrayc.com>
+
+	Change the --enable-examples default to yes.
+
+	* configure.ac: Build the examples by default, so we at least check the
+	build more often. Disabling them is only useful for package building,
+	which is the less common case.
+
+2010-11-14  Murray Cumming  <murrayc@murrayc.com>
+
+	Moved create_wrapper() and free_wrappers() to Node.
+
+	* libxml++/document.[h|cc]:
+	* libxml++/nodes/node.[h|cc]: Moved create_wrapper() and free_wrappers()
+	to here from Document.
+	free_wrappers(): Never return inside the switch/case, so we check
+	xmlNode::properties for all struct types, and to avoid making the behaviour
+	non-obvious.
+	* libxml++/parsers/textreader.cc:
+	* libxml++/validators/dtdvalidator.cc:
+	* libxml++/nodes/element.cc: Adapted.
+
+2010-11-08  Alessandro Pignotti  <a.pignotti@sssup.it>
+
+	Make libxml++ compatible with separate and multi-threaded libxml2 usage.
+
+	* libxml++/document.[h|cc]: Added create_wrapper() and free_wrappers(),
+	replacing on_libxml_construct() and on_libxml_destruct() .
+	Init(): Do not register these global callbacks with libxml.
+	* libxml++/nodes/element.cc:
+	* libxml++/nodes/node.[h|cc]:
+	* libxml++/parsers/textreader.cc:
+	* libxml++/validators/dtdvalidator.cc: Call these create_wrapper() before
+	ever trying to get a C++ instance from a C instance. Call free_wrappers()
+	in destructors and other places where we want the instance to be destroyed.
+
+	This avoids use of libxml's global function pointers, which are not
+	thread-safe.
+
+2010-11-08  Murray Cumming  <murrayc@murrayc.com>
+
+	Do not call xmlCleanupParser() because it is brutal.
+
+	* libxml++/document.cc: ~Init(): Do not call xmlCleanupParser() because it
+	breaks libxml generally and should only be called by an application
+	explicitly before it ends, for instance at the end of its main().
+
+2010-10-19  Knut Aksel Røysland  <knutroy@ifi.uio.no>
+
+  Node::get_parent(): Removed code duplication.
+
+  * libxml++/nodes/node.cc: get_parent() const: Use const_cast<> to call
+  the non-const version, instead of duplicating the code.
+
+2.32.0:
+
+2010-10-14  Murray Cumming  <murrayc@murrayc.com>
+
+	website: Change the mailing list location, because I moved it.
+
+	* docs/index.html: The mailing list is now at gnome.org.
+
+2010-10-03  Armin Burgmeier  <armin@arbur.net>
+
+	* MSVC_Net2005/README:
+	* MSVC_Net2005/examples/dom_build/dom_build.vcproj:
+	* MSVC_Net2005/examples/dom_parse_entities/dom_parse_entities.vcproj:
+	* MSVC_Net2005/examples/dom_parser/dom_parser.vcproj:
+	* MSVC_Net2005/examples/dom_parser_raw/dom_parser_raw.vcproj:
+	* MSVC_Net2005/examples/dom_read_write/dom_read_write.vcproj:
+	* MSVC_Net2005/examples/dom_xpath/dom_xpath.vcproj:
+	* MSVC_Net2005/examples/dtdvalidation/dtdvalidation.vcproj:
+	* MSVC_Net2005/examples/import_node/import_node.vcproj:
+	* MSVC_Net2005/examples/sax_exception/sax_exception.vcproj:
+	* MSVC_Net2005/examples/sax_parser/sax_parser.vcproj:
+	* MSVC_Net2005/examples/sax_parser_build_dom/sax_parser_build_dom.vcproj:
+	* MSVC_Net2005/examples/sax_parser_entities/sax_parser_entities.vcproj:
+	* MSVC_Net2005/examples/schemavalidation/schemavalidation.vcproj:
+	* MSVC_Net2005/examples/textreader/textreader.vcproj:
+	* MSVC_Net2005/gendef/gendef.vcproj:
+	* MSVC_Net2005/libxml++.sln:
+	* MSVC_Net2005/libxml++/libxml++.vcproj:
+	* MSVC_Net2008/README:
+	* MSVC_Net2008/examples/dom_build/dom_build.vcproj:
+	* MSVC_Net2008/examples/dom_parse_entities/dom_parse_entities.vcproj:
+	* MSVC_Net2008/examples/dom_parser/dom_parser.vcproj:
+	* MSVC_Net2008/examples/dom_parser_raw/dom_parser_raw.vcproj:
+	* MSVC_Net2008/examples/dom_read_write/dom_read_write.vcproj:
+	* MSVC_Net2008/examples/dom_xpath/dom_xpath.vcproj:
+	* MSVC_Net2008/examples/dtdvalidation/dtdvalidation.vcproj:
+	* MSVC_Net2008/examples/import_node/import_node.vcproj:
+	* MSVC_Net2008/examples/sax_exception/sax_exception.vcproj:
+	* MSVC_Net2008/examples/sax_parser/sax_parser.vcproj:
+	* MSVC_Net2008/examples/sax_parser_build_dom/sax_parser_build_dom.vcproj:
+	* MSVC_Net2008/examples/sax_parser_entities/sax_parser_entities.vcproj:
+	* MSVC_Net2008/examples/schemavalidation/schemavalidation.vcproj:
+	* MSVC_Net2008/examples/textreader/textreader.vcproj:
+	* MSVC_Net2008/gendef/gendef.vcproj:
+	* MSVC_Net2008/libxml++.sln:
+	* MSVC_Net2008/libxml++/libxml++.vcproj:
+	* MSVC_Net2010/README:
+	* MSVC_Net2010/examples/dom_build/dom_build.vcxproj:
+	* MSVC_Net2010/examples/dom_build/dom_build.vcxproj.filters:
+	* MSVC_Net2010/examples/dom_parse_entities/dom_parse_entities.vcxproj:
+	* MSVC_Net2010/examples/dom_parse_entities/dom_parse_entities.vcxproj.filters:
+	* MSVC_Net2010/examples/dom_parser/dom_parser.vcxproj:
+	* MSVC_Net2010/examples/dom_parser/dom_parser.vcxproj.filters:
+	* MSVC_Net2010/examples/dom_parser_raw/dom_parser_raw.vcxproj:
+	* MSVC_Net2010/examples/dom_parser_raw/dom_parser_raw.vcxproj.filters:
+	* MSVC_Net2010/examples/dom_read_write/dom_read_write.vcxproj:
+	* MSVC_Net2010/examples/dom_read_write/dom_read_write.vcxproj.filters:
+	* MSVC_Net2010/examples/dom_xpath/dom_xpath.vcxproj:
+	* MSVC_Net2010/examples/dom_xpath/dom_xpath.vcxproj.filters:
+	* MSVC_Net2010/examples/dtdvalidation/dtdvalidation.vcxproj:
+	* MSVC_Net2010/examples/dtdvalidation/dtdvalidation.vcxproj.filters:
+	* MSVC_Net2010/examples/import_node/import_node.vcxproj:
+	* MSVC_Net2010/examples/import_node/import_node.vcxproj.filters:
+	* MSVC_Net2010/examples/sax_exception/sax_exception.vcxproj:
+	* MSVC_Net2010/examples/sax_exception/sax_exception.vcxproj.filters:
+	* MSVC_Net2010/examples/sax_parser/sax_parser.vcxproj:
+	* MSVC_Net2010/examples/sax_parser/sax_parser.vcxproj.filters:
+	* MSVC_Net2010/examples/sax_parser_build_dom/sax_parser_build_dom.vcxproj:
+	* MSVC_Net2010/examples/sax_parser_build_dom/sax_parser_build_dom.vcxproj.filters:
+	* MSVC_Net2010/examples/sax_parser_entities/sax_parser_entities.vcxproj:
+	* MSVC_Net2010/examples/sax_parser_entities/sax_parser_entities.vcxproj.filters:
+	* MSVC_Net2010/examples/schemavalidation/schemavalidation.vcxproj:
+	* MSVC_Net2010/examples/schemavalidation/schemavalidation.vcxproj.filters:
+	* MSVC_Net2010/examples/textreader/textreader.vcxproj:
+	* MSVC_Net2010/examples/textreader/textreader.vcxproj.filters:
+	* MSVC_Net2010/gendef/gendef.cc:
+	* MSVC_Net2010/gendef/gendef.vcxproj:
+	* MSVC_Net2010/gendef/gendef.vcxproj.filters:
+	* MSVC_Net2010/libxml++.sln:
+	* MSVC_Net2010/libxml++/libxml++.rc.in:
+	* MSVC_Net2010/libxml++/libxml++.vcxproj:
+	* MSVC_Net2010/libxml++/libxml++.vcxproj.filters:
+	* Makefile.am:
+	* configure.ac: Added support for MSVC 2010 and 64 bit.
+
+2010-06-13  Murray Cumming  <murrayc@murrayc.com>
+
+	Node::find(): Check xmlNode::type for a XML_NAMESPACE_DECL.
+
+	* libxml++/nodes/node.cc: find_impl(): if the xmlNode has type
+	XML_NAMESPACE_DECL then it is actually a xmlNs, which is not like a xmlNode
+	at all (thanks to the awful undocumented libxml++ system of struct
+	inheritance).
+	So we just igore these items. We need to decide what the caller really
+	expects.
+
+2010-06-13  Murray Cumming  <murrayc@murrayc.com>
+
+	Node::find(): Revert some of my previous change because it breaks some code.
+
+	* libxml++/nodes/node.cc: find_impl(): Restore the previous behaviour,
+	because the strange use of _private only seems to happen sometimes.
+
+2010-06-13  Murray Cumming  <murrayc@murrayc.com>
+
+	Node::find(): Cope with weird use of _private in xmlNodeSet.
+
+	* libxml++/nodes/node.cc: The xmlNodeSet seems to contain extra xmlNodes that
+	were never given to on_libxml_construct(). Those xmlNodes seem to abuse
+	private_, where we find our real xmlNodes containing our C++ Nodes.
+	This fixes bug #386013 (Max Kirillov) though it depends on undocumented
+	libxml behaviour.
+
+2010-06-13  Murray Cumming  <murrayc@murrayc.com>>
+
+	Node::find(): Use libxml functions instead of direct C access.
+
+	* libxml++/nodes/node.cc: Use xmlXPathNodeSetIsEmpty(),
+	xmlXPathNodeSetGetLength() and xmlXPathNodeSetItem() instead of direct
+	xmlNodeSet struct access.
+
+2010-06-13  Murray Cumming  <murrayc@murrayc.com>
+
+	Manual: Use git.gnome.org as the link to the examples source code.
+
+	* docs/manual/libxml++_without_code.xml: Use git.gnome.org for the examples
+	url base, as we do in gtkmm-documentation.
+
+2010-06-13  Murray Cumming  <murrayc@murrayc.com>
+
+	Restore the mm-common make target and update a link.
+
+	* Makefile.am: Restore (and update) the post-html target that was lost when
+	we redid the build system for mm-common.
+	* docs/index.html: Change the link to the manual to point to its new location
+	at library.gnome.org.
+
+2.30.1:
+
+2010-05-04  Murray Cumming  <murrayc@murrayc.com>
+
+    Documentation: Don't hide undocumented API.
+
+	* docs/reference/Doxyfile.in: Use the same options as gtkmm (mostly).
+    In particular, don't hide undocumented API, such as NodeSet, to fix
+    bug #583412 (Hubert Figuiere).
+
+2010-05-04  Murray Cumming  <murrayc@murrayc.com>
+
+	Documentation: Improvements.
+
+	* libxml++/libxml++.h: Expand the main page text, linking to the tutorial
+    and to important classes.
+	* libxml++/parsers/domparser.h:
+	* libxml++/schema.h: Correct the class descriptions.
+	* libxml++/parsers/textreader.h: Add a class description.
+	* libxml++/nodes/element.h:
+	* libxml++/nodes/node.h:
+	* libxml++/parsers/saxparser.h:
+	* libxml++/validators/schemavalidator.h:
+    Correct @newin2p2* to @newin{2,*} now that we use mm-common.
+
+2010-04-27  David King  <davidk@openismus.com>
+
+	Further documentation main page improvements
+
+	* libxml++/libxml++.h: Some minor improvements.
+
+2010-04-23  David King  <davidk@openismus.com>
+
+	Documentation main page improvements
+
+	* libxml++/libxml++.h: Add external links and compilation example.
+
+2010-04-16  David King  <davidk@openismus.com>
+
+	Minor documentation update
+
+	* docs/index.html: Link to latest gnome.org resources.
+	* libxml++/libxml++.h: Add minimal documentation for main page.
+
+2010-04-06  Murray Cumming  <murrayc@murrayc.com>
+
+    .pc file: Add datarootdir.
+
+	* libxml++-2.6.pc.in: Add datarootdir and datadir, as in the gtkmm .pc.in
+    file, because I started seeing this warning when running autogen.sh in Glom:
+    Variable 'datarootdir' not defined in '/opt/gnome228/lib/pkgconfig/libxml++-2.6.pc'
+
+2010-04-03  Armin Burgmeier  <armin@arbur.net>
+
+	* MSVC_Net2005/libxml++.sln:
+	* MSVC_Net2008/libxml++.sln: Add dom_parser_raw project to the
+	solution files.
+
+2010-03-30  Murray Cumming  <murrayc@murrayc.com>
+
+    Stop exceptions when using std::cout and UTF-8.
+
+	* examples/*/main.cc: Initialize the global C and C++ locale to prevent
+    exceptions when ouputing a ustring (with non-ASCII UTF-8) to std::cout.
+    We don't see this problem when writing gtkmm apps because gtk_init() (via
+    Gtk::Main) initializes the C locale correctly.
+
+    Thanks to Daniel Elstner for the solution (he will document it properly
+    in the Glib::ustring API reference) and to Nic Reveles and others for
+    noticing the problem.
+
+2010-03-30  David King  <davidk@openismus.com>
+
+	Update pkg-config file
+
+	* libxml++-2.6.pc.in: Add documentation locations to pkg-config file.
+	Update other fields to use variables, rather than hardcoded values.
+
+=== 2.30.0 ===
+
+2010-03-30  David King  <davidk@openismus.com>
+
+	Disable AM_MAINTAINER_MODE by default
+
+	* configure.ac: Pass the disable parameter to AM_MAINTAINER_MODE so
+	that tarball users do not need doxygen, mm-common, etc. if they modify
+	files. Maintainer mode is still enabled if running autogen.sh.
+
+2010-03-29  David King  <davidk@openismus.com>
+
+	Move a target outside a conditional block to fix the build
+
+	* Makefile.am: Move docs/manual/libxml++.xml target outside the
+	ENABLE_DOCUMENTATION conditional block.
+
+2010-03-29  David King  <davidk@openismus.com>
+
+	Use mm-common for reference documentation generation
+
+	* .gitignore: Update.
+
+	* Makefile.am: Remove SUBDIRS. Make examples build and documentation
+	build conditional. Build reference documentation with doc-reference.am
+	from mm-common. Add docs/manual/libxml++.pdf target, but do not enable
+	it by default. Add autogen.sh and docs/manual/insert_example_code.pl to
+	dist_noinst_SCRIPTS. Add docs/manual/html/*.html to
+	MAINTAINERCLEANFILES.
+
+	* autogen.sh: Add --enable-maintainer-mode to arguments passed to
+	configure.
+
+	* configure.ac: Add AM_MAINTAINER_MODE. Add a configure argument to
+	enable the build of the examples. Use mm-common macros to add a
+	configure argument to enable documentation, and use the glibmm
+	tagfile. Check for xmllint and db2latex for DTD validation of the
+	DocBook manual and building the PDF documentation, repectively. Remove
+	the last non-toplevel Makefiles from AC_CONFIG_FILES.
+
+	* docs/Makefile.am:
+	* docs/Makefile_web.am_fragment:
+	* docs/manual/Makefile.am:
+	* docs/reference/Makefile.am: Remove from repository, and move content
+	to Makefile.am.
+
+	* docs/manual/docbook-customisation.xsl: Add DocBook customisation
+	parameters.
+
+	* docs/manual/libxml++_without_code.xml: Make validate.
+
+	* docs/reference/Doxyfile.in: Update from mm-common.
+
+	* docs/reference/README: Remove empty file.
+
+2010-03-27  David King  <amigadave@amigadave.com>
+
+	Fix several compiler warnings
+
+	* examples/dom_build/main.cc:
+	* examples/dtdvalidation/main.cc:
+	* examples/import_node/main.cc:
+	* examples/sax_exception/main.cc:
+	* examples/sax_exception/my_parser.cc:
+	* examples/sax_parser/main.cc:
+	* examples/sax_parser/my_parser.cc:
+	* examples/sax_parser_build_dom/svgparser.cc:
+	* examples/sax_parser_entities/myparser.cc:
+	* examples/textreader/main.cc:
+	* libxml++/parsers/textreader.cc: Comment out unused parameters and
+	variables.
+
+	* libxml++/parsers/saxparser.cc: Fill in missing fields of
+	xmlSAXHandler struct.
+
+2010-03-27  David King  <davidk@openismus.com>
+
+	Refactor build system
+
+	* Makefile.am: Merge from subdir Makefile.am files, excluding doc.
+
+	* MSVC_Net2005/examples/dom_parser_raw/dom_parser_raw.vcproj:
+	* MSVC_Net2008/examples/dom_parser_raw/dom_parser_raw.vcproj: Add
+	missing Visual studio project files.
+
+	* MSVC_Net2005/examples/*/Makefile.am:
+	* MSVC_Net2005/examples/Makefile.am:
+	* MSVC_Net2005/gendef/Makefile.am:
+	* MSVC_Net2005/libxml++/Makefile.am:
+	* MSVC_Net2008/examples/*/Makefile.am:
+	* MSVC_Net2008/examples/Makefile.am:
+	* MSVC_Net2008/gendef/Makefile.am:
+	* MSVC_Net2008/libxml++/Makefile.am: Remove from repository, and move
+	content to Makefile.am, making the MSVC project file build
+	non-recursive.
+
+	* README: Update.
+
+	* autogen.sh: Copy from gtkmm.
+
+	* configure.in: Move to configure.ac.
+
+	* configure.ac: Require autoconf 2.59 and automake 1.9. Use new-style
+	AC_INIT() with bug-report link and homepage URL. Use mm-common for
+	initialisation of version variables. Require libtool 2.2.6 for much
+	faster builds. Use MM_ARG_ENABLE_WARNINGS to configure compiler
+	warning flags. Use MM_CHECK_PERL to check for the required Perl
+	version. Use AC_CONFIG_FILES rather than AC_OUTPUT. Update for
+	Makefile.am changes.
+
+	* config.h.in: Remove from repository, as autoheader is now used.
+
+	* */.cvsignore: Remove old files.
+
+	* doc/manual/Makefile.am: Use the correct Perl.
+
+	* doc/reference/Doxyfile.in:
+	* MSVC_Net2005/libxml++/libxml++.rc.in:
+	* MSVC_Net2008/libxml++/libxml++.rc.in: Use new-style variable names.
+
+	* examples/Makefile.am_fragment:
+	* examples/Makefile.am:
+	* examples/*/Makefile.am: Remove from repository, and move content to
+	Makefile.am, making the examples build non-recursive.
+
+	* .gitignore: Update.
+
+	* libxml++/Makefile.am:
+	* libxml++/*/Makefile.am: Remove from repository, and move content to
+	Makefile.am, making the libxml++ build non-recursive.
+
+	* libxml++.spec.in:
+	* INSTALL: Remove from repository.
+
+	* scripts/README:
+	* scripts/Makfile.am: Remove from repository.
+
+	* scripts/reduced.m4: Move to macros/reduced.m4
+
+2010-03-08  Murray Cumming  <murrayc@murrayc.com>
+
+	Use 0 instead of NULL.
+
+	* MSVC_Net2005/gendef/gendef.cc:
+	* MSVC_Net2008/gendef/gendef.cc:
+	* libxml++/attribute.cc:
+	* libxml++/document.cc:
+	* libxml++/io/outputbuffer.cc:
+	* libxml++/io/parserinputbuffer.cc:
+	* libxml++/nodes/node.cc:
+	* libxml++/parsers/domparser.cc:
+	* libxml++/parsers/parser.cc:
+	* libxml++/parsers/textreader.cc:
+	* libxml++/schema.cc:
+	* libxml++/schema.h: Do not use NULL. It is unwise in C++.
+
+=== 2.26.1 ===
+
+2009-07-27  Johannes Schmid <jschmid@openismus.com>
+
+	* libxml++/validators/schemavalidator.cc:
+	* libxml++/schema.cc: Fixed exception handling
+	problems in non-exception build
+	* examples/sax_parser/myparser.cc/h: Make example build withouth exceptions,
+	it's useless then though
+	* examples/schemavalidation/main.cc: Fixed build without exceptions
+
+2009-07-27  Johannes Schmid <jschmid@openismus.com>
+
+	New tarball release
+
+	* configure.in: Updated version to 2.26.1
+	* NEWS: updated
+
+2009-05-07  Murray Cumming  <murrayc@murrayc.com>
+
+	Fix the build without exceptions, hopefully.
+
+	* libxml++/parsers/textreader.cc: check_for_exceptions():
+	Add an ifdef so that this should build with exceptions disabled,
+	though there is no alternative API yet. Noticed by David King.
+
+2009-05-07  Murray Cumming  <murrayc@murrayc.com>
+
+	* libxml++/parsers/textreader.cc: Whitespace corrections.
+
+2009-03-25  Hubert Figuiere  <hub@figuiere.net>
+
+	* libxml++/parsers/saxparser.h: Fix some warnings triggered
+	by -Wshadow.
+
+2009-03-23  Hubert Figuiere  <hub@figuiere.net>
+
+	* libxml++/parsers/textreader.cc: severity_ was not initialised
+	at construction time. (Closes #576516)
+
+2.26.0:
+
+2009-03-16  Murray Cumming  <murrayc@murrayc.com>
+
+	* configure.in: Increased version number to match GNOME 2.26.
+
+2.24.3:
+
+2009-03-02  Armin Burgmeier  <armin@openismus.com>
+
+	* libxml++/validators/validator.h:
+	* libxml++/parsers/parser.h: Removed the vsnprintf #define on Windows.
+	This could conflict with another define otherwise. Both MSVC and MinGW
+	have vsnprintf (without underscore) as well, and I verified libxml++
+	still compiles in both. If we still need the definition for some
+	reason, then we should re-add it into the source files, so that other
+	libraries don't conflict with our definition.
+
+2009-01-09  Stef Walter  <stef-list@memberwebs.com>
+
+	* libxml++/parsers/textreader.[h|cc]: Add setup_exceptions(), setting
+	the on_libxml_error() callback, and call it from the constructors.
+	check_for_exceptions(): Actually check some member variables and throw an
+	exception if necessary.
+	This should fix bug #348006.
+	It breaks ABI because it adds member variables, but we decided that is
+	OK because nobody could actually be using this class seriously before
+	now because it had no error checking.
+
+2.24.2:
+
+2008-12-20  Armin Burgmeier  <armin@openismus.com>
+
+	* libxml++/schema.cc (set_document): Set embedded_doc_ according to
+	the embed parameter instead of always setting it to false, so that we
+	actually release the document in release_underlying().
+	(release_underlying): Free the schema in all cases, also when the
+	document was not embedded, to avoid a memory leak.
+
+	* libxml++/validators/schemavalidator.cc (parse_file, parse_memory,
+	parse_document): Make sure not to leak the xmlSchemaParserCtxtPtr in
+	case of an exception. Bug #563321, Arjan Franzen.
+
+2008-12-18  Armin Burgmeier  <armin@openismus.com>
+
+	* win32_msvc6/:
+	* Makefile.am:
+	* configure.in: Removed outdated MSVC6 project.
+
+2.24.1:
+
+2008-12-12  Armin Burgmeier  <armin@openismus.com>
+
+	* MSVC_Net2008/examples/sax_parser/sax_parser.vcproj.HALLWA.Armin.user:
+	Removed this generated file. It went in by accident.
+
+	* MSVC_Net2008/examples/sax_parser/sax_parser.vcproj: Added the
+	example project file instead, which should have been added from the
+	beginning.
+
+2008-12-12  Armin Burgmeier  <armin@openismus.com>
+
+	* MSVC_Net2005/libxml++/libxml++.vcproj:
+	* MSVC_Net2008/libxml++/libxml++.vcproj: Added schema.cc and
+	schemavalidator.cc to the project. Bug #563664 (Arjan Franzen).
+
+	* MSVC_Net2005/examples/schemavalidation/schemavalidation.vcproj:
+	* MSVC_Net2005/examples/schemavalidation/Makefile.am:
+	* MSVC_Net2005/examples/Makefile.am:
+	* MSVC_Net2005/libxml++.sln: Added the schema validator example to the
+	MSVC8 solution file.
+
+	* MSVC_Net2008/examples/schemavalidation/schemavalidation.vcproj:
+	* MSVC_Net2008/examples/schemavalidation/Makefile.am:
+	* MSVC_Net2008/examples/Makefile.am:
+	* MSVC_Net2008/libxml++.sln: Added the schema validator example to the
+	MSVC9 solution file.
+
+2008-12-12  Przemysław Grzegorczyk  <pgrzegorczyk@gmail.com>
+
+	* libxml++/schema.cc: Fix a typo to fix the build.
+
+2008-12-08  Murray Cumming  <murrayc@murrayc.com>
+
+	* libxml++/validators/validator.cc: check_for_exception(): Use an
+	auto_ptr<> to avoid leaking the exception, as in
+	Parser::check_for_exception().
+	Bug #563321 (Arjan Franzen)
+
+2008-12-05  Murray Cumming  <murrayc@murrayc.com>
+
+	* libxml++/schema.cc: release_underlying(): Use xmlSchemaFree()
+	to avoid a leak, as suggested by Balazs Tirpak. Bug #312216.
+
+2008-10-09  Armin Burgmeier  <armin@openismus.com>
+
+	* MSVC_Net2005/*/*.vcproj: Adapt the new DLL naming convention.
+
+	* MSVC_Net2008/: Added project files for Visual Studio 2008.
+
+	* Makefile.am:
+	* configure.in: Added the new files to the distribution.
+
+2.24.0:
+
+	* configure.in: Increased version to match GNOME 2.24:
+
+2.23.3:
+
+2008-08-16  Murray Cumming  <murrayc@murrayc.com>
+
+	* libxml++/attribute.cc: get_value(): xmlGetNsProp() takes the
+	namespace URI, not the prefix.
+	Bug #547689 (Sergei Fedorov)
+
+2008-08-14  Murray Cumming  <murrayc@murrayc.com>
+
+	* examples/dom_parser/Makefile.am:
+	* examples/dom_parser/example_with_namespace.xml:
+	Added an example using namespace prefixes, from bug
+	#547689.
+	* examples/dom_parser/main.cc: Comment out the call to set_validate(),
+	because that example does not have a DTD.
+	Show the namespace prefixes in the output.
+	* libxml++/attribute.cc: get_value(): Use xmlGetNsProp() instead of
+	xmlGetProp(), so we don't ignore the namespace prefix, so we get
+	the correct value.
+	Bug #547689 (Sergei Fedorov)
+
+2008-08-10  Armin Burgmeier  <armin@arbur.net>
+
+	* MSVC_Net2005/: Renamed from MSVC_Net2003.
+
+	* MSVC_Net2005/libxml++/libxml++.vcproj: Link against libxml2.lib
+	instead of xml2.lib because that's how it is called in Tor's GTK+
+	bundle.
+
+	* MSVC_Net2005/libxml++/libxml++.rc.in: Removed "#include resource.h"
+	because there is no resource.h.
+
+	* MSVC_Net2005/libxml++/libxml++.sln: Build all examples by default.
+
+	* Makefile.am:
+	* configure.in: Adapt build files for the MSVC_Net2003 -> MSVC_Net2005
+	rename.
+
+2.23.2:
+
+2008-05-05  Murray Cumming  <murrayc@murrayc.com>
+
+	* examples/sax_parser/main.cc (main): Use parse_file() but leave
+	the parse_chunk() version commented out, to simplify this example.
+	* examples/sax_parser/myparser.cc
+	Catch Glib::ConvertError exceptions when using std::cout, though
+	libxml++ should really always supply valid UTF-8 to us.
+
+2008-04-14  Armin Burgmeier  <armin@arbur.net>
+
+	* libxml++/parsers/saxparser.h:
+	* libxml++/parsers/saxparser.cc: Added a parse_chunk_raw() method and
+	changed parse_chunk() to use it.
+
+2.23.1:
+
+2008-03-26  Murray Cumming  <murrayc@murrayc.com>
+
+	* examples/schemavalidation/Makefile.am: Corrected a filename to
+	fix distcheck
+	* libxml++/schema.h:
+	* libxml++/validators/schemavalidator.h: Added the newin2p24 doxygen
+	keyword.
+
+2008-03-26  Emilien KIA  <cursor@free.fr>
+
+	* configure.in:
+	* libxml++/Makefile.am:
+	* libxml++/libxml++.h:
+	* libxml++/schema.cc:
+	* libxml++/schema.h: Added Schema class, similar to the existing Dtd
+	class.
+	* libxml++/validators/Makefile.am:
+	* libxml++/validators/schemavalidator.cc
+	* libxml++/validators/schemavalidator.h: Added Schema validator class,
+	similar to the existing DtdValidator class.
+
+	* examples/Makefile.am:
+	* examples/schemavalidation/: New example, similar to the
+	existing dtdvalidation example.
+
+	Bug #312216.
+
+2008-03-26  Murray Cumming  <murrayc@murrayc.com>
+
+	* docs/Makefile.am: Fixed the post-html rule.
+	* docs/index.html: Corrected some links.
+	* libxml++/nodes/node.h: Corrected documentation for the new methods
+	from the previous commit.
+
+2008-03-26  Murray Cumming  <murrayc@murrayc.com>
+
+	* libxml++/nodes/element.cc:
+	* libxml++/nodes/element.h: Added add_child_text() with a previous_node
+	parameter, for adding between existing nodes.
+	Added add_child_text_before() too.
+	* libxml++/nodes/node.cc:
+	* libxml++/nodes/node.h: Added add_child() with a previous_node
+	parameter, for adding between existing nodes.
+	Added add_child_before() too.
+
+	* docs/index.html: Removed the license clarifications text because I
+	always found it to be arbitrary and not very informative.
+	* docs/reference/Doxyfile.in: Added a newin2p24 doxygen keyword.
+	* docs/reference/Makefile.am: Do not create a version-specific
+	directory name for reference documentation. The Since: text and links
+	in the documentation are enough to know what was in what version.
+
+This is the svn trunk branch. See also the gnome-2-22 branch.
+
+2.22.0:
+
+2008-03-07  Deng Xiyue  <murrayc@murrayc.com>
+
+	* libxml++/document.cc:
+	* libxml++/document.h: Add a destructor
+	(does not break ABI because the base class already has a
+	virtual destructor) that calls xmlCleanupParser to match the
+	existing call to xmlInitParser() in the constructor. Fixes
+	a memory leak.
+	Bug #501168 (Matt G.)
+
+2008-01-17  Roland Stigge  <stigge@antcom.de>
+
+	* libxml++/attribute.cc:
+	* libxml++/dtd.cc:
+	* libxml++/dtd.h:
+	* libxml++/io/ostreamoutputbuffer.h:
+	* libxml++/io/outputbuffer.h:
+	* libxml++/keepblanks.cc:
+	* libxml++/keepblanks.h:
+	* libxml++/libxml++.h:
+	* libxml++/nodes/cdatanode.cc:
+	* libxml++/nodes/cdatanode.h:
+	* libxml++/nodes/commentnode.cc:
+	* libxml++/nodes/commentnode.h:
+	* libxml++/nodes/contentnode.cc:
+	* libxml++/nodes/element.cc:
+	* libxml++/nodes/element.h:
+	* libxml++/nodes/entityreference.cc:
+	* libxml++/nodes/entityreference.h:
+	* libxml++/nodes/node.cc:
+	* libxml++/nodes/processinginstructionnode.cc:
+	* libxml++/nodes/processinginstructionnode.h:
+	* libxml++/nodes/textnode.cc:
+	* libxml++/nodes/textnode.h:
+	* libxml++/parsers/domparser.cc:
+	* libxml++/parsers/domparser.h:
+	* libxml++/parsers/parser.cc:
+	* libxml++/parsers/parser.h:
+	* libxml++/parsers/saxparser.cc:
+	* libxml++/parsers/textreader.h:
+	Correct the name of the files in their comment blocks,
+	though this could just be removed instead.
+	Bug #510056.
+
+2008-01-17  Martin Michlmayr  <tbm@cyrius.com>>
+
+	* libxml++/parsers/parser.cc:
+	* libxml++/parsers/textreader.h:
+	Added includes to fix the build with gcc 4.3
+	pre-releases.
+	Bug #510053.
+
+2.20.0:
+
+2007-08-30  Murray Cumming  <murrayc@murrayc.com>
+
+	* examples/dom_parser_raw/main.cc: When exceptions are disabled, assume that they are also
+	disabled in glibmm and then use the extra error parameter to Glib::convert(), to fix the
+	build when using glibmm with disabled exceptions.
+	* docs/manual/Makefile.am: Use maintainer-clean instead of clean-local to delete the html,
+	but this still seems to be deleted when building debian packages.
+
+2.19.2:
+
+2007-08-29  Murray Cumming  <murrayc@murrayc.com>
+
+	* scripts/Makefile.am: distcheck fixes.
+
+2007-08-29  Murray Cumming  <murrayc@murrayc.com>
+
+	* autogen.sh:
+	* Makefile.am:
+	* configure.in:
+	* scripts/Makefile.am:
+	* scripts/reduced.m4: Added an --enable-api-exceptions
+	configure option, which defines LIBXMLCPP_EXCEPTIONS_ENABLED
+	in libxml++config.h.
+	* examples/dom_build/main.cc:
+	* examples/dom_parse_entities/main.cc:
+	* examples/dom_parser/main.cc:
+	* examples/dom_parser_raw/main.cc:
+	* examples/dom_read_write/main.cc:
+	* examples/dom_xpath/main.cc:
+	* examples/dtdvalidation/main.cc:
+	* examples/import_node/main.cc:
+	* examples/sax_exception/main.cc:
+	* examples/sax_exception/myparser.cc:
+	* examples/sax_parser/main.cc:
+	* examples/sax_parser_build_dom/main.cc:
+	* examples/sax_parser_entities/main.cc:
+	* examples/textreader/main.cc:
+	* libxml++/document.cc:
+	* libxml++/exceptions/exception.cc:
+	* libxml++/exceptions/internal_error.cc:
+	* libxml++/exceptions/parse_error.cc:
+	* libxml++/exceptions/validity_error.cc:
+	* libxml++/io/outputbuffer.cc:
+	* libxml++/io/parserinputbuffer.cc:
+	* libxml++/libxml++config.h.in:
+	* libxml++/nodes/contentnode.cc:
+	* libxml++/nodes/element.cc:
+	* libxml++/nodes/node.cc:
+	* libxml++/parsers/domparser.cc:
+	* libxml++/parsers/parser.cc:
+	* libxml++/parsers/saxparser.cc:
+	* libxml++/parsers/textreader.cc:
+	* libxml++/validators/dtdvalidator.cc:
+	* libxml++/validators/validator.cc:
+	Put LIBXMLCPP_EXCEPTIONS_ENABLED ifdefs around uses of
+	try, catch, and throw, so that libxml++ can build with
+	CXXFLAGS="-fno-exceptions". However, we might still
+	need some alternative error checking API.
+
+2.19.1:
+
+2007-07-30  Stef Walter  <stef@memberwebs.com>
+
+	* libxml++/nodes/element.cc:
+	* libxml++/nodes/element.h: Added get_attribute_value(),
+	to get a simple text value for an attribute, as a
+	convenience.
+	Patch in bug #373573.
+
+2007-07-30  Murray Cumming  <murrayc@murrayc.com>
+
+	* docs/reference/Doxyfile.in: Added newin2p18,
+	newin2p20, and newin2p22 tags.
+
+This is the trunk branch for libxml++ 2.19/2.20.
+See also the gnome-2-18 branch.
+
+2.18.2:
+
+2007-07-25  Christophe de Vienne  <cdevienne@gmail.com>
+
+	* libxml++/parsers/textreader.cc: get_name():
+	Fixed a memory leak. bug #447535.
+
+2.18.1:
+
+2007-06-10  Murray Cumming  <murrayc@murrayc.com>
+
+	* libxml++/document.cc: add_comment(),
+	* libxml++/nodes/element.cc: add_child_text():
+	add_child_comment(): Avoid accessing freed memory
+	when the text nodes are merged by xmlAddChild().
+
+2.18.0:
+
+2007-02-10  Murray Cumming  <murrayc@murrayc.com>
+
+	* examples/dom_parse_entities/main.cc:
+	* examples/dom_parser/main.cc:
+	* examples/dom_parser_raw/main.cc:
+	* examples/dom_read_write/main.cc:
+	* examples/dom_xpath/main.cc:
+	* examples/dtdvalidation/main.cc:
+	* examples/sax_parser/main.cc:
+	* examples/sax_parser_build_dom/main.cc:
+	* examples/sax_parser_entities/main.cc: Use std::string for file paths,
+	because we can not know the encoding of file paths. std::string therefore
+	means unknown encoding.
+
+2007-02-06  Artur Wegele  <a.wegele@web.de>
+
+	* libxml++/parsers/parser.h:
+	* libxml++/validators/validator.h: Check for _MSC_VER instead
+	of WIN32 before setting MSVC++ pragmas, because that is apparently
+	more reliable. Bug #380110.
+
+2.17.2:
+
+2006-10-25  Nate Nielsen  <nielsen@memberwebs.com>
+
+	* libxml++/nodes/node.cc:
+	* libxml++/nodes/node.h: Node::get_next_sibling(),
+	Node::get_previous_sibling(). Bug #351867
+
+2006-11-17  Nate Nielsen  <nielsen@memberwebs.com>
+
+	* libxml++/parsers/textreader.cc
+	* libxml++/parsers/textreader.h: Clean up TextReader() data
+	constructor signature. Removed '-1' as a special null terminated
+	value. This brings it inline with other parsers.
+
+2.17.1:
+
+2006-11-11  Nate Nielsen  <nielsen@memberwebs.com>
+
+	* libxml++/nodes/element.cc: Element::set_attribute():
+	Fix redeclaration of variable in if-block. Bug #361950
+
+2006-11-11  Nate Nielsen  <nielsen@memberwebs.com>
+
+	* libxml++/parsers/textreader.cc
+	* libxml++/parsers/textreader.h: TextReader() can now parse
+	memory buffers as well as files. Bug #351215
+
+2006-11-11  Nate Nielsen  <nielsen@memberwebs.com>
+
+    * libxml++/nodes/node.cc:
+    * libxml++/nodes/node.h: Add Node::get_parent() Bug #351876
+
+2006-04-24  Cedric Gustin  <cedric.gustin@gmail.com>
+
+	* configure.in: Disable autoheader.
+	* config.h.in: New file. Added comments about the difference
+	between config.h.in and libxml++config.h.in.
+
+2006-04-21  Cedric Gustin  <cedric.gustin@gmail.com>
+
+	* libxml++/Makefile.am: Added libxml++config.h.in to EXTRA_DIST.
+
+2006-04-21  Cedric Gustin  <cedric.gustin@gmail.com>
+
+	* MSVC_Net2003/*.vcproj: Updated for Visual Studio 2005. Added the
+	/vd2 compiler flag (Bug #158040). Renamed target DLL to
+	xml++-2.6 to comply to the value returned by "pkg-config --libs
+	--msvc-syntax libxml++-2.6".
+	* MSVC_Net2003/libxml++.sln: Updated for Visual Studio 2005.
+	* MSVC_Net2003/gendef/gendef.cc: Redirect output of dumpbin to a
+	file.
+	* MSVC_Net2003/libxml++/Makefile.am: Get a local copy of the
+	libxml++config.h file created at configure time and distribute it
+	in the source tarball.
+	* libxml++/Makefile.am: Add -DLIBXMLPP_BUILD to the DEFS compiler
+	flags (switch between dllexport/dllimport on win32). Also install
+	libxml++config.h to $(prefix)/lib/libxml++-2.6/include.
+	* libxml++/*/*.Makefile.am: Add -DLIBXMLPP_BUILD to the DEFS
+	compiler flags (switch between dllexport/dllimport on win32).
+	* libxml++/exceptions/exception.h: Tag the xmlpp:exception classs
+	with LIBXMLPP_API to get rid of auto-import errors on win32
+	(mingw32/cygwin).
+	* libxml++/libxml++config.h.in: New file. Define LIBXMLPP_API and
+	switch between dllimport and dllexport on win32.
+	* libxml++-2.6.pc.in: Add ${libdir}/libxml++-2.6/include to Cflags
+	(for libxml++config.h).
+	* configure.in: Added test for a native win32 platform. Use the
+	ms-bitfields on this platform only. Added the libxml++config.h
+	configuration file.
+
+2.14.0:
+
+2006-03-13  Christophe de Vienne  <cdevienne@netcourrier.com>
+
+	* docs/index.html: Updated version number
+
+2006-03-13  Christophe de Vienne  <cdevienne@netcourrier.com>
+
+	* NEWS, configure.in: Prepared release 2.14.0
+
+2006-03-08  Murray Cumming  <murrayc@murrayc.com>
+
+	* libxml++/nodes/contentnode.h: get_content() documentation:
+	Replace the TODO because I know know that apos is the fifth
+	predefined entity.
+	set_content(): Mention that the predefined entities are used
+	_where necessary_ because XML does not require use of quot or
+	apos in text nodes - just in attribute values.
+
+2.13.1:
+
+2005-12-20  Murray Cumming  <murrayc@murrayc.com>
+
+	* docs/manual/libxml++_without_code.xml: Mention pkg-config.
+
+2005-12-16  Murray Cumming  <murrayc@murrayc.com>
+
+	* libxml++/document.h: Minor grammar fixes in documentation.
+	* libxml++/nodes/node.h: Correct find() documentation slightly.
+
+2005-12-15  Robert Fleming  <fleming@cs.washington.edu>
+
+	* libxml++/nodes/node.cc:
+	* libxml++/nodes/node.h: Add find() overload that
+	takes namespaces to register, using xmlXPathRegisterNs().
+	Bug #323935.
+
+2005-12-15  Murray Cumming  <murrayc@murrayc.com>
+
+	* libxml++/nodes/node.cc: set_namespace(): Pass 0 to
+	xmlSearchNs() for empty (default) namespaces, instead of
+	an empty string, as we do elsewhere. This makes
+	Document::create_root_node() for when not specifying a
+	namespace. Bug #318186 from Erik Oestby.
+
+2005-12-15  Vadim Zeitlin  <vadim@wxwindows.org >
+
+	* docs/reference/Doxyfile.in: Fix paths so buildir!=srcdir
+	builds work. Bug #319863.
+
+2005-09-21  Christophe de Vienne  <cdevienne@netcourrier.com>
+
+	* libxml++.spec.in: Fixed include and .pc paths. Fixes #316827.
+
+This is the HEAD branch, for API additions. See also the gnome-2-12 branch.
+
+2.12.0:
+
+2005-08-26  Christophe de Vienne  <cdevienne@gmail.com>
+
+	* libxml++/parsers/textreader.h: Added xmlReadState "Reading" as
+	suggested by Sebastian Moss.
+
+2.11.0:
+
+2005-08-25  YS <yselkowitz@users.sourceforge.net>
+
+	* libxml++/Makefile.am: Changed link order to solve a link issue
+	on cygwin. Bug #314419.
+
+2005-06-13  Marek Rouchal  <marek.rouchal@infineon.com>
+
+	* libxml++/io/istreamparserinputbuffer.cc:
+	* libxml++/io/istreamparserinputbuffer.h:
+	* libxml++/io/parserinputbuffer.cc:
+	* libxml++/io/parserinputbuffer.h: Remove extra ;s.
+	Bug #307481
+
+2005-05-15  Murray Cumming <murrayc@murrayc.com>
+
+	* libxml++/document.h: Add comments about possibly deriving this
+	from Node, though it needs investigation, and we can not do this
+	in the stable API.
+	* libxml++/nodes/node.cc: get_namespace(), get_namespace_prefix():
+	Return an empty string if the node is actually a Document, because
+	the underlying xmlDocument struct has no ns field. This should
+	prevent the crash in bug #161825.
+
+2005-05-15  Murray Cumming <murrayc@murrayc.com>
+
+	* docs/index.html: Add link to the LGPL text.
+
+2005-04-24  Murray Cumming <murrayc@murrayc.com>
+
+	* libxml++/parsers/domparser.cc: parse_context():
+	Delete the context after, not before, checking it for an error.
+ 	Bug #156352 from Jim Garrison.
+
+2005-04-24  Murray Cumming <murrayc@murrayc.com>
+
+	* libxml++/parsers/saxparser.cc: SaxParserCallback::characters()
+	Call on_characters(), not on_cdata_block(), so that the correct
+	derived handler is called. Bug #301712 and patch from
+	Aaron Walker.
+
+2005-04-24  Murray Cumming <murrayc@murrayc.com>
+
+	* libxml++-2.6.pc.in: Remove -I for the include location of
+	a config file, because we don't install one. Bug #301727
+	from Aaron Walker.
+
+2005-03-15  Murray Cumming  <murrayc@murrayc.com>
+
+	* libxml++/document.cc: set_entity_declaration(): Pass 0 instead
+	of empty strings for the public ID and system ID, if an empty
+	string is provided. This stops libxml from using a useless empty
+	string.
+
+2005-03-09  Cedric Gustin <cedric.gustin@swing.be>
+
+	* MSVC_Net2003/Makefile.am: Add blank.cpp to EXTRA_DIST.
+	* MSVC_Net2003/examples/*/*.vcproj: Change name of PDB file to
+	$(OutDir)/$(TargetName).pdb.
+
+This is the HEAD branch.
+
+2.10.0:
+
+2005-03-08  Christophe de Vienne  <cdevienne@netcourrier.com>
+
+	* docs/reference/Makefile.am: Added one more rule so the "make
+	distcheck" works from a clean cvs working copy.
+
+2005-03-08  Christophe de Vienne  <cdevienne@netcourrier.com>
+
+	* docs/manual/Makefile.am, docs/reference/Makefile.am: Added a few
+	rules so that "make dist" generated the documentation if it's
+	absent.
+
+2005-02-15  Murray Cumming  <murrayc@murrayc.com>
+
+	* docs/manual/Makefule.am: Added insert_example_code to EXTRA_DIST,
+	though it should not be needed when building from a DIST anyway,
+	because we distribute the html.
+
+2.9.2:
+
+2005-02-13  Christophe de Vienne  <cdevienne@netcourrier.com>
+
+	* docs/manual/Makefile.am: Removed README from EXTRA_DIST.
+
+2005-02-12  Christophe de Vienne  <cdevienne@netcourrier.com>
+
+	* libxml++/nodes/node.cc: Fixed a little inefficency in find (#161925)
+
+2005-02-11  Murray Cumming  <murrayc@murrayc.com>
+
+	* docs/: Added manual.
+	* configure.in: Use GLIBMM_CHECK_PERL to get the perl path, needed
+	to insert the example code in the manual.
+	* docs/Makefile.am: Move the reference and manual into a docs folder
+	so that the docs and the examples have the same relative path.
+	* docs/index.html: Mention the manual and update the links.
+
+2005-02-11  Murray Cumming  <murrayc@murrayc.com>
+
+	* libxml++/document.cc: do_write_to_string(): libml returns the
+	number of bytes instead of the number of characters, so use the
+	appropriate ustring constructor, to avoid an exception later.
+	Bug found by Cyril Picard.
+	* docs/reference/Makefile.am: Install the reference documentation.
+	Distribute the built reference documentatoin, and Do not rebuild it
+	every time.
+	* docs/reference/Doxyfile.in: Generate doxygen tags so that other
+	documentation can link to the libxml++ documentation. Use the
+	libstdc++ and glibmm doxygen tags to link to their documentation,
+	for instance for Glib::ustring.
+
+2005-01-26  Cedric Gustin <cedric.gustin@swing.be>
+
+	* MSVC_Net2003/README: Updated for 2.8.0
+
+2005-01-26  Cedric Gustin <cedric.gustin@swing.be>
+
+	* configure.in: parse micro version tags at configure time (for
+	libxml++.rc). Added support for shared libraries (DLL) on
+	win32. Added MSVC_Net2003 Makefiles.
+	* Makefile.am: Added MSVC_Net2003 subdir.
+	* libxml++/Makefile.am: Added linker flags for shared libraries
+	(DLL) on win32.
+	* examples/Makefile.am_fragment: Removed trailing slash in INCLUDES.
+	* MSVC_Net2003/*: Initial release.
+
+2.9.1:
+
+2004-12-25  Murray Cumming  <murrayc@murrayc.com>
+
+	* libxml++/parsers/domparser.[h|cc], saxparser.[h|cc]: Added
+	parse_memory_raw() for libxml documents that are not utf8-encoded or
+	are encoded in an unknown encoding.
+	* examples/: Added dom_parser_raw() to test parsing of UCS2-encoded
+	text.
+
+2004-12-20  Murray Cumming  <murrayc@murrayc.com>
+
+	* This is the HEAD branch, for gnome 2.9/2.10.
+
+2004-12-18  Murray Cumming  <murrayc@murrayc.com>
+
+	* libxml++/docs/index.html: Bugs: Minor english corrections, and
+	more useful bugzilla links.
+	* libxml++/docs/Makefile.am: Build the reference documentation as
+	part of the main cvs build, but distribute it so that it does not need
+	to be rebuilt when building a tarball.
+
+2004-12-18  Murray Cumming  <murrayc@murrayc.com>
+
+	* libxml++/nodes/node.cc: Node::find(): Check the result of
+	xmlXPathEval and throw an exception about invalid xpaths, instead of
+	crashing. Bug #161549 from Caleb Epstein.
+
+2004-12-18  Murray Cumming  <murrayc@murrayc.com>
+
+	* libxml++/parsers/saxparser.cc: parse_memory(), parse_chunk(),
+	domparser.cc: parse_memory, parse_chunk(): Use Glib::ustring::bytes()
+	to get the size of the array, not size() or length(), which gets
+	the number of utf8 characters. It might not even be utf8.
+	* examples/sax_parser_build_dom/svgparser.cc: Use !empty() instead of
+	size() > 0. It is more efficient.
+
+2004-11-30  Murray Cumming  <murrayc@murrayc.com>
+
+	* libxml++/validator.h: Removed an extra ; that g++ 3.4 complains
+	about.
+
+2.8.0:
+
+2004-09-12  Murray Cumming  <murrayc@murrayc.com>
+
+	* libxml++/libxml++.h: Add include for xmlreader.h.
+	* examples/saxparser/myparser.cc, saxparser_entities/myparser.cc:
+	Correct (and uncomment) the code to read the attribute values.
+
+2.7.1:
+
+2004-09-06  Christophe de Vienne <cdevienne@netcourrier.com>
+
+	* configure.in: Prepared release 2.7.1.
+
+2004-08-13  Christophe de Vienne <cdevienne@netcourrier.com>
+
+	* libxml++/parsers/domparser.cc, libxml++/parsers/parser.cc: Fixed
+	bug #150082.
+
+2.7.0:
+
+2004-06-24  Murray Cumming  <murrayc@.com>
+
+	* configure.in, Makefile.am, libxml++-2.*.pc.in: Reverted the changes
+	that made it install a 2.8 pc.in file, and which decreased the .so
+	name. 2.8 is not parallel-installable with 2.6, and this would only
+	have been a half-done transition if it was.
+
+2004-06-22  Murray Cumming  <murrayc@murrayc.com>
+
+	* libxml++/io/outputbuffer.cc, inputbuffer.cc:
+	Added include of libxml/globals.h before include of libxml/xmlIO.h,
+	because xmlIO.h needs the definition of
+	xmlParserInputBufferCreateFilenameFunc.
+
+2004-05-28  Christophe de Vienne <cdevienne@netcourrier>
+
+	* configure.in, examples/Makefile.am, examples/dtdvalidation/Makefile.am,
+	examples/dtdvalidation/example.dtd, examples/dtdvalidation/main.cc,
+	libxml++/Makefile.am, libxml++/dtd.[h|cc], libxml++/io/Makefile.am,
+	libxml++/io/istreamparserinputbuffer.[h|cc],
+	libxml++/io/parserinputbuffer.[h|cc],
+	libxml++/libxml++.h, libxml++/validators/Makefile.am,
+	libxml++/validators/dtdvalidator.[h|cc]
+	libxml++/validators/validator.[h|cc]:
+	Integrated dtdvalidator patch proposed by Guillaume Arreckx.
+	Modified a bit the patch:
+	- renamed *.cpp -> *.cc
+	- fixed a few comments which where copy/paste from other files
+	- replaced std::string with Glib::ustring
+	- Added Dtd::cobj, since the patch rely on it.
+	- added a validaty_error as suggested by jon
+
+
+2004-04-26  Christophe de VIENNE  <cdevienne@netcourrier.com>
+
+	* libxml++/nodes/contentnode.cc: Fixed set_content which used xmlNodeAddContent
+	instead of xmlNodeSetContent (thanks to Marcello Orizi who outlined it).
+
+2004-05-05  Christophe de Vienne  <cdevienne@netcourrier.com>
+
+	* libxml++/parsers/saxparser.cc: One more (last one I hope) change
+	about Glib::ustring instanciation from a buffer + lenght. We now
+	use Glib::ustring::ustring(In begin, In end) constructor. Thanks to
+	Jonathan Wakely.
+
+2004-05-04  Christophe de Vienne  <cdevienne@netcourrier.com>
+
+	* libxml++/parsers/saxparser.cc: Replaced again the use of
+	Glib::ustring(const char*) constructor by Glib::ustring(std::string).
+	Fixes #141824.
+
+2004-05-04  Christophe de Vienne  <cdevienne@netcourrier.com>
+
+	* libxml++/parsers/saxparser.cc: Replace the use of
+	Glib::ustring(const char*, unsigned) constructor by Glib::ustring(const char*).
+	Fixes #141824.
+
+2004-05-04  Murray Cumming  <murrayc@murrayc@com>
+
+	* libxml++-2.6.pc.in: Made it require glibmm-2.4, so that apps do not
+	have to check for this themselves.
+
+2.6.0:
+
+2004-04-13  Murray Cumming  <murrayc@murrayc.com>
+
+	* libxml++/Makefile.am: Change library name to 2.6 instead of 2.5.
+	* libxml++-2.6.pc.in: Report the changed library name.
+
+2004-03-27  Murray Cumming  <murrayc@murrayc.com>
+
+	* libxml++/parsers/textreader.[h|cc]: Correct constness of
+	get_current_node(), so there is a const and non-const version.
+
+2.5.2:
+
+2004-02-16  Christophe de VIENNE  <cdevienne@netcourrier.com>
+
+	* libxml++/nodes/element.cc: Check return value of xmlHasNsProp to
+	fix issue #134390 (as reported by John Coyle). Use xmlHasProp instead
+	of testing each attributes.
+
+2004-02-16  Christophe de VIENNE  <cdevienne@netcourrier.com>
+
+	* libxml++-2.6.pc.in: Added libxml-2.0 to Requires: and removed
+	@LIBXML_LIBS@ from libs, as suggested by Albert Chin.
+
+2004-02-16  Christophe de VIENNE  <cdevienne@netcourrier.com>
+
+	* libxml++/nodes/node.cc, libxml++/parsers/parser.h:
+	Merged in patches from Albert Chin to get libxml++ build using the SUN,
+	HP, SGI & AIX C++ compilers.
+
+2004-02-13  Jim Garrison  <garrison@case.edu>
+
+	* libxml++/attribute.h, libxml++/document.h, libxml++/dtd.h,
+	  libxml++/io/ostreamoutputbuffer.[h|cc],
+	  libxml++/io/outputbuffer.[h|cc], libxml++/keepblanks.[h|cc],
+	  libxml++/nodes/node.h, libxml++/parsers/parser.h,
+	  libxml++/parsers/saxparser.h, libxml++/parsers/textreader.[h|cc]:
+	Removed unnecessary semicolons
+
+2.5.1:
+
+2004-02-08  Jim Garrison  <garrison@case.edu>
+
+	* libxml++/document.[h|cc]: added Document::cobj() function
+
+2004-02-06  Christophe de Vienne  <cdevienne@netcourrier.com>
+
+	* libxml++/parsers/sax_parser.cc: Fixed issue #132014.
+
+2004-02-06  Christophe de Vienne  <cdevienne@netcourrier.com>
+
+	* libxml++/parsers/[Makefile.am|textreader.h|textreader.cc]: Added
+	TextReader interface. It is almost the patch which is here :
+	http://sourceforge.net/tracker/index.php?func=detail&aid=842730&group_id=12999&atid=312999
+	with Glib::ustring instead of std::string, and member functions names
+	changed to be consistent with other interfaces.
+	* configure.in, examples/Makefile.am, examples/textreader: Added an example
+	of TextReader interface.
+
+2004-02-05  Jim Garrison  <garrison@case.edu>
+
+	* libxml++/document.[h|cc]: added create_root_node_by_import()
+
+2004-01-13  Christophe de Vienne  <cdevienne@alphacent.com>
+
+	* libxml++/io/document.cc: Gives NULL strings instead of empty ones to
+	xmlCreateIntSubset. Fixes issue #131329.
+
+2004-01-12  Christophe de Vienne  <cdevienne@alphacent.com>
+
+	* libxml++/io/outputbuffer.cc: Fix return value of xmlIO callbacks. (Fixes
+	issue #131018).
+
+2003-12-19  Murray Cumming  <murrayc@usa.net>
+
+	* configure.in: Added glibmm-2.4 to the pkg-config check.
+	* Used regexxer to do a complete std::string/Glib::ustring rename.
+	Everything seems to still work. I think the parse_chunk(stream)
+	stuff might need some attention/thought.
+
+2003-12-19  Murray Cumming  <murrayc@usa.net>
+
+	* removed acinclude.m4 because we do not need it anymore because
+	we do not need AM_LIBXML now that we use pkg-config.
+	* libxml++/Makefile.am: Generate a library with 2.5 in the name,
+	instead of 1.0
+	* configure.in: Change version to 2.5.0.
+	* examples/Makefile.am_fragment: Link to the new library name.
+	* Renamed libxml++-1.0.pc.in to libxml++-2.6.pc.in: and changed the
+	library name that pkg-config reports for --libs.
+	* So, this is now the libxml++ 2.6 API, with a library name of 2.5
+	while it is unstable. It is parallel-installable with libxml++ 1.0.
+
+This is the HEAD branch, for libxml++ 2.5/2.6.
+
+1.0.0:
+
+2003-12-18  Ephraim Vider <eff@eplication.com>
+	* examples/sax_parser_build_dom/svgelement.cc,svgpath.h:
+	- removed unneeded method qualification (msvc6 error)
+	* examples/sax_parser_entities/myparser.cc:
+	- removed namespace qualification (msvc6 error)
+	- removed return from void function
+
+2003-12-18  Ephraim Vider <eff@eplication.com>
+
+	* win32_msvc6: updated MSVC projects to include new sources and examples
+
+2003-12-12  Christophe de Vienne  <cdevienne@alphacent.com>
+
+	* libxml++/parsers/sax_parser.cc: removed initialisation of userData
+	with this at the context creation (solution given by Murray).
+
+2003-12-11  Murray Cumming  <murrayc@usa.net>
+
+	* libxml++/Makefile.am: Generate a library with 1.0 in the name,
+	instead of 0.1
+	* configure.in: Change version to 1.0.0, and change shared library
+	version to 1.0.0 because we are staring again witt the first
+	version of a new shared library.
+	* examples/Makefile.am_fragment: Link to the new library name.
+	* libxml++-1.0.pc.in: Change the library name that pkg-config
+	reports for --libs.
+
+2003-12-08  Ephraim Vider <eff@eplication.com>
+
+	* libxml++/document.cc: remove return statement from void functions
+
+0.28:
+
+2003-12-08  Christophe de Vienne  <cdeviennne@netcourrier.com>
+
+	* libxml++.spec.in: Removed libxml++.m4 and xml++-config from %files
+	section.
+
+2003-12-08  Murray Cumming  <murrayc@usa.net>
+
+	* examples/ Added sax_parser_build_dom example from Dan Dennedy.
+	It does some funky stuff (see the comments) but it is an
+	interesting concept. See the description in examples/README.
+
+2003-12-03  Christophe de Vienne  <cdevienne@netcourrier.com>
+
+	* configure.in: use libxml-2.0 instead of xml2 for libxml2 detection
+	by pkg-config.
+	* libxml++/parser/sax_parser.[h|cc]: Replaced AttributeMap by AttributeList,
+	which is now an ordered container (std::deque). Added a functor that can be
+	used with std::find_if to get an Attribute by it's name.
+	* libxml++/document.h: Fixed a typo in a doxygen command.
+
+2003-12-03  Murray Cumming  <murrayc@usa.net>
+
+	* examples/README: explained what the examples do.
+
+2003-11-28  Christophe de Vienne  <cdevienne@alphacent.com>
+
+	* libxml++/docs/index.html: Added libxml2 version we relay on, as
+	suggested by Paul Breslin.
+	* configure.in: Prepared 0.28 release. Check for libxml2 >= 2.5.8 using
+	pkg-config instead of old-style autoconf macro.
+	* acinclude.m4: Removed.
+
+2003-11-27  Murray Cumming  <murrayc@usa.net>
+
+	* Added examples/sax_parser_entites to test the new functionality.
+	* Added doxygen documentation to almost every class and method,
+	including mentioning that the parse methods throw exceptions.
+
+2003-11-27  Murray Cumming  <murrayc@usa.net>
+
+	* Applied patch from Dan Dennedy to add entity handling to the
+	SAX parser, using a 2nd Document instance to manage the entity
+	definitions in order to provide a default entity reference resolver
+	implementation for on_get_entity(). With some minor changes from me.
+
+2003-11-13  Christophe de Vienne  <cdevienne@netcourrier.com>
+
+	* libxml++/io/Makefile.am: Made libio a non installed library.
+	* libxml++/document.cc: Fixed a serious issue with threading: callbacks
+	were defined only for the main thread.
+
+0.27:
+
+2003-10-28  Murray Cumming  <murrayc@usa.net>
+
+	* libxml++/nodes/element.[h|cc]: Changed get_child_content() to
+	get_child_text(), set_child_content() to set_child_text(),
+	add_comment() to add_child_comment(), and add_content() to
+	add_child_content() to make the API clearer.
+
+2003-10-25  Christophe de Vienne  <cdevienne@netcourrier.com>
+
+	* libxml++/document.[h|cc]: Added Document::add_comment and added some
+	documentation.
+
+2003-10-22  Murray Cumming  <murrayc@usa.net>
+
+	* libxml++/parsers/saxparser.[h.cc]: Added on_entity_declararation()
+	callback, and demonstrated it in examples/sax_parser/.
+	Added documentation to on_get_entity() giving clues about how to use
+	it, though it is too difficult for me to try.
+
+2003-10-18  Christophe de Vienne  <cdevienne@netcourrier.com>
+
+	* All: All private members previously having a leading underscore in their
+	name now have it postfixed. Ex: _impl becomes impl_.
+
+2003-10-18  Christophe de Vienne  <cdevienne@netcourrier.com>
+
+	* libxml++/io/outputbuffer.[h|cc]: Removed conversion operator to
+	underlying C structure. cobj() is now public.
+	* libxml++/document.cc: use OutputBuffer::cobj() instead of implicit
+	conversion.
+
+2003-10-18  Christophe de Vienne  <cdevienne@netcourrier.com>
+
+	* libxml++/nodes/Makefile.am: Removed some trailing white spaces after a
+	backslash.
+
+2003-10-14  Murray Cumming  <murrayc@usa.net>
+
+	* Added lots of doxygen documentation, try to document everything 100%.
+	* libxml++/nodes/element.[h|cc]: Made get_attributes() non-const
+	and added a const get_attributes() const overload, like
+	Node::get_children().
+	* Moved AttributesList typedef from Node to Element, because that's
+	where it is used.
+	* libxml++/parsers/parser.[h|cc]: Added get/set_substitute_entities(),
+	like get/set_validate(), which affects _context->replaceEntities in
+	initialize_context().
+	* Added libxml++/nodes/entityreference.[h|cc], with a
+	get_resolved_text() method.
+	* libxml++/document.cc:
+ - on_libxml_construct(): For the default, used when a node is not
+	recognised, create a Node rather than a ContentNode. Everything is a
+	Node so this should have less chance of being wrong.
+	- Added case to create an EntityReference.
+	* Added examples/dom_parse_entities.
+
+2003-09-30  Jonathan Wakely  <redi@kayari.org>
+
+	* libxml++/document.cc, libxml++/nodes/element.cc,
+	libxml++/nodes/node.cc: Preserve const-quals when casting between
+	strings of different character types.
+
+2003-09-26  Christophe de Vienne  <cdevienne@netcourrier.com>
+
+	* libxml++/io/outputbuffer.[h|cc]: Yet another cleaning of the interface
+	and implementation. OutputBuffer is now non copyable, and the callback
+	process is now the same for write and close.
+	* libxml++/io/(ostream)outputbuffer.h: Added Doxygen documentation.
+
+2003-09-26  Christophe de Vienne  <cdevienne@netcourrier.com>
+
+	* libxml++/io/: Small corrections after Murray comments on the patch. It's
+	even more clean now.
+
+2003-09-26  Christophe de Vienne  <cdevienne@netcourrier.com>
+
+	* libxml++/io/: Added classes to wrap xmlIO output buffers. This classes
+	are OutputBuffer and OStreamOutputBuffer.
+	* libxml++/document.h:
+	- Added write_to_stream, which is implemented thanks to OutputBuffer.
+	- Removed virtual specifier on write_to_xxx functions. Their
+	implemention now calls a private virtual function do_write_to_xxx. This
+	also avoid having almost identical functions implementation in normal and
+	formatted versions of the functions.
+
+2003-09-24  Christophe de Vienne  <cdevienne@netcourrier.com>
+
+	* libxml++/examples/dom_build/main.cc: Now demonstrate add_comment
+	too.
+
+2003-09-24  Dan Dennedy
+
+	* libxml++/nodes/element.[h|cc]: Added Element::add_comment.
+
+2003-09-23  Christophe de Vienne  <cdevienne@netcourrier.com>
+
+	* libxml++/document.h, libxml++/keepblanks.h, libxml++/noncopyable.h,
+	libxml++/nodes/node.h: Updated documentation.
+
+0.26:
+
+2003-09-22  Christophe de Vienne  <cdevienne@netcourrier.com>
+
+	* examples/dom_build/main.cpp: Use Element::set_attribute instead of
+	Element::add_attribute which no longer exists.
+
+2003-09-19  Murray Cumming  <murrayc@usa.net>
+
+	* libxml++/node/element.h: Removed add_attribute because it is the same as
+	set_attribute.
+
+2003-09-18  Murray Cumming  <murrayc@usa.net>
+
+	* libxml++/node/element.h: Added set_namespace_declaration().
+	  element, node: methods take prefix instead of uri and prefix, because
+	that's what we want to specify most of the time. If no such namespace
+	prefix has been declared then an exception will be thrown. If we want
+	to specify a node name and attribute namespaces by uri (which would
+	result in a prefix in the eventual .xml code) then we could add those
+	methods later. If anybody needs them.
+
+2003-09-17  Christophe de Vienne  <cdevienne@netcourrier.com>
+
+	* docs/reference/Doxyfile(.in): Doxyfile is now generated from Doxyfile.in
+	by configure so the version number is included in main page. The dot image
+	format is changed to png, the index is not disabled anymore.
+
+2003-09-15  Fredrik Arnerup
+
+	* libxml++/document.cc: Added a call to xmlInitParser to avoid
+	threading problems.
+
+2003-09-05  Murray Cumming  <murrayc@usa.net>
+
+	Based on the patch from Dan Dennedy, with changes:
+	* libxml++/node.[h|cc],
+	libxml++/element.[h|cc]: Added namespace_uri and namespace_prefix
+	parameters to methods, to support speficiation of nodes and children
+	also with namespace information.
+	* Added Node::get_namespace_prefix() and get_namespace_uri() and
+	set_namespace().
+	* examples/dom_build/: Modified the example to do namespace stuff,
+	to test this.
+
+2003-08-20  Murray Cumming  <murrayc@usa.net>
+
+	* libxml++/node.[h|cc]: import_node() now takes a _const_ Node, as
+	suggested by Rafael Vuijk.
+
+2003-07-20  Ephraim Vider <eff@eplication.com>
+
+	* win32_msvc6: libxml++.dsp, examples/import_node.dsp, examples/Makefile.am:
+		- added import_node example project
+
+0.25:
+
+2003-07-16  Christophe de Vienne  <cdevienne@netcourrier.com>
+
+	* libxml++.m4, xml++-config.in, configure.in, Makefile.am: removed old-style
+	autoconf libxml++ detection macro and script.
+
+2003-07-15  Christophe de Vienne  <cdevienne@netcourrier.com>
+
+	* all but exceptions/*.[h|cc]: removed throw specification from functions
+	declaration.
+
+2003-07-11  Eric Bourque <ericb@computer.org>
+
+	* nodes/node.[h|cc]: Added import_node function
+	* examples/import_node: Added an example of using import_node, and modified
+	autoconf files accordingly.
+
+2003-06-25  Ephraim Vider <eff@eplication.com>
+
+	* win32_msvc6: libxml++.dsp: added _REENTRANT to support libxml with threads
+	- examples/Makefile.am: added new example project
+
+2003-06-16  Christophe de Vienne  <cdevienne@netcourrier.com>
+
+	* docs/index.html: Added a link to Doxygen website.
+
+2003-06-16  Ephraim Vider <eff@eplication.com>
+
+	* win32_msvc6/*: Fixed MSVC6 project files.
+
+2003-06-13  Christophe de Vienne  <cdevienne@netcourrier.com>
+
+	* docs/Makefile.am: Fixed the post-html rule which was sending twice the
+	reference.
+	* docs/index.html: Added keyword "XML".
+
+0.24:
+
+2003-06-11  Christophe de Vienne  <cdevienne@netcourrier.com>
+
+	* libxml++/parsers/domparser.cc:
+		- Fixed parse_stream. Parsing success was not checked before creating
+		Document.
+		- Check for errNo after parsing.
+
+2003-06-02  Ephraim Vider
+	* libxml++/nodes:
+	Added ContentNode as a base class for all non-element nodes
+	- TextNode and CommentNode are derived from ContentNode
+	- Added CdataNode and ProcessingInstructionNode as specific types
+	derived from ContentNode
+	- Will create ContentNode as a default node type when assert is
+	disabled
+	- Modified dom_parser example to better handle new types
+	Modified files: textnode.[h|cc] commentnode.[h|cc]
+	Added files: contentnode.[h|cc] cdatanode.[h|cc] processinginstructionnode.[h|cc]
+
+	* node.cc: - Fix. return empty string and not 0
+	* updated MSVC projects to include new sources and example
+
+2003-06-10  Jonathan Wakely  <redi@kayari.org>
+
+	* libxml++/parsers/saxparser.cc: Replace <istream> with <iostream>
+	to support older compilers.
+
+2003-06-06  Christophe de Vienne  <cdevienne@alphacent.com>
+
+	* libxml++/document.cc: Little change in write_to_xxx_formatted. The
+	keepblanks parameter is kept to true, but xmlIndentOutputTree is set to 1.
+	This avoid libxml2 to add some significant whitespace into content nodes,
+	but still format the output.
+
+2003-06-05  Christophe de Vienne  <cdevienne@alphacent.com>
+
+	* libxml++/keepblanks.[h|cc]: Moved KeepBlanks::Default definition
+	to .cc file if compiler is MSVC 6.0.
+
+2003-06-04  Morten Hanssen  <morten.hanssen@pd.politiet.no>
+
+	* libxml++/Document.cc: Fixed a memory leak in
+	write_to_string[_formatted]() functions.
+
+2003-06-02  Murray Cumming  <murrayc@usa.net>
+
+	* libxml++/Document.[h|cc]: Removed the standalone parse_* methods
+	because they just duplicate functionality and nobody seems to be
+	using them.
+	Renamed the private construct() and destruct() callbacks to
+	on_libxml_construct() and on_libxml_destruct() and added some
+	simple comments to explain their purpose.
+	* libxml++/node.[h|cc]: Added Node::is_white_space(), to make it
+	easier for the application to ignore white space. Used it in
+	the dom_parser example..
+
+2003-05-29  Murray Cumming  <murrayc@usa.net>
+
+	* Removed some struct keywords from method and variable definitions.
+	They don't seem to be necessary, and they do not match the method
+	definitions in the .cc files.
+	* Some syntax clean-up - tabs to spaces and adding spaces.
+	* examples/dom_parse/main.cc: Say when something is a text node.
+
+2003-05-28  Christophe de Vienne  <cdevienne@netcourrier.com>
+
+	* lixml++/document.[h|cc]: Added write_to_file_formatted and
+	write_to_string_formatted.
+
+2003-05-25  Jonathan Wakely  <redi@kayari.org>
+
+	* libxml++/parsers/saxparser.cc: Included <cassert>
+
+2003-05-23  Jonathan Wakely  <redi@kayari.org>
+
+	* libxml++/parsers/saxparser.[h|cc]: Correct comments.
+
+2003-05-23  Christophe de Vienne  <cdevienne@netcourrier.com>
+
+	* all header files: Removed libxml2 headers inclusion. Added necessary
+	forward declaration of libxml2 structures.
+	* libxml++/parsers/saxparser.[h|cc]: Moved static callback functions into
+	a struct defined only in the .cc file, SaxParserCallback.
+	Added boolean parameter to SaxParser constructor to activate on_get_entity
+	callback (default to false). This technique could eventually be extended to
+	other functions in the future.
+	* libxml++-1.0.pc.in: removed libxml headers include path from Cflags.
+
+2003-05-22  Christophe de Vienne  <cdevienne@netcourrier.com>
+
+	* libxml++/nodes/node.[h|cc]: Added Node::set_name().
+
+2003-05-20  Christophe de Vienne  <cdevienne@netcourrier.com>
+
+	* libxml++/nodes/[node.cc|element.h]: Minor syntax adjustments to allow
+	compiling with g++ -ansi -pedantic -Wall without any warning.
+
+0.23:
+
+2003-05-20  Christophe de Vienne  <cdevienne@netcourrier.com>
+
+	* libxml++/keepblanks.[h|cc]: New KeepBlanks class which change settings
+	related to xmlKeepBlanksDefault and xmlIndentTreeOuput.
+	* libxml++/[document.cc|parsers/*parsers.cc]: use KeepBlanks instead of
+	manually call xmlKeepBlanksDefault(). Significant white spaces are not
+	removed/added anymore.
+	* example/dom_read_write/example_output.xml: removed.
+
+2003-05-16  Murray Cumming  <murrayc@usa.net>
+
+	* libxml++/noncopyable.[h|cc]: New xmlpp::NonCopyable base class, which
+	should prevent people from using automatically-generated copy
+	constructors when they shouldn't. Not tested yet.
+	* libxml++/examples/dom_read_write: New example/test. This does
+	show that we are removing significant white space. This has been
+	discussed on the list and apparently Christophe has a fix for it.
+
+2003-05-06  Andy Glew <andy.glew@amd.com>
+
+	* libxml++/nodes/node.cc: Node::find( nonexistent_xpath ) now return
+	empty NodeSet
+
+2003-04-24  Christophe de Vienne  <cdevienne@netcourrier.com>
+
+	* libxml++/parsers/saxparser.cc: Fixed a memory leak pointed by "thierry"
+	<thierry.blanchard@digitech.fr>. The sax handler of the context is not reset
+	to 0 before context release anymore. In parse() the default one is saved
+	then restored after effective parsing, so libxml handle itself its
+	destruction.
+
+2003-04-20  Christophe de Vienne  <cdevienne@netcourrier.com>
+
+	* libxml++/document.cc: Removed a warning message that was put on std::cout
+	if an unknown type of node was created and replaced it by an assert. This
+	avoid the need to include iostream(.h).
+
+2003-04-18  Murray Cumming  <murrayc@usa.net>
+
+	* Applied Jaka Jejcic's patch to fix compilation on NetBSD, including
+	iostream.h instead of istream.h.
+
+2003-04-09  Eric Bourque <ericb@computer.org>
+
+	* libxml++.spec.in: modified spec file to be library version agnostic.
+
+2003-03-19  Ephraim Vider
+
+	* added msvc support in win32_msvc6.
+
+2003-03-17  Ephraim Vider
+
+	* Modified sax_exception example:
+	- corrected Clone() return type for MyException in myparser.[h|cc]
+	- catch all exceptions in main.cc - handle real errors too
+
+0.22:
+
+2003-03-15  Murray Cumming  <murrayc@usa.net>
+
+	* libxml++/parser/domparser.cc: Added const overload of get_document().
+
+2003-03-13  Christophe de Vienne
+
+	* libxml++/parser/domparser.cc: Test if context creation is
+	successfull in the different parse_xxx functions. If it is no an
+	internal_error is thrown.
+
+2003-03-06  Ephraim Vider
+
+	* made DomParser a wrapper around Document
+	removed all functions that were duplicates of document
+	functions and added get_document()
+	files: domparser.[h|cc] document.h
+
+	* fixed compilation errors for msvc:
+	- corrected Clone() return type for derived exceptions
+	- corrected getline to std::getline in saxparser.cc
+	- changed clear() to erase() in parser.cc
+	- added #define for vsprintf in parser.h
+	- fixed warning in element.cc
+
+0.21:
+
+2003-02-21  Eric Bourque
+
+	* Added spec.in, for creating RPMs.
+
+2003-02-20  Murray Cumming  <murrayc@usa.net>
+
+	* libxml++/nodes/node.[h|cc]: Moved get_child_content(),
+	set_child_content(), add_content(), and has_content() from Node to
+	derived Element class instead of just throwing an exception if it
+	isn't an Element. This means you can't use set_child_content() on a
+	TextNode - you should be using TextNode::set_content() anyway, which
+	makes a lot more sense. Corrected set_child_content() to create a
+	TextNode instead of creating a node with the content as the name,
+	fixing the output of the dom_build example.
+
+2003-02-20  Murray Cumming  <murrayc@usa.net>
+
+	* libxml++/parsers/parser.[h|cc]:
+	initialize_contex(): Request iniitialization and connect callbacks
+	check_exception(): Throw exception if any validation problems have
+	been found - the messages are built up gradually by repeated
+	callbacks.
+	set_validate(): Enables validation before calling parse_*().
+	Alternatively, use 2nd bool parameter to the DomParser constructor.
+	* libxml++/exceptions/: Added validation_error class.
+	* examples/dom_parser: Added a DTD and changed example.xml to
+	something that uses it. Also added example_invalid.xml to test
+	the exceptions.
+
+2003-02-12  Ole Laursen  <olau@hardworking.dk>
+
+	* examples/sax_parser/main.cc: Added chunk-wise parsing to the
+	example.
+
+	* libxml++/parsers/saxparser.[h,cc]: Added functionality for
+	parsing chunks of data.
+
+2003-02-17  Murray Cumming  <murrayc@usa.net>
+
+	* libxml++/parsers/*.[h|cc]: All parsing is now done via contexts,
+	which required a little duplication of the implementation of functions
+	such as xmlParseFile(), most of which is now in
+	DomParser::parse_context(). This avoids use of global functions such
+	as xmlKeepBlanksDefault() by setting these booleans directly in the
+	context, in Parser::initialize_context().
+	However, xmlCreateFileParserCtxt() does seem to be affected by
+	xmlKeepBlanksDefault so we still have to use it temporarily, restoring
+	the old value afterwards - see the comments in DomParser::parse_file().
+	This should allow us to add validation to the API.
+
+0.20:
+
+2003-02-15  Murray Cumming  <murrayc@usa.net>
+
+	* libxml++/nodes/node.cc: (remove_child): Implemented it with
+	xmlUnlinkNode and xmlFreeNode, so that it's actually removed.
+
+2003-02-15  Murray Cumming  <murrayc@usa.net>
+
+	* Added examples/dom_xpath, with code from Stefan Seefeld's dom
+	example.
+
+2003-02-15  Murray Cumming  <murrayc@usa.net>
+
+	* Reverted the Node::child_iterator API change because it was
+	undiscussed and is unfinished. The BRANCH_1_0 and HEAD branches are now
+	merged. BRANCH_1_0 should no longer be used. This was never in 0.19.
+
+0.19:
+
+2003-02-07  Murray Cumming  <murrayc@usa.net>
+
+ 	* Moved method implementations such as get_attributes() into derived
+ 	classes instead of using "using methodname();". That seems clearer.
+ 	However it shows that we should probably create a shared base class for
+ 	Content and Comment, as in the DOM.
+
+2003-02-06  Murray Cumming  <murrayc@usa.net>
+
+	* libxml++/parsers/saxparser.[h|cc]: Corrected some coding style.
+
+2003-02-06  Murray Cumming  <murrayc@usa.net>
+
+	* Changed c_obj() to cobj() because it's more like gobj() used in
+	gtkmm, gnomemm, etc.
+
+2003-02-06  Murray Cumming  <murrayc@usa.net>
+
+	* libxml++/nodes/node.*: Corrected code style.
+
+2003-02-06  Murray Cumming  <murrayc@usa.net>
+
+ 	* libxml++/nodes/node.[h|cc], libxml++/attribute.[h|cc]: Made c_obj()
+ 	accessors public so people can use them. Provided const and non-const
+ 	versions of them. Put implementation in .cc file.
+ 	* Reverted some of Stefan's coding style changes and corrected the
+ 	coding style in libxml++/nodes/document.[h|cc].
+ 	* libxml++/document.h: Made the destructor virtual, because there are
+ 	virtual methods.
+
+2002-02-04  Stefan Seefeld <seefeld@sympatico.ca>
+
+	* libxml++/node.[h,cc]: add new insert_child and append_child methods
+	(using new iterators), add get_path and find methods for xpath lookup
+
+	* examples/dom: new example code to illustrate the new features
+
+2002-02-03  Stefan Seefeld <seefeld@sympatico.ca>
+
+	* libxml++/node.h, libxml++/parsers/saxparser.[h,cc],
+	examples/sax_parser/*.[h,cc], examples/sax_exception/*.[h,cc]:
+	SaxParser::AttributeMap is now a map<string, string>.
+
+2002-02-03  Stefan Seefeld <seefeld@sympatico.ca>
+
+	* libxml++/node.h: add child_iterators for simple C++ style
+	iteration (to get eventually rid of NodeList)
+
+2002-02-03  Stefan Seefeld <seefeld@sympatico.ca>
+
+	* libxml++/attribute.[h,cc], libxml++/nodes/node.[h,cc],
+	libxml++/document.cc: derive Attribute from Node, and make
+	get_value() use libxml2 accessor instead of raw pointer
+
+2002-02-03  Stefan Seefeld <seefeld@sympatico.ca>
+
+	* libxml++/document.[h,cc], libxml++/parsers/domparser.[h,cc],
+	libxml++/libxml++.h, libxml++/Makefile.am: introduce new Document type.
+	* examples/dom_build/main.cc: make dom_build example use new
+	Document type
+
+2002-02-03  Stefan Seefeld <seefeld@sympatico.ca>
+
+	* acinclude.m4: The AM_LIBXML macro now checks for a libxml2
+	version >= 2.5.1.
+	* libxml++/nodes/node.cc: compare strings, not pointers, in
+	get_attribute()
+
+2003-01-31  Stefan Seefeld  <seefeld@sympatico.ca>
+
+	* various: overall change to use libxml2 as implementation,
+	  not only as I/O backend. With corrections by Murray Cumming.
+    Further explanation by murrayc: Instead of maintaining its own
+    C++ data structures and then creating libxml data structures from them,
+    it now manipulates the libxml data structures directly, so the C++ and C
+    APIs are always in sync.
+
+2003-01-21  Valentin Rusu <sourceforge@valentinrusu.net>
+
+ 	* added CDATA section handler to SaxParser
+
+2003-01-05  Valentin Rusu <sourceforge@valentinrusu.net>
+
+ 	* fixed a potential buffer overflow problem into saxparser.cc
+
+0.18:
+
+2003-01-31  Stefan Seefeld  <seefeld@sympatico.ca>
+
+	* various: overall change to use libxml2 as implementation,
+	  not only as I/O backend.
+
+2003-01-05  Murray Cumming  <murrayc@usa.net>
+
+	* examples/dom_build/main.cc: Removed some useless test C code.
+
+2002-12-24  Morten Brix Pedersen  <morten@wtf.dk>
+
+        * Include <iostream> instead of <istream> to compile on gcc 2.95.4.
+
+2002-12-26  Murray Cumming  <murrayc@usa.net>
+
+	* libxml++/nodes/element.c (write): Add back the code to write the
+	attributes to the C libxml structure. This code got lost during the
+	refactoring.
+
+2002-12-25  Murray Cumming  <murrayc@usa.net>
+
+	* Removed unused constructors, to simplify things. Made Node's
+	destructor virtual, because we delete them polymorphically, and
+	because it has virtual methods.
+
+2002-12-25  Murray Cumming  <murrayc@usa.net>
+
+	* libxml++/nodes/node.[h|cc]: Removed the initialized member
+	variable and its accessor, because it's not used.
+
+2002-12-19  Murray Cumming  <murrayc@usa.net>
+
+	* libxml++/parsers/domparser.[h|cc]: get/set_root_node() now returns
+	an Element instead of a Node.
+
+2002-12-19  Murray Cumming  <murrayc@usa.net>
+
+	* Changed const & accessors to get_*() methods. For instance,
+	Node::name -> Node::get_name
+	Node::children() -> Node::get_children()
+	Element::attributes() -> Element::get_attributes()
+	Attribute::value -> Attribute::get_value()
+
+2002-12-18  Murray Cumming <murrayc@usa.net>
+
+	* Added libxml++/nodes/commentnode.[h|cc] and used it in Node so that
+	comments don't just show up as name=comment Nodes.
+	* examples/dom_parser/example.xml: Added a comment.
+	* examples/dom_parser/main.cc: Do a dynamic_cast<> check for comments
+	too.
+
+2002-12-18  Christophe de Vienne  <cdevienne@alphacent.com>
+
+	* libxml++/parser/saxparser.cc: Fixed a bug in exception handling in
+	parse_stream. Thanks to Fredrik Arnerup <e97_far@e.kth.se> for reporting
+	the bug.
+
+2002-12-17  Murray Cumming  <murrayc@usa.net>
+
+	* Added libxml++/nodes/textnode.[h|cc]. This should remove the
+	confusion about whether content()/set_content() should be used on
+	a text node or the parent of a text node.
+	* libxml++/nodes/node.[h|cc]:
+	- Node::write() is now virtual, and
+	different in TextNode.
+	- content() replaced by get_child_content, which returns a TextNode*
+	instead of a string.
+	- set_content() replaced by set_child_content().
+	* Added libxml++/nodes/element.[h|cc] so that TextNode can inherit
+	from a Node class without the attributes API. As per the Java DOM API,
+	Node still has the children API - I guess there's some reason for that,
+	though I don't see how a TextNode could have children.
+
+2002-12-17  Murray Cumming  <murrayc@usa.net>
+
+	* Moved node.[h|cc] into nodes sub directory, in preparation for the
+	multiple-node-types API change.
+
+2002-12-12  Jonathan Wakely <redi@kayari.org>
+
+	* libxml++/parsers/saxparser.cc, saxparser.h (on_get_entity): New
+	virtual function to allow derived classes to override entity handling
+
+2002-12-16  Murray Cumming  <murrayc@usa.net>
+
+	* libxml++/node.cc: write():
+	- Don't set the node->type directly. Let
+	xmlNodeSetContent take care of adding a suitable child node. This
+	was leading to segfaults when write() later tried to add a child node
+	to a text node.
+	- Throw internal_error exception when xmlNewChild returns NULL.
+
+
+0.17:.
+
+2002-12-10  Christophe de Vienne <cdevienne@alphacent>
+
+	* configure.in: updated version numbers for next release. Generic
+	version is now 0.17, library version is 3:0:0
+	* NEWS: updated with changes since 0.16 version.
+
+2002-12-10  Christophe de Vienne <cdevienne@alphacent.com>
+
+	* libxml++/node.cc: fixed write() which was using the accessors content()
+	and has_content(). Since they return something for both the text
+	node and the parent node, the output was weird.
+
+2002-12-09  Murray Cumming  <murrayc@usa.net>
+
+	* libxml++/node.cc: content(): If the cached content string is empty,
+	try to get the content of a child "text" node. This makes content()
+	work as expected after creating a document with set_content() and
+	later reparsing it.
+
+2002-12-09  Murray Cumming  <murrayc@usa.net>
+
+	* libxml++/parsers/dom_parser.cc (release_underlying): Set pointers
+	to 0 so that the get_*() methods generate new instances instead of
+	returning invalid pointers.
+
+2002-12-09  Murray Cumming  <murrayc@usa.net>
+
+	* libxml++/node.cc: Node::remove_child() and Node::remove_attribute:
+	delete the objects when forgetting about them.
+	* libxml++/node.h: Added reference docs explaining the above.
+
+2002-12-07  Murray Cumming  <murrayc@usa.net>
+
+	* libxml++/parsers/domparser.cc, saxparser.cc: Added comments about
+	the use of xmlKeepBlanksDefault() and xmlLineNumbersDefault().
+	* libxml++/parsers/saxparser.[h|cc]: Change exception & to exception&.
+
+2002-12-06  Christophe de Vienne <cdevienne@alphacent.com>
+
+	* libxml++/parsers/domparser.cc: Enabled xml option LineNumbers
+	and disabled KeepBlanks before each parsing.
+	* libxml++/parsers/sax_parser.cc: Enabled xml option KeepBlanks
+	before each parsing.
+	* example/dom_parser/main.cc: Added line number display for each
+	non-content node. Changed a bit content display
+	* Note: in a near future I may change these options settings to
+	let the user choose which options he wants/wants not.
+
+
+2002-12-03  Jone Marius Vignes <jmvignes@broadpark.no>
+
+	* libxml++/parsers/domparser.cc: Changed the exception in
+	write_to_string() to "write_to_string() failed."
+	* libxml++/parsers/domparser.h: Corrected documentation of
+	write_to_string() and write_to_file() to clarify that these methods
+	doesn't return booleans
+
+2002-12-02  Christophe de Vienne <cdevienne@alphacent.com>
+
+	* libxml++/exceptions/*.[h|cc]: Added and implemented virtual
+	methods Raise() and	Clone.
+	* libxml++/parser/sax_parser.[h|cc]: Each callback method can now
+	throw some exceptions as long as they herit from xmlpp::exception
+	AND implement Raise() and Clone().
+	* libxml++/examples/sax_exception/: Added an example which demonstrate
+	the use of exceptions inside a SaxParser.
+
+2002-11-29  Murray Cumming  <murrayc@usa.net>
+
+	* autogen.sh: Added libtoolize to generate files such as ltmain.sh.
+
+2002-11-28  Christophe de Vienne <cdevienne@alphacent.com>
+
+	* acinclude.m4: The AM_LIBXML macro now checks for a libxml2
+	version >= 2.4.1.
+
+2002-11-21  Christophe de Vienne <cdevienne@alphacent.com>
+
+	* libxml++/parsers/*.[h|cc]: added Parser::parse_stream method
+	and implemented it in both DomParser and SaxParser. Tests based
+	on the examples (not commited in the cvs) worked perfectly.
+
+2002-11-20  Christophe de Vienne <cdevienne@alphacent.com>
+
+	* libxml++/parsers/saxparser.cc: fixed a memory leak (thanks
+	to Chris Leishman <masklin@debian.org> who reported it.
+
+2002-11-20  Murray Cumming  <murrayc@usa.net>
+
+	* Changed use of the term properties to attributes in the API,
+	because that is the correct terminology.
+
+0.16:
+
+2002-11-19  Christophe de Vienne <cdevienne@alphacent.com>
+
+	* configure.in: updated version numbers for next release.
+	version is set to 0.16, library version to 2:0:0
+
+2002-11-19  Murray Cumming  <murrayc@usa.net>
+
+	* docs: Added index.html, which can be a main website page.
+	* docs/Makefile.am: Added rsync command to upload the html,
+	including the reference documentation.
+
+2002-11-19  Murray Cumming  <murrayc@usa.net>
+
+	* Added Dtd class, which is just a collection of std::strings.
+	* libxml++/parsers/domparser.[h|cc]: Added set_internal_subset() and
+	get_internal_subset() to set the DTD declaration. This is set in the
+	underlying C xmlDoc during write_to_file() and write_to_disk().
+
+2002-11-18  Murray Cumming  <murrayc@usa.net>
+
+	* libxml++/node.[h|cc]:
+	- Rename is_content() to has_content(), because that's what it tells
+	us. Removed _is_content member bool - we can check _content.empty()
+	instead.
+	- write(): Do not manually set the xmlNode's type field to TEXT. This
+	corrupted the tree. Tested content nodes in example/dom_build.
+
+2002-11-18  Murray Cumming <murrayc@usa.net>
+
+	* libxml++/parsers/domparser.cc (write_to_*): Corrected no-root-node
+	check.
+
+2002-11-18  Murray Cumming  <murrayc@usa.net>
+
+	* libxml++/exceptions/exception.[h|cc]: Corrected signature of what()
+	method, adding const throw().
+
+2002-11-18  Murray Cumming  <murrayc@usa.net>
+
+	* libxml++/parsers/domparser.[h|cc]: Added DomParser::set_root_node().
+	* examples: Added dom_build, to show runtime construction of an XML
+	tree.
+
+2002-11-18  Murray Cumming  <murrayc@usa.net>
+
+	* Parser, DomParser, SaxParser: parse_file() and parse_memory() now
+	throw exceptions.
+	* DomParser::write_to_file(): throws exception instead of using a bool
+	return value.
+	* examples/domparser/: Catches exceptions.
+
+2002-11-18  Christophe de Vienne <cdevienne@alphacent.com>
+	* libxml++/exceptions: splitted exception.[h|cc] in this directory.
+	The libxml_error has been removed for now, and a parse_error added.
+
+2002-11-17  Christophe de Vienne <cdevienne@alphacent.com>
+	* libxml++/attribute.h: Changed macro __LIBXMLPP_PROPERTY_H to __LIBXMLPP_ATTRIBUTE_H
+	* libxml++/exception.[h|cc]: Added xmlpp::exception, xmlpp::libxml_error and
+   	xmlpp::internal_error classes. It's very basic for now.
+
+2002-11-17  Murray Cumming  <murrayc@usa.net>
+
+	* Node, Attribute: set_*() method now have void return types.
+	* DomParser: Now has an empty underlying in-memory document when the
+	default constructor is used. This means that get_root_node() should
+	always return something, so we can build XML documents in memory
+	without loading any XML first.
+
+2002-11-16  Murray Cumming  <murrayc@usa.net>
+
+	* libxml++/attribute.h: Added explicit to constructor.
+
+2002-11-16  Murray CUmming  <murrayc@usa.net>
+
+	* libxml++/parsers/domparser: Renamed write() method to write_to_file()
+	and added write_to_string().
+
+2002-11-16  Murray Cumming  <murrayc@usa.net>
+
+	* libxml++-1.0.pc.in: More corrections. This was hopelessly broken
+	before.
+
+2002-11-16  Murray Cumming  <murrayc@usa.net>
+
+	* libxml++-1.0.pc.in: Corrected typo.
+
+2002-11-16  Murray Cumming  <murrayc@usa.net>
+
+	* docs/reference/Doxyfile: Used doxywizard to mark the Recursive
+	option, so it reads the libxml++/parsers directory too.
+
+2002-11-16  Murray Cumming  <murrayc@usa.net>
+
+	* Attribute, Node: Added Doxygen class comment block. Changed some
+	something * to something*.
+
+2002-11-16  Murray Cumming  <murrayc@usa.net>
+
+	* libxml++/node.[h|cc]: Added parameter names. Made const and non-const
+	overloads of children() method.
+	* libxml++/parsers/domparser.[h|cc]: Added const get_root_node() const
+	overload.
+
+2002-11-16  Christophe de Vienne <cdevienne@alphacent>
+	* libxml++/parsers/*: renamed method Parser::parse to
+	Parser::parse_file
+
+2002-11-16  Christophe de Vienne <cdevienne@alphacent>
+	* libxml++/parsers/saxparser.[h|cc]: rewritten
+	SaxParser::parse(filename) and SaxParser::parse_memory(string).
+	They both use a SaxParser::parse()
+	method. The parse_chunk and finish methods has been removed.
+	* example/sax_parser/parser.cc: minor bugfix: the Attribute pointer
+	was printed instead of the value.
+
+2002-11-16  Christophe de Vienne <cdevienne@alphacent.com>
+	* Property: has been renamed to Attribute. However, the "properties"
+	token has been kept when speaking of all the attributes of a node,
+	as in the libxml library.
+	* node.cc: rewritten a few loops so they have a more 'c++' looking.
+	rewritten some portions of code where an attribute is searched by name.
+
+2002-11-15  Murray Cumming  <murrayc@usa.net>
+	* Changed e.g. std::string &something to std::string& something,
+	using regexxer.
+
+2002-11-15  Christophe de Vienne <cdevienne@alphacent>
+	* example/sax_parser/parser.cc: #included <iostream>
+
+2002-11-15  Christophe de Vienne <cdevienne@alphacent>
+	* libxml++/parsers/saxparser.cc: #included cstdarg instead of stdarg.h
+	to follow the c++ standard. #included <iostream> to have std::cerr - it's
+	needed on strict c++ compiler (g++ 3.2 for instance).
+	* example/dom_parser/main.cc: #included <iostream>
+
+2002-11-15  Murray Cumming  <murrayc@usa.net>
+
+	* libxml++/parsers/saxparser.cc: #included stdarg.h - it seems to
+	be necessary with some compilers.
+
+2002-11-15  Murray Cumming  <murrayc@usa.net>
+
+	* DomParser:: Added get_encoding() and write() methods.
+	* Removed Tree - Use DomParser instead.
+
+2002-11-15  Murray Cumming  <murrayc@usa.net>
+
+	* SaxParser now inherits from Parser, with parse() and parse_memory()
+	methods.
+	* Added example/sax_parser example, but the start_element callback
+	doesn't seem to be called.
+
+2002-11-15  Murray Cumming  <murrayc@usa.net>
+
+	* Parser, DomParser: Added parse_memory() method.
+	* Node::children(): Removed bad early-optimisation hack - it returned
+	a static function variable instead of returning by value. This meant
+	that >1 results of children() could not be used simultaneously.
+	For instance, this meant that it could not be called recursively.
+
+2002-11-12  Murray Cumming  <murrayc@usa.net>
+
+	* Node, Property: Used explicit keyword on constructors.
+
+2002-11-12  Murray Cumming  <murrayc@usa.net>
+
+	* Added parsers directory.
+	* Renamed Parser to SaxParser.
+	* Added DomParser, intended as a replacement for Tree, but that has
+	not yet been removed. I don't intend to implement the libxml-1
+	compatibility stuff.
+	* Added examples directory structure, with one tiny dom_parser example.
+
+2002-11-12  Christophe de Vienne <cdevienne@alphacent.com>
+	* node.[h|cc]: name() method now return a reference.
+	* Tree/Node: The readnode and writenode functions have been removed
+	and transfered somehow into Node as a new constructor and write().
+	The libxml++-private.[h|cc] has been removed.
+
+2002-11-12  Murray Cumming  <murrayc@usa.net>
+
+	* Parser: It's no longer a templated type - to provide your own
+	callback implementations you can now just derive your own parser and
+	override the on_*() methods.
+
+2002-11-12  Murray Cumming  <murrayc@usa.net>
+
+	* Moved implementation into the .cc files.
+        * Changed n, v and p parameter names to name, value and properties.
+
+2002-11-12  Murray Cumming  <murrayc@usa.net>
+
+	* Split the single xml.[h|cc] files into node, property, tree and
+	parser files, with a libxml++.h header file that includes them all.
+	* Removed the XML prefixes from type names - we don't need it because
+	we use a namespace now.
+	* Placed typedefed lists and map inside their classes. For instance,
+	XMLNodeList is now xmlpp::Node::NodeList.
+	* Node::children(): Use !(n.empty()) instead of (n.length() == 0), for
+	perfomance.
+	* Tree: changed fn parameter names to filename.
+
+2002-11-12  Christophe de Vienne <cdevienne@alphacent.com>
+	* AUTHORS: Added Murray Cumming to the contributors
+
+2002-11-08  Christophe de Vienne <cdevienne@alphacent.com>
+	* libxml++/xml.cc: corrected _line initialisation in XMLNode::XMLNode(const XMLNode *from)
+
+2002-11-08  Christophe de Vienne <cdevienne@alphacent.com>
+
+	* libxml++/xml.cc: Test if doc encoding is not null before
+	reading it (thanks to Marcel Bosc).
+
+2002-11-05  Murray Cumming  <murrayc@usa.net>
+
+	* Added docs/reference/. Run make in this directory to generate
+	reference documentation with doxygen.
+	* libxml++/xml.h: Removed macros around namespace - all compilers
+	must now support namespaces.
+	* libxml++/xml.[h|cc]: Replaced (void) with () - it's not necessary
+	in C++.
+
+2002-11-05  Murray Cumming  <murrayc@usa.net>
+
+	* libxml++/Makefile.am and configure.in: Implemented shared library
+	interface versioning.
+
+2002-11-05  Murray Cumming  <murrayc@usa.net>
+
+	* Put source code in libxml++ directory, ready for it to be split up
+	into separate files. Client code should now include
+	libxml++/xml++.h rather than just xml++.h.
+
+2002-11-05  Murray Cumming  <murrayc@usa.net>
+
+	* Headers are now installed in a versioned directory, to allow
+	coexistence with future major versions of libxml++. You may need to
+	remove the previously installed xml++.h file.
+	* Library name changed to libxml++-0.1, to be changed to libxml++-1.0
+	when libxml++ stabilizes its API. This is also to allow future versions
+	to be parallel installed.
+	* Added pkg-config file as a simpler and more maintainable alternative
+	to the -config file and m4 script.
+
+Version 0.14
+	* Ported to g++ 3.2. The code should now also compile on compilers which are a bit more strict about c++ than previous versions of g++
+	* Added method XMLNode::line() wich returns the line number of a non content node in the source file.
+	* Added encoding file support through XMLTree::encoding() and XMLTree::set_encoding() methods
+	* Replacement of hash_map by map for node properties lists, since it has been reported to be faster, and to simplify porting to other plarfoms.
+	* libxml++ classes has been put in a separated namespace, libxmlpp. If you don't want namespace, just undefine the LIBXMLPP_USE_NAMESPACE
+	* encoding and compression settings are now loaded at parsing of file/buffer.
+
+
+Version O.12 to 0.13
+	No Changelog.
+
+Version O.11
+	* Modified interface to allow for more complete coverage of possible uses of XML files.
+
+Version O.10
+	* Added SAX parser.
+
+Version O.2 to 0.9
+	No Changelog.
+
+Version O.1
+	* Original release.
