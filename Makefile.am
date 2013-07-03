@@ -254,4 +254,4 @@ post-html: docs/index.html
 	rsync $(rsync_args) -r examples $$USER,libxmlplusplus@web.sourceforge.net:$(web_path_project)
 
 # Optional: auto-generate the ChangeLog file from the git log on make dist
-include $(top_srcdir)/build/dist-changelog.am
+include $(top_srcdir)/macros/dist-changelog.am
