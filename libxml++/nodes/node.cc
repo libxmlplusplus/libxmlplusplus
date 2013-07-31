@@ -585,8 +585,8 @@ void Node::create_wrapper(xmlNode* node)
 {
   if(node->_private)
   {
-	  //Node already wrapped, skip
-	  return;
+    //Node already wrapped, skip
+    return;
   }
 
   switch (node->type)
