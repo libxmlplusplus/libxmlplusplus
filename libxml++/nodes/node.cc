@@ -510,6 +510,9 @@ Glib::ustring Node::eval_to_string(const Glib::ustring& xpath, const PrefixNsMap
 
 Glib::ustring Node::get_namespace_prefix() const
 {
+  if(!impl_)
+    return Glib::ustring();
+
   if(impl_->type == XML_DOCUMENT_NODE || impl_->type == XML_ENTITY_DECL)
   {
     //impl_ is actually of type xmlDoc or xmlEntity, instead of just xmlNode.
@@ -527,8 +530,7 @@ Glib::ustring Node::get_namespace_prefix() const
     const xmlAttribute* const attr = reinterpret_cast<const xmlAttribute*>(impl_);
     return attr->prefix ? (const char*)attr->prefix : "";
   }
-
-  if(impl_ && impl_->ns && impl_->ns->prefix)
+  else if(impl_->ns && impl_->ns->prefix)
     return (char*)impl_->ns->prefix;
   else
     return Glib::ustring();
@@ -536,6 +538,9 @@ Glib::ustring Node::get_namespace_prefix() const
 
 Glib::ustring Node::get_namespace_uri() const
 {
+  if(!impl_)
+    return Glib::ustring();
+
   if(impl_->type == XML_DOCUMENT_NODE ||
      impl_->type == XML_ENTITY_DECL ||
      impl_->type == XML_ATTRIBUTE_DECL)
@@ -550,7 +555,7 @@ Glib::ustring Node::get_namespace_uri() const
     return Glib::ustring();
   }
 
-  if(impl_ && impl_->ns && impl_->ns->href)
+  if(impl_->ns && impl_->ns->href)
     return (char*)impl_->ns->href;
   else
     return Glib::ustring();
