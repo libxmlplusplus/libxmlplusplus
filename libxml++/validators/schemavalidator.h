@@ -57,7 +57,7 @@ public:
   /** Parse a schema definition file.
    * If the validator already contains a schema, that schema is released
    * (deleted if the validator owns the schema).
-   * @param file The URL of the schema.
+   * @param filename The URL of the schema.
    * @throws xmlpp::parse_error
    */
   virtual void parse_file(const Glib::ustring& filename);
