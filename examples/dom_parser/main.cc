@@ -93,7 +93,12 @@ void print_node(const xmlpp::Node* node, unsigned int indentation = 0)
     const xmlpp::Attribute* attribute = nodeElement->get_attribute("title");
     if(attribute)
     {
-      std::cout << indent << "title = " << CatchConvertError(attribute->get_value()) << std::endl;
+      std::cout << indent;
+      if (dynamic_cast<const xmlpp::AttributeNode*>(attribute))
+        std::cout << "AttributeNode ";
+      else if (dynamic_cast<const xmlpp::AttributeDeclaration*>(attribute))
+        std::cout << "AttributeDeclaration ";
+      std::cout << "title = " << CatchConvertError(attribute->get_value()) << std::endl;
     }
   }
   
@@ -118,6 +123,7 @@ int main(int argc, char* argv[])
   bool set_throw_messages = false;
   bool throw_messages = false;
   bool substitute_entities = true;
+  bool include_default_attributes = false;
 
   int argi = 1;
   while (argc > argi && *argv[argi] == '-') // option
@@ -128,22 +134,26 @@ int main(int argc, char* argv[])
         validate = true;
         break;
       case 't':
-       set_throw_messages = true;
-       throw_messages = true;
-       break;
+        set_throw_messages = true;
+        throw_messages = true;
+        break;
       case 'e':
-       set_throw_messages = true;
-       throw_messages = false;
-       break;
+        set_throw_messages = true;
+        throw_messages = false;
+        break;
       case 'E':
         substitute_entities = false;
+        break;
+      case 'a':
+        include_default_attributes = true;
         break;
      default:
        std::cout << "Usage: " << argv[0] << " [-v] [-t] [-e] [filename]" << std::endl
                  << "       -v  Validate" << std::endl
                  << "       -t  Throw messages in an exception" << std::endl
                  << "       -e  Write messages to stderr" << std::endl
-                 << "       -E  Do not substitute entities" << std::endl;
+                 << "       -E  Do not substitute entities" << std::endl
+                 << "       -a  Include default attributes in the node tree" << std::endl;
        return EXIT_FAILURE;
      }
      argi++;
@@ -163,6 +173,7 @@ int main(int argc, char* argv[])
       parser.set_throw_messages(throw_messages);
     //We can have the text resolved/unescaped automatically.
     parser.set_substitute_entities(substitute_entities);
+    parser.set_include_default_attributes(include_default_attributes);
     parser.parse_file(filepath);
     if(parser)
     {

@@ -42,7 +42,7 @@ public:
    */
   virtual void set_validate(bool val = true);
 
-  /** See set_validate()
+  /** See set_validate().
    * @returns Whether the parser will validate the XML file.
    */
   virtual bool get_validate() const;
@@ -83,7 +83,51 @@ public:
    *          The default with only validation messages thrown is returned as false.
    */
   bool get_throw_messages() const;
-  
+
+  /** Set whether default attribute values from the DTD shall be included in the node tree.
+   * If set, attributes not assigned a value in the XML file, but with a default value
+   * in the DTD file, will be included in the node tree that the parser creates.
+   * These attributes will be represented by AttributeNode instances (not AttributeDeclaration
+   * instances), just like attributes which are assigned a value in the XML file.
+   *
+   * @newin{2,38}
+   *
+   * @param val Whether attributes with default values will be included in the node tree.
+   */
+  void set_include_default_attributes(bool val = true);
+
+  /** See set_include_default_attributes().
+   *
+   * @newin{2,38}
+   *
+   * @returns Whether attributes with default values will be included in the node tree.
+   */
+  bool get_include_default_attributes();
+
+  /** Set and/or clear parser option flags.
+   * See the libxml2 documentation, enum xmlParserOption, for a list of parser options.
+   * This method overrides other methods that set parser options, such as set_validate(),
+   * set_substitute_entities() and set_include_default_attributes(). Use set_parser_options()
+   * only if no other method can set the parser options you want.
+   *
+   * @newin{2,38}
+   *
+   * @param set_options Set bits correspond to flags that shall be set during parsing.
+   * @param clear_options Set bits correspond to flags that shall be cleared during parsing.
+   *        Bits that are set in neither @a set_options nor @a clear_options are not affected.
+   */
+  void set_parser_options(int set_options = 0, int clear_options = 0);
+
+  /** See set_parser_options().
+   *
+   * @newin{2,38}
+   *
+   * @param [out] set_options Set bits correspond to flags that shall be set during parsing.
+   * @param [out] clear_options Set bits correspond to flags that shall be cleared during parsing.
+   *        Bits that are set in neither @a set_options nor @a clear_options are not affected.
+   */
+  void get_parser_options(int& set_options, int& clear_options);
+
   /** Parse an XML document from a file.
    * @throw exception
    * @param filename The path to the file.
@@ -149,6 +193,10 @@ protected:
 
   bool validate_;
   bool substitute_entities_;
+  //TODO: In a future ABI-break, add these members.
+  //bool include_default_attributes_;
+  //int set_options_;
+  //int clear_options_;
 };
 
 } // namespace xmlpp

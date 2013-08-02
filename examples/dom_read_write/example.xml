@@ -2,7 +2,7 @@
 <!DOCTYPE example PUBLIC "" "example.dtd">
 
 <example>
-  <examplechild id="1">
+  <examplechild id="1" title="First child element">
     <child_of_child/>
   </examplechild>
   <examplechild id="2">

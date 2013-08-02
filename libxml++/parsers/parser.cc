@@ -20,14 +20,19 @@ namespace // anonymous
 // because it would break ABI.
 struct ExtraParserData
 {
-  // Strange default values chosen for backward compatibility.
+  // Strange default values for throw_*_messages chosen for backward compatibility.
   ExtraParserData()
-  : throw_parser_messages_(false), throw_validity_messages_(true)
+  : throw_parser_messages_(false), throw_validity_messages_(true),
+  include_default_attributes_(false), set_options_(0), clear_options_(0)
   {}
+
   Glib::ustring parser_error_;
   Glib::ustring parser_warning_;
   bool throw_parser_messages_;
   bool throw_validity_messages_;
+  bool include_default_attributes_;
+  int set_options_;
+  int clear_options_;
 };
 
 std::map<const xmlpp::Parser*, ExtraParserData> extra_parser_data;
@@ -99,15 +104,54 @@ bool Parser::get_throw_messages() const
   return extra_parser_data[this].throw_parser_messages_;
 }
 
+void Parser::set_include_default_attributes(bool val)
+{
+  Glib::Threads::Mutex::Lock lock(extra_parser_data_mutex);
+  extra_parser_data[this].include_default_attributes_ = val;
+}
+
+bool Parser::get_include_default_attributes()
+{
+  Glib::Threads::Mutex::Lock lock(extra_parser_data_mutex);
+  return extra_parser_data[this].include_default_attributes_;
+}
+
+void Parser::set_parser_options(int set_options, int clear_options)
+{
+  Glib::Threads::Mutex::Lock lock(extra_parser_data_mutex);
+  extra_parser_data[this].set_options_ = set_options;
+  extra_parser_data[this].clear_options_ = clear_options;
+}
+
+void Parser::get_parser_options(int& set_options, int& clear_options)
+{
+  Glib::Threads::Mutex::Lock lock(extra_parser_data_mutex);
+  set_options = extra_parser_data[this].set_options_;
+  clear_options = extra_parser_data[this].clear_options_;
+}
+
 void Parser::initialize_context()
 {
+  Glib::Threads::Mutex::Lock lock(extra_parser_data_mutex);
+
+  //Clear these temporary buffers:
+  extra_parser_data[this].parser_error_.erase();
+  extra_parser_data[this].parser_warning_.erase();
+  validate_error_.erase();
+  validate_warning_.erase();
+
+  // Take a copy of the extra data, so we don't have to access
+  // the extra_parser_data map more than necessary.
+  const ExtraParserData extra_parser_data_this = extra_parser_data[this];
+  lock.release();
+
   //Disactivate any non-standards-compliant libxml1 features.
   //These are disactivated by default, but if we don't deactivate them for each context
   //then some other code which uses a global function, such as xmlKeepBlanksDefault(),
   // could cause this to use the wrong settings:
   context_->linenumbers = 1; // TRUE - This is the default anyway.
 
-  //Turn on/off validation and entity substitution.
+  //Turn on/off validation, entity substitution and default attribute inclusion.
   int options = context_->options;
   if (validate_)
     options |= XML_PARSE_DTDVALID;
@@ -119,10 +163,18 @@ void Parser::initialize_context()
   else
     options &= ~XML_PARSE_NOENT;
 
+  if (extra_parser_data_this.include_default_attributes_)
+    options |= XML_PARSE_DTDATTR;
+  else
+    options &= ~XML_PARSE_DTDATTR;
+
+  //Turn on/off any parser options.
+  options |= extra_parser_data_this.set_options_;
+  options &= ~extra_parser_data_this.clear_options_;
+
   xmlCtxtUseOptions(context_, options);
 
-  Glib::Threads::Mutex::Lock lock(extra_parser_data_mutex);
-  if (context_->sax && extra_parser_data[this].throw_parser_messages_)
+  if (context_->sax && extra_parser_data_this.throw_parser_messages_)
   {
     //Tell the parser context about the callbacks.
     context_->sax->fatalError = &callback_parser_error;
@@ -130,7 +182,7 @@ void Parser::initialize_context()
     context_->sax->warning = &callback_parser_warning;
   }
 
-  if (extra_parser_data[this].throw_validity_messages_)
+  if (extra_parser_data_this.throw_validity_messages_)
   {
     //Tell the validity context about the callbacks:
     //(These are only called if validation is on - see above)
@@ -140,12 +192,6 @@ void Parser::initialize_context()
 
   //Allow the callback_validity_*() methods to retrieve the C++ instance:
   context_->_private = this;
-
-  //Clear these temporary buffers too:
-  extra_parser_data[this].parser_error_.erase();
-  extra_parser_data[this].parser_warning_.erase();
-  validate_error_.erase();
-  validate_warning_.erase();
 }
 
 void Parser::release_underlying()

@@ -8,6 +8,7 @@ DTD for libxml++ example.
 <!ELEMENT examplechild (child_of_child)+ >
 <!ATTLIST examplechild
   id	CDATA	#REQUIRED
+  title CDATA "No title"
 >
 
 <!ELEMENT child_of_child EMPTY >

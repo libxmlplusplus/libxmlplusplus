@@ -35,7 +35,9 @@ main(int argc, char* argv[])
   std::locale::global(std::locale(""));
 
   //Parse command-line arguments:
-  std::string filepath_in, filepath_out;
+  std::string filepath_in;
+  std::string filepath_out;
+  std::string filepath_out2; // With default attributes
   if(argc > 1 )
     filepath_in = argv[1]; //Allow the user to specify a different XML file to parse.
   else
@@ -45,6 +47,10 @@ main(int argc, char* argv[])
     filepath_out = argv[2]; //Allow the user to specify a different output file.
   else
     filepath_out = "example_output.xml";
+
+  //Allow the user to specify an extra output file with set_include_default_attributes(true).
+  if(argc > 3 )
+    filepath_out2 = argv[3];
 
   try
   {
@@ -57,6 +63,19 @@ main(int argc, char* argv[])
       xmlpp::Document* document = parser.get_document();
       if(document)
         document->write_to_file(filepath_out);
+    }
+
+    if (!filepath_out2.empty())
+    {
+      parser.set_include_default_attributes();
+      parser.parse_file(filepath_in);
+      if(parser)
+      {
+        //Write it out again.
+        xmlpp::Document* document = parser.get_document();
+        if(document)
+          document->write_to_file(filepath_out2);
+      }
     }
   }
   catch(const std::exception& ex)
