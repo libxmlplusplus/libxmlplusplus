@@ -119,7 +119,10 @@ namespace xmlpp
 Node::Node(xmlNode* node)
   : impl_(node)
 {
-   impl_->_private = this;
+  if (!impl_)
+    throw internal_error("xmlNode pointer cannot be 0");
+
+  impl_->_private = this;
 }
 
 Node::~Node()
@@ -510,9 +513,6 @@ Glib::ustring Node::eval_to_string(const Glib::ustring& xpath, const PrefixNsMap
 
 Glib::ustring Node::get_namespace_prefix() const
 {
-  if(!impl_)
-    return Glib::ustring();
-
   if(impl_->type == XML_DOCUMENT_NODE || impl_->type == XML_ENTITY_DECL)
   {
     //impl_ is actually of type xmlDoc or xmlEntity, instead of just xmlNode.
@@ -538,9 +538,6 @@ Glib::ustring Node::get_namespace_prefix() const
 
 Glib::ustring Node::get_namespace_uri() const
 {
-  if(!impl_)
-    return Glib::ustring();
-
   if(impl_->type == XML_DOCUMENT_NODE ||
      impl_->type == XML_ENTITY_DECL ||
      impl_->type == XML_ATTRIBUTE_DECL)

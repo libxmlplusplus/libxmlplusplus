@@ -55,6 +55,8 @@ class Node : public NonCopyable
 public:
   typedef std::list<Node*> NodeList;
 
+  /** @throws xmlpp::internal_error If @a node is <tt>0</tt>.
+   */
   explicit Node(_xmlNode* node);
   virtual ~Node();
 
