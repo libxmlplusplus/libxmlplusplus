@@ -79,12 +79,12 @@ url="http://libxmlplusplus.sourceforge.net">libxmlplusplus.sourceforge.net</ulin
   
     <sect1>
       <title>DOM Parser</title>
-      <para>The DOM parser parses the whole document at once and stores the structure in memory, available via <literal>Parser::get_document()</literal>. With methods such as <literal>Document::get_root_node()</literal> and <literal>Node::get_children()</literal>, you may then navigate into the heirarchy of XML nodes without restriction, jumping forwards or backwards in the document based on the information that you encounter. Therefore the DOM parser uses a relatively large amount of memory.</para>
-      <para>You should use C++ RTTI (via <literal>dynamic_cast&lt;&gt;</literal>) to identify the specific node type and to perform actions which are not possible with all node types. For instance, only <literal>Element</literal>s have attributes. Here is the inheritance hierarchy of node types:</para>
+      <para>The DOM parser parses the whole document at once and stores the structure in memory, available via <methodname>DomParser::get_document()</methodname>. With methods such as <methodname>Document::get_root_node()</methodname> and <methodname>Node::get_children()</methodname>, you may then navigate into the hierarchy of XML nodes without restriction, jumping forwards or backwards in the document based on the information that you encounter. Therefore the DOM parser uses a relatively large amount of memory.</para>
+      <para>You should use C++ RTTI (via <literal>dynamic_cast&lt;&gt;</literal>) to identify the specific node type and to perform actions which are not possible with all node types. For instance, only <classname>Element</classname>s have attributes. Here is the inheritance hierarchy of node types:</para>
 
       <para>
       <itemizedlist>
-      <listitem><para>xmlpp::Node:
+      <listitem><para>xmlpp::Node
         <itemizedlist>
           <listitem><para>xmlpp::Attribute
           <itemizedlist>
@@ -103,15 +103,22 @@ url="http://libxmlplusplus.sourceforge.net">libxmlplusplus.sourceforge.net</ulin
           </para></listitem>
           <listitem><para>xmlpp::Element</para></listitem>
           <listitem><para>xmlpp::EntityReference</para></listitem>
+          <listitem><para>xmlpp::XIncludeEnd</para></listitem>
+          <listitem><para>xmlpp::XIncludeStart</para></listitem>
         </itemizedlist>
         </para></listitem>
  
       </itemizedlist>
     </para>
 
-      <para>Although you may obtain pointers to the <literal>Node</literal>s, these <literal>Node</literal>s are always owned by their parent <literal>Node</literal>. In most cases that means that the <literal>Node</literal> will exist, and your pointer will be valid, as long as the <literal>Document</literal> instance exists.</para>
-      <para>There are also several methods which can create new child <literal>Node</literal>s. By using these, and one of the <literal>Document::write_*()</literal> methods, you can use libxml++ to build a new XML document.</para>
-
+    <para>All <classname>Node</classname>s created by the DOM parser are leaves
+      in the node type tree. For instance, the DOM parser can create
+      <classname>TextNode</classname>s and <classname>Element</classname>s, but it
+      does not create objects whose exact type is <classname>ContentNode</classname>
+      or <classname>Node</classname>.
+    </para>
+    <para>Although you may obtain pointers to the <classname>Node</classname>s, these <classname>Node</classname>s are always owned by their parent <classname>Node</classname>. In most cases that means that the <classname>Node</classname> will exist, and your pointer will be valid, as long as the <classname>Document</classname> instance exists.</para>
+    <para>There are also several methods which can create new child <classname>Node</classname>s. By using these, and one of the <methodname>Document::write_*()</methodname> methods, you can use libxml++ to build a new XML document.</para>
 
 <sect2>
 <title>Example</title>
