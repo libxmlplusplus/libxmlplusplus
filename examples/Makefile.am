@@ -37,7 +37,23 @@ check_PROGRAMS = \
   textreader/textreader
 
 # Shell scripts that call the example programs.
-check_SCRIPTS = $(addsuffix make-check-sh,$(dir $(check_PROGRAMS)))
+check_SCRIPTS = \
+  dom_build/make_check.sh \
+  dom_parse_entities/make_check.sh \
+  dom_parser/make_check.sh \
+  dom_parser_raw/make_check.sh \
+  dom_read_write/make_check.sh \
+  dom_xinclude/make_check.sh \
+  dom_xpath/make_check.sh \
+  dtdvalidation/make_check.sh \
+  import_node/make_check.sh \
+  sax_exception/make_check.sh \
+  sax_parser/make_check.sh \
+  sax_parser_build_dom/make_check.sh \
+  sax_parser_entities/make_check.sh \
+  schemavalidation/make_check.sh \
+  textreader/make_check.sh
+
 TESTS = $(check_SCRIPTS)
 
 xmlpp_test_util = testutilities.h testutilities.cc
@@ -129,18 +145,18 @@ dist_noinst_DATA = \
 # which may or may not be the same as the source directory.
 # Here it's necessary to specify parameters when the input file and the output
 # file are located in different directories.
-dom_read_write/make-check-sh: Makefile
+dom_read_write/make_check.sh: Makefile
 	echo '# Generated and used by "make check"' >$@
 	echo 'dom_read_write/dom_read_write "$(srcdir)/dom_read_write/example.xml" dom_read_write/example_output.xml >/dev/null' >>$@
 	chmod +x $@
 
 script_template = cd "$(srcdir)/<!progname!>" && "$(abs_builddir)/<!progname!>/<!progname!>" >/dev/null
-standard_scripts = $(filter-out dom_read_write/make-check-sh,$(check_SCRIPTS))
+standard_scripts = $(filter-out dom_read_write/make_check.sh,$(check_SCRIPTS))
 
 # All other script files are generated like so:
 $(standard_scripts): Makefile
 	echo '# Generated and used by "make check"' >$@
-	echo '$(subst <!progname!>,$(subst /make-check-sh,,$@),$(script_template))' >>$@
+	echo '$(subst <!progname!>,$(subst /make_check.sh,,$@),$(script_template))' >>$@
 	chmod +x $@
 
 CLEANFILES = \

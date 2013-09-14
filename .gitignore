@@ -60,7 +60,10 @@ stamp-h?
 /examples/sax_parser_entities/sax_parser_entities
 /examples/schemavalidation/schemavalidation
 /examples/textreader/textreader
-/examples/*/make-check-sh
+/examples/*/make_check.sh
+/examples/*/make_check.sh.log
+/examples/*/make_check.sh.trs
+/examples/test-suite.log
 
 # macros
 /macros/compile-binding.am
