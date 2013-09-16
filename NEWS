@@ -1,3 +1,22 @@
+2.37.1 (unstable):
+
+* Parser: Add [set|get]_include_default_attributes().
+(Kjell Ahlstedt) Bug #701674 (Bob Nolty)
+* Improve some null-pointer checks
+  (Kjell Ahlstedt) Bug #705187 (Gaurav)
+
+Documentation:
+* Manual: Add XIncludeStart and XIncludeEnd to the node type tree.
+  (Kjell Ahlstedt)
+* Update Doxyfile.in for doxygen 1.8.3.
+  (Kjell Ahlstedt)
+
+Build:
+* Fix examples/Makefile.am for new versions of automake.
+  (Kjell Ahlstedt) Bug #678390
+* Examples dom_parse_entities and dom_parser: Fix when LC_ALL=C.
+  (Murray Cumming) Bug #702136 (Michael Biebl)
+
 2.36.0 (unstable):
 
 * Element::set_namespace_declaration():
