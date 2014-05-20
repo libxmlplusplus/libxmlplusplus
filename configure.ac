@@ -34,8 +34,9 @@ PKG_CHECK_MODULES([LIBXMLXX], [$LIBXMLXX_MODULES])
 AC_LANG([C++])
 AC_CHECK_HEADERS([string list map], [], [AC_MSG_ERROR([required headers not found])])
 
-
 MM_ARG_ENABLE_DOCUMENTATION
+MM_ARG_WITH_TAGFILE_DOC([libstdc++.tag], [mm-common-libstdc++])
+MM_ARG_WITH_TAGFILE_DOC([libsigc++-2.0.tag], [sigc++-2.0])
 MM_ARG_WITH_TAGFILE_DOC([glibmm-2.4.tag], [glibmm-2.4])
 
 MM_ARG_ENABLE_WARNINGS([LIBXMLXX_WXXFLAGS],
