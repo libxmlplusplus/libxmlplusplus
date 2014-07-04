@@ -253,7 +253,7 @@ Element* Document::create_root_node(const Glib::ustring& name,
 
   Element* element = get_root_node();
 
-  if( !ns_uri.empty() )
+  if( !ns_uri.empty() && element )
   {
     element->set_namespace_declaration(ns_uri, ns_prefix);
     element->set_namespace(ns_prefix);
