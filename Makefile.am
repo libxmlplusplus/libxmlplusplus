@@ -148,7 +148,6 @@ endif # ENABLE_DOCUMENTATION
 
 dist_noinst_DATA += libxml++config.h.in \
 	libxml++-$(LIBXMLXX_API_VERSION).pc.in \
-	MAINTAINERS \
 	docs/manual/docbook-customisation.xsl \
 	$(manual_html_files) \
 	docs/manual/libxml++.xml \
