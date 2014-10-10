@@ -25,6 +25,7 @@ check_PROGRAMS = \
   dom_parser/dom_parser \
   dom_parser_raw/dom_parser_raw \
   dom_read_write/dom_read_write \
+  dom_update_namespace/dom_update_namespace \
   dom_xinclude/dom_xinclude \
   dom_xpath/dom_xpath \
   dtdvalidation/dtdvalidation \
@@ -43,6 +44,7 @@ check_SCRIPTS = \
   dom_parser/make_check.sh \
   dom_parser_raw/make_check.sh \
   dom_read_write/make_check.sh \
+  dom_update_namespace/make_check.sh \
   dom_xinclude/make_check.sh \
   dom_xpath/make_check.sh \
   dtdvalidation/make_check.sh \
@@ -68,6 +70,8 @@ dom_parser_raw_dom_parser_raw_SOURCES = \
   dom_parser_raw/main.cc
 dom_read_write_dom_read_write_SOURCES = \
   dom_read_write/main.cc
+dom_update_namespace_dom_update_namespace_SOURCES = \
+  dom_update_namespace/main.cc
 dom_xinclude_dom_xinclude_SOURCES = \
   dom_xinclude/main.cc
 dom_xpath_dom_xpath_SOURCES = \
@@ -117,6 +121,8 @@ dist_noinst_DATA = \
   dom_read_write/README \
   dom_read_write/example.xml \
   dom_read_write/example.dtd \
+  dom_update_namespace/example1.xml \
+  dom_update_namespace/example2.xml \
   dom_xinclude/example.xml \
   dom_xinclude/include1.txt \
   dom_xinclude/include2.xml \

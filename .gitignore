@@ -51,6 +51,7 @@ stamp-h?
 /examples/dom_parser_raw/dom_parser_raw
 /examples/dom_read_write/dom_read_write
 /examples/dom_read_write/example_output.xml
+/examples/dom_update_namespace/dom_update_namespace
 /examples/dom_xinclude/dom_xinclude
 /examples/dom_xpath/dom_xpath
 /examples/dtdvalidation/dtdvalidation
