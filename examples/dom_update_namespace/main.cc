@@ -66,7 +66,7 @@ class TestNamespace : public Tests
 
     xmlpp::Node::PrefixNsMap nsmap_;
     xmlpp::DomParser parser_;
-    xmlpp::Node* root_;
+    xmlpp::Element* root_;
 };
 
 
@@ -99,18 +99,21 @@ void TestNamespace::test_create_new_node_with_default_namespace()
   assert_equal(0, root_->find("/ns0:root/ns1:child", nsmap_).size(),
       "Input file shouldn't have any child in alternate default namespace");
 
-  // Add child node in default namespace and check again document
+  // Add child nodes in default namespace and check document again
   xmlpp::Element* child = root_->add_child("child");
   child->set_namespace_declaration(nsmap_["ns1"], "");
+  root_->add_child_text("\n");
+  root_->add_child_with_new_ns("child", nsmap_["ns1"]);
+  root_->add_child_text("\n");
 
   std::cout << "   File " << filename << " after modification" << std::endl
             << parser_.get_document()->write_to_string_formatted() << std::endl;
 
-  // Here we should have two children nodes into two different namespaces
+  // Here we should have three child nodes in two different namespaces
   assert_equal(1, root_->find("/ns0:root/ns0:child", nsmap_).size(),
       "Updated input file should have one child in default namespace");
-  assert_equal(1, root_->find("/ns0:root/ns1:child", nsmap_).size(),
-      "Updated input file should have one child in alternate default namespace");
+  assert_equal(2, root_->find("/ns0:root/ns1:child", nsmap_).size(),
+      "Updated input file should have two children in alternate default namespace");
 }
 
 void TestNamespace::test_create_new_node_using_existing_namespace_prefix()
@@ -124,18 +127,23 @@ void TestNamespace::test_create_new_node_using_existing_namespace_prefix()
   assert_equal(0, root_->find("/ns0:root/ns1:child", nsmap_).size(),
       "Input file shouldn't have any child in child namespace");
 
-  // Add child node with specific namespace and check again document
+  // Add child nodes with specific namespace and check document again
   xmlpp::Element* child = root_->add_child("child", "ns0");
   child->set_namespace_declaration(nsmap_["ns1"], "");
+  root_->add_child_text("\n");
+  root_->add_child_with_new_ns("child", nsmap_["ns1"]);
+  root_->add_child_text("\n");
+  root_->add_child_with_new_ns("child", nsmap_["ns1"], "ns3");
+  root_->add_child_text("\n");
 
   std::cout << "   File " << filename << " after modification" << std::endl
             << parser_.get_document()->write_to_string_formatted() << std::endl;
 
-  // Here we should have two children nodes in same namespace
+  // Here we should have four child nodes in two different namespaces
   assert_equal(2, root_->find("/ns0:root/ns0:child", nsmap_).size(),
       "Updated input file should have two children in root namespace");
-  assert_equal(0, root_->find("/ns0:root/ns1:child", nsmap_).size(),
-      "Updated input file shouldn't have any child in child namespace");
+  assert_equal(2, root_->find("/ns0:root/ns1:child", nsmap_).size(),
+      "Updated input file should have two children in child namespace");
 }
 
 
