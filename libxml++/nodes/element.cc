@@ -236,6 +236,12 @@ void Element::set_namespace_declaration(const Glib::ustring& ns_uri, const Glib:
       throw exception("Could not add namespace declaration with URI=" + ns_uri +
                       ", prefix=" + ns_prefix);
   }
+  if (ns_prefix == get_namespace_prefix())
+  {
+    // Assign namespace directly if the prefix equals the node's own namespace prefix.
+    // This is not done by xmlNewNs(). (See https://bugzilla.gnome.org/show_bug.cgi?id=737682)
+    set_namespace(ns_prefix);
+  }
   //We ignore the returned xmlNs*. It's owned by the XML_ELEMENT_NODE.
 }
 

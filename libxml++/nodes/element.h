@@ -28,7 +28,14 @@ public:
 
   typedef std::list<Attribute*> AttributeList;
 
-  /** This adds a namespace declaration to this node which will apply to this node and all children.
+  /** Add a namespace declaration to this node which will apply to this node and all children.
+   *
+   * If the added namespace prefix is equal to the prefix associated to the node,
+   * the associated namespace of the node itself is updated, but child nodes are
+   * not updated. If you use this method on a node after children have been added,
+   * it may be necessary to save the XML document and reparse it to get correct
+   * namespaces on all nodes.
+   *
    * @param ns_uri The namespace to associate with the prefix,
    *               or to use as the default namespace if no prefix is specified.
    * @param ns_prefix The namespace prefix. If no prefix is specified then the
