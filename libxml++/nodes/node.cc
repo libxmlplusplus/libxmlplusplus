@@ -111,6 +111,18 @@ Glib::ustring eval_common_to_string(const Glib::ustring& xpath,
   return Glib::ustring();
 }
 
+// Common part of all add_child*() methods.
+xmlpp::Element* add_child_common(const Glib::ustring& name, xmlNode* child, xmlNode* node)
+{
+  if (!node)
+  {
+    xmlFreeNode(child);
+    throw xmlpp::internal_error("Could not add child element node " + name);
+  }
+  xmlpp::Node::create_wrapper(node);
+  return static_cast<xmlpp::Element*>(node->_private);
+}
+
 } // anonymous namespace
 
 namespace xmlpp
@@ -229,49 +241,63 @@ Element* Node::add_child(const Glib::ustring& name,
 {
   _xmlNode* child = create_new_child_node(name, ns_prefix);
   _xmlNode* node = xmlAddChild(impl_, child);
-  if (!node)
-  {
-    xmlFreeNode(child);
-    throw internal_error("Could not add child element node " + name);
-  }
-  Node::create_wrapper(node);
-  return static_cast<Element*>(node->_private);
+  return add_child_common(name, child, node);
 }
 
 Element* Node::add_child(xmlpp::Node* previous_sibling, 
                          const Glib::ustring& name,
                          const Glib::ustring& ns_prefix)
 {
-  if(!previous_sibling)
+  if (!previous_sibling)
     return 0;
 
   _xmlNode* child = create_new_child_node(name, ns_prefix);
   _xmlNode* node = xmlAddNextSibling(previous_sibling->cobj(), child);
-  if (!node)
-  {
-    xmlFreeNode(child);
-    throw internal_error("Could not add child element node " + name);
-  }
-  Node::create_wrapper(node);
-  return static_cast<Element*>(node->_private);
+  return add_child_common(name, child, node);
 }
 
 Element* Node::add_child_before(xmlpp::Node* next_sibling, 
                          const Glib::ustring& name,
                          const Glib::ustring& ns_prefix)
 {
-  if(!next_sibling)
+  if (!next_sibling)
     return 0;
 
   _xmlNode* child = create_new_child_node(name, ns_prefix);
   _xmlNode* node = xmlAddPrevSibling(next_sibling->cobj(), child);
-  if (!node)
-  {
-    xmlFreeNode(child);
-    throw internal_error("Could not add child element node " + name);
-  }
-  Node::create_wrapper(node);
-  return static_cast<Element*>(node->_private);
+  return add_child_common(name, child, node);
+}
+
+Element* Node::add_child_with_new_ns(const Glib::ustring& name,
+  const Glib::ustring& ns_uri, const Glib::ustring& ns_prefix)
+{
+  _xmlNode* child = create_new_child_node_with_new_ns(name, ns_uri, ns_prefix);
+  _xmlNode* node = xmlAddChild(impl_, child);
+  return add_child_common(name, child, node);
+}
+
+Element* Node::add_child_with_new_ns(xmlpp::Node* previous_sibling,
+  const Glib::ustring& name,
+  const Glib::ustring& ns_uri, const Glib::ustring& ns_prefix)
+{
+  if (!previous_sibling)
+    return 0;
+
+  _xmlNode* child = create_new_child_node_with_new_ns(name, ns_uri, ns_prefix);
+  _xmlNode* node = xmlAddNextSibling(previous_sibling->cobj(), child);
+  return add_child_common(name, child, node);
+}
+
+Element* Node::add_child_before_with_new_ns(xmlpp::Node* next_sibling,
+  const Glib::ustring& name,
+  const Glib::ustring& ns_uri, const Glib::ustring& ns_prefix)
+{
+  if (!next_sibling)
+    return 0;
+
+  _xmlNode* child = create_new_child_node_with_new_ns(name, ns_uri, ns_prefix);
+  _xmlNode* node = xmlAddPrevSibling(next_sibling->cobj(), child);
+  return add_child_common(name, child, node);
 }
 
 _xmlNode* Node::create_new_child_node(const Glib::ustring& name, const Glib::ustring& ns_prefix)
@@ -301,6 +327,36 @@ _xmlNode* Node::create_new_child_node(const Glib::ustring& name, const Glib::ust
    return xmlNewNode(ns, (const xmlChar*)name.c_str());
 }
 
+_xmlNode* Node::create_new_child_node_with_new_ns(const Glib::ustring& name,
+  const Glib::ustring& ns_uri, const Glib::ustring& ns_prefix)
+{
+  if (impl_->type != XML_ELEMENT_NODE)
+    throw internal_error("You can only add child nodes to element nodes.");
+
+  xmlNode* child = xmlNewNode(0, (const xmlChar*)name.c_str());
+  if (!child)
+    throw internal_error("Could not create new element node.");
+
+  xmlNs* ns = xmlNewNs(child, (const xmlChar*)(ns_uri.empty() ? 0 : ns_uri.c_str()),
+                       (const xmlChar*)(ns_prefix.empty() ? 0 : ns_prefix.c_str()) );
+  // xmlNewNs() does not create a namespace node for the predefined xml prefix.
+  // It's usually defined in the document and not in any specific node.
+  if (!ns && ns_prefix == "xml")
+  {
+    ns = xmlSearchNs(impl_->doc, impl_, (const xmlChar*)ns_prefix.c_str());
+    if (ns && (ns_uri != (ns->href ? (const char*)ns->href : "")))
+      ns = 0;
+  }
+  if (!ns)
+  {
+    xmlFreeNode(child);
+    throw internal_error("Could not create new namespace node.");
+  }
+
+  xmlSetNs(child, ns);
+
+  return child;
+}
 
 void Node::remove_child(Node* node)
 {

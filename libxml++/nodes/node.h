@@ -158,7 +158,8 @@ public:
    * @param ns_prefix The namespace prefix. If the prefix has not been declared then this method will throw an exception.
    * @returns The newly-created element
    * @throws xmlpp::exception If a namespace prefix is specified, but has not been declared.
-   * @throws xmlpp::internal_error If this node is not an element node.
+   * @throws xmlpp::internal_error If this node is not an element node,
+   *         or the child node cannot be created.
    */
   Element* add_child(const Glib::ustring& name,
                      const Glib::ustring& ns_prefix = Glib::ustring());
@@ -173,7 +174,8 @@ public:
    * @param ns_prefix The namespace prefix. If the prefix has not been declared then this method will throw an exception.
    * @returns The newly-created element
    * @throws xmlpp::exception If a namespace prefix is specified, but has not been declared.
-   * @throws xmlpp::internal_error If this node is not an element node.
+   * @throws xmlpp::internal_error If this node is not an element node,
+   *         or the child node cannot be created.
    */
   Element* add_child(xmlpp::Node* previous_sibling, const Glib::ustring& name,
                      const Glib::ustring& ns_prefix = Glib::ustring());
@@ -188,10 +190,64 @@ public:
    * @param ns_prefix The namespace prefix. If the prefix has not been declared then this method will throw an exception.
    * @returns The newly-created element
    * @throws xmlpp::exception If a namespace prefix is specified, but has not been declared.
-   * @throws xmlpp::internal_error If this node is not an element node.
+   * @throws xmlpp::internal_error If this node is not an element node,
+   *         or the child node cannot be created.
    */
   Element* add_child_before(xmlpp::Node* next_sibling, const Glib::ustring& name,
                      const Glib::ustring& ns_prefix = Glib::ustring());
+
+  /** Add a child element to this node.
+   * This node must be an element node.
+   *
+   * @newin{2,38}
+   *
+   * @param name The new node name.
+   * @param ns_uri The namespace to associate with the prefix,
+   *               or to use as the default namespace if no prefix is specified.
+   * @param ns_prefix The prefix of the node's namespace. If no prefix is specified
+   *                  then the namespace URI will be the default namespace.
+   * @returns The newly-created element.
+   * @throws xmlpp::internal_error If this node is not an element node,
+   *         or the child node or the namespace node cannot be created.
+   */
+  Element* add_child_with_new_ns(const Glib::ustring& name,
+    const Glib::ustring& ns_uri, const Glib::ustring& ns_prefix = Glib::ustring());
+
+  /** Add a child element to this node after the specified existing child node.
+   * This node must be an element node.
+   *
+   * @newin{2,38}
+   *
+   * @param previous_sibling An existing child node.
+   * @param name The new node name.
+   * @param ns_uri The namespace to associate with the prefix,
+   *               or to use as the default namespace if no prefix is specified.
+   * @param ns_prefix The prefix of the node's namespace. If no prefix is specified
+   *                  then the namespace URI will be the default namespace.
+   * @returns The newly-created element.
+   * @throws xmlpp::internal_error If this node is not an element node,
+   *         or the child node or the namespace node cannot be created.
+   */
+  Element* add_child_with_new_ns(xmlpp::Node* previous_sibling, const Glib::ustring& name,
+    const Glib::ustring& ns_uri, const Glib::ustring& ns_prefix = Glib::ustring());
+
+  /** Add a child element to this node before the specified existing child node.
+   * This node must be an element node.
+   *
+   * @newin{2,38}
+   *
+   * @param next_sibling An existing child node.
+   * @param name The new node name.
+   * @param ns_uri The namespace to associate with the prefix,
+   *               or to use as the default namespace if no prefix is specified.
+   * @param ns_prefix The prefix of the node's namespace. If no prefix is specified
+   *                  then the namespace URI will be the default namespace.
+   * @returns The newly-created element.
+   * @throws xmlpp::internal_error If this node is not an element node,
+   *         or the child node or the namespace node cannot be created.
+   */
+  Element* add_child_before_with_new_ns(xmlpp::Node* next_sibling, const Glib::ustring& name,
+    const Glib::ustring& ns_uri, const Glib::ustring& ns_prefix = Glib::ustring());
 
   /** Remove the child node.
    * @param node The child node to remove. This Node will be deleted and therefore unusable after calling this method.
@@ -351,6 +407,10 @@ protected:
 
   ///Create the C instance ready to be added to the parent node.
   _xmlNode* create_new_child_node(const Glib::ustring& name, const Glib::ustring& ns_prefix);
+
+  ///Create the C instance ready to be added to the parent node.
+  _xmlNode* create_new_child_node_with_new_ns(const Glib::ustring& name,
+    const Glib::ustring& ns_uri, const Glib::ustring& ns_prefix);
 
 private:
   _xmlNode* impl_;
