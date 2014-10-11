@@ -69,17 +69,17 @@ void Schema::set_document(Document* document, bool embed)
 
 Glib::ustring Schema::get_name() const
 {
-  return impl_ ? (char*)impl_->name : "";
+  return (impl_ && impl_->name) ? (char*)impl_->name : "";
 }
 
 Glib::ustring Schema::get_target_namespace() const
 {
-  return impl_ ? (char*)impl_->targetNamespace : "";
+  return (impl_ && impl_->targetNamespace) ? (char*)impl_->targetNamespace : "";
 }
 
 Glib::ustring Schema::get_version() const
 {
-  return impl_ ? (char*)impl_->version : "";
+  return (impl_ && impl_->version) ? (char*)impl_->version : "";
 }
 
 void Schema::release_underlying()
