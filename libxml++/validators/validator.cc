@@ -26,12 +26,17 @@ Validator::~Validator()
 
 void Validator::initialize_valid()
 {
-  //Tell the validation context about the callbacks:
-  valid_->error = &callback_validity_error;
-  valid_->warning = &callback_validity_warning;
+  // valid_ is used only by DtdValidator.
+  //TODO: When we can break ABI, move valid_ to DtdValidator.
+  if (valid_)
+  {
+    //Tell the validation context about the callbacks:
+    valid_->error = &callback_validity_error;
+    valid_->warning = &callback_validity_warning;
 
-  //Allow the callback_validity_*() methods to retrieve the C++ instance:
-  valid_->userData = this;
+    //Allow the callback_validity_*() methods to retrieve the C++ instance:
+    valid_->userData = this;
+  }
 
   //Clear these temporary buffers too:
   validate_error_.erase();

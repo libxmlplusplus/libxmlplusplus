@@ -150,10 +150,7 @@ const Schema* SchemaValidator::get_schema() const
 void SchemaValidator::initialize_valid()
 {
   xmlSchemaSetValidErrors(ctxt_, &callback_validity_error, &callback_validity_warning, this);
-
-  //Clear these temporary buffers too:
-  validate_error_.erase();
-  validate_warning_.erase();
+  Validator::initialize_valid();
 }
 
 
