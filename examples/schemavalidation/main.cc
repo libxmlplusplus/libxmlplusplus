@@ -33,17 +33,19 @@ int main(int argc, char* argv[])
 
   std::string docfilepath("example.xml");
   std::string xsdschemafilepath("example.xsd");
+  std::string rngschemafilepath("example.rng");
 
-  if (argc != 1 && argc != 3)
+  if (argc != 1 && argc != 4)
   {
-    std::cout << "usage : " << argv[0] << " [document schema.xsd]" << std::endl;
+    std::cout << "usage : " << argv[0] << " [document schema.xsd schema.rng]" << std::endl;
     return EXIT_FAILURE;
   }
 
-  if (argc == 3)
+  if (argc == 4)
   {
     docfilepath = argv[1];
     xsdschemafilepath = argv[2];
+    rngschemafilepath = argv[3];
   }
 
   Glib::ustring phase;
@@ -56,6 +58,9 @@ int main(int argc, char* argv[])
 
     phase = "XSD";
     xmlpp::XsdValidator xsdvalidator(xsdschemafilepath);
+
+    phase = "RelaxNG";
+    xmlpp::RelaxNGValidator rngvalidator(rngschemafilepath);
 
     try
     {
@@ -71,6 +76,10 @@ int main(int argc, char* argv[])
       phase = "XSD validating";
       xsdvalidator.validate(parser.get_document());
       std::cout << "Valid document, XsdValidator" << std::endl;
+
+      phase = "RelaxNG validating";
+      rngvalidator.validate(parser.get_document());
+      std::cout << "Valid document, RelaxNGValidator" << std::endl;
     }
     catch (const xmlpp::exception& ex)
     {

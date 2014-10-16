@@ -1,0 +1,110 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Example from XMLSchema recommendation 0 - primer at http://www.w3.org/TR/xmlschema-0/ -->
+<!-- Converted from an XSD schema to a RelaxNG schema at http://debeissat.nicolas.free.fr/XSDtoRNG.php -->
+<rng:grammar xmlns:rng="http://relaxng.org/ns/structure/1.0" ns=""
+  datatypeLibrary="http://www.w3.org/2001/XMLSchema-datatypes">
+
+  <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">
+     Purchase order schema for Example.com.
+     Copyright 2000 Example.com. All rights reserved.
+  </a:documentation>
+
+  <rng:start combine="choice">
+    <rng:ref name="purchaseOrder"/>
+  </rng:start>
+
+  <rng:define name="purchaseOrder">
+    <rng:element name="purchaseOrder">
+      <rng:ref name="PurchaseOrderType"/>
+    </rng:element>
+  </rng:define>
+
+  <rng:start combine="choice">
+    <rng:ref name="comment"/>
+  </rng:start>
+  <rng:define name="comment">
+    <rng:element name="comment">
+      <rng:data type="string"/>
+    </rng:element>
+  </rng:define>
+
+  <rng:define name="PurchaseOrderType">
+    <rng:element name="shipTo">
+      <rng:ref name="USAddress"/>
+    </rng:element>
+    <rng:element name="billTo">
+      <rng:ref name="USAddress"/>
+    </rng:element>
+    <rng:optional>
+      <rng:ref name="comment"/>
+    </rng:optional>
+    <rng:element name="items">
+      <rng:ref name="Items"/>
+    </rng:element>
+    <rng:optional>
+      <rng:attribute name="orderDate">
+        <rng:data type="date"/>
+      </rng:attribute>
+    </rng:optional>
+  </rng:define>
+
+  <rng:define name="USAddress">
+    <rng:element name="name">
+      <rng:data type="string"/>
+    </rng:element>
+    <rng:element name="street">
+      <rng:data type="string"/>
+    </rng:element>
+    <rng:element name="city">
+      <rng:data type="string"/>
+    </rng:element>
+    <rng:element name="state">
+      <rng:data type="string"/>
+    </rng:element>
+    <rng:element name="zip">
+      <rng:data type="decimal"/>
+    </rng:element>
+    <rng:optional>
+      <rng:attribute name="country">
+        <rng:data type="NMTOKEN"/>
+      </rng:attribute>
+    </rng:optional>
+  </rng:define>
+
+  <rng:define name="Items">
+    <rng:zeroOrMore>
+      <rng:element name="item">
+        <rng:element name="productName">
+          <rng:data type="string"/>
+        </rng:element>
+        <rng:element name="quantity">
+          <rng:data type="positiveInteger">
+            <rng:param name="maxExclusive">100</rng:param>
+          </rng:data>
+        </rng:element>
+        <rng:element name="USPrice">
+          <rng:data type="decimal"/>
+        </rng:element>
+        <rng:optional>
+          <rng:ref name="comment"/>
+        </rng:optional>
+        <rng:optional>
+          <rng:element name="shipDate">
+            <rng:data type="date"/>
+          </rng:element>
+        </rng:optional>
+        <rng:attribute name="partNum">
+          <rng:ref name="SKU"/>
+        </rng:attribute>
+      </rng:element>
+    </rng:zeroOrMore>
+  </rng:define>
+
+  <!-- Stock Keeping Unit, a code for identifying products -->
+  <rng:define name="SKU">
+    <rng:data type="string">
+      <rng:param name="pattern">\d{3}-[A-Z]{2}</rng:param>
+    </rng:data>
+  </rng:define>
+
+</rng:grammar>

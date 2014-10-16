@@ -66,9 +66,11 @@
 #include <libxml++/attributedeclaration.h>
 #include <libxml++/attributenode.h>
 #include <libxml++/document.h>
+#include <libxml++/relaxngschema.h>
 #include <libxml++/xsdschema.h>
 #include <libxml++/validators/validator.h>
 #include <libxml++/validators/dtdvalidator.h>
+#include <libxml++/validators/relaxngvalidator.h>
 #include <libxml++/validators/schemavalidator.h>
 #include <libxml++/validators/xsdvalidator.h>
 

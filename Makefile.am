@@ -27,6 +27,7 @@ h_root_sources_public = libxml++/libxml++.h \
 	libxml++/dtd.h \
 	libxml++/keepblanks.h \
 	libxml++/noncopyable.h \
+	libxml++/relaxngschema.h \
 	libxml++/schema.h \
 	libxml++/schemabase.h \
 	libxml++/xsdschema.h
@@ -54,6 +55,7 @@ h_parsers_sources_public = libxml++/parsers/parser.h \
 	libxml++/parsers/domparser.h \
 	libxml++/parsers/textreader.h
 h_validators_sources_public = libxml++/validators/dtdvalidator.h \
+	libxml++/validators/relaxngvalidator.h \
 	libxml++/validators/schemavalidator.h \
 	libxml++/validators/schemavalidatorbase.h \
 	libxml++/validators/validator.h \
@@ -72,6 +74,7 @@ cc_sources = libxml++/attribute.cc \
 	libxml++/dtd.cc \
 	libxml++/keepblanks.cc \
 	libxml++/noncopyable.cc \
+	libxml++/relaxngschema.cc \
 	libxml++/schema.cc \
 	libxml++/schemabase.cc \
 	libxml++/xsdschema.cc \
@@ -99,6 +102,7 @@ cc_sources = libxml++/attribute.cc \
 	libxml++/parsers/domparser.cc \
 	libxml++/parsers/textreader.cc \
 	libxml++/validators/dtdvalidator.cc \
+	libxml++/validators/relaxngvalidator.cc \
 	libxml++/validators/schemavalidator.cc \
 	libxml++/validators/schemavalidatorbase.cc \
 	libxml++/validators/validator.cc \

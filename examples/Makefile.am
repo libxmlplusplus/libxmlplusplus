@@ -135,6 +135,7 @@ dist_noinst_DATA = \
   sax_parser_build_dom/README \
   sax_parser_build_dom/example.xml \
   sax_parser_entities/example.xml \
+  schemavalidation/example.rng \
   schemavalidation/example.xml \
   schemavalidation/example.xsd \
   textreader/example.xml
