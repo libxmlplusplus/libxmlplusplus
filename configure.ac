@@ -39,9 +39,13 @@ MM_ARG_WITH_TAGFILE_DOC([libstdc++.tag], [mm-common-libstdc++])
 MM_ARG_WITH_TAGFILE_DOC([libsigc++-2.0.tag], [sigc++-2.0])
 MM_ARG_WITH_TAGFILE_DOC([glibmm-2.4.tag], [glibmm-2.4])
 
+# Evaluate the --enable-warnings=level option.
 MM_ARG_ENABLE_WARNINGS([LIBXMLXX_WXXFLAGS],
         [-Wall],
         [-pedantic -Wall -Wextra -Wno-long-long])
+
+# Offer the ability to omit some API from the library.
+MM_ARG_DISABLE_DEPRECATED_API([LIBXMLXX])
 
 AC_PATH_PROG([XMLLINT], [xmllint], [xmllint])
 AC_ARG_VAR([XMLLINT], [path to xmllint utility])
@@ -60,6 +64,7 @@ AC_CONFIG_FILES([Makefile
         MSVC_Net2010/libxml++/libxml++.rc
         libxml++-2.6.pc])
 
+# Copy the generated configuration headers into the MSVC project directories.
 AC_CONFIG_COMMANDS([MSVC_Net2005/libxml++/libxml++config.h],
         [cp -f libxml++config.h MSVC_Net2005/libxml++/libxml++config.h])
 AC_CONFIG_COMMANDS([MSVC_Net2008/libxml++/libxml++config.h],

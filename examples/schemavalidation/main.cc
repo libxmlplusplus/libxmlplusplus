@@ -1,5 +1,3 @@
-// -*- C++ -*-
-
 /* main.cc
  *
  * Copyright (C) 2002 The libxml++ development team
@@ -19,14 +17,13 @@
  * Software Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
  */
 
-
 #ifdef HAVE_CONFIG_H
 #include <config.h>
 #endif
 
 #include <libxml++/libxml++.h>
 #include <iostream>
-#include <stdlib.h>
+#include <cstdlib>
 
 int main(int argc, char* argv[])
 {
@@ -34,34 +31,46 @@ int main(int argc, char* argv[])
   // so we can use std::cout with UTF-8, via Glib::ustring, without exceptions.
   std::locale::global(std::locale(""));
 
-  std::string schemafilepath("example.xsd"),
-              docfilepath("example.xml");
+  std::string docfilepath("example.xml");
+  std::string xsdschemafilepath("example.xsd");
 
-  if(argc!=1 && argc!=3)
+  if (argc != 1 && argc != 3)
   {
-    std::cout << "usage : " << argv[0] << " [document schema]" << std::endl;
+    std::cout << "usage : " << argv[0] << " [document schema.xsd]" << std::endl;
     return EXIT_FAILURE;
   }
 
-  if(argc == 3)
+  if (argc == 3)
   {
     docfilepath = argv[1];
-    schemafilepath = argv[2];
+    xsdschemafilepath = argv[2];
   }
 
+  Glib::ustring phase;
   try
   {
-    xmlpp::SchemaValidator validator(schemafilepath);
-    Glib::ustring phase;
+#ifndef LIBXMLXX_DISABLE_DEPRECATED
+    phase = "XML"; // XSD schema, old validator class
+    xmlpp::SchemaValidator schemavalidator(xsdschemafilepath);
+#endif // LIBXMLXX_DISABLE_DEPRECATED
+
+    phase = "XSD";
+    xmlpp::XsdValidator xsdvalidator(xsdschemafilepath);
 
     try
     {
       phase = "parsing";
       xmlpp::DomParser parser(docfilepath);
 
-      phase = "validating";
-      validator.validate( parser.get_document() );
-      std::cout << "Valid document" << std::endl;
+#ifndef LIBXMLXX_DISABLE_DEPRECATED
+      phase = "XML validating";
+      schemavalidator.validate(parser.get_document());
+      std::cout << "Valid document, SchemaValidator" << std::endl;
+#endif // LIBXMLXX_DISABLE_DEPRECATED
+
+      phase = "XSD validating";
+      xsdvalidator.validate(parser.get_document());
+      std::cout << "Valid document, XsdValidator" << std::endl;
     }
     catch (const xmlpp::exception& ex)
     {
@@ -72,10 +81,9 @@ int main(int argc, char* argv[])
   }
   catch (const xmlpp::exception& ex)
   {
-    std::cerr << "Error parsing the schema" << std::endl;
+    std::cerr << "Error parsing the " << phase << " schema" << std::endl;
     std::cerr << ex.what() << std::endl;
     return EXIT_FAILURE;
   }
   return EXIT_SUCCESS;
 }
-

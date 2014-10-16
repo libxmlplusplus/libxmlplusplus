@@ -27,7 +27,7 @@
  *
  * Include the libxml++ header:
  * @code
- * #include <libxml++.h>
+ * #include <libxml++/libxml++.h>
  * @endcode
  * (You may include individual headers, such as libxml++/document.h instead.)
  *
@@ -66,8 +66,10 @@
 #include <libxml++/attributedeclaration.h>
 #include <libxml++/attributenode.h>
 #include <libxml++/document.h>
+#include <libxml++/xsdschema.h>
 #include <libxml++/validators/validator.h>
 #include <libxml++/validators/dtdvalidator.h>
 #include <libxml++/validators/schemavalidator.h>
+#include <libxml++/validators/xsdvalidator.h>
 
 #endif //__LIBXMLCPP_H

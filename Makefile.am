@@ -27,7 +27,9 @@ h_root_sources_public = libxml++/libxml++.h \
 	libxml++/dtd.h \
 	libxml++/keepblanks.h \
 	libxml++/noncopyable.h \
-	libxml++/schema.h
+	libxml++/schema.h \
+	libxml++/schemabase.h \
+	libxml++/xsdschema.h
 h_exceptions_sources_public = libxml++/exceptions/exception.h \
 	libxml++/exceptions/parse_error.h \
 	libxml++/exceptions/validity_error.h \
@@ -53,7 +55,9 @@ h_parsers_sources_public = libxml++/parsers/parser.h \
 	libxml++/parsers/textreader.h
 h_validators_sources_public = libxml++/validators/dtdvalidator.h \
 	libxml++/validators/schemavalidator.h \
-	libxml++/validators/validator.h
+	libxml++/validators/schemavalidatorbase.h \
+	libxml++/validators/validator.h \
+	libxml++/validators/xsdvalidator.h
 h_sources_public = $(h_root_sources_public) \
 	$(h_exceptions_sources_public) \
 	$(h_io_sources_public) \
@@ -69,6 +73,8 @@ cc_sources = libxml++/attribute.cc \
 	libxml++/keepblanks.cc \
 	libxml++/noncopyable.cc \
 	libxml++/schema.cc \
+	libxml++/schemabase.cc \
+	libxml++/xsdschema.cc \
 	libxml++/exceptions/exception.cc \
 	libxml++/exceptions/parse_error.cc \
 	libxml++/exceptions/validity_error.cc \
@@ -94,7 +100,9 @@ cc_sources = libxml++/attribute.cc \
 	libxml++/parsers/textreader.cc \
 	libxml++/validators/dtdvalidator.cc \
 	libxml++/validators/schemavalidator.cc \
-	libxml++/validators/validator.cc
+	libxml++/validators/schemavalidatorbase.cc \
+	libxml++/validators/validator.cc \
+	libxml++/validators/xsdvalidator.cc
 
 library_includedir = $(includedir)/libxml++-$(LIBXMLXX_API_VERSION)/libxml++
 library_exceptions_includedir = $(library_includedir)/exceptions

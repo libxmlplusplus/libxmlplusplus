@@ -4,6 +4,10 @@
  * included with libxml++ as the file COPYING.
  */
 
+#include <libxml++config.h> // LIBXMLXX_DISABLE_DEPRECATED
+
+#ifndef LIBXMLXX_DISABLE_DEPRECATED
+
 #include <libxml++/schema.h>
 
 #include <libxml/tree.h>
@@ -124,3 +128,4 @@ const _xmlSchema* Schema::cobj() const
 }
 
 } //namespace xmlpp
+#endif // LIBXMLXX_DISABLE_DEPRECATED

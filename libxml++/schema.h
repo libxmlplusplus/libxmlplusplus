@@ -12,11 +12,13 @@
 #include <list>
 #include <map>
 
+#ifndef LIBXMLXX_DISABLE_DEPRECATED
+
 #ifndef DOXYGEN_SHOULD_SKIP_THIS
 extern "C" {
   struct _xmlSchema;
 }
-#endif //DOXYGEN_SHOULD_SKIP_THIS4
+#endif //DOXYGEN_SHOULD_SKIP_THIS
 
 namespace xmlpp
 {
@@ -24,11 +26,14 @@ namespace xmlpp
 /** Represents an XML Schema.
  *
  * @newin{2,24}
+ *
+ * @deprecated Use XsdSchema instead.
  */
 class Schema : NonCopyable
 {
 public:
   /** Create a schema from the underlying libxml schema element.
+   * @deprecated Use XsdSchema instead.
    */
   explicit Schema(_xmlSchema* schema);
 
@@ -38,6 +43,7 @@ public:
    *   the schema is deleted or another document is set.
    * @throws xmlpp::parse_error
    * @throws xmlpp::internal_error If an empty schema document can't be created.
+   * @deprecated Use XsdSchema instead.
    */
   explicit Schema(Document* document = 0, bool embed = false);
   ~Schema();
@@ -49,27 +55,40 @@ public:
    * @param embed If true, the document will be deleted when the schema is deleted or another document is set.
    * @throws xmlpp::parse_error
    * @throws xmlpp::internal_error If an empty schema document can't be created.
+   * @deprecated Use XsdSchema::parse_document() instead.
    */
   virtual void set_document(Document* document = 0, bool embed = false);
 
+  /** @deprecated There is no replacement.
+   */
   Glib::ustring get_name() const;
+  /** @deprecated There is no replacement.
+   */
   Glib::ustring get_target_namespace() const;
+  /** @deprecated There is no replacement.
+   */
   Glib::ustring get_version() const;
 
   /** Get the schema document.
    * @returns A pointer to the schema document, or <tt>0</tt> if none exists.
+   * @deprecated There is no replacement.
    */
   Document* get_document();
 
   /** Get the schema document.
    * @returns A pointer to the schema document, or <tt>0</tt> if none exists.
+   * @deprecated There is no replacement.
    */
   const Document* get_document() const;
   
-  /** Access the underlying libxml implementation. */
+  /** Access the underlying libxml implementation.
+   * @deprecated Use XsdSchema::cobj() instead.
+   */
   _xmlSchema* cobj();
 
-  /** Access the underlying libxml implementation. */
+  /** Access the underlying libxml implementation.
+   * @deprecated Use XsdSchema::cobj() instead.
+   */
   const _xmlSchema* cobj() const;
 
 protected:
@@ -84,4 +103,5 @@ private:
 
 } // namespace xmlpp
 
+#endif // LIBXMLXX_DISABLE_DEPRECATED
 #endif //__LIBXMLPP_SCHEMA_H

@@ -5,6 +5,10 @@
  * included with libxml++ as the file COPYING.
  */
 
+#include <libxml++config.h> // LIBXMLXX_DISABLE_DEPRECATED
+
+#ifndef LIBXMLXX_DISABLE_DEPRECATED
+
 #include "libxml++/validators/schemavalidator.h"
 #include "libxml++/schema.h"
 
@@ -225,4 +229,4 @@ bool SchemaValidator::validate(const Glib::ustring& file)
 }
 
 } // namespace xmlpp
-
+#endif // LIBXMLXX_DISABLE_DEPRECATED
