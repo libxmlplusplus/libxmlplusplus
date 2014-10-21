@@ -1,5 +1,3 @@
-// -*- C++ -*-
-
 /* main.cc
  *
  * Copyright (C) 2002 The libxml++ development team
@@ -26,6 +24,7 @@
 #include "../testutilities.h"
 #include <libxml++/libxml++.h>
 #include <iostream>
+#include <fstream>
 #include <cstdlib>
 
 void print_node(const xmlpp::Node* node, bool substitute_entities, unsigned int indentation = 0)
@@ -93,7 +92,17 @@ int main(int argc, char* argv[])
       xmlpp::DomParser parser;
       parser.set_validate();
       parser.set_substitute_entities(substitute_entities);
-      parser.parse_file(filepath);
+
+      // Two ways of reading the XML file.
+      if (substitute_entities)
+        parser.parse_file(filepath);
+      else
+      {
+        std::ifstream instream(filepath.c_str());
+        if (!instream)
+          throw xmlpp::internal_error("Could not open file " + filepath);
+        instream >> parser;
+      }
       if(parser)
       {
         //Walk the tree:
@@ -114,4 +123,3 @@ int main(int argc, char* argv[])
 
   return return_code;
 }
-

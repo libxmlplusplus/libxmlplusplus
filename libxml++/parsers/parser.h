@@ -199,6 +199,16 @@ protected:
   //int clear_options_;
 };
 
+/** Equivalent to Parser::parse_stream().
+ *
+ * @newin{2,38}
+ */
+inline std::istream& operator>>(std::istream& in, Parser& parser)
+{
+  parser.parse_stream(in);
+  return in;
+}
+
 } // namespace xmlpp
 
 #endif //__LIBXMLPP_PARSER_H
