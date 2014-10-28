@@ -1,3 +1,33 @@
+2.37.2 (unstable):
+
+* Add version information to libxml++config.h.
+  (Kjell Ahlstedt)
+* Document: Avoid possible null pointer dereference.
+  (Gaurav) Bug #732604
+* Element::set_namespace_declaration(): Update the node's associated namespace.
+  Add dom_update_namespace example program.
+  (Mathias Lorente) Bug #737682
+* Add Node::add_child_with_new_ns().
+  (Kjell Ahlstedt) Bug #737682 (Mathias Lorente)
+* Schema: Don't use null pointers in get_name(), get_target_namespace()
+  and get_version().
+  (Kjell Ahlstedt)
+* Add XsdSchema and XsdValidator. Deprecate Schema and SchemaValidator.
+  Add RelaxNGSchema and RelaxNGValidator.
+  (Kjell Ahlstedt) Bug #737712 (Michel Stam)
+  Thanks to Tjalling Hattink, who made initial versions of the RelaxNG classes.
+* Parser: Add input operator>>(std::istream& in, Parser& parser).
+  (Kjell Ahlstedt) Bug #329281 (Pierre Thierry)
+
+Documentation:
+* Use doxygen-extra.css from the mm-common package.
+  Requires mm-common 0.9.7 when configured to use maintainer-mode.
+  (Kjell Ahlstedt)
+
+Build:
+* Avoid infinite loop with Doxygen 1.8.6.
+  (Kjell Ahlstedt)
+
 2.37.1 (unstable):
 
 * Parser: Add [set|get]_include_default_attributes().
