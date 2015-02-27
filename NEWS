@@ -1,3 +1,21 @@
+2.38.0 (stable):
+
+This stable version is identical to the unstable version 2.37.2.
+
+API additions since 2.36:
+
+* Add Node::add_child_with_new_ns().
+  (Kjell Ahlstedt) Bug #737682 (Mathias Lorente)
+* Add XsdSchema and XsdValidator classes. Deprecate Schema and SchemaValidator.
+  Add RelaxNGSchema and RelaxNGValidator.
+  (Kjell Ahlstedt) Bug #737712 (Michel Stam)
+  Thanks to Tjalling Hattink, who made initial versions of the RelaxNG classes.
+* Parser: Add input operator>>(std::istream& in, Parser& parser).
+  (Kjell Ahlstedt) Bug #329281 (Pierre Thierry)
+* Parser: Add [set|get]_include_default_attributes() and
+  [set|get]_parser_options().
+  (Kjell Ahlstedt) Bug #701674 (Bob Nolty)
+
 2.37.2 (unstable):
 
 * Add version information to libxml++config.h.
