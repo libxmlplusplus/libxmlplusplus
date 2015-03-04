@@ -42,7 +42,8 @@ MM_ARG_WITH_TAGFILE_DOC([glibmm-2.4.tag], [glibmm-2.4])
 # Evaluate the --enable-warnings=level option.
 MM_ARG_ENABLE_WARNINGS([LIBXMLXX_WXXFLAGS],
         [-Wall],
-        [-pedantic -Wall -Wextra -Wno-long-long])
+        [-pedantic -Wall -Wextra -Wno-long-long],
+        [G GLIBMM SIGCXX])
 
 # Offer the ability to omit some API from the library.
 MM_ARG_DISABLE_DEPRECATED_API([LIBXMLXX])

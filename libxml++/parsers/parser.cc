@@ -4,13 +4,16 @@
  * included with libxml++ as the file COPYING.
  */
 
+// Include glibmm/threads.h first. It must be the first file to include glib.h,
+// because it temporarily undefines G_DISABLE_DEPRECATED while it includes glib.h.
+#include <glibmm/threads.h> // For Glib::Threads::Mutex. Needed until the next API/ABI break.
+
 #include "libxml++/parsers/parser.h"
 
 #include <libxml/parser.h>
 
 #include <memory> //For auto_ptr.
 #include <map>
-#include <glibmm/threads.h> // For Glib::Threads::Mutex. Needed until the next API/ABI break.
 
 //TODO: See several TODOs in parser.h for changes at the next API/ABI break.
 
