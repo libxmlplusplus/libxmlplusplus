@@ -29,13 +29,13 @@ namespace xmlpp
     // here we rely on the ostream implicit conversion to boolean, to know if the stream can be used and/or if the write succeded.
     if(output_)
       output_.write(buffer, len);
-    return output_;
+    return output_.good();
   }
 
   bool OStreamOutputBuffer::do_close()
   {
     if(output_)
         output_.flush();
-    return output_;
+    return output_.good();
   }
 }

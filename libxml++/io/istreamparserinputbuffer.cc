@@ -39,6 +39,6 @@ namespace xmlpp
 
   bool IStreamParserInputBuffer::do_close()
   {
-    return input_;
+    return input_.good();
   }
 }
