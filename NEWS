@@ -1,3 +1,13 @@
+2.38.1 (stable):
+
+* Fix the build with C++11 compilers, such as MS Visual C++ 2013 - Implicit
+  conversions from streams to bool are no longer allowed.)
+  (Mikhail Titov)
+* Build: Disable deprecated API in dependencies if --enable-warnings=fatal
+  (Kjell Ahlstedt)
+* Build: Require libxml2 2.7.7 or later
+  (Kjell Ahlstedt)
+
 2.38.0 (stable):
 
 This stable version is identical to the unstable version 2.37.2.
