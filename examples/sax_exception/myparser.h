@@ -28,7 +28,7 @@ class MyException: public xmlpp::exception
 {
   public:
     MyException();
-    ~MyException() throw() override;
+    ~MyException() noexcept override;
     void Raise() const override;
     xmlpp::exception * Clone() const override;
 };

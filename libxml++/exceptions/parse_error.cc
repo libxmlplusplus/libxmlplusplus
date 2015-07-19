@@ -7,7 +7,7 @@ parse_error::parse_error(const Glib::ustring& message)
 {
 }
 
-parse_error::~parse_error() throw()
+parse_error::~parse_error() noexcept
 {}
 
 void parse_error::Raise() const

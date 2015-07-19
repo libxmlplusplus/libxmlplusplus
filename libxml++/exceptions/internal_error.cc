@@ -8,7 +8,7 @@ internal_error::internal_error(const Glib::ustring& message)
 {
 }
 
-internal_error::~internal_error() throw()
+internal_error::~internal_error() noexcept
 {}
 
 void internal_error::Raise() const

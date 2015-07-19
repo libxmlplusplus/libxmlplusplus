@@ -9,10 +9,10 @@ exception::exception(const Glib::ustring& message)
 {
 }
 
-exception::~exception() throw()
+exception::~exception() noexcept
 {}
 
-const char* exception::what() const throw()
+const char* exception::what() const noexcept
 {
   return message_.c_str();
 }

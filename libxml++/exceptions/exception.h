@@ -41,9 +41,9 @@ class LIBXMLPP_API exception: public std::exception
 {
 public:
   explicit exception(const Glib::ustring& message);
-  ~exception() throw() override;
+  ~exception() noexcept override;
 
-  const char* what() const throw() override;
+  const char* what() const noexcept override;
 
   //TODO: Use lower-case names when we can break ABI?
   virtual void Raise() const;

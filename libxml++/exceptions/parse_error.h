@@ -36,7 +36,7 @@ class parse_error: public exception
 {
 public:
   explicit parse_error(const Glib::ustring& message);
-  ~parse_error() throw() override;
+  ~parse_error() noexcept override;
 
   void Raise() const override;
   exception* Clone() const override;

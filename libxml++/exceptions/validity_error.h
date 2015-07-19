@@ -33,7 +33,7 @@ class validity_error: public parse_error
 {
 public:
   explicit validity_error(const Glib::ustring& message);
-  ~validity_error() throw() override;
+  ~validity_error() noexcept override;
 
   void Raise() const override;
   exception* Clone() const override;

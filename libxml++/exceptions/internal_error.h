@@ -33,7 +33,7 @@ class internal_error: public exception
 {
 public:
   explicit internal_error(const Glib::ustring& message);
-  ~internal_error() throw() override;
+  ~internal_error() noexcept override;
 
   void Raise() const override;
   exception * Clone() const override;

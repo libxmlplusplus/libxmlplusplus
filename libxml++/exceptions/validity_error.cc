@@ -7,7 +7,7 @@ validity_error::validity_error(const Glib::ustring& message)
 {
 }
 
-validity_error::~validity_error() throw()
+validity_error::~validity_error() noexcept
 {}
 
 void validity_error::Raise() const
