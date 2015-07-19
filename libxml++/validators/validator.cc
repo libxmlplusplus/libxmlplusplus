@@ -15,7 +15,7 @@
 namespace xmlpp {
 
 Validator::Validator()
-: valid_(0), exception_(0)
+: valid_(nullptr), exception_(nullptr)
 {
 }
 
@@ -47,10 +47,10 @@ void Validator::release_underlying()
 {
   if(valid_)
   {
-    valid_->userData = 0; //Not really necessary.
+    valid_->userData = nullptr; //Not really necessary.
 
     xmlFreeValidCtxt(valid_);
-    valid_ = 0;
+    valid_ = nullptr;
   }
 }
 
@@ -166,7 +166,7 @@ void Validator::check_for_exception()
   if(exception_)
   {
     std::auto_ptr<exception> tmp(exception_);
-    exception_ = 0;
+    exception_ = nullptr;
     tmp->Raise();
   }
 }

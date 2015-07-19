@@ -42,7 +42,7 @@ namespace xmlpp
 
 struct XsdSchema::Impl
 {
-  Impl() : schema(0), document(0) {}
+  Impl() : schema(nullptr), document(nullptr) {}
 
   _xmlSchema* schema;
   _xmlDoc* document;
@@ -137,13 +137,13 @@ void XsdSchema::release_underlying()
   if (pimpl_->schema)
   {
     xmlSchemaFree(pimpl_->schema);
-    pimpl_->schema = 0;
+    pimpl_->schema = nullptr;
   }
 
   if (pimpl_->document)
   {
     xmlFreeDoc(pimpl_->document);
-    pimpl_->document = 0;
+    pimpl_->document = nullptr;
   }
 }
 

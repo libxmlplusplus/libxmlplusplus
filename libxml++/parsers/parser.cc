@@ -61,7 +61,7 @@ void on_parser_warning(const xmlpp::Parser* parser, const Glib::ustring& message
 namespace xmlpp {
 
 Parser::Parser()
-: context_(0), exception_(0), validate_(false), substitute_entities_(false) //See doxygen comment on set_substiute_entities().
+: context_(nullptr), exception_(nullptr), validate_(false), substitute_entities_(false) //See doxygen comment on set_substiute_entities().
 {
 
 }
@@ -201,15 +201,15 @@ void Parser::release_underlying()
 {
   if(context_)
   {
-    context_->_private = 0; //Not really necessary.
+    context_->_private = nullptr; //Not really necessary.
     
-    if( context_->myDoc != 0 )
+    if( context_->myDoc != nullptr )
     {
       xmlFreeDoc(context_->myDoc);
     }
 
     xmlFreeParserCtxt(context_);
-    context_ = 0;
+    context_ = nullptr;
   }
 }
 
@@ -372,7 +372,7 @@ void Parser::check_for_exception()
   if(exception_)
   {
     std::auto_ptr<exception> tmp ( exception_ );
-    exception_ = 0;
+    exception_ = nullptr;
     tmp->Raise();
   }
 }

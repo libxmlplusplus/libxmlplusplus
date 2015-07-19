@@ -374,7 +374,7 @@ xmlEntityPtr SaxParserCallback::get_entity(void* context, const xmlChar* name)
 {
   _xmlParserCtxt* the_context = static_cast<_xmlParserCtxt*>(context);
   SaxParser* parser = static_cast<SaxParser*>(the_context->_private);
-  xmlEntityPtr result = 0;
+  xmlEntityPtr result = nullptr;
 
   try
   {

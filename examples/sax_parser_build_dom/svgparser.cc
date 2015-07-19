@@ -59,9 +59,9 @@ void Parser::on_start_element(const Glib::ustring& name,
     elementName = name.substr(idx + 1);
   }
 
-  xmlpp::Element* element_normal = 0;
+  xmlpp::Element* element_normal = nullptr;
   // Create a normal libxml++ node:
-  if (m_doc.get_root_node() == 0)
+  if (m_doc.get_root_node() == nullptr)
   {
     // Create the root node if necessary:
     element_normal = m_doc.create_root_node(elementName);
@@ -80,7 +80,7 @@ void Parser::on_start_element(const Glib::ustring& name,
   // node with the derived Element object we create below.
   xmlNode* node = element_normal->cobj(); //Save it for later.
   delete element_normal;
-  element_normal = 0;
+  element_normal = nullptr;
 
   // TODO: Again, this requires knowledge of the libxml++ implemenation -
   // specifically that the base xmlpp::Node() constructor will reassociate
@@ -90,7 +90,7 @@ void Parser::on_start_element(const Glib::ustring& name,
   // This will then be deleted by libxml++, just as libxml++ would normally have
   // deleted its own node.
   // TODO: Don't delete the original (above) if it isn't one of these node names.
-  xmlpp::Element* element_derived = 0;
+  xmlpp::Element* element_derived = nullptr;
   if (elementName == "g")
     element_derived = new SVG::Group(node);
   else if (elementName == "path")

@@ -20,14 +20,14 @@ namespace xmlpp
 {
 
 DomParser::DomParser()
-: doc_(0)
+: doc_(nullptr)
 {
   //Start with an empty document:
   doc_ = new Document();
 }
 
 DomParser::DomParser(const Glib::ustring& filename, bool validate)
-: doc_(0)
+: doc_(nullptr)
 {
   set_validate(validate);
   parse_file(filename);
@@ -53,7 +53,7 @@ void DomParser::parse_file(const Glib::ustring& filename)
     throw internal_error("Could not create parser context\n" + format_xml_error());
   }
 
-  if(context_->directory == 0)
+  if(context_->directory == nullptr)
   {
     context_->directory = xmlParserGetDirectory(filename.c_str());
   }
@@ -123,7 +123,7 @@ void DomParser::parse_context()
   doc_ = new Document(context_->myDoc);
   // This is to indicate to release_underlying that we took the
   // ownership on the doc.
-  context_->myDoc = 0;
+  context_->myDoc = nullptr;
 
   //Free the parse context, but keep the document alive so people can navigate the DOM tree:
   //TODO: Why not keep the context alive too?
@@ -196,7 +196,7 @@ void DomParser::parse_stream(std::istream& in)
   doc_ = new Document(context_->myDoc);
   // This is to indicate to release_underlying that we took the
   // ownership on the doc.
-  context_->myDoc = 0;
+  context_->myDoc = nullptr;
 
 
   //Free the parse context, but keep the document alive so people can navigate the DOM tree:
@@ -209,7 +209,7 @@ void DomParser::release_underlying()
   if(doc_)
   {
     delete doc_;
-    doc_ = 0;
+    doc_ = nullptr;
   }
 
   Parser::release_underlying();
@@ -217,7 +217,7 @@ void DomParser::release_underlying()
 
 DomParser::operator bool() const
 {
-  return doc_ != 0;
+  return doc_ != nullptr;
 }
 
 Document* DomParser::get_document()

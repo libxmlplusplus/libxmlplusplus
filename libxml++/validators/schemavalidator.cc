@@ -38,24 +38,24 @@ namespace xmlpp
 {
 
 SchemaValidator::SchemaValidator()
-: schema_(0)
+: schema_(nullptr)
 , embbeded_shema_(false)
-, ctxt_(0)
+, ctxt_(nullptr)
 {
 }
 
 SchemaValidator::SchemaValidator(const Glib::ustring& file)
-: schema_(0)
+: schema_(nullptr)
 , embbeded_shema_(false)
-, ctxt_(0)
+, ctxt_(nullptr)
 {
   parse_file( file );
 }
 
 SchemaValidator::SchemaValidator(Document& document)
-: schema_(0)
+: schema_(nullptr)
 , embbeded_shema_(false)
-, ctxt_(0)
+, ctxt_(nullptr)
 {
   parse_document( document );
 }
@@ -63,7 +63,7 @@ SchemaValidator::SchemaValidator(Document& document)
 SchemaValidator::SchemaValidator(Schema* schema)
 : schema_(schema)
 , embbeded_shema_(false)
-, ctxt_(0)
+, ctxt_(nullptr)
 {
 }
 
@@ -126,19 +126,19 @@ void SchemaValidator::release_underlying()
   if(ctxt_)
   {
     xmlSchemaFreeValidCtxt( ctxt_ );
-    ctxt_ = 0;
+    ctxt_ = nullptr;
   }
   if(schema_)
   {
     if(embbeded_shema_)
       delete schema_;
-    schema_ = 0;
+    schema_ = nullptr;
   }
 }
 
 SchemaValidator::operator bool() const
 {
-  return schema_ != 0;
+  return schema_ != nullptr;
 }
 
 Schema* SchemaValidator::get_schema()

@@ -87,7 +87,7 @@ Glib::ustring format_xml_error(const _xmlError* error)
 Glib::ustring format_xml_parser_error(const _xmlParserCtxt* parser_context)
 {
   if (!parser_context)
-    return "Error. xmlpp::format_xml_parser_error() called with parser_context == 0\n";
+    return "Error. xmlpp::format_xml_parser_error() called with parser_context == nullptr\n";
 
   const _xmlError* error = xmlCtxtGetLastError(const_cast<_xmlParserCtxt*>(parser_context));
 

@@ -62,7 +62,7 @@ private:
  * @returns A formatted text string. If the error struct does not contain an
  *          error (error->code == XML_ERR_OK), an empty string is returned.
  */
-Glib::ustring format_xml_error(const _xmlError* error = 0);
+Glib::ustring format_xml_error(const _xmlError* error = nullptr);
 
 /** Format a parser error into a text string, suitable for printing.
  *

@@ -22,18 +22,18 @@ namespace xmlpp
 {
 
 DtdValidator::DtdValidator()
-: dtd_(0)
+: dtd_(nullptr)
 {
 }
 
 DtdValidator::DtdValidator(const Glib::ustring& file)
-: dtd_(0)
+: dtd_(nullptr)
 {
   parse_subset("",file);
 }
 
 DtdValidator::DtdValidator(const Glib::ustring& external,const Glib::ustring& system)
-: dtd_(0)
+: dtd_(nullptr)
 {
   parse_subset(external,system);
 }
@@ -102,13 +102,13 @@ void DtdValidator::release_underlying()
     xmlDtd* dtd = dtd_->cobj();
     Node::free_wrappers(reinterpret_cast<xmlNode*>(dtd));
     xmlFreeDtd(dtd);
-    dtd_ = 0;
+    dtd_ = nullptr;
   }
 }
 
 DtdValidator::operator bool() const
 {
-  return dtd_ != 0;
+  return dtd_ != nullptr;
 }
 
 Dtd* DtdValidator::get_dtd()

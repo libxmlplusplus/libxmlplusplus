@@ -184,7 +184,7 @@ Node* Node::get_previous_sibling()
 
 static Node* _convert_node(xmlNode* node)
 {
-  Node* res = 0;
+  Node* res = nullptr;
   if(node)
   {
     Node::create_wrapper(node);
@@ -302,7 +302,7 @@ Element* Node::add_child_before_with_new_ns(xmlpp::Node* next_sibling,
 
 _xmlNode* Node::create_new_child_node(const Glib::ustring& name, const Glib::ustring& ns_prefix)
 {
-   xmlNs* ns = 0;
+   xmlNs* ns = nullptr;
 
    if(impl_->type != XML_ELEMENT_NODE)
    {
@@ -345,7 +345,7 @@ _xmlNode* Node::create_new_child_node_with_new_ns(const Glib::ustring& name,
   {
     ns = xmlSearchNs(impl_->doc, impl_, (const xmlChar*)ns_prefix.c_str());
     if (ns && (ns_uri != (ns->href ? (const char*)ns->href : "")))
-      ns = 0;
+      ns = nullptr;
   }
   if (!ns)
   {
@@ -749,21 +749,21 @@ void Node::free_wrappers(xmlNode* node)
     //Node types that have no properties
     case XML_DTD_NODE:
       delete static_cast<Dtd*>(node->_private);
-      node->_private = 0;
+      node->_private = nullptr;
       return;
     case XML_ATTRIBUTE_NODE:
     case XML_ELEMENT_DECL:
     case XML_ATTRIBUTE_DECL:
     case XML_ENTITY_DECL:
       delete static_cast<Node*>(node->_private);
-      node->_private = 0;
+      node->_private = nullptr;
       return;
     case XML_DOCUMENT_NODE:
       //Do not free now. The Document is usually the one who owns the caller.
       return;
     default:
       delete static_cast<Node*>(node->_private);
-      node->_private = 0;
+      node->_private = nullptr;
       break;
   }
 

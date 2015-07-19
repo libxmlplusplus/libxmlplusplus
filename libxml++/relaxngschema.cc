@@ -44,7 +44,7 @@ namespace xmlpp
 
 struct RelaxNGSchema::Impl
 {
-  Impl() : schema(0) {}
+  Impl() : schema(nullptr) {}
 
   _xmlRelaxNG* schema;
 };
@@ -127,7 +127,7 @@ void RelaxNGSchema::release_underlying()
   if (pimpl_->schema)
   {
     xmlRelaxNGFree(pimpl_->schema);
-    pimpl_->schema = 0;
+    pimpl_->schema = nullptr;
   }
 }
 

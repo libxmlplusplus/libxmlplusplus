@@ -72,7 +72,7 @@ class TestNamespace : public Tests
 
 TestNamespace::TestNamespace()
 :
-root_(0)
+root_(nullptr)
 {
   nsmap_["ns0"] = "http://default.namespace/root";
   nsmap_["ns1"] = "http://default.namespace/child";

@@ -29,7 +29,7 @@ namespace xmlpp
 
 struct RelaxNGValidator::Impl
 {
-  Impl() : schema(0), is_schema_owner(false), context(0) {}
+  Impl() : schema(nullptr), is_schema_owner(false), context(nullptr) {}
 
   RelaxNGSchema* schema;
   bool is_schema_owner;
@@ -94,14 +94,14 @@ void RelaxNGValidator::release_underlying()
   if (pimpl_->context)
   {
     xmlRelaxNGFreeValidCtxt(pimpl_->context);
-    pimpl_->context = 0;
+    pimpl_->context = nullptr;
   }
 
   if (pimpl_->schema)
   {
     if (pimpl_->is_schema_owner)
       delete pimpl_->schema;
-    pimpl_->schema = 0;
+    pimpl_->schema = nullptr;
   }
 
   SchemaValidatorBase::release_underlying();

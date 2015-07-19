@@ -74,7 +74,7 @@ Glib::ustring Element::get_attribute_value(const Glib::ustring& name, const Glib
 Attribute* Element::set_attribute(const Glib::ustring& name, const Glib::ustring& value,
                                   const Glib::ustring& ns_prefix)
 {
-  xmlAttr* attr = 0;
+  xmlAttr* attr = nullptr;
 
   //Ignore the namespace if none was specified:
   if(ns_prefix.empty())
@@ -218,7 +218,7 @@ TextNode* Element::add_child_text_before(xmlpp::Node* next_sibling, const Glib::
 
 bool Element::has_child_text() const
 {
-  return get_child_text() != 0;
+  return get_child_text() != nullptr;
 }
 
 void Element::set_namespace_declaration(const Glib::ustring& ns_uri, const Glib::ustring& ns_prefix)
@@ -300,7 +300,7 @@ EntityReference* Element::add_child_entity_reference(const Glib::ustring& name)
 
   // Is it an entity reference or a character reference?
   // libxml uses xmlNode::type == XML_ENTITY_REF_NODE for both.
-  xmlNode* child = 0;
+  xmlNode* child = nullptr;
   if (extended_name[ichar] == '#')
     child = xmlNewCharRef(cobj()->doc, (const xmlChar*)name.c_str());
   else

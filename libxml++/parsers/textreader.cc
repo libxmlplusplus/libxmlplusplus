@@ -346,8 +346,8 @@ bool TextReader::is_valid() const
 
 void TextReader::setup_exceptions()
 {
-  xmlTextReaderErrorFunc func = 0;
-  void* arg = 0; 
+  xmlTextReaderErrorFunc func = nullptr;
+  void* arg = nullptr; 
 
   // We respect any other error handlers already setup:
   xmlTextReaderGetErrorHandler(impl_, &func, &arg);

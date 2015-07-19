@@ -38,7 +38,7 @@ namespace xmlpp
     // The code is almost cut/paste from xmlSaveFormatFileEnc
     // TODO wrap the handler ? I don't think so but...
 
-    xmlCharEncodingHandlerPtr handler = 0;
+    xmlCharEncodingHandlerPtr handler = nullptr;
     if( ! encoding.empty() )
     {
       xmlCharEncoding enc = xmlParseCharEncoding(encoding.c_str());
@@ -49,7 +49,7 @@ namespace xmlpp
       if( enc != XML_CHAR_ENCODING_UTF8 )
       {
         handler = xmlFindCharEncodingHandler(encoding.c_str());
-        if(handler == 0)
+        if(handler == nullptr)
         {
           throw internal_error("Cannot initialise an encoder to " + encoding);
         }
@@ -61,7 +61,7 @@ namespace xmlpp
         &OutputBufferCallback::on_close,
         static_cast<void*>(this),
         handler);
-    if(impl_ == 0)
+    if(impl_ == nullptr)
     {
       throw internal_error("Cannot initialise underlying xmlOutputBuffer");
     }
@@ -76,7 +76,7 @@ namespace xmlpp
     bool result = do_close();
     // the underlying structure is being freed by libxml, the pointer will soon be
     // invalid.
-    impl_ = 0;
+    impl_ = nullptr;
 
     return result;
   }

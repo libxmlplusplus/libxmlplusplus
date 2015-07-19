@@ -43,7 +43,7 @@ int main (int /* argc */, char** /* argv */)
     Element* first_child2 = dynamic_cast<Element*>(child_list2.front());
     if (!first_child2)
     {
-      cerr << "first_child2 == 0" << endl;
+      cerr << "first_child2 == nullptr" << endl;
       return EXIT_FAILURE;
     }
     TextNode* text_to_add = first_child2->get_child_text();

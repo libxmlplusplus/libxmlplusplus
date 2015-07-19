@@ -25,7 +25,7 @@ Schema::Schema(_xmlSchema* schema)
 }
 
 Schema::Schema(Document* document, bool embed)
-: impl_(0)
+: impl_(nullptr)
 , embedded_doc_(false)
 {
   set_document(document, embed);
@@ -97,7 +97,7 @@ void Schema::release_underlying()
   if(impl_)
   {
     xmlSchemaFree(impl_);
-    impl_ = 0;
+    impl_ = nullptr;
   }
 }
 

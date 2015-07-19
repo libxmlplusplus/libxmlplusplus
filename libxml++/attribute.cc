@@ -37,7 +37,7 @@ Glib::ustring Attribute::get_value() const
     return attributeDecl->get_value();
 
   // AttributeNode
-  xmlChar* value = 0;
+  xmlChar* value = nullptr;
   if (cobj()->ns && cobj()->ns->href)
     value = xmlGetNsProp(cobj()->parent, cobj()->name, cobj()->ns->href);
   else

@@ -307,7 +307,7 @@ public:
    *
    * @newin{2,36}
    */
-  bool eval_to_boolean(const Glib::ustring& xpath, XPathResultType* result_type = 0) const;
+  bool eval_to_boolean(const Glib::ustring& xpath, XPathResultType* result_type = nullptr) const;
 
 
   /** Evaluate an XPath expression.
@@ -323,7 +323,7 @@ public:
    * @newin{2,36}
    */
   bool eval_to_boolean(const Glib::ustring& xpath, const PrefixNsMap& namespaces,
-    XPathResultType* result_type = 0) const;
+    XPathResultType* result_type = nullptr) const;
 
   /** Evaluate an XPath expression.
    * @param xpath The XPath expression.
@@ -336,7 +336,7 @@ public:
    *
    * @newin{2,36}
    */
-  double eval_to_number(const Glib::ustring& xpath, XPathResultType* result_type = 0) const;
+  double eval_to_number(const Glib::ustring& xpath, XPathResultType* result_type = nullptr) const;
 
   /** Evaluate an XPath expression.
    * @param xpath The XPath expression.
@@ -351,7 +351,7 @@ public:
    * @newin{2,36}
    */
   double eval_to_number(const Glib::ustring& xpath, const PrefixNsMap& namespaces,
-    XPathResultType* result_type = 0) const;
+    XPathResultType* result_type = nullptr) const;
 
   /** Evaluate an XPath expression.
    * @param xpath The XPath expression.
@@ -364,7 +364,7 @@ public:
    *
    * @newin{2,36}
    */
-  Glib::ustring eval_to_string(const Glib::ustring& xpath, XPathResultType* result_type = 0) const;
+  Glib::ustring eval_to_string(const Glib::ustring& xpath, XPathResultType* result_type = nullptr) const;
 
   /** Evaluate an XPath expression.
    * @param xpath The XPath expression.
@@ -379,7 +379,7 @@ public:
    * @newin{2,36}
    */
   Glib::ustring eval_to_string(const Glib::ustring& xpath, const PrefixNsMap& namespaces,
-    XPathResultType* result_type = 0) const;
+    XPathResultType* result_type = nullptr) const;
 
   ///Access the underlying libxml implementation.
   _xmlNode* cobj();

@@ -118,7 +118,7 @@ void remove_found_wrappers(xmlNode* node, NodeMap& node_map)
       if (iter->second == node->type)
         node_map.erase(iter);
       else
-        node->_private = 0; // node->type has changed. The wrapper will be deleted.
+        node->_private = nullptr; // node->type has changed. The wrapper will be deleted.
     }
   }
 
@@ -226,7 +226,7 @@ void Document::set_internal_subset(const Glib::ustring& name,
 Element* Document::get_root_node() const
 {
   xmlNode* root = xmlDocGetRootElement(impl_);
-  if(root == 0)
+  if(root == nullptr)
     return 0;
   else
   {
@@ -368,7 +368,7 @@ Glib::ustring Document::do_write_to_string(
 {
   KeepBlanks k(KeepBlanks::Default);
   xmlIndentTreeOutput = format?1:0;
-  xmlChar* buffer = 0;
+  xmlChar* buffer = nullptr;
   int length = 0;
 
   xmlResetLastError();
