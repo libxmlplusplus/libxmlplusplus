@@ -24,9 +24,9 @@ namespace xmlpp
 
   /** Base class for xmlParserInputBuffer wrapper
    *
-   * It can be herited to create a new output buffer.
-   * A child class has to override do_write, and eventually
-   * do_close if some actions are required before buffer closing.
+   * It can be derived from to create a new output buffer.
+   * A child class has to override do_write(), and possibly
+   * do_close() if some actions are required before buffer closing.
    */
   class ParserInputBuffer: public NonCopyable
   {
@@ -52,12 +52,12 @@ namespace xmlpp
        * @param len bytes to read
        * @return Number of bytes read
        *
-       * This function MUST be overriden in herited classes.
+       * This function MUST be overriden in derived classes.
        */
       virtual int do_read(char * buffer, int len) = 0;
 
       /** Function called before closing the buffer.
-       * Herited classes should override it if some actions are required before
+       * Derived classes should override it if some actions are required before
        * closing the buffer, instead of doing them in the destructor.
        */
       virtual bool do_close();

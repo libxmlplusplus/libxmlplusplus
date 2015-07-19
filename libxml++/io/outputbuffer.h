@@ -26,15 +26,15 @@ namespace xmlpp
 
   /** Base class for xmlOutputBuffer wrapper
    *
-   * It can be herited to create a new output buffer.
-   * A child class has to override do_write, and eventually
-   * do_close if some actions are required before buffer closing.
+   * It can be derived from to create a new output buffer.
+   * A child class has to override do_write(), and possibly
+   * do_close() if some actions are required before buffer closing.
    */
   class OutputBuffer: public NonCopyable
   {
     public:
       /**
-       * @param encoding The encoding herited class wait for in do_write. If
+       * @param encoding The encoding that the derived class waits for in do_write. If
        * not provided, UTF-8 will be sent to do_write.
        *
        * @warning The encoding is done by libxml. As a consequence, libxml must
@@ -60,12 +60,12 @@ namespace xmlpp
        * @param buffer The datas encoded in the charset given to the constructor
        * @param len Buffer length
        *
-       * This function MUST be overriden in herited classes.
+       * This function MUST be overriden in derived classes.
        */
       virtual bool do_write(const char * buffer, int len) = 0;
 
       /** Function called before closing the buffer.
-       * Herited classes should override it if some actions are required before
+       * Derived classes should override it if some actions are required before
        * closing the buffer, instead of doing them in the destructor.
        */
       virtual bool do_close();

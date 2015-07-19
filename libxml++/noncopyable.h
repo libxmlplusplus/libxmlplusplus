@@ -12,7 +12,7 @@ namespace xmlpp
 {
 
 /**
- * Herited by classes which cannot be copied.
+ * A base for classes which cannot be copied.
  */
 class NonCopyable
 {
