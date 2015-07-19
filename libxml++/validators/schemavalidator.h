@@ -59,7 +59,10 @@ public:
    */
   explicit SchemaValidator(Schema* schema);
 
-  virtual ~SchemaValidator();
+  ~SchemaValidator() override;
+
+  //TODO: Remove virtuals when we can break ABI,
+  //or really put these in the base class.
 
   /** Parse a schema definition file.
    * If the validator already contains a schema, that schema is released
@@ -137,9 +140,9 @@ public:
   bool validate(const Glib::ustring& file);
 
 protected:
-  virtual void initialize_valid();
+  void initialize_valid() override;
   void parse_context(_xmlSchemaParserCtxt* context);
-  virtual void release_underlying();
+  void release_underlying() override;
 
   Schema* schema_;
   bool embbeded_shema_; //TODO Correct mis-spelling at the next API/ABI break.

@@ -28,7 +28,7 @@ class Validator : NonCopyable
 {
 public:
   Validator();
-  virtual ~Validator();
+  ~Validator() override;
 
 protected:
   virtual void initialize_valid();

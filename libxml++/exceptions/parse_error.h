@@ -36,10 +36,10 @@ class parse_error: public exception
 {
 public:
   explicit parse_error(const Glib::ustring& message);
-  virtual ~parse_error() throw();
+  ~parse_error() throw() override;
 
-  virtual void Raise() const;
-  virtual exception* Clone() const;
+  void Raise() const override;
+  exception* Clone() const override;
 };
 
 } // namespace xmlpp

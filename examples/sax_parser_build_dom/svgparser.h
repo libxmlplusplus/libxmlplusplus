@@ -34,7 +34,7 @@ class Parser : public xmlpp::SaxParser
 {
 public:
   Parser(xmlpp::Document& document);
-  virtual ~Parser();
+  ~Parser() override;
 
 protected:
   // SAX parser callbacks

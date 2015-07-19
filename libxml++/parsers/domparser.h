@@ -32,7 +32,7 @@ public:
    * @throws xmlpp::validity_error
    */
   explicit DomParser(const Glib::ustring& filename, bool validate = false);
-  virtual ~DomParser();
+  ~DomParser() override;
 
   /** Parse an XML document from a file.
    * If the parser already contains a document, that document and all its nodes
@@ -42,7 +42,7 @@ public:
    * @throws xmlpp::parse_error
    * @throws xmlpp::validity_error
    */
-  virtual void parse_file(const Glib::ustring& filename);
+  void parse_file(const Glib::ustring& filename) override;
 
   /** Parse an XML document from a string.
    * If the parser already contains a document, that document and all its nodes
@@ -52,7 +52,7 @@ public:
    * @throws xmlpp::parse_error
    * @throws xmlpp::validity_error
    */
-  virtual void parse_memory(const Glib::ustring& contents);
+  void parse_memory(const Glib::ustring& contents) override;
   
   /** Parse an XML document from raw memory.
    * If the parser already contains a document, that document and all its nodes
@@ -73,7 +73,7 @@ public:
    * @throws xmlpp::parse_error
    * @throws xmlpp::validity_error
    */
-  virtual void parse_stream(std::istream& in);
+  void parse_stream(std::istream& in) override;
 
   /** Test whether a document has been parsed.
    */
@@ -90,9 +90,10 @@ public:
   const Document* get_document() const;
   
 protected:
+  //TODO: Remove the virtual when we can break ABI?
   virtual void parse_context();
 
-  virtual void release_underlying();
+  void release_underlying() override;
   
   Document* doc_;
 };

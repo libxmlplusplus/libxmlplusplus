@@ -35,7 +35,7 @@ class Element : public xmlpp::Element
 public:
 
   Element(xmlNode* node);
-  virtual ~Element();
+  ~Element() override;
 
   // example custom methods
   void set_style(const Glib::ustring& style);

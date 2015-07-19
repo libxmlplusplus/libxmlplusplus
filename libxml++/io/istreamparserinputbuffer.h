@@ -23,11 +23,11 @@ namespace xmlpp
        * @param input The istream datas will be read from
        */
       IStreamParserInputBuffer(std::istream& input);
-      virtual ~IStreamParserInputBuffer();
+      ~IStreamParserInputBuffer() override;
 
     private:
-      virtual int  do_read(char * buffer, int len);
-      virtual bool do_close();
+      int  do_read(char * buffer, int len) override;
+      bool do_close() override;
 
       std::istream& input_;
   };

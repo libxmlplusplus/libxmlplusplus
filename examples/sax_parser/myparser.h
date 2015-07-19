@@ -28,20 +28,20 @@ class MySaxParser : public xmlpp::SaxParser
 {
 public:
   MySaxParser();
-  virtual ~MySaxParser();
+  ~MySaxParser() override;
 
 protected:
   //overrides:
-  virtual void on_start_document();
-  virtual void on_end_document();
-  virtual void on_start_element(const Glib::ustring& name,
-                                const AttributeList& properties);
-  virtual void on_end_element(const Glib::ustring& name);
-  virtual void on_characters(const Glib::ustring& characters);
-  virtual void on_comment(const Glib::ustring& text);
-  virtual void on_warning(const Glib::ustring& text);
-  virtual void on_error(const Glib::ustring& text);
-  virtual void on_fatal_error(const Glib::ustring& text);
+  void on_start_document() override;
+  void on_end_document() override;
+  void on_start_element(const Glib::ustring& name,
+                                const AttributeList& properties) override;
+  void on_end_element(const Glib::ustring& name) override;
+  void on_characters(const Glib::ustring& characters) override;
+  void on_comment(const Glib::ustring& text) override;
+  void on_warning(const Glib::ustring& text) override;
+  void on_error(const Glib::ustring& text) override;
+  void on_fatal_error(const Glib::ustring& text) override;
 };
 
 

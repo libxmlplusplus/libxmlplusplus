@@ -29,7 +29,7 @@ class AttributeDeclaration : public Attribute
 {
 public:
   explicit AttributeDeclaration(_xmlNode* node);
-  virtual ~AttributeDeclaration();
+  ~AttributeDeclaration() override;
 
   /** Get the default value of this attribute.
    * @returns The attribute's default value.

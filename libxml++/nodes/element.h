@@ -24,7 +24,7 @@ class Element : public Node
 {
 public:
   explicit Element(_xmlNode* node);
-  virtual ~Element();
+  ~Element() override;
 
   typedef std::list<Attribute*> AttributeList;
 

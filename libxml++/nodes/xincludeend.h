@@ -33,7 +33,7 @@ class XIncludeEnd : public Node
 {
 public:
   explicit XIncludeEnd(_xmlNode* node);
-  virtual ~XIncludeEnd();
+  ~XIncludeEnd() override;
 };
 
 } // namespace xmlpp

@@ -16,7 +16,7 @@ class ProcessingInstructionNode : public ContentNode
 {
 public:
   explicit ProcessingInstructionNode(_xmlNode* node);
-  virtual ~ProcessingInstructionNode();
+  ~ProcessingInstructionNode() override;
 };
 
 } // namespace xmlpp

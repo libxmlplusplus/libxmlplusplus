@@ -32,7 +32,7 @@ namespace xmlpp
   {
     public:
       ParserInputBuffer();
-      virtual ~ParserInputBuffer();
+      ~ParserInputBuffer() override;
 
     public:
       /** gives an access to the underlying libxml structure to the children

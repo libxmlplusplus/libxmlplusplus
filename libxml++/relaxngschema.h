@@ -65,7 +65,7 @@ public:
    */
   explicit RelaxNGSchema(const Document* document);
 
-  virtual ~RelaxNGSchema();
+  ~RelaxNGSchema() override;
 
   /** Parse a schema definition file.
    * The schema must be defined with XML syntax (.rng file). The compact syntax
@@ -75,7 +75,7 @@ public:
    * @param filename The URL of the schema.
    * @throws xmlpp::parse_error
    */
-  virtual void parse_file(const Glib::ustring& filename);
+  void parse_file(const Glib::ustring& filename) override;
 
   /** Parse a schema definition from a string.
    * The schema must be defined with XML syntax. The compact syntax is not supported.
@@ -84,14 +84,14 @@ public:
    * @param contents The schema definition as a string.
    * @throws xmlpp::parse_error
    */
-  virtual void parse_memory(const Glib::ustring& contents);
+  void parse_memory(const Glib::ustring& contents) override;
 
   /** Parse a schema definition from a document.
    * If another schema has been parsed before, that schema is replaced by the new one.
    * @param document A preparsed document tree, containing the schema definition.
    * @throws xmlpp::parse_error
    */
-  virtual void parse_document(const Document* document);
+  void parse_document(const Document* document) override;
 
   /** Access the underlying libxml implementation. */
   _xmlRelaxNG* cobj();

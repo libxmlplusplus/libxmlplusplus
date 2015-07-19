@@ -33,7 +33,7 @@ class XIncludeStart : public Node
 {
 public:
   explicit XIncludeStart(_xmlNode* node);
-  virtual ~XIncludeStart();
+  ~XIncludeStart() override;
 };
 
 } // namespace xmlpp

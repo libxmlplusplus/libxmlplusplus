@@ -65,7 +65,10 @@ public:
    */
   explicit XsdValidator(XsdSchema* schema, bool take_ownership);
 
-  virtual ~XsdValidator();
+  ~XsdValidator() override;
+
+  //TODO: Remove virtuals when we can break ABI,
+  //or really put these in the base class.
 
   /** Parse a schema definition file.
    * If the validator already contains a schema, that schema is released
@@ -138,8 +141,8 @@ public:
   virtual void validate(const Glib::ustring& filename);
 
 protected:
-  virtual void initialize_valid();
-  virtual void release_underlying();
+  void initialize_valid() override;
+  void release_underlying() override;
 
 private:
   struct Impl;

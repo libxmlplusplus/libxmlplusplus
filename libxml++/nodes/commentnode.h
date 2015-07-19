@@ -18,7 +18,7 @@ class CommentNode : public ContentNode
 {
 public:
   explicit CommentNode(_xmlNode* node);
-  virtual ~CommentNode();
+  ~CommentNode() override;
 };
 
 } // namespace xmlpp

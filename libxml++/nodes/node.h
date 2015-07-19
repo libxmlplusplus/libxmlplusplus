@@ -58,7 +58,7 @@ public:
   /** @throws xmlpp::internal_error If @a node is <tt>0</tt>.
    */
   explicit Node(_xmlNode* node);
-  virtual ~Node();
+  ~Node() override;
 
   /** Get the name of this node.
    * @returns The node's name.

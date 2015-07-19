@@ -34,7 +34,10 @@ public:
    */
   explicit DtdValidator(const Glib::ustring& external,const Glib::ustring& system);
 
-  virtual ~DtdValidator();
+  ~DtdValidator() override;
+
+  //TODO: Remove virtuals when we can break ABI,
+  //or really put these in the base class.
 
   /** Parse an external subset (DTD file).
    * If the validator already contains a DTD, that DTD is deleted.
@@ -90,7 +93,7 @@ public:
   bool validate(const Document* doc);
 
 protected:
-  virtual void release_underlying();
+  void release_underlying() override;
 
   Dtd* dtd_;
 };

@@ -41,7 +41,7 @@ namespace xmlpp
        * have a translator to the target encoding.
        */
       OutputBuffer(const Glib::ustring& encoding = Glib::ustring());
-      virtual ~OutputBuffer();
+      ~OutputBuffer() override;
 
     public:
       /** gives an access to the underlying libxml structure to the children

@@ -39,7 +39,10 @@ class SchemaValidatorBase : public Validator
 {
 public:
   SchemaValidatorBase();
-  virtual ~SchemaValidatorBase();
+  ~SchemaValidatorBase() override;
+
+  //TODO: Remove virtuals when we can break ABI,
+  //or really put these in the base class.
 
   /** Parse a schema definition file.
    * If the validator already contains a schema, that schema is released
@@ -95,8 +98,8 @@ public:
   virtual void validate(const Glib::ustring& filename) = 0;
 
 protected:
-  virtual void initialize_valid();
-  virtual void release_underlying();
+  void initialize_valid() override;
+  void release_underlying() override;
 };
 
 } // namespace xmlpp

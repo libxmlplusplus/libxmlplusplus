@@ -48,6 +48,8 @@ public:
   explicit Schema(Document* document = 0, bool embed = false);
   ~Schema();
 
+  //TODO: Remove virtual when we can break ABI?
+
   /** Set a new document to the schema.
    * If the old schema document is owned by the schema (embed == true), the old
    * schema document and all its nodes are deleted.
@@ -62,9 +64,11 @@ public:
   /** @deprecated There is no replacement.
    */
   Glib::ustring get_name() const;
+
   /** @deprecated There is no replacement.
    */
   Glib::ustring get_target_namespace() const;
+
   /** @deprecated There is no replacement.
    */
   Glib::ustring get_version() const;

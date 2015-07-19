@@ -27,7 +27,7 @@ class EntityDeclaration : public ContentNode
 {
 public:
   explicit EntityDeclaration(_xmlNode* node);
-  virtual ~EntityDeclaration();
+  ~EntityDeclaration() override;
 
   /** Get the text with character references (like "&#xdf;") resolved.
    * If the entity declaration does not contain any reference to another entity,

@@ -18,7 +18,7 @@ class TextNode : public ContentNode
 {
 public:
   explicit TextNode(_xmlNode* node);
-  virtual ~TextNode();
+  ~TextNode() override;
 };
 
 } // namespace xmlpp

@@ -44,8 +44,8 @@ class fail_exception : public std::exception
 {
   public:
     fail_exception(const std::string& msg) : msg_(msg) {}
-    virtual ~fail_exception() throw() {}
-    virtual const char* what() const throw() { return msg_.c_str(); }
+    ~fail_exception() throw() override {}
+    const char* what() const throw() override { return msg_.c_str(); }
 
   private:
     std::string msg_;

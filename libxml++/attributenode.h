@@ -24,7 +24,7 @@ class AttributeNode : public Attribute
 {
 public:
   explicit AttributeNode(_xmlNode* node);
-  virtual ~AttributeNode();
+  ~AttributeNode() override;
 };
 
 } // namespace xmlpp

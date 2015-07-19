@@ -27,11 +27,11 @@ namespace xmlpp
        * sent to the stream
        */
       OStreamOutputBuffer(std::ostream& output, const Glib::ustring& encoding = Glib::ustring());
-      virtual ~OStreamOutputBuffer();
+      ~OStreamOutputBuffer() override;
 
     private:
-      virtual bool do_write(const char * buffer, int len);
-      virtual bool do_close();
+      bool do_write(const char * buffer, int len) override;
+      bool do_close() override;
 
       std::ostream& output_;
   };

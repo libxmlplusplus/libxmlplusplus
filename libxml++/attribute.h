@@ -28,7 +28,7 @@ class Attribute : public Node
 {
 public:
   explicit Attribute(_xmlNode* node);
-  virtual ~Attribute();
+  ~Attribute() override;
   
   //TODO: Can we remove this and just use Node::get_name()?
   // Yes, when we can break ABI. /Kjell Ahlstedt 2012-02-09

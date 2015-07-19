@@ -19,7 +19,7 @@ class CdataNode : public ContentNode
 {
 public:
   explicit CdataNode(_xmlNode* node);
-  virtual ~CdataNode();
+  ~CdataNode() override;
 };
 
 } // namespace xmlpp

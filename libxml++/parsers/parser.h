@@ -33,9 +33,11 @@ class Parser : NonCopyable
 {
 public:
   Parser();
-  virtual ~Parser();
+  ~Parser() override;
 
   typedef unsigned int size_type;
+
+  //TODO: Remove virtuals when we can break ABI.
 
   /** By default, the parser will not validate the XML file.
    * @param val Whether the document should be validated.
@@ -162,6 +164,7 @@ protected:
 
   virtual void handleException(const exception& e);
   virtual void check_for_exception();
+
   //TODO: In a future API/ABI-break, change the name of this function to
   // something more appropriate, such as check_for_error_and_warning_messages.
   virtual void check_for_validity_messages();

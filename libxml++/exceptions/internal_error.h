@@ -33,10 +33,10 @@ class internal_error: public exception
 {
 public:
   explicit internal_error(const Glib::ustring& message);
-  virtual ~internal_error() throw();
+  ~internal_error() throw() override;
 
-  virtual void Raise() const;
-  virtual exception * Clone() const;
+  void Raise() const override;
+  exception * Clone() const override;
 };
 
 } // namespace xmlpp

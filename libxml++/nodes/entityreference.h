@@ -18,7 +18,7 @@ class EntityReference : public Node
 {
 public:
   explicit EntityReference(_xmlNode* node);
-  virtual ~EntityReference();
+  ~EntityReference() override;
 
   /** Get the text with character references (like "&#xdf;") resolved.
    * If the corresponding entity declaration does not contain any reference to

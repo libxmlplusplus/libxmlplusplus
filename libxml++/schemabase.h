@@ -38,7 +38,7 @@ class SchemaBase : NonCopyable
 {
 public:
   SchemaBase();
-  virtual ~SchemaBase();
+  ~SchemaBase() override;
 
   /** Parse a schema definition file.
    * If another schema has been parsed before, that schema is replaced by the new one.

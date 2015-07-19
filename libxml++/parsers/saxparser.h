@@ -78,7 +78,7 @@ public:
    * behaviour of libxml, so the libxml implementation is the default here.
    */
   SaxParser(bool use_get_entity = false);
-  virtual ~SaxParser();
+  ~SaxParser() override;
 
   /** Parse an XML document from a file.
    * @param filename The path to the file.
@@ -86,7 +86,7 @@ public:
    * @throws xmlpp::parse_error
    * @throws xmlpp::validity_error
    */
-  virtual void parse_file(const Glib::ustring& filename);
+  void parse_file(const Glib::ustring& filename) override;
 
   /** Parse an XML document from a string.
    * @param contents The XML document as a string.
@@ -94,7 +94,7 @@ public:
    * @throws xmlpp::parse_error
    * @throws xmlpp::validity_error
    */
-  virtual void parse_memory(const Glib::ustring& contents);
+  void parse_memory(const Glib::ustring& contents) override;
 
   /** Parse an XML document from raw memory.
    * @param contents The XML document as an array of bytes.
@@ -111,8 +111,9 @@ public:
    * @throws xmlpp::parse_error
    * @throws xmlpp::validity_error
    */
-  virtual void parse_stream(std::istream& in);
+  void parse_stream(std::istream& in) override;
   
+  //TODO: Remove virtual when we can break ABI?
   /** Parse a chunk of data.
    *
    * This lets you pass a document in small chunks, e.g. from a network
@@ -148,6 +149,7 @@ public:
    */
   void parse_chunk_raw(const unsigned char* contents, size_type bytes_count);
 
+  //TODO: Remove virtual when we can break ABI?
   /** Finish a chunk-wise parse.
    *
    * Call this after the last call to parse_chunk(). Don't use this function with
@@ -168,6 +170,7 @@ protected:
   virtual void on_comment(const Glib::ustring& text);
   virtual void on_warning(const Glib::ustring& text);
   virtual void on_error(const Glib::ustring& text);
+
   /** @throws xmlpp::parse_error
    */
   virtual void on_fatal_error(const Glib::ustring& text);
@@ -207,9 +210,10 @@ protected:
    */
   virtual void on_entity_declaration(const Glib::ustring& name, XmlEntityType type, const Glib::ustring& publicId, const Glib::ustring& systemId, const Glib::ustring& content);
 
-  virtual void release_underlying();
+  void release_underlying() override;
   
 private:
+  //TODO: Remove the virtual when we can break ABI?
   virtual void parse();
   
   std::auto_ptr<_xmlSAXHandler> sax_handler_;

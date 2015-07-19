@@ -33,10 +33,10 @@ class validity_error: public parse_error
 {
 public:
   explicit validity_error(const Glib::ustring& message);
-  virtual ~validity_error() throw();
+  ~validity_error() throw() override;
 
-  virtual void Raise() const;
-  virtual exception* Clone() const;
+  void Raise() const override;
+  exception* Clone() const override;
 };
 
 } // namespace xmlpp
