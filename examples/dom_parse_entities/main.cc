@@ -57,10 +57,9 @@ void print_node(const xmlpp::Node* node, bool substitute_entities, unsigned int 
   if(!nodeContent)
   {
     //Recurse through child nodes:
-    auto list = node->get_children();
-    for(xmlpp::Node::NodeList::iterator iter = list.begin(); iter != list.end(); ++iter)
+    for(const auto& child : node->get_children())
     {   
-      print_node(*iter, substitute_entities, indentation + 2); //recursive
+      print_node(child, substitute_entities, indentation + 2); //recursive
     }
   }
 }

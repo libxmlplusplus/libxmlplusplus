@@ -33,10 +33,9 @@ void print_node(const xmlpp::Node* node, unsigned int indentation = 0)
   std::cout << "Node name = " << node->get_name() << std::endl;
 
   //Recurse through child nodes:
-  auto list = node->get_children();
-  for(xmlpp::Node::NodeList::iterator iter = list.begin(); iter != list.end(); ++iter)
+  for(const auto& child : node->get_children())
   {
-    print_node(*iter, indentation + 2); //recursive
+    print_node(child, indentation + 2); //recursive
   }
 }
 

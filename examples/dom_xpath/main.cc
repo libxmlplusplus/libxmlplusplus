@@ -55,23 +55,23 @@ bool xpath_test(const xmlpp::Node* node, const Glib::ustring& xpath)
     std::cout << set.size() << " nodes have been found:" << std::endl;
 
     //Print the structural paths and the values:
-    for(xmlpp::NodeSet::iterator i = set.begin(); i != set.end(); ++i)
+    for(const auto& node : set)
     {
-      std::cout << " " << (*i)->get_path();
+      std::cout << " " << node->get_path();
 
-      auto attribute = dynamic_cast<xmlpp::Attribute*>(*i);
+      auto attribute = dynamic_cast<xmlpp::Attribute*>(node);
       if (attribute)
         std::cout << ", value=\"" << attribute->get_value() << "\"";
 
-      auto content_node = dynamic_cast<xmlpp::ContentNode*>(*i);
+      auto content_node = dynamic_cast<xmlpp::ContentNode*>(node);
       if (content_node)
         std::cout << ", content=\"" << content_node->get_content() << "\"";
 
-      auto entity_reference = dynamic_cast<xmlpp::EntityReference*>(*i);
+      auto entity_reference = dynamic_cast<xmlpp::EntityReference*>(node);
       if (entity_reference)
         std::cout << ", text=\"" << entity_reference->get_original_text() << "\"";
 
-      auto element = dynamic_cast<xmlpp::Element*>(*i);
+      auto element = dynamic_cast<xmlpp::Element*>(node);
       if (element)
       {
         auto text_node = element->get_child_text();

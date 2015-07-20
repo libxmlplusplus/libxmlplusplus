@@ -106,10 +106,10 @@ void Parser::on_start_element(const Glib::ustring& name,
 
     // Copy the attributes form the old node to the new derived node:
     // In theory, you could change the attributes here.
-    for(xmlpp::SaxParser::AttributeList::const_iterator iter = attributes.begin(); iter != attributes.end(); ++iter)
+    for(const auto& attr_pair : attributes)
     {
-      auto name = (*iter).name;
-      auto value = (*iter).value;
+      auto name = attr_pair.name;
+      auto value = attr_pair.value;
       Glib::ustring::size_type idx = name.find(':');
       if (idx == Glib::ustring::npos) // If the separator was not found.
       {

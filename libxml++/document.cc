@@ -432,19 +432,22 @@ int Document::process_xinclude(bool generate_xinclude_nodes)
     generate_xinclude_nodes ? 0 : XML_PARSE_NOXINCNODE);
 
   remove_found_wrappers(reinterpret_cast<xmlNode*>(impl_), node_map);
-  // Delete wrappers of nodes that have been deleted or have got their type changed.
-  for (NodeMap::iterator iter = node_map.begin(); iter != node_map.end(); ++iter)
+
+  // Delete wrappers of nodes that have been deleted or have had their type changed.
+  for (auto& the_pair : node_map)
   {
-    switch (iter->second)
+    auto node = the_pair.first;
+
+    switch (the_pair.second)
     {
     case XML_DTD_NODE:
-      delete reinterpret_cast<Dtd*>(iter->first);
+      delete reinterpret_cast<Dtd*>(node);
       break;
     case XML_DOCUMENT_NODE:
-      delete reinterpret_cast<Document*>(iter->first);
+      delete reinterpret_cast<Document*>(node);
       break;
     default:
-      delete iter->first; // Node*
+      delete node; // Node*
       break;
     }
   }

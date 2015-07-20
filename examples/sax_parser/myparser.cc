@@ -49,11 +49,11 @@ void MySaxParser::on_start_element(const Glib::ustring& name,
   std::cout << "node name=" << name << std::endl;
 
   // Print attributes:
-  for(xmlpp::SaxParser::AttributeList::const_iterator iter = attributes.begin(); iter != attributes.end(); ++iter)
+  for(const auto& attr_pair : attributes)
   {
     try
     {
-      std::cout << "  Attribute name=" << iter->name << std::endl;
+      std::cout << "  Attribute name=" <<  attr_pair.name << std::endl;
     }
     catch(const Glib::ConvertError& ex)
     {
@@ -62,7 +62,7 @@ void MySaxParser::on_start_element(const Glib::ustring& name,
 
     try
     {
-      std::cout << "    , value= " << iter->value << std::endl;
+      std::cout << "    , value= " <<  attr_pair.value << std::endl;
     }
     catch(const Glib::ConvertError& ex)
     {
