@@ -108,34 +108,34 @@ void Parser::on_start_element(const Glib::ustring& name,
     // In theory, you could change the attributes here.
     for(const auto& attr_pair : attributes)
     {
-      auto name = attr_pair.name;
-      auto value = attr_pair.value;
-      Glib::ustring::size_type idx = name.find(':');
-      if (idx == Glib::ustring::npos) // If the separator was not found.
+      const auto attr_name = attr_pair.name;
+      const auto attr_value = attr_pair.value;
+      const auto idx_colon = attr_name.find(':');
+      if (idx_colon == Glib::ustring::npos) // If the separator was not found.
       {
-        if (name == "xmlns") // This is a namespace declaration.
+        if (attr_name == "xmlns") // This is a namespace declaration.
         {
           //There is no second part, so this is a default namespace declaration.
-          element_derived->set_namespace_declaration(value);
+          element_derived->set_namespace_declaration(attr_value);
         }
         else
         {
           //This is just an attribute value:
-          element_derived->set_attribute(name, value);
+          element_derived->set_attribute(attr_name, attr_value);
         }
       }
       else
       {
         //The separator was found:
-        auto prefix = name.substr(0, idx);
-        auto suffix = name.substr(idx + 1);
+        auto prefix = attr_name.substr(0, idx_colon);
+        auto suffix = attr_name.substr(idx_colon + 1);
         if (prefix == "xmlns") // This is a namespace declaration.
-          element_derived->set_namespace_declaration(value, suffix);
+          element_derived->set_namespace_declaration(attr_value, suffix);
         else
         {
           //This is a namespaced attribute value.
           //(The namespace must have been declared already)
-          auto attr = element_derived->set_attribute(suffix, value);
+          auto attr = element_derived->set_attribute(suffix, attr_value);
           attr->set_namespace(prefix); //alternatively, we could have specified the whole name to set_attribute().
         }
       }
