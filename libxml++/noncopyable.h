@@ -20,13 +20,8 @@ protected:
   NonCopyable();
   virtual ~NonCopyable();
 
-private:
-  //These are not-implemented.
-  //They are just here so we can declare them as private
-  //so that this, and any derived class, do not have
-  //copy constructors.
-  NonCopyable(const NonCopyable&);
-  NonCopyable& operator=(const NonCopyable&);
+  NonCopyable(const NonCopyable&) = delete;
+  NonCopyable& operator=(const NonCopyable&) = delete;
 };
 
 } // namespace xmlpp
