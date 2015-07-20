@@ -1,3 +1,8 @@
+2.39.1 (unstable):
+
+* Use (and require) C++11.
+  (Murray Cumming)
+
 2.38.1 (stable):
 
 * Fix the build with C++11 compilers, such as MS Visual C++ 2013 - Implicit
