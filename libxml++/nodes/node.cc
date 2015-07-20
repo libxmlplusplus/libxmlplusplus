@@ -739,7 +739,7 @@ void Node::free_wrappers(xmlNode* node)
   if (node->type != XML_ENTITY_REF_NODE)
   {
     //Walk the children list.
-    for (xmlNode* child = node->children; child; child = child->next)
+    for (auto child = node->children; child; child = child->next)
       free_wrappers(child);
   }
 
@@ -772,7 +772,7 @@ void Node::free_wrappers(xmlNode* node)
   //_xmlNode::properties would be a nonsense value, leading to crashes,
   //(and shown as valgrind warnings), so we return above, to avoid 
   //checking it here.
-  for(xmlAttr* attr = node->properties; attr; attr = attr->next)
+  for(auto attr = node->properties; attr; attr = attr->next)
     free_wrappers(reinterpret_cast<xmlNode*>(attr));
 }
 

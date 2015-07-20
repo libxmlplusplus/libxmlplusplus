@@ -23,7 +23,7 @@ Element::~Element()
 Element::AttributeList Element::get_attributes()
 {
   AttributeList attributes;
-  for(xmlAttr* attr = cobj()->properties; attr; attr = attr->next)
+  for(auto attr = cobj()->properties; attr; attr = attr->next)
   {
     Node::create_wrapper(reinterpret_cast<xmlNode*>(attr));
     attributes.push_back(reinterpret_cast<Attribute*>(attr->_private));
@@ -120,7 +120,7 @@ void Element::remove_attribute(const Glib::ustring& name, const Glib::ustring& n
 const TextNode* Element::get_child_text() const
 {
   // FIXME: return only the first content node
-  for(xmlNode* child = cobj()->children; child; child = child->next)
+  for(auto child = cobj()->children; child; child = child->next)
      if(child->type == XML_TEXT_NODE)
      {
        Node::create_wrapper(child);
@@ -134,7 +134,7 @@ TextNode* Element::get_child_text()
 {
   // TODO: This only returns the first content node.
   // What should we do instead? Update the documentation if we change this. murrayc.
-  for(xmlNode* child = cobj()->children; child; child = child->next)
+  for(auto child = cobj()->children; child; child = child->next)
      if(child->type == XML_TEXT_NODE)
      {
        Node::create_wrapper(child);

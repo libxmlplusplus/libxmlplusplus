@@ -41,7 +41,7 @@ void find_wrappers(xmlNode* node, NodeMap& node_map)
   if (node->type != XML_ENTITY_REF_NODE)
   {
     // Walk the children list.
-    for (xmlNode* child = node->children; child; child = child->next)
+    for (auto child = node->children; child; child = child->next)
       find_wrappers(child, node_map);
   }
 
@@ -74,7 +74,7 @@ void find_wrappers(xmlNode* node, NodeMap& node_map)
   //_xmlNode::properties would be a nonsense value, leading to crashes
   //(and shown as valgrind warnings), so we return above, to avoid 
   //checking it here.
-  for (xmlAttr* attr = node->properties; attr; attr = attr->next)
+  for (auto attr = node->properties; attr; attr = attr->next)
     find_wrappers(reinterpret_cast<xmlNode*>(attr), node_map);
 }
 
@@ -88,7 +88,7 @@ void remove_found_wrappers(xmlNode* node, NodeMap& node_map)
   if (node->type != XML_ENTITY_REF_NODE)
   {
     // Walk the children list.
-    for (xmlNode* child = node->children; child; child = child->next)
+    for (auto child = node->children; child; child = child->next)
       remove_found_wrappers(child, node_map);
   }
 
@@ -126,7 +126,7 @@ void remove_found_wrappers(xmlNode* node, NodeMap& node_map)
     return;
 
   // Walk the attributes list.
-  for (xmlAttr* attr = node->properties; attr; attr = attr->next)
+  for (auto attr = node->properties; attr; attr = attr->next)
     remove_found_wrappers(reinterpret_cast<xmlNode*>(attr), node_map);
 
 }
