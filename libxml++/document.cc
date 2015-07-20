@@ -111,7 +111,7 @@ void remove_found_wrappers(xmlNode* node, NodeMap& node_map)
 
   if (node->_private)
   {
-    const NodeMap::iterator iter =
+    const auto iter =
       node_map.find(static_cast<xmlpp::Node*>(node->_private));
     if (iter != node_map.end())
     {
@@ -200,7 +200,7 @@ Glib::ustring Document::get_encoding() const
 
 Dtd* Document::get_internal_subset() const
 {
-  xmlDtd* dtd = xmlGetIntSubset(impl_);
+  auto dtd = xmlGetIntSubset(impl_);
   if(!dtd)
     return 0;
 
@@ -214,7 +214,7 @@ void Document::set_internal_subset(const Glib::ustring& name,
                                    const Glib::ustring& external_id,
                                    const Glib::ustring& system_id)
 {
-  xmlDtd* dtd = xmlCreateIntSubset(impl_,
+  auto dtd = xmlCreateIntSubset(impl_,
 				   (const xmlChar*)name.c_str(),
 				   external_id.empty() ? (const xmlChar*)0 : (const xmlChar*)external_id.c_str(),
 				   system_id.empty() ? (const xmlChar*)0 : (const xmlChar*)system_id.c_str());
@@ -225,7 +225,7 @@ void Document::set_internal_subset(const Glib::ustring& name,
 
 Element* Document::get_root_node() const
 {
-  xmlNode* root = xmlDocGetRootElement(impl_);
+  auto root = xmlDocGetRootElement(impl_);
   if(root == nullptr)
     return 0;
   else
@@ -239,7 +239,7 @@ Element* Document::create_root_node(const Glib::ustring& name,
                                     const Glib::ustring& ns_uri,
                                     const Glib::ustring& ns_prefix)
 {
-  xmlNode* node = xmlNewDocNode(impl_, 0, (const xmlChar*)name.c_str(), 0);
+  auto node = xmlNewDocNode(impl_, 0, (const xmlChar*)name.c_str(), 0);
   if (!node)
     throw internal_error("Could not create root element node " + name);
 
@@ -251,7 +251,7 @@ Element* Document::create_root_node(const Glib::ustring& name,
     xmlFreeNode(node);
   }
 
-  Element* element = get_root_node();
+  auto element = get_root_node();
 
   if( !ns_uri.empty() && element )
   {
@@ -269,13 +269,13 @@ Element* Document::create_root_node_by_import(const Node* node,
     return 0;
 
   //Create the node, by copying:
-  xmlNode* imported_node = xmlDocCopyNode(const_cast<xmlNode*>(node->cobj()), impl_, recursive);
+  auto imported_node = xmlDocCopyNode(const_cast<xmlNode*>(node->cobj()), impl_, recursive);
   if (!imported_node)
   {
     throw exception("Unable to copy the node that shall be imported");
   }
 
-  xmlNode* old_node = xmlDocSetRootElement(impl_, imported_node);
+  auto old_node = xmlDocSetRootElement(impl_, imported_node);
   if (old_node)
   {
     // An old root element node has been replaced.
@@ -288,10 +288,10 @@ Element* Document::create_root_node_by_import(const Node* node,
 
 CommentNode* Document::add_comment(const Glib::ustring& content)
 {
-  xmlNode* child = xmlNewComment((const xmlChar*)content.c_str());
+  auto child = xmlNewComment((const xmlChar*)content.c_str());
  
   // Use the result, because child can be freed when merging text nodes:
-  xmlNode* node = xmlAddChild((xmlNode*)impl_, child);
+  auto node = xmlAddChild((xmlNode*)impl_, child);
   if (!node)
   {
     xmlFreeNode(child);
@@ -304,8 +304,8 @@ CommentNode* Document::add_comment(const Glib::ustring& content)
 ProcessingInstructionNode* Document::add_processing_instruction(
   const Glib::ustring& name, const Glib::ustring& content)
 {
-  xmlNode* child = xmlNewDocPI(impl_, (const xmlChar*)name.c_str(), (const xmlChar*)content.c_str());
-  xmlNode* node = xmlAddChild((xmlNode*)impl_, child);
+  auto child = xmlNewDocPI(impl_, (const xmlChar*)name.c_str(), (const xmlChar*)content.c_str());
+  auto node = xmlAddChild((xmlNode*)impl_, child);
   if (!node)
   {
     xmlFreeNode(child);
@@ -411,7 +411,7 @@ void Document::set_entity_declaration(const Glib::ustring& name, XmlEntityType t
                               const Glib::ustring& publicId, const Glib::ustring& systemId,
                               const Glib::ustring& content)
 {
-  xmlEntity* entity = xmlAddDocEntity( impl_, (const xmlChar*) name.c_str(), type,
+  auto entity = xmlAddDocEntity( impl_, (const xmlChar*) name.c_str(), type,
     publicId.empty() ? (const xmlChar*)0 : (const xmlChar*)publicId.c_str(),
     systemId.empty() ? (const xmlChar*)0 : (const xmlChar*)systemId.c_str(),
     (const xmlChar*) content.c_str() );
@@ -423,7 +423,7 @@ int Document::process_xinclude(bool generate_xinclude_nodes)
 {
   NodeMap node_map;
 
-  xmlNode* root = xmlDocGetRootElement(impl_);
+  auto root = xmlDocGetRootElement(impl_);
 
   find_wrappers(root, node_map);
 

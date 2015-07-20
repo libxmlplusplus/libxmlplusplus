@@ -31,7 +31,7 @@ xmlXPathObject* eval_common(const Glib::ustring& xpath,
   const xmlpp::Node::PrefixNsMap* namespaces,
   xmlpp::XPathResultType* result_type, xmlNode* node)
 {
-  xmlXPathContext* ctxt = xmlXPathNewContext(node->doc);
+  auto ctxt = xmlXPathNewContext(node->doc);
   if (!ctxt)
     throw xmlpp::internal_error("Could not create XPath context for " + xpath);
   ctxt->node = node;
@@ -45,7 +45,7 @@ xmlXPathObject* eval_common(const Glib::ustring& xpath,
         reinterpret_cast<const xmlChar*>(it->second.c_str()));
   }
 
-  xmlXPathObject* xpath_value = xmlXPathEvalExpression(
+  auto xpath_value = xmlXPathEvalExpression(
     reinterpret_cast<const xmlChar*>(xpath.c_str()), ctxt);
 
   xmlXPathFreeContext(ctxt);
@@ -77,7 +77,7 @@ bool eval_common_to_boolean(const Glib::ustring& xpath,
   const xmlpp::Node::PrefixNsMap* namespaces,
   xmlpp::XPathResultType* result_type, xmlNode* node)
 {
-  xmlXPathObject* xpath_value = eval_common(xpath, namespaces, result_type, node);
+  auto xpath_value = eval_common(xpath, namespaces, result_type, node);
   const int result = xmlXPathCastToBoolean(xpath_value);
   xmlXPathFreeObject(xpath_value);
   return static_cast<bool>(result);
@@ -88,7 +88,7 @@ double eval_common_to_number(const Glib::ustring& xpath,
   const xmlpp::Node::PrefixNsMap* namespaces,
   xmlpp::XPathResultType* result_type, xmlNode* node)
 {
-  xmlXPathObject* xpath_value = eval_common(xpath, namespaces, result_type, node);
+  auto xpath_value = eval_common(xpath, namespaces, result_type, node);
   const double result = xmlXPathCastToNumber(xpath_value);
   xmlXPathFreeObject(xpath_value);
   return result;
@@ -99,7 +99,7 @@ Glib::ustring eval_common_to_string(const Glib::ustring& xpath,
   const xmlpp::Node::PrefixNsMap* namespaces,
   xmlpp::XPathResultType* result_type, xmlNode* node)
 {
-  xmlXPathObject* xpath_value = eval_common(xpath, namespaces, result_type, node);
+  auto xpath_value = eval_common(xpath, namespaces, result_type, node);
   xmlChar* result = xmlXPathCastToString(xpath_value);
   xmlXPathFreeObject(xpath_value);
   if (result)
@@ -195,7 +195,7 @@ static Node* _convert_node(xmlNode* node)
 
 Node* Node::get_first_child(const Glib::ustring& name)
 {
-  xmlNode* child = impl_->children;
+  auto child = impl_->children;
   if(!child)
     return 0;
 
@@ -216,7 +216,7 @@ const Node* Node::get_first_child(const Glib::ustring& name) const
 
 Node::NodeList Node::get_children(const Glib::ustring& name)
 {
-   xmlNode* child = impl_->children;
+   auto child = impl_->children;
    if(!child)
      return NodeList();
 
@@ -239,8 +239,8 @@ const Node::NodeList Node::get_children(const Glib::ustring& name) const
 Element* Node::add_child(const Glib::ustring& name,
                          const Glib::ustring& ns_prefix)
 {
-  _xmlNode* child = create_new_child_node(name, ns_prefix);
-  _xmlNode* node = xmlAddChild(impl_, child);
+  auto child = create_new_child_node(name, ns_prefix);
+  auto node = xmlAddChild(impl_, child);
   return add_child_common(name, child, node);
 }
 
@@ -251,8 +251,8 @@ Element* Node::add_child(xmlpp::Node* previous_sibling,
   if (!previous_sibling)
     return 0;
 
-  _xmlNode* child = create_new_child_node(name, ns_prefix);
-  _xmlNode* node = xmlAddNextSibling(previous_sibling->cobj(), child);
+  auto child = create_new_child_node(name, ns_prefix);
+  auto node = xmlAddNextSibling(previous_sibling->cobj(), child);
   return add_child_common(name, child, node);
 }
 
@@ -263,16 +263,16 @@ Element* Node::add_child_before(xmlpp::Node* next_sibling,
   if (!next_sibling)
     return 0;
 
-  _xmlNode* child = create_new_child_node(name, ns_prefix);
-  _xmlNode* node = xmlAddPrevSibling(next_sibling->cobj(), child);
+  auto child = create_new_child_node(name, ns_prefix);
+  auto node = xmlAddPrevSibling(next_sibling->cobj(), child);
   return add_child_common(name, child, node);
 }
 
 Element* Node::add_child_with_new_ns(const Glib::ustring& name,
   const Glib::ustring& ns_uri, const Glib::ustring& ns_prefix)
 {
-  _xmlNode* child = create_new_child_node_with_new_ns(name, ns_uri, ns_prefix);
-  _xmlNode* node = xmlAddChild(impl_, child);
+  auto child = create_new_child_node_with_new_ns(name, ns_uri, ns_prefix);
+  auto node = xmlAddChild(impl_, child);
   return add_child_common(name, child, node);
 }
 
@@ -283,8 +283,8 @@ Element* Node::add_child_with_new_ns(xmlpp::Node* previous_sibling,
   if (!previous_sibling)
     return 0;
 
-  _xmlNode* child = create_new_child_node_with_new_ns(name, ns_uri, ns_prefix);
-  _xmlNode* node = xmlAddNextSibling(previous_sibling->cobj(), child);
+  auto child = create_new_child_node_with_new_ns(name, ns_uri, ns_prefix);
+  auto node = xmlAddNextSibling(previous_sibling->cobj(), child);
   return add_child_common(name, child, node);
 }
 
@@ -295,8 +295,8 @@ Element* Node::add_child_before_with_new_ns(xmlpp::Node* next_sibling,
   if (!next_sibling)
     return 0;
 
-  _xmlNode* child = create_new_child_node_with_new_ns(name, ns_uri, ns_prefix);
-  _xmlNode* node = xmlAddPrevSibling(next_sibling->cobj(), child);
+  auto child = create_new_child_node_with_new_ns(name, ns_uri, ns_prefix);
+  auto node = xmlAddPrevSibling(next_sibling->cobj(), child);
   return add_child_common(name, child, node);
 }
 
@@ -333,11 +333,11 @@ _xmlNode* Node::create_new_child_node_with_new_ns(const Glib::ustring& name,
   if (impl_->type != XML_ELEMENT_NODE)
     throw internal_error("You can only add child nodes to element nodes.");
 
-  xmlNode* child = xmlNewNode(0, (const xmlChar*)name.c_str());
+  auto child = xmlNewNode(0, (const xmlChar*)name.c_str());
   if (!child)
     throw internal_error("Could not create new element node.");
 
-  xmlNs* ns = xmlNewNs(child, (const xmlChar*)(ns_uri.empty() ? 0 : ns_uri.c_str()),
+  auto ns = xmlNewNs(child, (const xmlChar*)(ns_uri.empty() ? 0 : ns_uri.c_str()),
                        (const xmlChar*)(ns_prefix.empty() ? 0 : ns_prefix.c_str()) );
   // xmlNewNs() does not create a namespace node for the predefined xml prefix.
   // It's usually defined in the document and not in any specific node.
@@ -364,7 +364,7 @@ void Node::remove_child(Node* node)
   //This would require a more complex memory management API.
   if (!node)
     return;
-  xmlNode* cnode = node->cobj();
+  auto cnode = node->cobj();
   Node::free_wrappers(cnode); //This delete the C++ node (not this) itself.
   xmlUnlinkNode(cnode);
   xmlFreeNode(cnode);
@@ -376,7 +376,7 @@ Node* Node::import_node(const Node* node, bool recursive)
     return 0;
 
   //Create the node, by copying:
-  xmlNode* imported_node = xmlDocCopyNode(const_cast<xmlNode*>(node->cobj()), impl_->doc, recursive);
+  auto imported_node = xmlDocCopyNode(const_cast<xmlNode*>(node->cobj()), impl_->doc, recursive);
   if (!imported_node)
   {
     throw exception("Unable to copy the node that shall be imported");
@@ -384,7 +384,7 @@ Node* Node::import_node(const Node* node, bool recursive)
 
   if (imported_node->type == XML_ATTRIBUTE_NODE && impl_->type == XML_ELEMENT_NODE)
   {
-    xmlAttr* old_attr = xmlHasNsProp(impl_, imported_node->name,
+    auto old_attr = xmlHasNsProp(impl_, imported_node->name,
       imported_node->ns ? imported_node->ns->href : 0);
     if (old_attr && old_attr->type != XML_ATTRIBUTE_DECL)
     {
@@ -396,7 +396,7 @@ Node* Node::import_node(const Node* node, bool recursive)
   }
 
   //Add the node:
-  xmlNode* added_node = xmlAddChild(this->cobj(), imported_node);
+  auto added_node = xmlAddChild(this->cobj(), imported_node);
 
   if (!added_node)
   {
@@ -449,7 +449,7 @@ Glib::ustring Node::get_path() const
 
 static NodeSet find_impl(xmlXPathContext* ctxt, const Glib::ustring& xpath)
 {
-  xmlXPathObject* result = xmlXPathEval((const xmlChar*)xpath.c_str(), ctxt);
+  auto result = xmlXPathEval((const xmlChar*)xpath.c_str(), ctxt);
 
   if(!result)
   {
@@ -466,7 +466,7 @@ static NodeSet find_impl(xmlXPathContext* ctxt, const Glib::ustring& xpath)
     throw internal_error("Only nodeset result types are supported.");
   }
 
-  xmlNodeSet* nodeset = result->nodesetval;
+  auto nodeset = result->nodesetval;
   NodeSet nodes;
   if( nodeset && !xmlXPathNodeSetIsEmpty(nodeset))
   {
@@ -474,7 +474,7 @@ static NodeSet find_impl(xmlXPathContext* ctxt, const Glib::ustring& xpath)
     nodes.reserve(count);
     for (int i = 0; i != count; ++i)
     {
-      xmlNode* cnode = xmlXPathNodeSetItem(nodeset, i);
+      auto cnode = xmlXPathNodeSetItem(nodeset, i);
       if(!cnode)
       {
         std::cerr << "Node::find_impl: The xmlNode was null." << std::endl;
@@ -492,7 +492,7 @@ static NodeSet find_impl(xmlXPathContext* ctxt, const Glib::ustring& xpath)
       //TODO: Check for other cnode->type values?
   
       Node::create_wrapper(cnode);
-      Node* cppNode = static_cast<Node*>(cnode->_private);
+      auto cppNode = static_cast<Node*>(cnode->_private);
       nodes.push_back(cppNode);
     }
   }
@@ -509,7 +509,7 @@ static NodeSet find_impl(xmlXPathContext* ctxt, const Glib::ustring& xpath)
 
 NodeSet Node::find(const Glib::ustring& xpath) const
 {
-  xmlXPathContext* ctxt = xmlXPathNewContext(impl_->doc);
+  auto ctxt = xmlXPathNewContext(impl_->doc);
   if (!ctxt)
     throw internal_error("Could not create XPath context for " + xpath);
   ctxt->node = impl_;
@@ -520,7 +520,7 @@ NodeSet Node::find(const Glib::ustring& xpath) const
 NodeSet Node::find(const Glib::ustring& xpath,
 		   const PrefixNsMap& namespaces) const
 {
-  xmlXPathContext* ctxt = xmlXPathNewContext(impl_->doc);
+  auto ctxt = xmlXPathNewContext(impl_->doc);
   if (!ctxt)
     throw internal_error("Could not create XPath context for " + xpath);
   ctxt->node = impl_;
@@ -622,7 +622,7 @@ void Node::set_namespace(const Glib::ustring& ns_prefix)
   }
 
   //Look for the existing namespace to use:
-  xmlNs* ns = xmlSearchNs( cobj()->doc, cobj(), (xmlChar*)(ns_prefix.empty() ? 0 : ns_prefix.c_str()) );
+  auto ns = xmlSearchNs( cobj()->doc, cobj(), (xmlChar*)(ns_prefix.empty() ? 0 : ns_prefix.c_str()) );
   if(ns)
   {
       //Use it for this element:

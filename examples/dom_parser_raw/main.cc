@@ -33,7 +33,7 @@ void print_node(const xmlpp::Node* node, unsigned int indentation = 0)
   std::cout << "Node name = " << node->get_name() << std::endl;
 
   //Recurse through child nodes:
-  xmlpp::Node::NodeList list = node->get_children();
+  auto list = node->get_children();
   for(xmlpp::Node::NodeList::iterator iter = list.begin(); iter != list.end(); ++iter)
   {
     print_node(*iter, indentation + 2); //recursive
@@ -49,7 +49,7 @@ std::string read_from_disk(const std::string& filepath)
   {
     while(!(fStream.eof()))
     {
-      char chTemp = fStream.get();
+      auto chTemp = fStream.get();
       if(!(fStream.eof()))
         result += chTemp;
     }
@@ -77,7 +77,7 @@ int main(int argc, char* argv[])
     parser.set_substitute_entities(); //We just want the text to be resolved/unescaped automatically.
    
 
-    std::string contents = read_from_disk(filepath);
+    auto contents = read_from_disk(filepath);
     std::string contents_ucs2;
 
     try
@@ -103,7 +103,7 @@ int main(int argc, char* argv[])
     if(parser)
     {
       //Walk the tree:
-      const xmlpp::Node* pNode = parser.get_document()->get_root_node(); //deleted by DomParser.
+      const auto pNode = parser.get_document()->get_root_node(); //deleted by DomParser.
       print_node(pNode);
     }
   }

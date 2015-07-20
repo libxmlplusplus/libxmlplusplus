@@ -44,11 +44,11 @@ main(int /* argc */, char** /* argv */)
     document.add_comment("First comment");
 
     //foo is the default namespace prefix.
-    xmlpp::Element* nodeRoot = document.create_root_node("exampleroot", "http://foo", "foo"); //Declares the namespace and uses its prefix for this node
+    auto nodeRoot = document.create_root_node("exampleroot", "http://foo", "foo"); //Declares the namespace and uses its prefix for this node
     nodeRoot->set_namespace_declaration("http://foobar", "foobar"); //Also associate this prefix with this namespace: 
 
     nodeRoot->set_child_text("\n");
-    xmlpp::Element* nodeChild = nodeRoot->add_child("examplechild");
+    auto nodeChild = nodeRoot->add_child("examplechild");
 
     //Associate prefix with namespace:
     nodeChild->set_namespace_declaration("http://bar", "bar"); 
@@ -67,7 +67,7 @@ main(int /* argc */, char** /* argv */)
     nodeChild = nodeRoot->add_child("examplechild", "foobar"); //foobar is the namespace prefix
     nodeChild->set_attribute("id", "2", "foobar"); //foobar is the namespace prefix.
 
-    Glib::ustring whole = document.write_to_string();
+    auto whole = document.write_to_string();
     std::cout << "XML built at runtime: " << std::endl << whole << std::endl;
     std::cout << "namespace of root node: " << nodeRoot->get_namespace_uri() << std::endl;
   }

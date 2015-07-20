@@ -48,7 +48,7 @@ void Schema::set_document(Document* document, bool embed)
   }
 
   xmlResetLastError();
-  xmlSchemaParserCtxtPtr context = xmlSchemaNewDocParserCtxt( document->cobj() );
+  auto context = xmlSchemaNewDocParserCtxt( document->cobj() );
 
   if(!context)
   {

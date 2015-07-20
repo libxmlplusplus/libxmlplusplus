@@ -145,7 +145,7 @@ void Parser::initialize_context()
 
   // Take a copy of the extra data, so we don't have to access
   // the extra_parser_data map more than necessary.
-  const ExtraParserData extra_parser_data_this = extra_parser_data[this];
+  const auto extra_parser_data_this = extra_parser_data[this];
   lock.release();
 
   //Disactivate any non-standards-compliant libxml1 features.
@@ -307,13 +307,13 @@ void Parser::callback_error_or_warning(MsgType msg_type, void* ctx,
 {
   //See xmlHTMLValidityError() in xmllint.c in libxml for more about this:
   
-  xmlParserCtxtPtr context = (xmlParserCtxtPtr)ctx;
+  auto context = (xmlParserCtxtPtr)ctx;
   if(context)
   {
-    Parser* parser = static_cast<Parser*>(context->_private);
+    auto parser = static_cast<Parser*>(context->_private);
     if(parser)
     {
-      Glib::ustring ubuff = format_xml_error(&context->lastError);
+      auto ubuff = format_xml_error(&context->lastError);
       if (ubuff.empty())
       {
         // Usually the result of formatting var_args with the format string msg

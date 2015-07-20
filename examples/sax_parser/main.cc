@@ -44,7 +44,7 @@ main(int argc, char* argv[])
     filepath = "example.xml";
     
   // Parse the entire document in one go:
-  int return_code = EXIT_SUCCESS;
+  auto return_code = EXIT_SUCCESS;
   try
   {
     MySaxParser parser;

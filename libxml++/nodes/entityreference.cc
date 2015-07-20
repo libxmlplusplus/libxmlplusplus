@@ -24,10 +24,10 @@ Glib::ustring EntityReference::get_resolved_text() const
   Glib::ustring result;
 
   //Get the child xmlEntity node (there should only be 1).
-  xmlNode* cChild = cobj()->children;
+  auto cChild = cobj()->children;
   if(cChild && cChild->type == XML_ENTITY_DECL)
   {
-      xmlEntity* cEntity = (xmlEntity*)cChild;
+      auto cEntity = (xmlEntity*)cChild;
       const xmlChar* pch = cEntity->content;
       if(pch)
         result = (const char*)pch;
@@ -41,10 +41,10 @@ Glib::ustring EntityReference::get_original_text() const
   Glib::ustring result;
 
   //Get the child xmlEntity node (there should only be 1).
-  xmlNode* cChild = cobj()->children;
+  auto cChild = cobj()->children;
   if(cChild && cChild->type == XML_ENTITY_DECL)
   {
-      xmlEntity* cEntity = (xmlEntity*)cChild;
+      auto cEntity = (xmlEntity*)cChild;
       const xmlChar* pch = cEntity->orig;
       if(pch)
         result = (const char*)pch;

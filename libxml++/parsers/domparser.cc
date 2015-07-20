@@ -110,7 +110,7 @@ void DomParser::parse_context()
     throw; // re-throw exception
   }
 
-  Glib::ustring error_str = format_xml_parser_error(context_);
+  auto error_str = format_xml_parser_error(context_);
   if (error_str.empty() && parseError == -1)
     error_str = "xmlParseDocument() failed.";
 
@@ -183,7 +183,7 @@ void DomParser::parse_stream(std::istream& in)
     throw; // re-throw exception
   }
 
-  Glib::ustring error_str = format_xml_parser_error(context_);
+  auto error_str = format_xml_parser_error(context_);
   if (error_str.empty() && firstParseError != XML_ERR_OK)
     error_str = "Error code from xmlParseChunk(): " + Glib::ustring::format(firstParseError);
 

@@ -94,7 +94,7 @@ void Validator::check_for_validity_messages()
 
 void Validator::callback_validity_error(void* valid_, const char* msg, ...)
 {
-  Validator* validator = static_cast<Validator*>(valid_);
+  auto validator = static_cast<Validator*>(valid_);
 
   if(validator)
   {
@@ -119,7 +119,7 @@ void Validator::callback_validity_error(void* valid_, const char* msg, ...)
 
 void Validator::callback_validity_warning(void* valid_, const char* msg, ...)
 {
-  Validator* validator = static_cast<Validator*>(valid_);
+  auto validator = static_cast<Validator*>(valid_);
 
   if(validator)
   {

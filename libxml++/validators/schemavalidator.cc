@@ -80,7 +80,7 @@ void SchemaValidator::parse_context(_xmlSchemaParserCtxt* context)
 
   release_underlying(); // Free any existing schema.
 
-  xmlSchema* schema = xmlSchemaParse( context );
+  auto schema = xmlSchemaParse( context );
   if ( ! schema )
     throw parse_error("Schema could not be parsed\n" + format_xml_error());
 
@@ -93,7 +93,7 @@ void SchemaValidator::parse_context(_xmlSchemaParserCtxt* context)
 void SchemaValidator::parse_file(const Glib::ustring& filename)
 {
   xmlResetLastError();
-  xmlSchemaParserCtxtPtr ctx = xmlSchemaNewParserCtxt( filename.c_str() );
+  auto ctx = xmlSchemaNewParserCtxt( filename.c_str() );
   XmlSchemaParserContextHolder holder(ctx);
   parse_context( ctx );
 }
@@ -101,7 +101,7 @@ void SchemaValidator::parse_file(const Glib::ustring& filename)
 void SchemaValidator::parse_memory(const Glib::ustring& contents)
 {
   xmlResetLastError();
-  xmlSchemaParserCtxtPtr ctx = xmlSchemaNewMemParserCtxt( contents.c_str(), contents.bytes() );
+  auto ctx = xmlSchemaNewMemParserCtxt( contents.c_str(), contents.bytes() );
   XmlSchemaParserContextHolder holder(ctx);
   parse_context( ctx );
 }
@@ -109,7 +109,7 @@ void SchemaValidator::parse_memory(const Glib::ustring& contents)
 void SchemaValidator::parse_document(Document& document)
 {
   xmlResetLastError();
-  xmlSchemaParserCtxtPtr ctx = xmlSchemaNewDocParserCtxt( document.cobj() );
+  auto ctx = xmlSchemaNewDocParserCtxt( document.cobj() );
   XmlSchemaParserContextHolder holder(ctx);
   parse_context( ctx );
 }
@@ -184,7 +184,7 @@ bool SchemaValidator::validate(const Document* doc)
   {
     check_for_exception();
 
-    Glib::ustring error_str = format_xml_error();
+    auto error_str = format_xml_error();
     if (error_str.empty())
       error_str = "Error code from xmlSchemaValidateDoc(): " + Glib::ustring::format(res);
     throw validity_error("Document failed schema validation\n" + error_str);
@@ -219,7 +219,7 @@ bool SchemaValidator::validate(const Glib::ustring& file)
   {
     check_for_exception();
 
-    Glib::ustring error_str = format_xml_error();
+    auto error_str = format_xml_error();
     if (error_str.empty())
       error_str = "Error code from xmlSchemaValidateFile(): " + Glib::ustring::format(res);
     throw validity_error("Document failed schema validation\n" + error_str);

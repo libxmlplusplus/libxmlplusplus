@@ -50,7 +50,7 @@ bool xpath_test(const xmlpp::Node* node, const Glib::ustring& xpath)
 
   try
   {
-    xmlpp::NodeSet set = node->find(xpath);
+    auto set = node->find(xpath);
 
     std::cout << set.size() << " nodes have been found:" << std::endl;
 
@@ -59,22 +59,22 @@ bool xpath_test(const xmlpp::Node* node, const Glib::ustring& xpath)
     {
       std::cout << " " << (*i)->get_path();
 
-      xmlpp::Attribute* attribute = dynamic_cast<xmlpp::Attribute*>(*i);
+      auto attribute = dynamic_cast<xmlpp::Attribute*>(*i);
       if (attribute)
         std::cout << ", value=\"" << attribute->get_value() << "\"";
 
-      xmlpp::ContentNode* content_node = dynamic_cast<xmlpp::ContentNode*>(*i);
+      auto content_node = dynamic_cast<xmlpp::ContentNode*>(*i);
       if (content_node)
         std::cout << ", content=\"" << content_node->get_content() << "\"";
 
-      xmlpp::EntityReference* entity_reference = dynamic_cast<xmlpp::EntityReference*>(*i);
+      auto entity_reference = dynamic_cast<xmlpp::EntityReference*>(*i);
       if (entity_reference)
         std::cout << ", text=\"" << entity_reference->get_original_text() << "\"";
 
-      xmlpp::Element* element = dynamic_cast<xmlpp::Element*>(*i);
+      auto element = dynamic_cast<xmlpp::Element*>(*i);
       if (element)
       {
-        xmlpp::TextNode* text_node = element->get_child_text();
+        auto text_node = element->get_child_text();
         if (text_node)
           std::cout << ", child_text=\"" << text_node->get_content() << "\"";
       }
@@ -121,7 +121,7 @@ int main(int argc, char* argv[])
     xmlpp::DomParser parser(filepath);
     if(parser)
     {
-      const xmlpp::Node* root = parser.get_document()->get_root_node(); //deleted by DomParser.
+      const auto root = parser.get_document()->get_root_node(); //deleted by DomParser.
 
       if(root)
       {

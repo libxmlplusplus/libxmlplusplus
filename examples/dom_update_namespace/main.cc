@@ -84,13 +84,13 @@ void TestNamespace::setup(const std::string& filename)
   parser_.set_substitute_entities(true);
   parser_.parse_file(filename);
 
-  xmlpp::Document* document = parser_.get_document();
+  auto document = parser_.get_document();
   root_ = document->get_root_node();
 }
 
 void TestNamespace::test_create_new_node_with_default_namespace()
 {
-  const Glib::ustring filename = "example1.xml";
+  const auto filename = "example1.xml";
   setup(filename);
 
   // Check original document
@@ -100,7 +100,7 @@ void TestNamespace::test_create_new_node_with_default_namespace()
       "Input file shouldn't have any child in alternate default namespace");
 
   // Add child nodes in default namespace and check document again
-  xmlpp::Element* child = root_->add_child("child");
+  auto child = root_->add_child("child");
   child->set_namespace_declaration(nsmap_["ns1"], "");
   root_->add_child_text("\n");
   root_->add_child_with_new_ns("child", nsmap_["ns1"]);
@@ -118,7 +118,7 @@ void TestNamespace::test_create_new_node_with_default_namespace()
 
 void TestNamespace::test_create_new_node_using_existing_namespace_prefix()
 {
-  const Glib::ustring filename = "example2.xml";
+  const auto filename = "example2.xml";
   setup(filename);
 
   // Check original document
@@ -128,7 +128,7 @@ void TestNamespace::test_create_new_node_using_existing_namespace_prefix()
       "Input file shouldn't have any child in child namespace");
 
   // Add child nodes with specific namespace and check document again
-  xmlpp::Element* child = root_->add_child("child", "ns0");
+  auto child = root_->add_child("child", "ns0");
   child->set_namespace_declaration(nsmap_["ns1"], "");
   root_->add_child_text("\n");
   root_->add_child_with_new_ns("child", nsmap_["ns1"]);

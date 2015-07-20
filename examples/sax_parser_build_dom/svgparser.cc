@@ -78,7 +78,7 @@ void Parser::on_start_element(const Glib::ustring& name,
   //
   // Delete the xmlpp::Element created above so we can link the libxml2
   // node with the derived Element object we create below.
-  xmlNode* node = element_normal->cobj(); //Save it for later.
+  auto node = element_normal->cobj(); //Save it for later.
   delete element_normal;
   element_normal = nullptr;
 
@@ -108,8 +108,8 @@ void Parser::on_start_element(const Glib::ustring& name,
     // In theory, you could change the attributes here.
     for(xmlpp::SaxParser::AttributeList::const_iterator iter = attributes.begin(); iter != attributes.end(); ++iter)
     {
-      Glib::ustring name = (*iter).name;
-      Glib::ustring value = (*iter).value;
+      auto name = (*iter).name;
+      auto value = (*iter).value;
       Glib::ustring::size_type idx = name.find(':');
       if (idx == Glib::ustring::npos) // If the separator was not found.
       {
@@ -127,15 +127,15 @@ void Parser::on_start_element(const Glib::ustring& name,
       else
       {
         //The separator was found:
-        Glib::ustring prefix = name.substr(0, idx);
-        Glib::ustring suffix = name.substr(idx + 1);
+        auto prefix = name.substr(0, idx);
+        auto suffix = name.substr(idx + 1);
         if (prefix == "xmlns") // This is a namespace declaration.
           element_derived->set_namespace_declaration(value, suffix);
         else
         {
           //This is a namespaced attribute value.
           //(The namespace must have been declared already)
-          xmlpp::Attribute* attr = element_derived->set_attribute(suffix, value);
+          auto attr = element_derived->set_attribute(suffix, value);
           attr->set_namespace(prefix); //alternatively, we could have specified the whole name to set_attribute().
         }
       }

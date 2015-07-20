@@ -54,7 +54,7 @@ Attribute* Element::get_attribute(const Glib::ustring& name,
   // explicitly set attribute (XML_ATTRIBUTE_NODE), or an xmlAttribute*,
   // cast to an xmlAttr*, pointing to the declaration of an attribute with a
   // default value (XML_ATTRIBUTE_DECL).
-  xmlAttr* attr = xmlHasNsProp(const_cast<xmlNode*>(cobj()), (const xmlChar*)name.c_str(),
+  auto attr = xmlHasNsProp(const_cast<xmlNode*>(cobj()), (const xmlChar*)name.c_str(),
                                ns_uri.empty() ? 0 : (const xmlChar*)ns_uri.c_str());
   if (attr)
   {
@@ -67,7 +67,7 @@ Attribute* Element::get_attribute(const Glib::ustring& name,
 
 Glib::ustring Element::get_attribute_value(const Glib::ustring& name, const Glib::ustring& ns_prefix) const
 {
-  const Attribute* attr = get_attribute(name, ns_prefix);
+  const auto attr = get_attribute(name, ns_prefix);
   return attr ? attr->get_value() : Glib::ustring();
 }
 
@@ -84,7 +84,7 @@ Attribute* Element::set_attribute(const Glib::ustring& name, const Glib::ustring
   else
   {
     //If the namespace exists, then use it:
-    xmlNs* ns = xmlSearchNs(cobj()->doc, cobj(), (const xmlChar*)ns_prefix.c_str());
+    auto ns = xmlSearchNs(cobj()->doc, cobj(), (const xmlChar*)ns_prefix.c_str());
     if (ns)
     {
       attr = xmlSetNsProp(cobj(), ns, (const xmlChar*)name.c_str(),
@@ -111,7 +111,7 @@ void Element::remove_attribute(const Glib::ustring& name, const Glib::ustring& n
     xmlUnsetProp(cobj(), (const xmlChar*)name.c_str());
   else
   {
-    xmlNs* ns = xmlSearchNs(cobj()->doc, cobj(), (const xmlChar*)ns_prefix.c_str());
+    auto ns = xmlSearchNs(cobj()->doc, cobj(), (const xmlChar*)ns_prefix.c_str());
     if (ns)
       xmlUnsetNsProp(cobj(), ns, (const xmlChar*)name.c_str());
   }
@@ -146,7 +146,7 @@ TextNode* Element::get_child_text()
 
 void Element::set_child_text(const Glib::ustring& content)
 {
-  TextNode* node = get_child_text();
+  auto node = get_child_text();
   if(node)
     node->set_content(content);
   else
@@ -157,10 +157,10 @@ TextNode* Element::add_child_text(const Glib::ustring& content)
 {
   if(cobj()->type == XML_ELEMENT_NODE)
   {
-    xmlNode* child = xmlNewText((const xmlChar*)content.c_str());
+    auto child = xmlNewText((const xmlChar*)content.c_str());
 
     // Use the result, because child can be freed when merging text nodes:
-    xmlNode* node = xmlAddChild(cobj(), child);
+    auto node = xmlAddChild(cobj(), child);
     if (!node)
     {
       xmlFreeNode(child);
@@ -179,10 +179,10 @@ TextNode* Element::add_child_text(xmlpp::Node* previous_sibling, const Glib::ust
 
   if(cobj()->type == XML_ELEMENT_NODE)
   {
-    xmlNode* child = xmlNewText((const xmlChar*)content.c_str());
+    auto child = xmlNewText((const xmlChar*)content.c_str());
 
     // Use the result, because child can be freed when merging text nodes:
-    xmlNode* node = xmlAddNextSibling(previous_sibling->cobj(), child);
+    auto node = xmlAddNextSibling(previous_sibling->cobj(), child);
     if (!node)
     {
       xmlFreeNode(child);
@@ -201,10 +201,10 @@ TextNode* Element::add_child_text_before(xmlpp::Node* next_sibling, const Glib::
 
   if(cobj()->type == XML_ELEMENT_NODE)
   {
-    xmlNode* child = xmlNewText((const xmlChar*)content.c_str());
+    auto child = xmlNewText((const xmlChar*)content.c_str());
 
     // Use the result, because child can be freed when merging text nodes:
-    xmlNode* node = xmlAddPrevSibling(next_sibling->cobj(), child);
+    auto node = xmlAddPrevSibling(next_sibling->cobj(), child);
     if (!node)
     {
       xmlFreeNode(child);
@@ -224,7 +224,7 @@ bool Element::has_child_text() const
 void Element::set_namespace_declaration(const Glib::ustring& ns_uri, const Glib::ustring& ns_prefix)
 {
   //Create a new namespace declaration for this element:
-  xmlNs* ns = xmlNewNs(cobj(), (const xmlChar*)(ns_uri.empty() ? 0 : ns_uri.c_str()),
+  auto ns = xmlNewNs(cobj(), (const xmlChar*)(ns_uri.empty() ? 0 : ns_uri.c_str()),
                        (const xmlChar*)(ns_prefix.empty() ? 0 : ns_prefix.c_str()) );
   if (!ns)
   {
@@ -250,7 +250,7 @@ Glib::ustring Element::get_namespace_uri_for_prefix(const Glib::ustring& ns_pref
   Glib::ustring result;
   
   //Find the namespace:
-  const xmlNs* ns = xmlSearchNs( cobj()->doc, const_cast<xmlNode*>(cobj()), (xmlChar*)ns_prefix.c_str() );
+  const auto ns = xmlSearchNs( cobj()->doc, const_cast<xmlNode*>(cobj()), (xmlChar*)ns_prefix.c_str() );
   if(ns)
   {
     //Get the namespace URI associated with this prefix:
@@ -264,10 +264,10 @@ Glib::ustring Element::get_namespace_uri_for_prefix(const Glib::ustring& ns_pref
 
 CommentNode* Element::add_child_comment(const Glib::ustring& content)
 {
-  xmlNode* child = xmlNewComment((const xmlChar*)content.c_str());
+  auto child = xmlNewComment((const xmlChar*)content.c_str());
  
   // Use the result, because child can be freed when merging text nodes:
-  xmlNode* node = xmlAddChild(cobj(), child);
+  auto node = xmlAddChild(cobj(), child);
   if (!node)
   {
     xmlFreeNode(child);
@@ -280,8 +280,8 @@ CommentNode* Element::add_child_comment(const Glib::ustring& content)
 
 CdataNode* Element::add_child_cdata(const Glib::ustring& content)
 {
-  xmlNode* child = xmlNewCDataBlock(cobj()->doc, (const xmlChar*)content.c_str(), content.bytes());
-  xmlNode* node = xmlAddChild(cobj(), child);
+  auto child = xmlNewCDataBlock(cobj()->doc, (const xmlChar*)content.c_str(), content.bytes());
+  auto node = xmlAddChild(cobj(), child);
   if (!node)
   {
     xmlFreeNode(child);
@@ -293,7 +293,7 @@ CdataNode* Element::add_child_cdata(const Glib::ustring& content)
 
 EntityReference* Element::add_child_entity_reference(const Glib::ustring& name)
 {
-  const Glib::ustring extended_name = name + "  "; // This is at least two chars long.
+  const auto extended_name = name + "  "; // This is at least two chars long.
   int ichar = 0;
   if (extended_name[ichar] == '&')
     ++ichar;
@@ -305,7 +305,7 @@ EntityReference* Element::add_child_entity_reference(const Glib::ustring& name)
     child = xmlNewCharRef(cobj()->doc, (const xmlChar*)name.c_str());
   else
     child = xmlNewReference(cobj()->doc, (const xmlChar*)name.c_str());
-  xmlNode* node = xmlAddChild(cobj(), child);
+  auto node = xmlAddChild(cobj(), child);
   if (!node)
   {
     xmlFreeNode(child);
@@ -318,8 +318,8 @@ EntityReference* Element::add_child_entity_reference(const Glib::ustring& name)
 ProcessingInstructionNode* Element::add_child_processing_instruction(
   const Glib::ustring& name, const Glib::ustring& content)
 {
-  xmlNode* child = xmlNewDocPI(cobj()->doc, (const xmlChar*)name.c_str(), (const xmlChar*)content.c_str());
-  xmlNode* node = xmlAddChild(cobj(), child);
+  auto child = xmlNewDocPI(cobj()->doc, (const xmlChar*)name.c_str(), (const xmlChar*)content.c_str());
+  auto node = xmlAddChild(cobj(), child);
   if (!node)
   {
     xmlFreeNode(child);

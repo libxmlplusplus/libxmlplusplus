@@ -54,7 +54,7 @@ void DtdValidator::parse_subset(const Glib::ustring& external,const Glib::ustrin
   release_underlying(); // Free any existing dtd.
   xmlResetLastError();
 
-  xmlDtd* dtd = xmlParseDTD(
+  auto dtd = xmlParseDTD(
     external.empty() ? 0 : (const xmlChar *)external.c_str(),
     system.empty() ? 0 : (const xmlChar *)system.c_str());
 
@@ -82,7 +82,7 @@ void DtdValidator::parse_stream(std::istream& in)
 
   IStreamParserInputBuffer ibuff( in );
 
-  xmlDtd* dtd = xmlIOParseDTD( 0, ibuff.cobj(), XML_CHAR_ENCODING_UTF8 );
+  auto dtd = xmlIOParseDTD( 0, ibuff.cobj(), XML_CHAR_ENCODING_UTF8 );
 
   if (!dtd)
   {
@@ -99,7 +99,7 @@ void DtdValidator::release_underlying()
   {
     //Make a local pointer to the underlying xmlDtd object as the wrapper is destroyed first.
     //After free_wrappers is called dtd_ will be invalid (e.g. delete dtd_)
-    xmlDtd* dtd = dtd_->cobj();
+    auto dtd = dtd_->cobj();
     Node::free_wrappers(reinterpret_cast<xmlNode*>(dtd));
     xmlFreeDtd(dtd);
     dtd_ = nullptr;

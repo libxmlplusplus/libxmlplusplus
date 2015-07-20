@@ -60,7 +60,7 @@ main(int argc, char* argv[])
     if(parser)
     {
       //Write it out again.
-      xmlpp::Document* document = parser.get_document();
+      auto document = parser.get_document();
       if(document)
         document->write_to_file(filepath_out);
     }
@@ -72,7 +72,7 @@ main(int argc, char* argv[])
       if(parser)
       {
         //Write it out again.
-        xmlpp::Document* document = parser.get_document();
+        auto document = parser.get_document();
         if(document)
           document->write_to_file(filepath_out2);
       }

@@ -152,7 +152,7 @@ void RelaxNGValidator::validate(const Document* document)
   {
     check_for_exception();
 
-    Glib::ustring error_str = format_xml_error();
+    auto error_str = format_xml_error();
     if (error_str.empty())
       error_str = "Error code from xmlRelaxNGValidateDoc(): " + Glib::ustring::format(res);
     throw validity_error("Document failed RelaxNG schema validation.\n" + error_str);

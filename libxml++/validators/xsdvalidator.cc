@@ -150,7 +150,7 @@ void XsdValidator::validate(const Document* document)
   {
     check_for_exception();
 
-    Glib::ustring error_str = format_xml_error();
+    auto error_str = format_xml_error();
     if (error_str.empty())
       error_str = "Error code from xmlSchemaValidateDoc(): " + Glib::ustring::format(res);
     throw validity_error("Document failed XSD schema validation.\n" + error_str);
@@ -177,7 +177,7 @@ void XsdValidator::validate(const Glib::ustring& filename)
   {
     check_for_exception();
 
-    Glib::ustring error_str = format_xml_error();
+    auto error_str = format_xml_error();
     if (error_str.empty())
       error_str = "Error code from xmlSchemaValidateFile(): " + Glib::ustring::format(res);
     throw validity_error("XML file failed XSD schema validation.\n" + error_str);

@@ -20,13 +20,13 @@ namespace xmlpp
   {
     static int on_read(void * context, char * buffer, int len)
     {
-      ParserInputBuffer * tmp = static_cast<ParserInputBuffer*>(context);
+      auto tmp = static_cast<ParserInputBuffer*>(context);
       return tmp->do_read(buffer, len);
     }
 
     static int on_close(void * context)
     {
-      ParserInputBuffer * tmp = static_cast<ParserInputBuffer*>(context);
+      auto tmp = static_cast<ParserInputBuffer*>(context);
       return tmp->do_close();
     }
   };

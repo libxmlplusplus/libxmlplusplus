@@ -293,7 +293,7 @@ void TextReader::set_parser_property(
 
 Node* TextReader::get_current_node()
 {
-  xmlNodePtr node = xmlTextReaderCurrentNode(impl_);
+  auto node = xmlTextReaderCurrentNode(impl_);
   if(node)
   {
     Node::create_wrapper(node);
@@ -313,7 +313,7 @@ const Node* TextReader::get_current_node() const
 TODO: add a private constructor to Document.
 Document* TextReader::CurrentDocument()
 {
-  xmlDocPtr doc = xmlTextReaderCurrentDoc(impl_);
+  auto doc = xmlTextReaderCurrentDoc(impl_);
   if(doc)
     return new Document(doc);
 }
@@ -321,7 +321,7 @@ Document* TextReader::CurrentDocument()
 
 Node* TextReader::expand()
 {
-  xmlNodePtr node = xmlTextReaderExpand(impl_);
+  auto node = xmlTextReaderExpand(impl_);
   if(node)
   {
     Node::create_wrapper(node);
@@ -360,7 +360,7 @@ void TextReader::setup_exceptions()
 
 void TextReader::on_libxml_error(void* arg, const char* msg, int severity, void* /* locator */)
 {
-  TextReader* ths = (TextReader*)arg;
+  auto ths = (TextReader*)arg;
   ths->severity_ = severity;
   ths->error_ = msg ? msg : "unknown parse error";
 }
@@ -370,7 +370,7 @@ void TextReader::check_for_exceptions() const
   if( severity_ == 0 )
     return;
     
-  TextReader* ths = const_cast<TextReader*>(this);
+  auto ths = const_cast<TextReader*>(this);
 
   int severity = severity_;
   ths->severity_ = 0;

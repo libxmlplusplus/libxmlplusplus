@@ -159,7 +159,7 @@ void SaxParser::parse()
     throw internal_error("Parser context not created.");
   }
 
-  xmlSAXHandlerPtr old_sax = context_->sax;
+  auto old_sax = context_->sax;
   context_->sax = sax_handler_.get();
 
   xmlResetLastError();
@@ -169,7 +169,7 @@ void SaxParser::parse()
 
   context_->sax = old_sax;
 
-  Glib::ustring error_str = format_xml_parser_error(context_);
+  auto error_str = format_xml_parser_error(context_);
   if (error_str.empty() && parseError == -1)
     error_str = "xmlParseDocument() failed.";
 
@@ -267,7 +267,7 @@ void SaxParser::parse_stream(std::istream& in)
       firstParseError = parseError;
   }
 
-  Glib::ustring error_str = format_xml_parser_error(context_);
+  auto error_str = format_xml_parser_error(context_);
   if (error_str.empty() && firstParseError != XML_ERR_OK)
     error_str = "Error code from xmlParseChunk(): " + Glib::ustring::format(firstParseError);
 
@@ -315,7 +315,7 @@ void SaxParser::parse_chunk_raw(const unsigned char* contents, size_type bytes_c
 
   check_for_exception();
 
-  Glib::ustring error_str = format_xml_parser_error(context_);
+  auto error_str = format_xml_parser_error(context_);
   if (error_str.empty() && parseError != XML_ERR_OK)
     error_str = "Error code from xmlParseChunk(): " + Glib::ustring::format(parseError);
   if(!error_str.empty())
@@ -355,7 +355,7 @@ void SaxParser::finish_chunk_parsing()
     //This is called just to terminate parsing.
     parseError = xmlParseChunk(context_, 0 /* chunk */, 0 /* size */, 1 /* terminate (1 or 0) */);
 
-  Glib::ustring error_str = format_xml_parser_error(context_);
+  auto error_str = format_xml_parser_error(context_);
   if (error_str.empty() && parseError != XML_ERR_OK)
     error_str = "Error code from xmlParseChunk(): " + Glib::ustring::format(parseError);
 
@@ -372,8 +372,8 @@ void SaxParser::finish_chunk_parsing()
 
 xmlEntityPtr SaxParserCallback::get_entity(void* context, const xmlChar* name)
 {
-  _xmlParserCtxt* the_context = static_cast<_xmlParserCtxt*>(context);
-  SaxParser* parser = static_cast<SaxParser*>(the_context->_private);
+  auto the_context = static_cast<_xmlParserCtxt*>(context);
+  auto parser = static_cast<SaxParser*>(the_context->_private);
   xmlEntityPtr result = nullptr;
 
   try
@@ -390,8 +390,8 @@ xmlEntityPtr SaxParserCallback::get_entity(void* context, const xmlChar* name)
 
 void SaxParserCallback::entity_decl(void* context, const xmlChar* name, int type, const xmlChar* publicId, const xmlChar* systemId, xmlChar* content)
 {
-  _xmlParserCtxt* the_context = static_cast<_xmlParserCtxt*>(context);
-  SaxParser* parser = static_cast<SaxParser*>(the_context->_private);
+  auto the_context = static_cast<_xmlParserCtxt*>(context);
+  auto parser = static_cast<SaxParser*>(the_context->_private);
 
   try
   {
@@ -410,8 +410,8 @@ void SaxParserCallback::entity_decl(void* context, const xmlChar* name, int type
 
 void SaxParserCallback::start_document(void* context)
 {
-  _xmlParserCtxt* the_context = static_cast<_xmlParserCtxt*>(context);
-  SaxParser* parser = static_cast<SaxParser*>(the_context->_private);
+  auto the_context = static_cast<_xmlParserCtxt*>(context);
+  auto parser = static_cast<SaxParser*>(the_context->_private);
 
   try
   {
@@ -425,8 +425,8 @@ void SaxParserCallback::start_document(void* context)
 
 void SaxParserCallback::end_document(void* context)
 {
-  _xmlParserCtxt* the_context = static_cast<_xmlParserCtxt*>(context);
-  SaxParser* parser = static_cast<SaxParser*>(the_context->_private);
+  auto the_context = static_cast<_xmlParserCtxt*>(context);
+  auto parser = static_cast<SaxParser*>(the_context->_private);
 
   if(parser->exception_)
     return;
@@ -445,8 +445,8 @@ void SaxParserCallback::start_element(void* context,
                                         const xmlChar* name,
                                         const xmlChar** p)
 {
-  _xmlParserCtxt* the_context = static_cast<_xmlParserCtxt*>(context);
-  SaxParser* parser = static_cast<SaxParser*>(the_context->_private);
+  auto the_context = static_cast<_xmlParserCtxt*>(context);
+  auto parser = static_cast<SaxParser*>(the_context->_private);
 
   SaxParser::AttributeList attributes;
 
@@ -467,8 +467,8 @@ void SaxParserCallback::start_element(void* context,
 
 void SaxParserCallback::end_element(void* context, const xmlChar* name)
 {
-  _xmlParserCtxt* the_context = static_cast<_xmlParserCtxt*>(context);
-  SaxParser* parser = static_cast<SaxParser*>(the_context->_private);
+  auto the_context = static_cast<_xmlParserCtxt*>(context);
+  auto parser = static_cast<SaxParser*>(the_context->_private);
 
   try
   {
@@ -482,8 +482,8 @@ void SaxParserCallback::end_element(void* context, const xmlChar* name)
 
 void SaxParserCallback::characters(void * context, const xmlChar* ch, int len)
 {
-  _xmlParserCtxt* the_context = static_cast<_xmlParserCtxt*>(context);
-  SaxParser* parser = static_cast<SaxParser*>(the_context->_private);
+  auto the_context = static_cast<_xmlParserCtxt*>(context);
+  auto parser = static_cast<SaxParser*>(the_context->_private);
 
   try
   {
@@ -503,8 +503,8 @@ void SaxParserCallback::characters(void * context, const xmlChar* ch, int len)
 
 void SaxParserCallback::comment(void* context, const xmlChar* value)
 {
-  _xmlParserCtxt* the_context = static_cast<_xmlParserCtxt*>(context);
-  SaxParser* parser = static_cast<SaxParser*>(the_context->_private);
+  auto the_context = static_cast<_xmlParserCtxt*>(context);
+  auto parser = static_cast<SaxParser*>(the_context->_private);
 
   try
   {
@@ -518,8 +518,8 @@ void SaxParserCallback::comment(void* context, const xmlChar* value)
 
 void SaxParserCallback::warning(void* context, const char* fmt, ...)
 {
-  _xmlParserCtxt* the_context = static_cast<_xmlParserCtxt*>(context);
-  SaxParser* parser = static_cast<SaxParser*>(the_context->_private);
+  auto the_context = static_cast<_xmlParserCtxt*>(context);
+  auto parser = static_cast<SaxParser*>(the_context->_private);
 
   va_list arg;
   char buff[1024]; //TODO: Larger/Shared
@@ -540,8 +540,8 @@ void SaxParserCallback::warning(void* context, const char* fmt, ...)
 
 void SaxParserCallback::error(void* context, const char* fmt, ...)
 {
-  _xmlParserCtxt* the_context = static_cast<_xmlParserCtxt*>(context);
-  SaxParser* parser = static_cast<SaxParser*>(the_context->_private);
+  auto the_context = static_cast<_xmlParserCtxt*>(context);
+  auto parser = static_cast<SaxParser*>(the_context->_private);
 
   va_list arg;
   char buff[1024]; //TODO: Larger/Shared
@@ -565,8 +565,8 @@ void SaxParserCallback::error(void* context, const char* fmt, ...)
 
 void SaxParserCallback::fatal_error(void* context, const char* fmt, ...)
 {
-  _xmlParserCtxt* the_context = static_cast<_xmlParserCtxt*>(context);
-  SaxParser* parser = static_cast<SaxParser*>(the_context->_private);
+  auto the_context = static_cast<_xmlParserCtxt*>(context);
+  auto parser = static_cast<SaxParser*>(the_context->_private);
 
   va_list arg;
   char buff[1024]; //TODO: Larger/Shared
@@ -587,8 +587,8 @@ void SaxParserCallback::fatal_error(void* context, const char* fmt, ...)
 
 void SaxParserCallback::cdata_block(void* context, const xmlChar* value, int len)
 {
-  _xmlParserCtxt* the_context = static_cast<_xmlParserCtxt*>(context);
-  SaxParser* parser = static_cast<SaxParser*>(the_context->_private);
+  auto the_context = static_cast<_xmlParserCtxt*>(context);
+  auto parser = static_cast<SaxParser*>(the_context->_private);
 
   try
   {
@@ -608,13 +608,13 @@ void SaxParserCallback::cdata_block(void* context, const xmlChar* value, int len
 void SaxParserCallback::internal_subset(void* context, const xmlChar* name,
   const xmlChar* publicId, const xmlChar* systemId)
 {
-  _xmlParserCtxt* the_context = static_cast<_xmlParserCtxt*>(context);
-  SaxParser* parser = static_cast<SaxParser*>(the_context->_private);
+  auto the_context = static_cast<_xmlParserCtxt*>(context);
+  auto parser = static_cast<SaxParser*>(the_context->_private);
   
   try
   {
-    const Glib::ustring pid = publicId ? Glib::ustring((const char*) publicId) : "";
-    const Glib::ustring sid = systemId ? Glib::ustring((const char*) systemId) : "";
+    const auto pid = publicId ? Glib::ustring((const char*) publicId) : "";
+    const auto sid = systemId ? Glib::ustring((const char*) systemId) : "";
 
     parser->on_internal_subset( Glib::ustring((const char*) name), pid, sid);
   }

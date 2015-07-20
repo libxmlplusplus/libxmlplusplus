@@ -60,12 +60,12 @@ main(int argc, char* argv[])
     std::cout << doc.write_to_string_formatted() << std::endl;
 
     // Use the custom DOM
-    SVG::Element* element = doc.get_root();
+    auto element = doc.get_root();
     std::cout << "root's name is \"" << element->get_name() << "\"" << std::endl;
-    xmlpp::NodeSet nl = element->find("//path[@style != '']");
+    auto nl = element->find("//path[@style != '']");
     if(!nl.empty())
     {
-      SVG::Path* path = dynamic_cast<SVG::Path*>(nl[0]);
+      auto path = dynamic_cast<SVG::Path*>(nl[0]);
       std::cout << "style of first path node with a style = \"" << path->get_style() << "\"" << std::endl;
     }
   }

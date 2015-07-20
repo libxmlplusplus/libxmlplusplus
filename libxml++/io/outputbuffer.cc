@@ -19,13 +19,13 @@ namespace xmlpp
   {
     static int on_write(void * context, const char * buffer, int len)
     {
-      OutputBuffer * tmp = static_cast<OutputBuffer*>(context);
+      auto tmp = static_cast<OutputBuffer*>(context);
       return tmp->on_write(buffer, len)?len:-1;
     }
 
     static int on_close(void * context)
     {
-      OutputBuffer * tmp = static_cast<OutputBuffer*>(context);
+      auto tmp = static_cast<OutputBuffer*>(context);
       return tmp->on_close()?0:-1;
     }
   };
@@ -41,7 +41,7 @@ namespace xmlpp
     xmlCharEncodingHandlerPtr handler = nullptr;
     if( ! encoding.empty() )
     {
-      xmlCharEncoding enc = xmlParseCharEncoding(encoding.c_str());
+      auto enc = xmlParseCharEncoding(encoding.c_str());
 
       // TODO we assume that the source will be UTF-8 encoded. Any user of the class
       // should pay attention to this.

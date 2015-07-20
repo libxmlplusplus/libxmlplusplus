@@ -35,7 +35,7 @@ void print_node(const xmlpp::Node* node, bool substitute_entities, unsigned int 
   if (substitute_entities)
   {
     // Entities have been substituted. Print the text nodes.
-    const xmlpp::TextNode* nodeText = dynamic_cast<const xmlpp::TextNode*>(node);
+    const auto nodeText = dynamic_cast<const xmlpp::TextNode*>(node);
     if (nodeText && !nodeText->is_white_space())
     {
       std::cout << indent << "text = " << CatchConvertError(nodeText->get_content()) << std::endl;
@@ -44,7 +44,7 @@ void print_node(const xmlpp::Node* node, bool substitute_entities, unsigned int 
   else
   {
     // Entities have not been substituted. Print the entity reference nodes.
-    const xmlpp::EntityReference* nodeEntityReference = dynamic_cast<const xmlpp::EntityReference*>(node);
+    const auto nodeEntityReference = dynamic_cast<const xmlpp::EntityReference*>(node);
     if (nodeEntityReference)
     {
       std::cout << indent << "entity reference name = " << CatchConvertError(nodeEntityReference->get_name()) << std::endl;
@@ -53,11 +53,11 @@ void print_node(const xmlpp::Node* node, bool substitute_entities, unsigned int 
     }
   } // end if (substitute_entities)
 
-  const xmlpp::ContentNode* nodeContent = dynamic_cast<const xmlpp::ContentNode*>(node);
+  const auto nodeContent = dynamic_cast<const xmlpp::ContentNode*>(node);
   if(!nodeContent)
   {
     //Recurse through child nodes:
-    xmlpp::Node::NodeList list = node->get_children();
+    auto list = node->get_children();
     for(xmlpp::Node::NodeList::iterator iter = list.begin(); iter != list.end(); ++iter)
     {   
       print_node(*iter, substitute_entities, indentation + 2); //recursive
@@ -106,7 +106,7 @@ int main(int argc, char* argv[])
       if(parser)
       {
         //Walk the tree:
-        const xmlpp::Node* pNode = parser.get_document()->get_root_node(); //deleted by DomParser.
+        const auto pNode = parser.get_document()->get_root_node(); //deleted by DomParser.
         print_node(pNode, substitute_entities);
       }
     }
