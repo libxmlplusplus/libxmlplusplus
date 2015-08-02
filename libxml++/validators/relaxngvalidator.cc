@@ -72,7 +72,7 @@ void RelaxNGValidator::parse_file(const Glib::ustring& filename)
 
 void RelaxNGValidator::parse_memory(const Glib::ustring& contents)
 {
-  std::auto_ptr<RelaxNGSchema> schema(new RelaxNGSchema());
+  std::unique_ptr<RelaxNGSchema> schema(new RelaxNGSchema());
   schema->parse_memory(contents);
   set_schema(schema.release(), true);
 }

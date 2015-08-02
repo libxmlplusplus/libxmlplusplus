@@ -12,7 +12,7 @@
 
 #include <libxml/parser.h>
 
-#include <memory> //For auto_ptr.
+#include <memory> //For unique_ptr.
 #include <map>
 
 //TODO: See several TODOs in parser.h for changes at the next API/ABI break.
@@ -371,7 +371,7 @@ void Parser::check_for_exception()
   
   if(exception_)
   {
-    std::auto_ptr<exception> tmp ( exception_ );
+    std::unique_ptr<exception> tmp(exception_);
     exception_ = nullptr;
     tmp->Raise();
   }

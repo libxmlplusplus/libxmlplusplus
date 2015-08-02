@@ -10,7 +10,7 @@
 #include <libxml/parser.h>
 
 #include <cstdarg> //For va_list.
-#include <memory> //For auto_ptr.
+#include <memory> //For unique_ptr.
 
 namespace xmlpp {
 
@@ -165,7 +165,7 @@ void Validator::check_for_exception()
 
   if(exception_)
   {
-    std::auto_ptr<exception> tmp(exception_);
+    std::unique_ptr<exception> tmp(exception_);
     exception_ = nullptr;
     tmp->Raise();
   }

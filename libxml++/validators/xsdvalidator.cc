@@ -69,7 +69,7 @@ void XsdValidator::parse_file(const Glib::ustring& filename)
 
 void XsdValidator::parse_memory(const Glib::ustring& contents)
 {
-  std::auto_ptr<XsdSchema> schema(new XsdSchema());
+  std::unique_ptr<XsdSchema> schema(new XsdSchema());
   schema->parse_memory(contents);
   set_schema(schema.release(), true);
 }

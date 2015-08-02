@@ -150,7 +150,7 @@ void SaxParser::parse()
   // in entity_resolver_doc_ should be deleted and replaced by a new one.
   // Otherwise entity declarations from a previous parsing may erroneously affect
   // this parsing. This would be much easier if entity_resolver_doc_ were a
-  // std::auto_ptr<Document>, so the xmlpp::Document could be deleted and a new
+  // std::unique_ptr<Document>, so the xmlpp::Document could be deleted and a new
   // one created. A good place for such code would be in an overridden
   // SaxParser::initialize_context(). It would be an ABI break.
 
