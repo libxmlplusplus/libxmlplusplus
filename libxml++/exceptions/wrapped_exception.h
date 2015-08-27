@@ -26,6 +26,17 @@ namespace xmlpp
 {
 
 #ifndef DOXYGEN_SHOULD_SKIP_THIS
+//TODO: At the next ABI break, consider changing
+//   exception* exception_;
+// to
+//   std::exception_ptr exception_ptr_;
+// in xmlpp::Parser and xmlpp::Validator, and removing xmlpp::wrapped_exception.
+
+/** Helper class for propagating an exception through C code.
+ * Should not be used by applications.
+ *
+ * @newin{2,40}
+ */
 class wrapped_exception : public exception
 {
 public:
