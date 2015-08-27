@@ -159,7 +159,9 @@ void test_on_end_element()
 class OnEntityDeclarationTestParser : public xmlpp::SaxParser
 {
 protected:
-  void on_entity_declaration(const Glib::ustring& name, xmlpp::XmlEntityType type, const Glib::ustring& publicId, const Glib::ustring& systemId, const Glib::ustring& content) override
+  void on_entity_declaration(const Glib::ustring& name, xmlpp::XmlEntityType /* type */,
+    const Glib::ustring& /* publicId */, const Glib::ustring& /* systemId */,
+    const Glib::ustring& content) override
   {
     g_assert_cmpstr(name.c_str(), ==, "number");
     g_assert_cmpstr(content.c_str(), ==, "42");
@@ -187,7 +189,7 @@ void test_on_entity_declaration()
 class OnErrorTestParser : public xmlpp::SaxParser
 {
 protected:
-  void on_error(const Glib::ustring& text) override
+  void on_error(const Glib::ustring& /* text */) override
   {
     throw std::runtime_error("on_error runtime exception");
   }

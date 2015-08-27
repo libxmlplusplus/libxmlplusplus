@@ -34,7 +34,8 @@ h_root_sources_public = libxml++/libxml++.h \
 h_exceptions_sources_public = libxml++/exceptions/exception.h \
 	libxml++/exceptions/parse_error.h \
 	libxml++/exceptions/validity_error.h \
-	libxml++/exceptions/internal_error.h
+	libxml++/exceptions/internal_error.h \
+	libxml++/exceptions/wrapped_exception.h
 h_io_sources_public = libxml++/io/istreamparserinputbuffer.h \
 	libxml++/io/outputbuffer.h \
 	libxml++/io/ostreamoutputbuffer.h \

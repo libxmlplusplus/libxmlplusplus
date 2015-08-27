@@ -25,6 +25,7 @@
 namespace xmlpp
 {
 
+#ifndef DOXYGEN_SHOULD_SKIP_THIS
 class wrapped_exception : public exception
 {
 public:
@@ -37,6 +38,7 @@ public:
 private:
   std::exception_ptr exception_ptr_;
 };
+#endif //DOXYGEN_SHOULD_SKIP_THIS
 
 } // namespace xmlpp
 

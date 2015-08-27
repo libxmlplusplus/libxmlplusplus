@@ -29,7 +29,7 @@ protected:
   {
     throw std::runtime_error("some custom runtime exception");
   }
-  void on_error(const Glib::ustring& text) override
+  void on_error(const Glib::ustring& /* text */) override
   {
     throw std::runtime_error("on_error() called");
   }
