@@ -68,6 +68,7 @@ stamp-h?
 /examples/test-suite.log
 
 # macros
+/macros/compile
 /macros/compile-binding.am
 /macros/config.guess
 /macros/config.sub
@@ -83,3 +84,10 @@ stamp-h?
 /macros/ltversion.m4
 /macros/lt~obsolete.m4
 /macros/missing
+/macros/test-driver
+
+# tests
+/tests/*/test
+/tests/*/test.log
+/tests/*/test.trs
+/tests/test-suite.log

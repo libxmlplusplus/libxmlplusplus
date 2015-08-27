@@ -61,6 +61,7 @@ AC_DEFINE([LIBXMLCPP_EXCEPTIONS_ENABLED],[1], [This is always set. This is only 
 
 AC_CONFIG_FILES([Makefile
         examples/Makefile
+        tests/Makefile
         docs/reference/Doxyfile
         MSVC_Net2005/libxml++/libxml++.rc
         MSVC_Net2008/libxml++/libxml++.rc

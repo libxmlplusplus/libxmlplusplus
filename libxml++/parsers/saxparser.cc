@@ -7,6 +7,7 @@
  * 2002/01/21 Valentin Rusu - added CDATA handlers
  */
 
+#include "libxml++/exceptions/wrapped_exception.h"
 #include "libxml++/parsers/saxparser.h"
 #include "libxml++/nodes/element.h"
 #include "libxml++/keepblanks.h"
@@ -384,7 +385,11 @@ xmlEntityPtr SaxParserCallback::get_entity(void* context, const xmlChar* name)
   {
     parser->handleException(e);
   }
-  
+  catch(...)
+  {
+    parser->handleException(wrapped_exception(std::current_exception()));
+  }
+
   return result;
 }
 
@@ -406,6 +411,10 @@ void SaxParserCallback::entity_decl(void* context, const xmlChar* name, int type
   {
     parser->handleException(e);
   }
+  catch(...)
+  {
+    parser->handleException(wrapped_exception(std::current_exception()));
+  }
 }
 
 void SaxParserCallback::start_document(void* context)
@@ -420,6 +429,10 @@ void SaxParserCallback::start_document(void* context)
   catch(const exception& e)
   {
     parser->handleException(e);
+  }
+  catch(...)
+  {
+    parser->handleException(wrapped_exception(std::current_exception()));
   }
 }
 
@@ -438,6 +451,10 @@ void SaxParserCallback::end_document(void* context)
   catch(const exception& e)
   {
     parser->handleException(e);
+  }
+  catch(...)
+  {
+    parser->handleException(wrapped_exception(std::current_exception()));
   }
 }
 
@@ -463,6 +480,10 @@ void SaxParserCallback::start_element(void* context,
   {
     parser->handleException(e);
   }
+  catch(...)
+  {
+    parser->handleException(wrapped_exception(std::current_exception()));
+  }
 }
 
 void SaxParserCallback::end_element(void* context, const xmlChar* name)
@@ -477,6 +498,10 @@ void SaxParserCallback::end_element(void* context, const xmlChar* name)
   catch(const exception& e)
   {
     parser->handleException(e);
+  }
+  catch(...)
+  {
+    parser->handleException(wrapped_exception(std::current_exception()));
   }
 }
 
@@ -499,6 +524,10 @@ void SaxParserCallback::characters(void * context, const xmlChar* ch, int len)
   {
     parser->handleException(e);
   }
+  catch(...)
+  {
+    parser->handleException(wrapped_exception(std::current_exception()));
+  }
 }
 
 void SaxParserCallback::comment(void* context, const xmlChar* value)
@@ -513,6 +542,10 @@ void SaxParserCallback::comment(void* context, const xmlChar* value)
   catch(const exception& e)
   {
     parser->handleException(e);
+  }
+  catch(...)
+  {
+    parser->handleException(wrapped_exception(std::current_exception()));
   }
 }
 
@@ -535,6 +568,10 @@ void SaxParserCallback::warning(void* context, const char* fmt, ...)
   catch(const exception& e)
   {
     parser->handleException(e);
+  }
+  catch(...)
+  {
+    parser->handleException(wrapped_exception(std::current_exception()));
   }
 }
 
@@ -561,6 +598,10 @@ void SaxParserCallback::error(void* context, const char* fmt, ...)
   {
     parser->handleException(e);
   }
+  catch(...)
+  {
+    parser->handleException(wrapped_exception(std::current_exception()));
+  }
 }
 
 void SaxParserCallback::fatal_error(void* context, const char* fmt, ...)
@@ -583,6 +624,10 @@ void SaxParserCallback::fatal_error(void* context, const char* fmt, ...)
   {
     parser->handleException(e);
   }
+  catch(...)
+  {
+    parser->handleException(wrapped_exception(std::current_exception()));
+  }
 }
 
 void SaxParserCallback::cdata_block(void* context, const xmlChar* value, int len)
@@ -603,6 +648,10 @@ void SaxParserCallback::cdata_block(void* context, const xmlChar* value, int len
   {
     parser->handleException(e);
   }
+  catch(...)
+  {
+    parser->handleException(wrapped_exception(std::current_exception()));
+  }
 }
 
 void SaxParserCallback::internal_subset(void* context, const xmlChar* name,
@@ -621,6 +670,10 @@ void SaxParserCallback::internal_subset(void* context, const xmlChar* name,
   catch(const exception& e)
   {
     parser->handleException(e);
+  }
+  catch(...)
+  {
+    parser->handleException(wrapped_exception(std::current_exception()));
   }
 }
 

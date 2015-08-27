@@ -8,6 +8,7 @@
 // because it temporarily undefines G_DISABLE_DEPRECATED while it includes glib.h.
 #include <glibmm/threads.h> // For Glib::Threads::Mutex. Needed until the next API/ABI break.
 
+#include "libxml++/exceptions/wrapped_exception.h"
 #include "libxml++/parsers/parser.h"
 
 #include <libxml/parser.h>
@@ -349,6 +350,10 @@ void Parser::callback_error_or_warning(MsgType msg_type, void* ctx,
       catch(const exception& e)
       {
         parser->handleException(e);
+      }
+      catch(...)
+      {
+        parser->handleException(wrapped_exception(std::current_exception()));
       }
     }
   }

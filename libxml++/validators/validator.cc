@@ -5,6 +5,7 @@
  * included with libxml++ as the file COPYING.
  */
 
+#include "libxml++/exceptions/wrapped_exception.h"
 #include "libxml++/validators/validator.h"
 
 #include <libxml/parser.h>
@@ -114,6 +115,10 @@ void Validator::callback_validity_error(void* valid_, const char* msg, ...)
     {
       validator->handleException(e);
     }
+    catch(...)
+    {
+      validator->handleException(wrapped_exception(std::current_exception()));
+    }
   }
 }
 
@@ -138,6 +143,10 @@ void Validator::callback_validity_warning(void* valid_, const char* msg, ...)
     catch(const exception& e)
     {
       validator->handleException(e);
+    }
+    catch(...)
+    {
+      validator->handleException(wrapped_exception(std::current_exception()));
     }
   }
 }

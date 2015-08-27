@@ -1,4 +1,4 @@
-SUBDIRS = . examples
+SUBDIRS = . examples tests
 
 ACLOCAL_AMFLAGS = -I macros ${ACLOCAL_FLAGS}
 DISTCHECK_CONFIGURE_FLAGS = --enable-warnings=fatal
@@ -82,6 +82,7 @@ cc_sources = libxml++/attribute.cc \
 	libxml++/exceptions/parse_error.cc \
 	libxml++/exceptions/validity_error.cc \
 	libxml++/exceptions/internal_error.cc \
+	libxml++/exceptions/wrapped_exception.cc \
 	libxml++/io/istreamparserinputbuffer.cc \
 	libxml++/io/outputbuffer.cc \
 	libxml++/io/ostreamoutputbuffer.cc \
