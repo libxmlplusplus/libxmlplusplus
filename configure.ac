@@ -1,4 +1,4 @@
-AC_INIT([libxml++], [2.39.1],
+AC_INIT([libxml++], [2.39.2],
         [https://bugzilla.gnome.org/enter_bug.cgi?product=libxml%2B%2B],
         [libxml++], [http://libxmlplusplus.sourceforge.net/])
 AC_PREREQ([2.59])

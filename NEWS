@@ -1,3 +1,13 @@
+2.39.2 (unstable):
+
+* SaxParser: Fix “double free or corruption” if a std::exception is thrown
+  by a handler method.
+  (Daniel Trebbien, Kjell Ahlstedt)
+* Replace some (deprecated in C++11) std::auto_ptr by std::unique_ptr.
+  There are still some auto_ptrs in header files bug replacing them would
+  break ABI.
+  (Kjell Ahlstedt) Bug #753123.
+
 2.39.1 (unstable):
 
 * Use (and require) C++11.
