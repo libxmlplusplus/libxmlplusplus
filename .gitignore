@@ -26,9 +26,7 @@ stamp-h?
 /libtool
 
 # MSVC
-/MSVC_Net2005/libxml++/libxml++.rc
-/MSVC_Net2008/libxml++/libxml++.rc
-/MSVC_Net2010/libxml++/libxml++.rc
+/MSVC_Net201?/libxml++/libxml++.rc
 
 # docs
 /docs/doc-install.pl

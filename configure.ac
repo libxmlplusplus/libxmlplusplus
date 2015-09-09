@@ -63,16 +63,10 @@ AC_CONFIG_FILES([Makefile
         examples/Makefile
         tests/Makefile
         docs/reference/Doxyfile
-        MSVC_Net2005/libxml++/libxml++.rc
-        MSVC_Net2008/libxml++/libxml++.rc
         MSVC_Net2010/libxml++/libxml++.rc
         libxml++-2.6.pc])
 
 # Copy the generated configuration headers into the MSVC project directories.
-AC_CONFIG_COMMANDS([MSVC_Net2005/libxml++/libxml++config.h],
-        [cp -f libxml++config.h MSVC_Net2005/libxml++/libxml++config.h])
-AC_CONFIG_COMMANDS([MSVC_Net2008/libxml++/libxml++config.h],
-        [cp -f libxml++config.h MSVC_Net2008/libxml++/libxml++config.h])
 AC_CONFIG_COMMANDS([MSVC_Net2010/libxml++/libxml++config.h],
         [cp -f libxml++config.h MSVC_Net2010/libxml++/libxml++config.h])
 

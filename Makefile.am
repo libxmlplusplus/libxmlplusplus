@@ -166,50 +166,6 @@ dist_noinst_DATA += libxml++config.h.in \
 	$(manual_html_files) \
 	docs/manual/libxml++.xml \
 	docs/manual/libxml++_without_code.xml \
-	MSVC_Net2005/blank.cpp \
-	MSVC_Net2005/libxml++.sln \
-	MSVC_Net2005/README \
-	MSVC_Net2005/gendef/gendef.cc \
-	MSVC_Net2005/gendef/gendef.vcproj \
-	MSVC_Net2005/libxml++/libxml++.rc \
-	MSVC_Net2005/libxml++/libxml++.vcproj \
-	MSVC_Net2005/libxml++/libxml++config.h \
-	MSVC_Net2005/examples/dom_build/dom_build.vcproj \
-	MSVC_Net2005/examples/dom_parse_entities/dom_parse_entities.vcproj \
-	MSVC_Net2005/examples/dom_parser/dom_parser.vcproj \
-	MSVC_Net2005/examples/dom_parser_raw/dom_parser_raw.vcproj \
-	MSVC_Net2005/examples/dom_read_write/dom_read_write.vcproj \
-	MSVC_Net2005/examples/dom_xpath/dom_xpath.vcproj \
-	MSVC_Net2005/examples/dtdvalidation/dtdvalidation.vcproj \
-	MSVC_Net2005/examples/import_node/import_node.vcproj \
-	MSVC_Net2005/examples/sax_exception/sax_exception.vcproj \
-	MSVC_Net2005/examples/sax_parser/sax_parser.vcproj \
-	MSVC_Net2005/examples/sax_parser_build_dom/sax_parser_build_dom.vcproj \
-	MSVC_Net2005/examples/sax_parser_entities/sax_parser_entities.vcproj \
-	MSVC_Net2005/examples/schemavalidation/schemavalidation.vcproj \
-	MSVC_Net2005/examples/textreader/textreader.vcproj \
-	MSVC_Net2008/blank.cpp \
-	MSVC_Net2008/libxml++.sln \
-	MSVC_Net2008/README \
-	MSVC_Net2008/gendef/gendef.cc \
-	MSVC_Net2008/gendef/gendef.vcproj \
-	MSVC_Net2008/libxml++/libxml++.rc \
-	MSVC_Net2008/libxml++/libxml++.vcproj \
-	MSVC_Net2008/libxml++/libxml++config.h \
-	MSVC_Net2008/examples/dom_build/dom_build.vcproj \
-	MSVC_Net2008/examples/dom_parse_entities/dom_parse_entities.vcproj \
-	MSVC_Net2008/examples/dom_parser/dom_parser.vcproj \
-	MSVC_Net2008/examples/dom_parser_raw/dom_parser_raw.vcproj \
-	MSVC_Net2008/examples/dom_read_write/dom_read_write.vcproj \
-	MSVC_Net2008/examples/dom_xpath/dom_xpath.vcproj \
-	MSVC_Net2008/examples/dtdvalidation/dtdvalidation.vcproj \
-	MSVC_Net2008/examples/import_node/import_node.vcproj \
-	MSVC_Net2008/examples/sax_exception/sax_exception.vcproj \
-	MSVC_Net2008/examples/sax_parser/sax_parser.vcproj \
-	MSVC_Net2008/examples/sax_parser_build_dom/sax_parser_build_dom.vcproj \
-	MSVC_Net2008/examples/sax_parser_entities/sax_parser_entities.vcproj \
-	MSVC_Net2008/examples/schemavalidation/schemavalidation.vcproj \
-	MSVC_Net2008/examples/textreader/textreader.vcproj \
 	MSVC_Net2010/libxml++.sln \
 	MSVC_Net2010/README \
 	MSVC_Net2010/gendef/gendef.cc \
@@ -251,9 +207,7 @@ dist_noinst_DATA += libxml++config.h.in \
 dist_noinst_SCRIPTS = autogen.sh \
 	docs/manual/insert_example_code.pl
 
-DISTCLEANFILES += MSVC_Net2005/libxml++/libxml++config.h \
-	MSVC_Net2008/libxml++/libxml++config.h \
-	MSVC_Net2010/libxml++/libxml++config.h
+DISTCLEANFILES += MSVC_Net2010/libxml++/libxml++config.h
 
 MAINTAINERCLEANFILES += docs/manual/html/*.html
 
