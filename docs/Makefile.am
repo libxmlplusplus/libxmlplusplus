@@ -22,7 +22,7 @@ doc_input = $(addprefix $(top_srcdir)/libxml++/,$(h_sources_public))
 include $(top_srcdir)/macros/doc-reference.am
 
 manual/libxml++.xml: manual/libxml++_without_code.xml manual/insert_example_code.pl
-	$(AM_V_GEN)$(PERL) -- manual/insert_example_code.pl examples $< >$@
+	$(AM_V_GEN)$(PERL) -- manual/insert_example_code.pl ../examples $< >$@
 
 manualdir = $(docdir)/manual
 manual_htmldir = $(manualdir)/html
@@ -61,6 +61,11 @@ MAINTAINERCLEANFILES += manual/html/*.html
 web_path_project = /home/groups/l/li/libxmlplusplus/htdocs/
 rsync_args = -vz --rsh ssh --recursive --cvs-exclude --exclude="**1.0**" --exclude=".gitignore" --exclude="Makefile" --exclude="Makefile.in" --exclude=".deps" --exclude=".libs"
 
+## TODO: When I moved this code from libxml++/Makefile.am to libxml++/docs/Makefile.am,
+## I changed the relative paths accordingly (docs/index.html -> index.html,
+## examples -> ../examples). I don't know if that changes the location where the files
+## are stored at sourceforge.net. If necessary, change again before you use 'make post-html'.
+## Why are the examples copied to sourceforge? / 2015-09-11 Kjell Ahlstedt
 post-html: index.html
 	rsync $(rsync_args) -r index.html $$USER,libxmlplusplus@web.sourceforge.net:$(web_path_project)
 	rsync $(rsync_args) -r ../examples $$USER,libxmlplusplus@web.sourceforge.net:$(web_path_project)
