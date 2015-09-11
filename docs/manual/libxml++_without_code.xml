@@ -17,17 +17,23 @@
     </author>
     <date>12th September 2004</date>
     <abstract>
-      <para>This is an introduction to libxml's C++ binding, with simple examples.</para>
+      <para>This is an introduction to libxml2's C++ binding, with simple examples.</para>
     </abstract>
   </bookinfo>
   <chapter id="chapter-introduction">
     <title>libxml++</title>
     <para>
-      libxml++ is a C++ API for the popular libxml XML parser, written in C. libxml is famous for its high performance and compliance to standard specifications, but its C API is quite difficult even for common tasks. 
+      libxml++ is a C++ API for the popular <ulink url="http://www.xmlsoft.org">libxml2</ulink> XML parser, written in C.
+      libxml2 is famous for its high performance and compliance to standard specifications, but its C API is quite difficult even for common tasks.
     </para>
 
     <para>
-      libxml++ presents a simple C++-like API that can achieve common tasks with less code. Unlike some other C++ parsers, it does not try to avoid the advantages of standard C++ features such as namespaces, STL containers or runtime type identification, and it does not try to conform to standard API specifications meant for Java. Therefore libxml++ requires a fairly modern C++ compiler such as g++ 3. 
+      libxml++ presents a simple C++-like API that can achieve common tasks with less code.
+      Unlike some other C++ parsers, it does not try to avoid the advantages of standard C++ features
+      such as namespaces, STL containers or runtime type identification, and it does not try
+      to conform to standard API specifications meant for Java. Therefore libxml++ requires
+      a fairly modern C++ compiler such as g++ 4.9 or g++ 5. libxml++ 2.39.1 and later require
+      a C++11-compliant compiler.
     </para>
 
     <para>But libxml++ was created mainly to fill the need for an API-stable and ABI-stable C++ XML parser which could be used as a shared library dependency by C++ applications that are distributed widely in binary form. That means that installed applications will not break when new versions of libxml++ are installed on a user's computer. Gradual improvement of the libxml++ API is still possible via non-breaking API additions, and new independent versions of the ABI that can be installed in parallel with older versions. These are the general techniques and principles followed by the <ulink
@@ -42,9 +48,9 @@ url="http://www.gnome.org">GNOME</ulink> project, of which libxml++ is a part.</
     </programlisting>
     </para>
     <para>To check that you have the libxml++ development packages installed, and that your environment is working properly, try <command>pkg-config libxml++-2.6 --modversion</command>.</para>
-    <para>The source code may be downloaded from <ulink
-url="http://libxmlplusplus.sourceforge.net">libxmlplusplus.sourceforge.net</ulink>
-. libxml++ is licensed under the LGPL, which allows its use via dynamic linking in both open source and closed-source software. The underlying libxml library uses the even more generous MIT licence.</para>
+    <para>Links for downloading and more documentation can be found at <ulink
+url="http://libxmlplusplus.sourceforge.net">libxmlplusplus.sourceforge.net</ulink>.
+    libxml++ is licensed under the LGPL, which allows its use via dynamic linking in both open source and closed-source software. The underlying libxml2 library uses the even more generous MIT licence.</para>
     </sect1>
 
     <sect1>
@@ -62,7 +68,7 @@ url="http://libxmlplusplus.sourceforge.net">libxmlplusplus.sourceforge.net</ulin
     </para>
     <para>When using autoconf and automake, this is even easier with the PKG_CHECK_MODULES macro in your configure.ac file. For instance:
     <programlisting>
-    PKG_CHECK_MODULES(SOMEAPP, libxml++-2.6 >= 2.10.0)
+    PKG_CHECK_MODULES(SOMEAPP, libxml++-2.6 >= 2.38.0)
     AC_SUBST(SOMEAPP_CFLAGS)
     AC_SUBST(SOMEAPP_LIBS)
     </programlisting>
@@ -73,13 +79,13 @@ url="http://libxmlplusplus.sourceforge.net">libxmlplusplus.sourceforge.net</ulin
 
   <chapter id="chapter-parsers">
     <title>Parsers</title>
-    <para>Like the underlying libxml library, libxml++ allows the use of 3 parsers, depending on your needs - the DOM, SAX, and TextReader parsers. The relative advantages and behaviour of these parsers will be explained here.</para>
+    <para>Like the underlying libxml2 library, libxml++ allows the use of 3 parsers, depending on your needs - the DOM, SAX, and TextReader parsers. The relative advantages and behaviour of these parsers will be explained here.</para>
     <para>All of the parsers may parse XML documents directly from disk, a string, or a C++ std::istream. Although the libxml++ API uses only Glib::ustring, and therefore the UTF-8 encoding, libxml++ can parse documents in any encoding, converting to UTF-8 automatically. This conversion will not lose any information because UTF-8 can represent any locale.</para>
     <para>Remember that white space is usually significant in XML documents, so the parsers might provide unexpected text nodes that contain only spaces and new lines. The parser does not know whether you care about these text nodes, but your application may choose to ignore them.</para> 
   
     <sect1>
       <title>DOM Parser</title>
-      <para>The DOM parser parses the whole document at once and stores the structure in memory, available via <methodname>DomParser::get_document()</methodname>. With methods such as <methodname>Document::get_root_node()</methodname> and <methodname>Node::get_children()</methodname>, you may then navigate into the hierarchy of XML nodes without restriction, jumping forwards or backwards in the document based on the information that you encounter. Therefore the DOM parser uses a relatively large amount of memory.</para>
+      <para>The DOM (Document Object Model) parser parses the whole document at once and stores the structure in memory, available via <methodname>DomParser::get_document()</methodname>. With methods such as <methodname>Document::get_root_node()</methodname> and <methodname>Node::get_children()</methodname>, you may then navigate into the hierarchy of XML nodes without restriction, jumping forwards or backwards in the document based on the information that you encounter. Therefore the DOM parser uses a relatively large amount of memory.</para>
       <para>You should use C++ RTTI (via <literal>dynamic_cast&lt;&gt;</literal>) to identify the specific node type and to perform actions which are not possible with all node types. For instance, only <classname>Element</classname>s have attributes. Here is the inheritance hierarchy of node types:</para>
 
       <para>
@@ -132,7 +138,7 @@ url="http://libxmlplusplus.sourceforge.net">libxmlplusplus.sourceforge.net</ulin
 
     <sect1>
       <title>SAX Parser</title>
-      <para>The SAX parser presents each node of the XML document in sequence. So when you process one node, you must have already stored information about any relevant previous nodes, and you have no information at that time about subsequent nodes. The SAX parser uses less memory than the DOM parser and it is a suitable abstraction for documents that can be processed sequentially rather than as a whole.</para>   
+      <para>The SAX (Simple API for XML) parser presents each node of the XML document in sequence. So when you process one node, you must have already stored information about any relevant previous nodes, and you have no information at that time about subsequent nodes. The SAX parser uses less memory than the DOM parser and it is a suitable abstraction for documents that can be processed sequentially rather than as a whole.</para>
 
       <para>By using the <literal>parse_chunk()</literal> method instead of <literal>parse()</literal>, you can even parse parts of the XML document before you have received the whole document.</para>
 
