@@ -1,0 +1,40 @@
+## This file is part of libxml++.
+
+msvc_net2010_data = \
+  libxml++.sln \
+  README \
+  gendef/gendef.cc \
+  gendef/gendef.vcxproj \
+  gendef/gendef.vcxproj.filters \
+  libxml++/libxml++.rc \
+  libxml++/libxml++.vcxproj \
+  libxml++/libxml++.vcxproj.filters \
+  libxml++/libxml++config.h \
+  examples/dom_build/dom_build.vcxproj \
+  examples/dom_build/dom_build.vcxproj.filters \
+  examples/dom_parse_entities/dom_parse_entities.vcxproj \
+  examples/dom_parse_entities/dom_parse_entities.vcxproj.filters \
+  examples/dom_parser/dom_parser.vcxproj \
+  examples/dom_parser/dom_parser.vcxproj.filters \
+  examples/dom_parser_raw/dom_parser_raw.vcxproj \
+  examples/dom_parser_raw/dom_parser_raw.vcxproj.filters \
+  examples/dom_read_write/dom_read_write.vcxproj \
+  examples/dom_read_write/dom_read_write.vcxproj.filters \
+  examples/dom_xpath/dom_xpath.vcxproj \
+  examples/dom_xpath/dom_xpath.vcxproj.filters \
+  examples/dtdvalidation/dtdvalidation.vcxproj \
+  examples/dtdvalidation/dtdvalidation.vcxproj.filters \
+  examples/import_node/import_node.vcxproj \
+  examples/import_node/import_node.vcxproj.filters \
+  examples/sax_exception/sax_exception.vcxproj \
+  examples/sax_exception/sax_exception.vcxproj.filters \
+  examples/sax_parser/sax_parser.vcxproj \
+  examples/sax_parser/sax_parser.vcxproj.filters \
+  examples/sax_parser_build_dom/sax_parser_build_dom.vcxproj \
+  examples/sax_parser_build_dom/sax_parser_build_dom.vcxproj.filters \
+  examples/sax_parser_entities/sax_parser_entities.vcxproj \
+  examples/sax_parser_entities/sax_parser_entities.vcxproj.filters \
+  examples/schemavalidation/schemavalidation.vcxproj \
+  examples/schemavalidation/schemavalidation.vcxproj.filters \
+  examples/textreader/textreader.vcxproj \
+  examples/textreader/textreader.vcxproj.filters

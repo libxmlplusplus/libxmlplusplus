@@ -60,8 +60,10 @@ MM_CHECK_PERL()
 AC_DEFINE([LIBXMLCPP_EXCEPTIONS_ENABLED],[1], [This is always set. This is only for backwards compatibility.])
 
 AC_CONFIG_FILES([Makefile
+        libxml++/Makefile
         examples/Makefile
         tests/Makefile
+        docs/Makefile
         docs/reference/Doxyfile
         MSVC_Net2010/libxml++/libxml++.rc
         libxml++-2.6.pc])
