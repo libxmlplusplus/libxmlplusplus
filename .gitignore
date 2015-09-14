@@ -21,7 +21,7 @@ stamp-h?
 /config.status
 /configure
 /configure.lineno
-/libxml++-2.6.pc
+/libxml++-*.pc
 /libxml++-*.tar.*
 /libtool
 
@@ -39,8 +39,8 @@ stamp-h?
 /docs/reference/Doxyfile
 /docs/reference/doxygen.log
 /docs/reference/html/
-/docs/reference/libxml++-2.6.devhelp2
-/docs/reference/libxml++-2.6.tag
+/docs/reference/libxml++-*.devhelp2
+/docs/reference/libxml++-*.tag
 
 # examples
 /examples/dom_build/dom_build

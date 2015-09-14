@@ -1,4 +1,6 @@
-AC_INIT([libxml++], [2.39.2],
+## This file is part of libxml++.
+
+AC_INIT([libxml++], [2.90.0],
         [https://bugzilla.gnome.org/enter_bug.cgi?product=libxml%2B%2B],
         [libxml++], [http://libxmlplusplus.sourceforge.net/])
 AC_PREREQ([2.59])
@@ -14,15 +16,17 @@ AM_MAINTAINER_MODE([disable])
 AC_ARG_VAR([ACLOCAL_FLAGS], [aclocal flags, e.g. -I <macro dir>])
 
 MM_PREREQ([0.9.8])
-MM_INIT_MODULE([libxml++-2.6])
+MM_INIT_MODULE([libxml++-3.0])
 
-# Copy the mm-common .pl scripts into docs/,
-# and use them from there,
+# Tell mm-common-prepare to copy the mm-common .pl scripts
+# and some other files into docs/, and use them from there,
 # so we can dist them to avoid a tarball-build dependency.
 MM_CONFIG_DOCTOOL_DIR([docs])
 
+# libxml++ does not use libtool's versioning system.
+# Let LIBXMLXX_SO_VERSION remain equal to 0:0:0.
 # http://www.gnu.org/software/libtool/manual/html_node/Updating-version-info.html
-AC_SUBST([LIBXMLXX_SO_VERSION], [2:7:0])
+AC_SUBST([LIBXMLXX_SO_VERSION], [0:0:0])
 
 AC_PROG_CXX
 MM_AX_CXX_COMPILE_STDCXX_11([noext],[mandatory])
@@ -66,7 +70,7 @@ AC_CONFIG_FILES([Makefile
         docs/Makefile
         docs/reference/Doxyfile
         MSVC_Net2010/libxml++/libxml++.rc
-        libxml++-2.6.pc])
+        ${LIBXMLXX_MODULE_NAME}.pc:libxml++.pc.in])
 
 # Copy the generated configuration headers into the MSVC project directories.
 AC_CONFIG_COMMANDS([MSVC_Net2010/libxml++/libxml++config.h],

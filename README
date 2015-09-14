@@ -1,14 +1,15 @@
 libxml++
 -------------
 
-This library provides a C++ interface to XML files.  It uses libxml 2 to access
-the XML files, and in order to configure libxml++ you must have both libxml and
+This library provides a C++ interface to XML files. It uses libxml2 to access
+the XML files, and in order to configure libxml++ you must have both libxml2 and
 pkg-config installed.
 
 To get the latest version of libxml++, see
 http://libxmlplusplus.sourceforge.net/
-To contact the developers, send e-mail to the mailing list. We welcome patches,
-but it helps to discuss them first.
+To contact the developers, send e-mail to the mailing list at
+http://mail.gnome.org/mailman/listinfo/libxmlplusplus-list
+We welcome patches, but it helps to discuss them first.
 
 Read the file 'INSTALL' for instructions to compile and install the library.
 
@@ -16,6 +17,5 @@ See the examples directory for example code.
 
 Use pkg-config to discover the necessary include and linker arguments. For
 instance,
-  pkg-config libxml++-2.6 --cflags --libs
+  pkg-config libxml++-3.0 --cflags --libs
 Ideally you would use PKG_CHECK_MODULES in your configure.ac file.
-See http://www.openismus.com for generic help with that.

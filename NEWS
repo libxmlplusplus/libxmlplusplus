@@ -1,8 +1,14 @@
+2.90.0 (unstable):
+
+* Renamed ABI from libxml++-2.6 to libxml++-3.0.
+  This requires applications to change their pkg-config check to libxml++-3.0
+  when they wish to use libxml++ 2.9x or 3.x instead of libxml++ 2.x.
+
 2.39.2 (unstable):
 
 * SaxParser: Fix “double free or corruption” if a std::exception is thrown
   by a handler method.
-  (Daniel Trebbien, Kjell Ahlstedt)
+  (Daniel Trebbien, Kjell Ahlstedt) Bug #753570
 * Replace some (deprecated in C++11) std::auto_ptr by std::unique_ptr.
   There are still some auto_ptrs in header files bug replacing them would
   break ABI.
@@ -17,7 +23,7 @@
 
 * Fix the build with C++11 compilers, such as MS Visual C++ 2013 - Implicit
   conversions from streams to bool are no longer allowed.)
-  (Mikhail Titov)
+  (Mikhail Titov) Bug #748658
 * Build: Disable deprecated API in dependencies if --enable-warnings=fatal
   (Kjell Ahlstedt)
 * Build: Require libxml2 2.7.7 or later
