@@ -526,22 +526,22 @@ Glib::ustring Node::get_path() const
   return retn;
 }
 
-NodeSet Node::find(const Glib::ustring& xpath)
+Node::NodeSet Node::find(const Glib::ustring& xpath)
 {
   return find_common<NodeSet>(xpath, 0, impl_);
 }
 
-const_NodeSet Node::find(const Glib::ustring& xpath) const
+Node::const_NodeSet Node::find(const Glib::ustring& xpath) const
 {
   return find_common<const_NodeSet>(xpath, 0, impl_);
 }
 
-NodeSet Node::find(const Glib::ustring& xpath, const PrefixNsMap& namespaces)
+Node::NodeSet Node::find(const Glib::ustring& xpath, const PrefixNsMap& namespaces)
 {
   return find_common<NodeSet>(xpath, &namespaces, impl_);
 }
 
-const_NodeSet Node::find(const Glib::ustring& xpath, const PrefixNsMap& namespaces) const
+Node::const_NodeSet Node::find(const Glib::ustring& xpath, const PrefixNsMap& namespaces) const
 {
   return find_common<const_NodeSet>(xpath, &namespaces, impl_);
 }

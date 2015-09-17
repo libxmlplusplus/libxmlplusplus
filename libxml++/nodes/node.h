@@ -27,10 +27,6 @@ class TextNode;
 class Element;
 class Attribute;
 
-class Node;
-typedef std::vector<Node*> NodeSet;
-typedef std::vector<const Node*> const_NodeSet;
-
 // xmlpp::XPathResultType is similar to xmlXPathObjectType in libxml2.
 /** An XPath expression is evaluated to yield a result, which
  * has one of the following four basic types:
@@ -56,6 +52,9 @@ class Node : public NonCopyable
 public:
   typedef std::list<Node*> NodeList;
   typedef std::list<const Node*> const_NodeList;
+
+  typedef std::vector<Node*> NodeSet;
+  typedef std::vector<const Node*> const_NodeSet;
 
   /** @throws xmlpp::internal_error If @a node is <tt>0</tt>.
    */
