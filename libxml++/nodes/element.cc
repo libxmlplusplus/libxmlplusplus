@@ -43,7 +43,7 @@ Element::const_AttributeList Element::get_attributes() const
 }
 
 Attribute* Element::get_attribute(const Glib::ustring& name,
-                                  const Glib::ustring& ns_prefix) const
+                                  const Glib::ustring& ns_prefix)
 {
   // An empty ns_prefix means "use no namespace".
   // The default namespace never applies to an attribute.
@@ -68,6 +68,12 @@ Attribute* Element::get_attribute(const Glib::ustring& name,
   }
 
   return 0;
+}
+
+const Attribute* Element::get_attribute(const Glib::ustring& name,
+                                        const Glib::ustring& ns_prefix) const
+{
+  return const_cast<Element*>(this)->get_attribute(name, ns_prefix);
 }
 
 Glib::ustring Element::get_attribute_value(const Glib::ustring& name, const Glib::ustring& ns_prefix) const

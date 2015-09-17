@@ -56,8 +56,6 @@ public:
    */
   const_AttributeList get_attributes() const;
 
-  //TODO: There should be a const and non-const version.
-  //See the patch at https://bugzilla.gnome.org/show_bug.cgi?id=632524
   /** Get the attribute with this name, and optionally with this namespace.
    * @param name The name of the attribute that will be retrieved.
    * @param ns_prefix Namespace prefix.
@@ -67,7 +65,18 @@ public:
    *         of an attribute with a default value.
    */
   Attribute* get_attribute(const Glib::ustring& name,
-                           const Glib::ustring& ns_prefix = Glib::ustring()) const;
+                           const Glib::ustring& ns_prefix = Glib::ustring());
+
+  /** Get the attribute with this name, and optionally with this namespace.
+   * @param name The name of the attribute that will be retrieved.
+   * @param ns_prefix Namespace prefix.
+   * @return The attribute, or 0 if no suitable Attribute was found.
+   *         Is either an AttributeNode*, pointing to an explicitly set
+   *         attribute, or an AttributeDeclaration*, pointing to the declaration
+   *         of an attribute with a default value.
+   */
+  const Attribute* get_attribute(const Glib::ustring& name,
+                                 const Glib::ustring& ns_prefix = Glib::ustring()) const;
 
   /** Get the value of the attribute with this name, and optionally with this namespace.
    * For finer control, you might use get_attribute() and use the methods of the Attribute class.
