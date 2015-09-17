@@ -1,5 +1,3 @@
-// -*- C++ -*-
-
 /* main.cc
  *
  * Copyright (C) 2002 The libxml++ development team
@@ -105,7 +103,6 @@ void print_node(const xmlpp::Node* node, unsigned int indentation = 0)
   if(!nodeContent)
   {
     //Recurse through child nodes:
-    auto list = node->get_children();
     for(const auto& child : node->get_children())
     {
       print_node(child, indentation + 2); //recursive
@@ -190,4 +187,3 @@ int main(int argc, char* argv[])
 
   return EXIT_SUCCESS;
 }
-

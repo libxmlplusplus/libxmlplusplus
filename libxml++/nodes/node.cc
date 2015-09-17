@@ -26,6 +26,33 @@
 
 namespace // anonymous
 {
+xmlpp::Node* _convert_node(xmlNode* node)
+{
+  xmlpp::Node* res = nullptr;
+  if (node)
+  {
+    xmlpp::Node::create_wrapper(node);
+    res = static_cast<xmlpp::Node*>(node->_private);
+  }
+  return res;
+}
+
+// Common part of const and non-const get_children()
+template <typename Tlist>
+Tlist get_children_common(const Glib::ustring& name, xmlNode* child)
+{
+  Tlist children;
+
+  while (child)
+  {
+    if (name.empty() || name == (const char*)child->name)
+      children.push_back(_convert_node(child));
+
+    child = child->next;
+  }
+  return children;
+}
+
 // Common part of xmlpp::Node::eval_to_[boolean|number|string]
 xmlXPathObject* eval_common(const Glib::ustring& xpath,
   const xmlpp::Node::PrefixNsMap* namespaces,
@@ -182,17 +209,6 @@ Node* Node::get_previous_sibling()
   return static_cast<Node*>(cobj()->prev->_private);
 }
 
-static Node* _convert_node(xmlNode* node)
-{
-  Node* res = nullptr;
-  if(node)
-  {
-    Node::create_wrapper(node);
-    res = static_cast<Node*>(node->_private);
-  }
-  return res;
-}
-
 Node* Node::get_first_child(const Glib::ustring& name)
 {
   auto child = impl_->children;
@@ -216,24 +232,12 @@ const Node* Node::get_first_child(const Glib::ustring& name) const
 
 Node::NodeList Node::get_children(const Glib::ustring& name)
 {
-   auto child = impl_->children;
-   if(!child)
-     return NodeList();
-
-   NodeList children;
-   do
-   {
-      if(name.empty() || name == (const char*)child->name)
-        children.push_back(_convert_node(child));
-   }
-   while((child = child->next));
-   
-   return children;
+  return get_children_common<NodeList>(name, impl_->children);
 }
 
-const Node::NodeList Node::get_children(const Glib::ustring& name) const
+Node::const_NodeList Node::get_children(const Glib::ustring& name) const
 {
-  return const_cast<Node*>(this)->get_children(name);
+  return get_children_common<const_NodeList>(name, impl_->children);
 }
 
 Element* Node::add_child(const Glib::ustring& name,

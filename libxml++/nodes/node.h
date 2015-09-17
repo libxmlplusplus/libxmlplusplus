@@ -54,6 +54,7 @@ class Node : public NonCopyable
 {
 public:
   typedef std::list<Node*> NodeList;
+  typedef std::list<const Node*> const_NodeList;
 
   /** @throws xmlpp::internal_error If @a node is <tt>0</tt>.
    */
@@ -150,7 +151,7 @@ public:
    * @param name The names of the child nodes to get. If you do not specify a name, then the list will contain all nodes, regardless of their names.
    * @returns The list of child nodes.
    */
-  const NodeList get_children(const Glib::ustring& name = Glib::ustring()) const;
+  const_NodeList get_children(const Glib::ustring& name = Glib::ustring()) const;
 
   /** Add a child element to this node.
    * This node must be an element node.
