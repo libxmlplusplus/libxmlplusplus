@@ -22,7 +22,7 @@
 #define __LIBXMLPP_VALIDATOR_RELAXNGVALIDATOR_H
 
 #include <libxml++/validators/schemavalidatorbase.h>
-#include <memory> // std::auto_ptr
+#include <memory> // std::unique_ptr
 
 namespace Glib
 {
@@ -156,7 +156,7 @@ protected:
 
 private:
   struct Impl;
-  std::auto_ptr<Impl> pimpl_;
+  std::unique_ptr<Impl> pimpl_;
 };
 
 } // namespace xmlpp

@@ -216,7 +216,7 @@ private:
   //TODO: Remove the virtual when we can break ABI?
   virtual void parse();
   
-  std::auto_ptr<_xmlSAXHandler> sax_handler_;
+  std::unique_ptr<_xmlSAXHandler> sax_handler_;
 
   // A separate xmlpp::Document that is just used for entity resolution,
   // and never seen in the API:

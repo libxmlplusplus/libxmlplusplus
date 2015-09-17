@@ -20,7 +20,6 @@
 #define __LIBXMLPP_VALIDATOR_SCHEMAVALIDATORBASE_H
 
 #include <libxml++/validators/validator.h>
-#include <memory> // std::auto_ptr
 
 namespace Glib
 {

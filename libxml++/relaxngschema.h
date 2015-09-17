@@ -23,7 +23,7 @@
 
 #include <libxml++/schemabase.h>
 #include <libxml++/document.h>
-#include <memory> // std::auto_ptr
+#include <memory> // std::unique_ptr
 
 #ifndef DOXYGEN_SHOULD_SKIP_THIS
 extern "C" {
@@ -105,7 +105,7 @@ protected:
 
 private:
   struct Impl;
-  std::auto_ptr<Impl> pimpl_;
+  std::unique_ptr<Impl> pimpl_;
 };
 
 } // namespace xmlpp

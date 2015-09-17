@@ -257,7 +257,7 @@ class TextReader: NonCopyable
                               void * locator);
     void check_for_exceptions() const;
 
-    std::auto_ptr<PropertyReader> propertyreader;
+    std::unique_ptr<PropertyReader> propertyreader;
     _xmlTextReader* impl_;
     int severity_;
     Glib::ustring error_;
