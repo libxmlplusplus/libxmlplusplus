@@ -27,6 +27,7 @@ public:
   ~Element() override;
 
   typedef std::list<Attribute*> AttributeList;
+  typedef std::list<const Attribute*> const_AttributeList;
 
   /** Add a namespace declaration to this node which will apply to this node and all children.
    *
@@ -53,7 +54,7 @@ public:
   /** Obtain the list of explicitly set attributes for this element.
    * @returns The list of explicitly set attributes.
    */
-  const AttributeList get_attributes() const;
+  const_AttributeList get_attributes() const;
 
   //TODO: There should be a const and non-const version.
   //See the patch at https://bugzilla.gnome.org/show_bug.cgi?id=632524

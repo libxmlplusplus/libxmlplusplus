@@ -71,10 +71,8 @@ void print_node(const xmlpp::Node* node, unsigned int indentation = 0)
     std::cout << indent << "     Element line = " << node->get_line() << std::endl;
 
     //Print attributes:
-    const auto attributes = nodeElement->get_attributes();
-    for (xmlpp::Element::AttributeList::const_iterator iter = attributes.begin(); iter != attributes.end(); ++iter)
+    for (const auto& attribute : nodeElement->get_attributes())
     {
-      const auto attribute = *iter;
       const auto namespace_prefix = attribute->get_namespace_prefix();
 
       std::cout << indent << "  Attribute ";

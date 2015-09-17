@@ -23,18 +23,23 @@ Element::~Element()
 Element::AttributeList Element::get_attributes()
 {
   AttributeList attributes;
-  for(auto attr = cobj()->properties; attr; attr = attr->next)
+  for (auto attr = cobj()->properties; attr; attr = attr->next)
   {
     Node::create_wrapper(reinterpret_cast<xmlNode*>(attr));
     attributes.push_back(reinterpret_cast<Attribute*>(attr->_private));
   }
-
   return attributes;
 }
 
-const Element::AttributeList Element::get_attributes() const
+Element::const_AttributeList Element::get_attributes() const
 {
-  return const_cast<Element*>(this)->get_attributes();
+  const_AttributeList attributes;
+  for (auto attr = cobj()->properties; attr; attr = attr->next)
+  {
+    Node::create_wrapper(reinterpret_cast<xmlNode*>(attr));
+    attributes.push_back(reinterpret_cast<const Attribute*>(attr->_private));
+  }
+  return attributes;
 }
 
 Attribute* Element::get_attribute(const Glib::ustring& name,
