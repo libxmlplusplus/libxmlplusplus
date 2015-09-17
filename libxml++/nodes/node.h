@@ -29,6 +29,7 @@ class Attribute;
 
 class Node;
 typedef std::vector<Node*> NodeSet;
+typedef std::vector<const Node*> const_NodeSet;
 
 // xmlpp::XPathResultType is similar to xmlXPathObjectType in libxml2.
 /** An XPath expression is evaluated to yield a result, which
@@ -282,7 +283,15 @@ public:
    * @throws xmlpp::exception If the XPath expression cannot be evaluated.
    * @throws xmlpp::internal_error If the result type is not nodeset.
    */
-  NodeSet find(const Glib::ustring& xpath) const;
+  NodeSet find(const Glib::ustring& xpath);
+
+  /** Find nodes from an XPath expression.
+   * @param xpath The XPath of the nodes.
+   * @returns The resulting const_NodeSet.
+   * @throws xmlpp::exception If the XPath expression cannot be evaluated.
+   * @throws xmlpp::internal_error If the result type is not nodeset.
+   */
+  const_NodeSet find(const Glib::ustring& xpath) const;
 
   /** A map of namespace prefixes to namespace URIs.
    */
@@ -295,7 +304,16 @@ public:
    * @throws xmlpp::exception If the XPath expression cannot be evaluated.
    * @throws xmlpp::internal_error If the result type is not nodeset.
    */
-  NodeSet find(const Glib::ustring& xpath, const PrefixNsMap& namespaces) const;
+  NodeSet find(const Glib::ustring& xpath, const PrefixNsMap& namespaces);
+
+  /** Find nodes from an XPath expression.
+   * @param xpath The XPath of the nodes.
+   * @param namespaces A map of namespace prefixes to namespace URIs to be used while finding.
+   * @returns The resulting const_NodeSet.
+   * @throws xmlpp::exception If the XPath expression cannot be evaluated.
+   * @throws xmlpp::internal_error If the result type is not nodeset.
+   */
+  const_NodeSet find(const Glib::ustring& xpath, const PrefixNsMap& namespaces) const;
 
   /** Evaluate an XPath expression.
    * @param xpath The XPath expression.
