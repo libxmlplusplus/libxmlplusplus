@@ -223,7 +223,7 @@ void Document::set_internal_subset(const Glib::ustring& name,
     dtd->_private = new Dtd(dtd);
 }
 
-Element* Document::get_root_node() const
+Element* Document::get_root_node()
 {
   auto root = xmlDocGetRootElement(impl_);
   if(root == nullptr)
@@ -233,6 +233,11 @@ Element* Document::get_root_node() const
     Node::create_wrapper(root);
     return reinterpret_cast<Element*>(root->_private);
   }
+}
+
+const Element* Document::get_root_node() const
+{
+  return const_cast<Document*>(this)->get_root_node();
 }
 
 Element* Document::create_root_node(const Glib::ustring& name,

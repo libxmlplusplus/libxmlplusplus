@@ -1,5 +1,3 @@
-// -*- C++ -*-
-
 /* svgdocument.h
  *
  * By Dan Dennedy <dan@dennedy.org> 
@@ -32,7 +30,7 @@ namespace SVG {
 class Document : public xmlpp::Document
 {
 public:
-  SVG::Element* get_root() const;
+  const SVG::Element* get_root() const;
   // TODO: add custom document methods
 };
 

@@ -1,5 +1,3 @@
-// -*- C++ -*-
-
 /* main.cc
  *
  * By Dan Dennedy <dan@dennedy.org> 
@@ -65,7 +63,7 @@ main(int argc, char* argv[])
     auto nl = element->find("//path[@style != '']");
     if(!nl.empty())
     {
-      auto path = dynamic_cast<SVG::Path*>(nl[0]);
+      auto path = dynamic_cast<const SVG::Path*>(nl[0]);
       std::cout << "style of first path node with a style = \"" << path->get_style() << "\"" << std::endl;
     }
   }
@@ -77,4 +75,3 @@ main(int argc, char* argv[])
   
   return EXIT_SUCCESS;
 }
-

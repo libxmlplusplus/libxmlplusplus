@@ -1,5 +1,3 @@
-// -*- C++ -*-
-
 /* svgdocument.cc
  *
  * By Dan Dennedy <dan@dennedy.org>
@@ -25,9 +23,9 @@
 
 namespace SVG {
 
-SVG::Element* Document::get_root() const
+const SVG::Element* Document::get_root() const
 {
-   return dynamic_cast<SVG::Element*>(get_root_node()); // RTTI
+   return dynamic_cast<const SVG::Element*>(get_root_node()); // RTTI
 }
 
 } //namespace SVG

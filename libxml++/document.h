@@ -95,13 +95,17 @@ public:
                            const Glib::ustring& external_id,
                            const Glib::ustring& system_id);
 
-  //TODO: There should be a const and non-const version.
-  //See the patch here: https://bugzilla.gnome.org/show_bug.cgi?id=632522
   /** Return the root node.
    * This function does @b not create a default root node if it doesn't exist.
    * @return A pointer to the root node if it exists, <tt>0</tt> otherwise.
    */
-  Element* get_root_node() const;
+  Element* get_root_node();
+
+  /** Return the root node.
+   * This function does @b not create a default root node if it doesn't exist.
+   * @return A pointer to the root node if it exists, <tt>0</tt> otherwise.
+   */
+  const Element* get_root_node() const;
 
   /** Create the root element node.
    * If the document already contains a root element node, it is replaced, and
