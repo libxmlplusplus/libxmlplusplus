@@ -4,150 +4,106 @@
  * included with libxml++ as the file COPYING.
  */
 
-// Include glibmm/threads.h first. It must be the first file to include glib.h,
-// because it temporarily undefines G_DISABLE_DEPRECATED while it includes glib.h.
-#include <glibmm/threads.h> // For Glib::Threads::Mutex. Needed until the next API/ABI break.
-
 #include "libxml++/exceptions/wrapped_exception.h"
 #include "libxml++/parsers/parser.h"
 
 #include <libxml/parser.h>
 
-#include <memory> //For unique_ptr.
-#include <map>
-
-//TODO: See several TODOs in parser.h for changes at the next API/ABI break.
-
-namespace // anonymous
+namespace xmlpp
 {
-// These are new data members that can't be added to xmlpp::Parser now,
-// because it would break ABI.
-struct ExtraParserData
+
+struct Parser::Impl
 {
-  // Strange default values for throw_*_messages chosen for backward compatibility.
-  ExtraParserData()
-  : throw_parser_messages_(false), throw_validity_messages_(true),
+  Impl()
+  :
+  throw_messages_(true), validate_(false), substitute_entities_(false),
   include_default_attributes_(false), set_options_(0), clear_options_(0)
   {}
 
+  // Built gradually - used in an exception at the end of parsing.
   Glib::ustring parser_error_;
   Glib::ustring parser_warning_;
-  bool throw_parser_messages_;
-  bool throw_validity_messages_;
+  Glib::ustring validate_error_;
+  Glib::ustring validate_warning_;
+
+  bool throw_messages_;
+  bool validate_;
+  bool substitute_entities_;
   bool include_default_attributes_;
   int set_options_;
   int clear_options_;
 };
 
-std::map<const xmlpp::Parser*, ExtraParserData> extra_parser_data;
-// Different Parser instances may run in different threads.
-// Accesses to extra_parser_data must be thread-safe.
-Glib::Threads::Mutex extra_parser_data_mutex;
-
-void on_parser_error(const xmlpp::Parser* parser, const Glib::ustring& message)
-{
-  Glib::Threads::Mutex::Lock lock(extra_parser_data_mutex);
-  //Throw an exception later when the whole message has been received:
-  extra_parser_data[parser].parser_error_ += message;
-}
-
-void on_parser_warning(const xmlpp::Parser* parser, const Glib::ustring& message)
-{
-  Glib::Threads::Mutex::Lock lock(extra_parser_data_mutex);
-  //Throw an exception later when the whole message has been received:
-  extra_parser_data[parser].parser_warning_ += message;
-}
-} // anonymous
-
-namespace xmlpp {
-
 Parser::Parser()
-: context_(nullptr), exception_(nullptr), validate_(false), substitute_entities_(false) //See doxygen comment on set_substiute_entities().
+: context_(nullptr), exception_(nullptr), pimpl_(new Impl)
 {
-
 }
 
 Parser::~Parser()
 {
   release_underlying();
   delete exception_;
-  Glib::Threads::Mutex::Lock lock(extra_parser_data_mutex);
-  extra_parser_data.erase(this);
 }
 
 void Parser::set_validate(bool val)
 {
-  validate_ = val;
+  pimpl_->validate_ = val;
 }
 
 bool Parser::get_validate() const
 {
-  return validate_;
+  return pimpl_->validate_;
 }
 
 void Parser::set_substitute_entities(bool val)
 {
-  substitute_entities_ = val;
+  pimpl_->substitute_entities_ = val;
 }
 
 bool Parser::get_substitute_entities() const
 {
-  return substitute_entities_;
+  return pimpl_->substitute_entities_;
 }
 
 void Parser::set_throw_messages(bool val)
 {
-  Glib::Threads::Mutex::Lock lock(extra_parser_data_mutex);
-  extra_parser_data[this].throw_parser_messages_ = val;
-  extra_parser_data[this].throw_validity_messages_ = val;
+  pimpl_->throw_messages_ = val;
 }
 
 bool Parser::get_throw_messages() const
 {
-  Glib::Threads::Mutex::Lock lock(extra_parser_data_mutex);
-  return extra_parser_data[this].throw_parser_messages_;
+  return pimpl_->throw_messages_;
 }
 
 void Parser::set_include_default_attributes(bool val)
 {
-  Glib::Threads::Mutex::Lock lock(extra_parser_data_mutex);
-  extra_parser_data[this].include_default_attributes_ = val;
+  pimpl_->include_default_attributes_ = val;
 }
 
 bool Parser::get_include_default_attributes()
 {
-  Glib::Threads::Mutex::Lock lock(extra_parser_data_mutex);
-  return extra_parser_data[this].include_default_attributes_;
+  return pimpl_->include_default_attributes_;
 }
 
 void Parser::set_parser_options(int set_options, int clear_options)
 {
-  Glib::Threads::Mutex::Lock lock(extra_parser_data_mutex);
-  extra_parser_data[this].set_options_ = set_options;
-  extra_parser_data[this].clear_options_ = clear_options;
+  pimpl_->set_options_ = set_options;
+  pimpl_->clear_options_ = clear_options;
 }
 
 void Parser::get_parser_options(int& set_options, int& clear_options)
 {
-  Glib::Threads::Mutex::Lock lock(extra_parser_data_mutex);
-  set_options = extra_parser_data[this].set_options_;
-  clear_options = extra_parser_data[this].clear_options_;
+  set_options = pimpl_->set_options_;
+  clear_options = pimpl_->clear_options_;
 }
 
 void Parser::initialize_context()
 {
-  Glib::Threads::Mutex::Lock lock(extra_parser_data_mutex);
-
   //Clear these temporary buffers:
-  extra_parser_data[this].parser_error_.erase();
-  extra_parser_data[this].parser_warning_.erase();
-  validate_error_.erase();
-  validate_warning_.erase();
-
-  // Take a copy of the extra data, so we don't have to access
-  // the extra_parser_data map more than necessary.
-  const auto extra_parser_data_this = extra_parser_data[this];
-  lock.release();
+  pimpl_->parser_error_.erase();
+  pimpl_->parser_warning_.erase();
+  pimpl_->validate_error_.erase();
+  pimpl_->validate_warning_.erase();
 
   //Disactivate any non-standards-compliant libxml1 features.
   //These are disactivated by default, but if we don't deactivate them for each context
@@ -157,28 +113,28 @@ void Parser::initialize_context()
 
   //Turn on/off validation, entity substitution and default attribute inclusion.
   int options = context_->options;
-  if (validate_)
+  if (pimpl_->validate_)
     options |= XML_PARSE_DTDVALID;
   else
     options &= ~XML_PARSE_DTDVALID;
 
-  if (substitute_entities_)
+  if (pimpl_->substitute_entities_)
     options |= XML_PARSE_NOENT;
   else
     options &= ~XML_PARSE_NOENT;
 
-  if (extra_parser_data_this.include_default_attributes_)
+  if (pimpl_->include_default_attributes_)
     options |= XML_PARSE_DTDATTR;
   else
     options &= ~XML_PARSE_DTDATTR;
 
   //Turn on/off any parser options.
-  options |= extra_parser_data_this.set_options_;
-  options &= ~extra_parser_data_this.clear_options_;
+  options |= pimpl_->set_options_;
+  options &= ~pimpl_->clear_options_;
 
   xmlCtxtUseOptions(context_, options);
 
-  if (context_->sax && extra_parser_data_this.throw_parser_messages_)
+  if (context_->sax && pimpl_->throw_messages_)
   {
     //Tell the parser context about the callbacks.
     context_->sax->fatalError = &callback_parser_error;
@@ -186,7 +142,7 @@ void Parser::initialize_context()
     context_->sax->warning = &callback_parser_warning;
   }
 
-  if (extra_parser_data_this.throw_validity_messages_)
+  if (pimpl_->throw_messages_)
   {
     //Tell the validity context about the callbacks:
     //(These are only called if validation is on - see above)
@@ -194,7 +150,7 @@ void Parser::initialize_context()
     context_->vctxt.warning = &callback_validity_warning;
   }
 
-  //Allow the callback_validity_*() methods to retrieve the C++ instance:
+  //Allow callback_error_or_warning() to retrieve the C++ instance:
   context_->_private = this;
 }
 
@@ -214,51 +170,61 @@ void Parser::release_underlying()
   }
 }
 
+void Parser::on_parser_error(const Glib::ustring& message)
+{
+  //Throw an exception later when the whole message has been received:
+  pimpl_->parser_error_ += message;
+}
+
+void Parser::on_parser_warning(const Glib::ustring& message)
+{
+  //Throw an exception later when the whole message has been received:
+  pimpl_->parser_warning_ += message;
+}
 void Parser::on_validity_error(const Glib::ustring& message)
 {
   //Throw an exception later when the whole message has been received:
-  validate_error_ += message;
+  pimpl_->validate_error_ += message;
 }
 
 void Parser::on_validity_warning(const Glib::ustring& message)
 {
   //Throw an exception later when the whole message has been received:
-  validate_warning_ += message;
+  pimpl_->validate_warning_ += message;
 }
 
-void Parser::check_for_validity_messages() // Also checks parser messages
+void Parser::check_for_error_and_warning_messages()
 {
   Glib::ustring msg(exception_ ? exception_->what() : "");
   bool parser_msg = false;
   bool validity_msg = false;
 
-  Glib::Threads::Mutex::Lock lock(extra_parser_data_mutex);
-  if (!extra_parser_data[this].parser_error_.empty())
+  if (!pimpl_->parser_error_.empty())
   {
     parser_msg = true;
-    msg += "\nParser error:\n" + extra_parser_data[this].parser_error_;
-    extra_parser_data[this].parser_error_.erase();
+    msg += "\nParser error:\n" + pimpl_->parser_error_;
+    pimpl_->parser_error_.erase();
   }
 
-  if (!extra_parser_data[this].parser_warning_.empty())
+  if (!pimpl_->parser_warning_.empty())
   {
     parser_msg = true;
-    msg += "\nParser warning:\n" + extra_parser_data[this].parser_warning_;
-    extra_parser_data[this].parser_warning_.erase();
+    msg += "\nParser warning:\n" + pimpl_->parser_warning_;
+    pimpl_->parser_warning_.erase();
   }
 
-  if (!validate_error_.empty())
+  if (!pimpl_->validate_error_.empty())
   {
     validity_msg = true;
-    msg += "\nValidity error:\n" + validate_error_;
-    validate_error_.erase();
+    msg += "\nValidity error:\n" + pimpl_->validate_error_;
+    pimpl_->validate_error_.erase();
   }
 
-  if (!validate_warning_.empty())
+  if (!pimpl_->validate_warning_.empty())
   {
     validity_msg = true;
-    msg += "\nValidity warning:\n" + validate_warning_;
-    validate_warning_.erase();
+    msg += "\nValidity warning:\n" + pimpl_->validate_warning_;
+    pimpl_->validate_warning_.erase();
   }
 
   if (parser_msg || validity_msg)
@@ -271,6 +237,7 @@ void Parser::check_for_validity_messages() // Also checks parser messages
   }
 }
   
+//static
 void Parser::callback_parser_error(void* ctx, const char* msg, ...)
 {
   va_list var_args;
@@ -279,6 +246,7 @@ void Parser::callback_parser_error(void* ctx, const char* msg, ...)
   va_end(var_args);
 }
 
+//static
 void Parser::callback_parser_warning(void* ctx, const char* msg, ...)
 {
   va_list var_args;
@@ -287,6 +255,7 @@ void Parser::callback_parser_warning(void* ctx, const char* msg, ...)
   va_end(var_args);
 }
 
+//static
 void Parser::callback_validity_error(void* ctx, const char* msg, ...)
 {
   va_list var_args;
@@ -295,6 +264,7 @@ void Parser::callback_validity_error(void* ctx, const char* msg, ...)
   va_end(var_args);
 }
 
+//static
 void Parser::callback_validity_warning(void* ctx, const char* msg, ...)
 {
   va_list var_args;
@@ -303,6 +273,7 @@ void Parser::callback_validity_warning(void* ctx, const char* msg, ...)
   va_end(var_args);
 }
 
+//static
 void Parser::callback_error_or_warning(MsgType msg_type, void* ctx,
                                        const char* msg, va_list var_args)
 {
@@ -334,10 +305,10 @@ void Parser::callback_error_or_warning(MsgType msg_type, void* ctx,
         switch (msg_type)
         {
           case MsgParserError:
-            on_parser_error(parser, ubuff);
+            parser->on_parser_error(ubuff);
             break;
           case MsgParserWarning:
-            on_parser_warning(parser, ubuff);
+            parser->on_parser_warning(ubuff);
             break;
           case MsgValidityError:
             parser->on_validity_error(ubuff);
@@ -372,7 +343,7 @@ void Parser::handleException(const exception& e)
 
 void Parser::check_for_exception()
 {
-  check_for_validity_messages();
+  check_for_error_and_warning_messages();
   
   if(exception_)
   {

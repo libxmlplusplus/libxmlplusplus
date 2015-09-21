@@ -103,7 +103,7 @@ public:
    * @throws xmlpp::parse_error
    * @throws xmlpp::validity_error
    */
-  void parse_memory_raw(const unsigned char* contents, size_type bytes_count);
+  void parse_memory_raw(const unsigned char* contents, size_type bytes_count) override;
 
   /** Parse an XML document from a stream.
    * @param in The stream.

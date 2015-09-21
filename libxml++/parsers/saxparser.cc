@@ -77,6 +77,9 @@ SaxParser::SaxParser(bool use_get_entity)
     0,  // serror
   };
   *sax_handler_ = temp;
+
+  // The default action is to call on_warning(), on_error(), on_fatal_error().
+  set_throw_messages(false);
 }
 
 SaxParser::~SaxParser()
