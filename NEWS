@@ -1,3 +1,18 @@
+2.40:
+
+Major changes since 2.38:
+
+* Use (and require) C++11.
+  (Murray Cumming, Kjell Ahlstedt, Mikhail Titov)
+* SaxParser: Fix “double free or corruption” if a std::exception is thrown
+  by a handler method.
+  (Daniel Trebbien, Kjell Ahlstedt)
+
+2.40.0 (unstable):
+
+* Build improvements.
+  (Kjell Ahlstedt)
+
 2.39.2 (unstable):
 
 * SaxParser: Fix “double free or corruption” if a std::exception is thrown
