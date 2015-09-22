@@ -51,11 +51,6 @@ int main(int argc, char* argv[])
   Glib::ustring phase;
   try
   {
-#ifndef LIBXMLXX_DISABLE_DEPRECATED
-    phase = "XML"; // XSD schema, old validator class
-    xmlpp::SchemaValidator schemavalidator(xsdschemafilepath);
-#endif // LIBXMLXX_DISABLE_DEPRECATED
-
     phase = "XSD";
     xmlpp::XsdValidator xsdvalidator(xsdschemafilepath);
 
@@ -66,12 +61,6 @@ int main(int argc, char* argv[])
     {
       phase = "parsing";
       xmlpp::DomParser parser(docfilepath);
-
-#ifndef LIBXMLXX_DISABLE_DEPRECATED
-      phase = "XML validating";
-      schemavalidator.validate(parser.get_document());
-      std::cout << "Valid document, SchemaValidator" << std::endl;
-#endif // LIBXMLXX_DISABLE_DEPRECATED
 
       phase = "XSD validating";
       xsdvalidator.validate(parser.get_document());

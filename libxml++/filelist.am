@@ -9,7 +9,6 @@ h_root_sources_public = \
   keepblanks.h \
   noncopyable.h \
   relaxngschema.h \
-  schema.h \
   schemabase.h \
   xsdschema.h
 h_exceptions_sources_public = \
@@ -42,7 +41,6 @@ h_parsers_sources_public = \
 h_validators_sources_public = \
   validators/dtdvalidator.h \
   validators/relaxngvalidator.h \
-  validators/schemavalidator.h \
   validators/schemavalidatorbase.h \
   validators/validator.h \
   validators/xsdvalidator.h
