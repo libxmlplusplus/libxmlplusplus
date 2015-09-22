@@ -16,8 +16,9 @@
 #include <libxml++/exceptions/internal_error.h>
 
 #include <istream>
-#include <cstdarg> //For va_list.
+#include <cstdarg> // va_list
 #include <memory> // std::unique_ptr
+#include <exception> // std::exception_ptr
 
 #ifndef DOXYGEN_SHOULD_SKIP_THIS
 extern "C" {
@@ -173,7 +174,8 @@ protected:
   virtual void on_validity_error(const Glib::ustring& message);
   virtual void on_validity_warning(const Glib::ustring& message);
 
-  virtual void handleException(const exception& e);
+  /// To be called in an exception handler.
+  virtual void handle_exception();
   virtual void check_for_exception();
 
   virtual void check_for_error_and_warning_messages();
@@ -195,7 +197,7 @@ protected:
                                         const char* msg, va_list var_args);
 
   _xmlParserCtxt* context_;
-  exception* exception_;
+  std::exception_ptr exception_ptr_;
 
 private:
   struct Impl;

@@ -4,7 +4,6 @@
  * included with libxml++ as the file COPYING.
  */
 
-#include "libxml++/exceptions/wrapped_exception.h"
 #include "libxml++/parsers/parser.h"
 
 #include <libxml/parser.h>
@@ -35,14 +34,13 @@ struct Parser::Impl
 };
 
 Parser::Parser()
-: context_(nullptr), exception_(nullptr), pimpl_(new Impl)
+: context_(nullptr), exception_ptr_(nullptr), pimpl_(new Impl)
 {
 }
 
 Parser::~Parser()
 {
   release_underlying();
-  delete exception_;
 }
 
 void Parser::set_validate(bool val)
@@ -195,7 +193,20 @@ void Parser::on_validity_warning(const Glib::ustring& message)
 
 void Parser::check_for_error_and_warning_messages()
 {
-  Glib::ustring msg(exception_ ? exception_->what() : "");
+  Glib::ustring msg;
+  try
+  {
+    if (exception_ptr_)
+      std::rethrow_exception(exception_ptr_);
+  }
+  catch (const std::exception& e)
+  {
+    msg = e.what();
+  }
+  catch (...)
+  {
+    msg = "Unknown exception\n";
+  }
   bool parser_msg = false;
   bool validity_msg = false;
 
@@ -227,13 +238,16 @@ void Parser::check_for_error_and_warning_messages()
     pimpl_->validate_warning_.erase();
   }
 
-  if (parser_msg || validity_msg)
+  try
   {
-    delete exception_;
     if (validity_msg)
-      exception_ = new validity_error(msg);
-    else
-      exception_ = new parse_error(msg);
+      throw validity_error(msg);
+    else if (parser_msg)
+      throw parse_error(msg);
+  }
+  catch (...)
+  {
+    exception_ptr_ = std::current_exception();
   }
 }
   
@@ -318,24 +332,19 @@ void Parser::callback_error_or_warning(MsgType msg_type, void* ctx,
             break;
         }
       }
-      catch(const exception& e)
+      catch (...)
       {
-        parser->handleException(e);
-      }
-      catch(...)
-      {
-        parser->handleException(wrapped_exception(std::current_exception()));
+        parser->handle_exception();
       }
     }
   }
 }
 
-void Parser::handleException(const exception& e)
+void Parser::handle_exception()
 {
-  delete exception_;
-  exception_ = e.Clone();
+  exception_ptr_ = std::current_exception();
 
-  if(context_)
+  if (context_)
     xmlStopParser(context_);
 
   //release_underlying();
@@ -345,13 +354,12 @@ void Parser::check_for_exception()
 {
   check_for_error_and_warning_messages();
   
-  if(exception_)
+  if (exception_ptr_)
   {
-    std::unique_ptr<exception> tmp(exception_);
-    exception_ = nullptr;
-    tmp->Raise();
+    std::exception_ptr tmp(exception_ptr_);
+    exception_ptr_ = nullptr;
+    std::rethrow_exception(tmp);
   }
 }
 
 } // namespace xmlpp
-

@@ -5,7 +5,6 @@
  * included with libxml++ as the file COPYING.
  */
 
-#include "libxml++/exceptions/wrapped_exception.h"
 #include "libxml++/validators/validator.h"
 
 #include <libxml/parser.h>
@@ -16,7 +15,7 @@
 namespace xmlpp {
 
 Validator::Validator()
-: valid_(nullptr), exception_(nullptr)
+: valid_(nullptr), exception_ptr_(nullptr)
 {
 }
 
@@ -69,7 +68,20 @@ void Validator::on_validity_warning(const Glib::ustring& message)
 
 void Validator::check_for_validity_messages()
 {
-  Glib::ustring msg(exception_ ? exception_->what() : "");
+  Glib::ustring msg;
+  try
+  {
+    if (exception_ptr_)
+      std::rethrow_exception(exception_ptr_);
+  }
+  catch (const std::exception& e)
+  {
+    msg = e.what();
+  }
+  catch (...)
+  {
+    msg = "Unknown exception\n";
+  }
   bool validity_msg = false;
 
   if (!validate_error_.empty())
@@ -86,10 +98,14 @@ void Validator::check_for_validity_messages()
     validate_warning_.erase();
   }
 
-  if (validity_msg)
+  try
   {
-    delete exception_;
-    exception_ = new validity_error(msg);
+    if (validity_msg)
+      throw validity_error(msg);
+  }
+  catch (...)
+  {
+    exception_ptr_ = std::current_exception();
   }
 }
 
@@ -111,13 +127,9 @@ void Validator::callback_validity_error(void* valid_, const char* msg, ...)
     {
       validator->on_validity_error(Glib::ustring(buff));
     }
-    catch(const exception& e)
+    catch (...)
     {
-      validator->handleException(e);
-    }
-    catch(...)
-    {
-      validator->handleException(wrapped_exception(std::current_exception()));
+      validator->handle_exception();
     }
   }
 }
@@ -140,26 +152,21 @@ void Validator::callback_validity_warning(void* valid_, const char* msg, ...)
     {
       validator->on_validity_warning(Glib::ustring(buff));
     }
-    catch(const exception& e)
+    catch (...)
     {
-      validator->handleException(e);
-    }
-    catch(...)
-    {
-      validator->handleException(wrapped_exception(std::current_exception()));
+      validator->handle_exception();
     }
   }
 }
 
-void Validator::handleException(const exception& e)
+void Validator::handle_exception()
 {
-  delete exception_;
-  exception_ = e.Clone();
+  exception_ptr_ = std::current_exception();
 
   // Don't delete the DTD validation context or schema validation context
   // while validating. It would cause accesses to deallocated memory in libxml2
   // functions after the return from Validator::callback_validity_...().
-  // Parser::handleException() calls xmlStopParser(), but there is no
+  // Parser::handle_exception() calls xmlStopParser(), but there is no
   // xmlStopValidator() or similar function to call here.
   // We don't throw the exception here, since it would have to pass through
   // C functions. That's not guaranteed to work. It might work, but it depends
@@ -171,12 +178,12 @@ void Validator::handleException(const exception& e)
 void Validator::check_for_exception()
 {
   check_for_validity_messages();
-
-  if(exception_)
+  
+  if (exception_ptr_)
   {
-    std::unique_ptr<exception> tmp(exception_);
-    exception_ = nullptr;
-    tmp->Raise();
+    std::exception_ptr tmp(exception_ptr_);
+    exception_ptr_ = nullptr;
+    std::rethrow_exception(tmp);
   }
 }
 

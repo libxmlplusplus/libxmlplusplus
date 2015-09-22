@@ -15,6 +15,7 @@
 #include <libxml++/nodes/element.h>
 #include <libxml++/exceptions/validity_error.h>
 #include <libxml++/exceptions/internal_error.h>
+#include <exception> // std::exception_ptr
 
 extern "C" {
   struct _xmlValidCtxt;
@@ -37,7 +38,8 @@ protected:
   virtual void on_validity_error(const Glib::ustring& message);
   virtual void on_validity_warning(const Glib::ustring& message);
 
-  virtual void handleException(const exception& e);
+  /// To be called in an exception handler.
+  virtual void handle_exception();
   virtual void check_for_exception();
   virtual void check_for_validity_messages();
 
@@ -45,12 +47,12 @@ protected:
   static void callback_validity_warning(void* ctx, const char* msg, ...);
 
   _xmlValidCtxt* valid_;
-  exception* exception_;
+  std::exception_ptr exception_ptr_;
+  // Built gradually - used in an exception at the end of validation.
   Glib::ustring validate_error_;
-  Glib::ustring validate_warning_; //Built gradually - used in an exception at the end of parsing.
+  Glib::ustring validate_warning_;
 };
 
 } // namespace xmlpp
 
 #endif //__LIBXMLPP_VALIDATOR_H
-
