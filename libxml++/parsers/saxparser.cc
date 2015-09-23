@@ -39,7 +39,7 @@ struct SaxParserCallback
 
 
 SaxParser::SaxParser(bool use_get_entity)
-  : sax_handler_( new _xmlSAXHandler )
+  : sax_handler_(new _xmlSAXHandler), entity_resolver_doc_(new Document)
 {
   xmlSAXHandler temp = {
     SaxParserCallback::internal_subset,
@@ -88,12 +88,12 @@ SaxParser::~SaxParser()
 
 xmlEntityPtr SaxParser::on_get_entity(const Glib::ustring& name)
 {
-  return entity_resolver_doc_.get_entity(name);
+  return entity_resolver_doc_->get_entity(name);
 }
 
 void SaxParser::on_entity_declaration(const Glib::ustring& name, XmlEntityType type, const Glib::ustring& publicId, const Glib::ustring& systemId, const Glib::ustring& content)
 {
-  entity_resolver_doc_.set_entity_declaration(name, type, publicId, systemId, content);
+  entity_resolver_doc_->set_entity_declaration(name, type, publicId, systemId, content);
 }  
 
 void SaxParser::on_start_document()
@@ -142,21 +142,13 @@ void SaxParser::on_internal_subset(const Glib::ustring& name,
                          const Glib::ustring& publicId,
                          const Glib::ustring& systemId)
 {
-  entity_resolver_doc_.set_internal_subset(name, publicId, systemId);
+  entity_resolver_doc_->set_internal_subset(name, publicId, systemId);
 }
 
 // implementation of this function is inspired by the SAX documentation by James Henstridge.
 // (http://www.daa.com.au/~james/gnome/xml-sax/implementing.html)
 void SaxParser::parse()
 {
-  //TODO If this is not the first parsing with this SaxParser, the xmlDoc object
-  // in entity_resolver_doc_ should be deleted and replaced by a new one.
-  // Otherwise entity declarations from a previous parsing may erroneously affect
-  // this parsing. This would be much easier if entity_resolver_doc_ were a
-  // std::unique_ptr<Document>, so the xmlpp::Document could be deleted and a new
-  // one created. A good place for such code would be in an overridden
-  // SaxParser::initialize_context(). It would be an ABI break.
-
   if(!context_)
   {
     throw internal_error("Parser context not created.");
@@ -326,11 +318,6 @@ void SaxParser::parse_chunk_raw(const unsigned char* contents, size_type bytes_c
   }
 }
 
-void SaxParser::release_underlying()
-{
-  Parser::release_underlying();
-}
-
 void SaxParser::finish_chunk_parsing()
 {
   xmlResetLastError();
@@ -369,6 +356,18 @@ void SaxParser::finish_chunk_parsing()
   {
     throw parse_error(error_str);
   }
+}
+
+void SaxParser::release_underlying()
+{
+  Parser::release_underlying();
+}
+
+void SaxParser::initialize_context()
+{
+  Parser::initialize_context();
+  // Start with an empty Document for entity resolution.
+  entity_resolver_doc_.reset(new Document);
 }
 
 

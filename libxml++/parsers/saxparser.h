@@ -209,6 +209,7 @@ protected:
   virtual void on_entity_declaration(const Glib::ustring& name, XmlEntityType type, const Glib::ustring& publicId, const Glib::ustring& systemId, const Glib::ustring& content);
 
   void release_underlying() override;
+  void initialize_context() override;
   
 private:
   void parse();
@@ -217,7 +218,7 @@ private:
 
   // A separate xmlpp::Document that is just used for entity resolution,
   // and never seen in the API:
-  xmlpp::Document entity_resolver_doc_;
+  std::unique_ptr<Document> entity_resolver_doc_;
 
   friend struct SaxParserCallback;
 };
