@@ -113,14 +113,13 @@ public:
    */
   void parse_stream(std::istream& in) override;
   
-  //TODO: Remove virtual when we can break ABI?
   /** Parse a chunk of data.
    *
    * This lets you pass a document in small chunks, e.g. from a network
    * connection. The on_* virtual functions are called each time the chunks
    * provide enough information to advance the parser.
    *
-   * The first call to parse_chunk will setup the parser. When the last chunk
+   * The first call to parse_chunk() will setup the parser. When the last chunk
    * has been parsed, call finish_chunk_parsing() to finish the parse.
    *
    * @param chunk The next piece of the XML document.
@@ -128,7 +127,7 @@ public:
    * @throws xmlpp::parse_error
    * @throws xmlpp::validity_error
    */
-  virtual void parse_chunk(const Glib::ustring& chunk);
+  void parse_chunk(const Glib::ustring& chunk);
 
   /** Parse a chunk of data.
    *
@@ -138,7 +137,7 @@ public:
    * connection. The on_* virtual functions are called each time the chunks
    * provide enough information to advance the parser.
    *
-   * The first call to parse_chunk will setup the parser. When the last chunk
+   * The first call to parse_chunk_raw() will setup the parser. When the last chunk
    * has been parsed, call finish_chunk_parsing() to finish the parse.
    *
    * @param contents The next piece of the XML document as an array of bytes.
@@ -149,16 +148,15 @@ public:
    */
   void parse_chunk_raw(const unsigned char* contents, size_type bytes_count);
 
-  //TODO: Remove virtual when we can break ABI?
   /** Finish a chunk-wise parse.
    *
-   * Call this after the last call to parse_chunk(). Don't use this function with
-   * the other parsing methods.
+   * Call this after the last call to parse_chunk() or parse_chunk_raw().
+   * Don't use this function with the other parsing methods.
    * @throws xmlpp::internal_error
    * @throws xmlpp::parse_error
    * @throws xmlpp::validity_error
    */
-  virtual void finish_chunk_parsing();
+  void finish_chunk_parsing();
 
 protected:
         
@@ -213,8 +211,7 @@ protected:
   void release_underlying() override;
   
 private:
-  //TODO: Remove the virtual when we can break ABI?
-  virtual void parse();
+  void parse();
   
   std::unique_ptr<_xmlSAXHandler> sax_handler_;
 

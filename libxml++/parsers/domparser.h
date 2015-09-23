@@ -90,8 +90,7 @@ public:
   const Document* get_document() const;
   
 protected:
-  //TODO: Remove the virtual when we can break ABI?
-  virtual void parse_context();
+  void parse_context();
 
   void release_underlying() override;
   
