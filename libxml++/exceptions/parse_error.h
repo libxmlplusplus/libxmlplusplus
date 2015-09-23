@@ -1,5 +1,3 @@
-// -*- C++ -*-
-
 /* parse_error.h
  *
  * Copyright (C) 2002 The libxml++ development team
@@ -32,14 +30,11 @@ namespace xmlpp
 
 /** This exception will be thrown when the parser encounters an error in the XML document.
  */  
-class parse_error: public exception
+class parse_error : public exception
 {
 public:
   explicit parse_error(const Glib::ustring& message);
   ~parse_error() noexcept override;
-
-  void Raise() const override;
-  exception* Clone() const override;
 };
 
 } // namespace xmlpp

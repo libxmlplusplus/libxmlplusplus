@@ -1,5 +1,3 @@
-// -*- C++ -*-
-
 /* validity_error.h
  *
  * Copyright (C) 2002 The libxml++ development team
@@ -29,14 +27,11 @@ namespace xmlpp
 
 /** This exception will be thrown when the parser encounters a validity error in the XML document.
  */
-class validity_error: public parse_error
+class validity_error : public parse_error
 {
 public:
   explicit validity_error(const Glib::ustring& message);
   ~validity_error() noexcept override;
-
-  void Raise() const override;
-  exception* Clone() const override;
 };
 
 } // namespace xmlpp

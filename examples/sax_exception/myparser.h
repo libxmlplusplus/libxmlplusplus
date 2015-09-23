@@ -1,5 +1,3 @@
-// -*- C++ -*-
-
 /* myparser.h
  *
  * Copyright (C) 2002 The libxml++ development team
@@ -29,8 +27,6 @@ class MyException: public xmlpp::exception
   public:
     MyException();
     ~MyException() noexcept override;
-    void Raise() const override;
-    xmlpp::exception * Clone() const override;
 };
 
 class MySaxParser : public xmlpp::SaxParser

@@ -1,5 +1,3 @@
-// -*- C++ -*-
-
 /* myparser.cc
  *
  * Copyright (C) 2002 The libxml++ development team
@@ -34,16 +32,6 @@ MyException::MyException()
 
 MyException::~MyException() throw ()
 {
-}
-
-void MyException::Raise() const
-{
-  throw *this;
-}
-
-xmlpp::exception * MyException::Clone() const
-{
-  return new MyException(*this);
 }
 
 /*

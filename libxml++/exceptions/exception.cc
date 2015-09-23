@@ -17,16 +17,6 @@ const char* exception::what() const noexcept
   return message_.c_str();
 }
 
-void exception::Raise() const
-{
-  throw *this;
-}
-
-exception * exception::Clone() const
-{
-  return new exception(*this);
-}
-
 Glib::ustring format_xml_error(const _xmlError* error)
 {
   if (!error)
@@ -103,4 +93,3 @@ Glib::ustring format_xml_parser_error(const _xmlParserCtxt* parser_context)
 }
 
 } //namespace xmlpp
-

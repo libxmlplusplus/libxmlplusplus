@@ -1,5 +1,3 @@
-// -*- C++ -*-
-
 /* internal_error.h
  *
  * Copyright (C) 2002 The libxml++ development team
@@ -29,14 +27,11 @@
 
 namespace xmlpp {
   
-class internal_error: public exception
+class internal_error : public exception
 {
 public:
   explicit internal_error(const Glib::ustring& message);
   ~internal_error() noexcept override;
-
-  void Raise() const override;
-  exception * Clone() const override;
 };
 
 } // namespace xmlpp

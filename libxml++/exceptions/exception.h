@@ -1,5 +1,3 @@
-// -*- C++ -*-
-
 /* exception.h
  *
  * Copyright (C) 2002 The libxml++ development team
@@ -37,17 +35,13 @@ namespace xmlpp
 
 /** Base class for all xmlpp exceptions.
  */
-class LIBXMLPP_API exception: public std::exception
+class LIBXMLPP_API exception : public std::exception
 {
 public:
   explicit exception(const Glib::ustring& message);
   ~exception() noexcept override;
 
   const char* what() const noexcept override;
-
-  //TODO: Use lower-case names when we can break ABI?
-  virtual void Raise() const;
-  virtual exception * Clone() const;
 
 private:
   Glib::ustring message_;
