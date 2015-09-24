@@ -22,18 +22,18 @@ namespace xmlpp
 {
 
 DtdValidator::DtdValidator()
-: dtd_(nullptr)
+: context_(nullptr), dtd_(nullptr)
 {
 }
 
 DtdValidator::DtdValidator(const Glib::ustring& file)
-: dtd_(nullptr)
+: context_(nullptr), dtd_(nullptr)
 {
   parse_subset("",file);
 }
 
 DtdValidator::DtdValidator(const Glib::ustring& external, const Glib::ustring& system)
-: dtd_(nullptr)
+: context_(nullptr), dtd_(nullptr)
 {
   parse_subset(external,system);
 }
@@ -41,7 +41,6 @@ DtdValidator::DtdValidator(const Glib::ustring& external, const Glib::ustring& s
 DtdValidator::~DtdValidator()
 {
   release_underlying();
-  Validator::release_underlying();
 }
 
 void DtdValidator::parse_file(const Glib::ustring& filename)
@@ -93,9 +92,32 @@ void DtdValidator::parse_stream(std::istream& in)
   dtd_ = static_cast<Dtd*>(dtd->_private);
 }
 
+void DtdValidator::initialize_context()
+{
+  Validator::initialize_context();
+
+  if (context_)
+  {
+    //Tell the validation context about the callbacks:
+    context_->error = &callback_validity_error;
+    context_->warning = &callback_validity_warning;
+
+    //Allow the callback_validity_*() methods to retrieve the C++ instance:
+    context_->userData = this;
+  }
+}
+
 void DtdValidator::release_underlying()
 {
-  if(dtd_)
+  if (context_)
+  {
+    context_->userData = nullptr; //Not really necessary.
+
+    xmlFreeValidCtxt(context_);
+    context_ = nullptr;
+  }
+
+  if (dtd_)
   {
     //Make a local pointer to the underlying xmlDtd object as the wrapper is destroyed first.
     //After free_wrappers is called dtd_ will be invalid (e.g. delete dtd_)
@@ -104,6 +126,8 @@ void DtdValidator::release_underlying()
     xmlFreeDtd(dtd);
     dtd_ = nullptr;
   }
+
+  Validator::release_underlying();
 }
 
 DtdValidator::operator bool() const noexcept
@@ -134,18 +158,18 @@ void DtdValidator::validate(const Document* document)
   }
 
   // A context is required at this stage only
-  if (!valid_)
-    valid_ = xmlNewValidCtxt();
+  if (!context_)
+    context_ = xmlNewValidCtxt();
 
-  if(!valid_)
+  if(!context_)
   {
     throw internal_error("Couldn't create validation context");
   }
 
   xmlResetLastError();
-  initialize_valid();
+  initialize_context();
 
-  const bool res = (bool)xmlValidateDtd( valid_, (xmlDoc*)document->cobj(), dtd_->cobj() );
+  const bool res = (bool)xmlValidateDtd( context_, (xmlDoc*)document->cobj(), dtd_->cobj() );
 
   if (!res)
   {

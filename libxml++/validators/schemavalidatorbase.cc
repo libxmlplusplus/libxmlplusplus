@@ -36,9 +36,9 @@ void SchemaValidatorBase::release_underlying()
   Validator::release_underlying();
 }
 
-void SchemaValidatorBase::initialize_valid()
+void SchemaValidatorBase::initialize_context()
 {
-  Validator::initialize_valid();
+  Validator::initialize_context();
 }
 
 } // namespace xmlpp

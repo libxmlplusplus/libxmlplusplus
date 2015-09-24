@@ -62,7 +62,7 @@ public:
   explicit virtual operator bool() const noexcept = 0;
 
 protected:
-  virtual void initialize_valid();
+  virtual void initialize_context();
   virtual void release_underlying();
 
   virtual void on_validity_error(const Glib::ustring& message);
@@ -76,7 +76,6 @@ protected:
   static void callback_validity_error(void* ctx, const char* msg, ...);
   static void callback_validity_warning(void* ctx, const char* msg, ...);
 
-  _xmlValidCtxt* valid_;
   std::exception_ptr exception_ptr_;
   // Built gradually - used in an exception at the end of validation.
   Glib::ustring validate_error_;

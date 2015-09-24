@@ -89,7 +89,7 @@ public:
   virtual void validate(const Glib::ustring& filename) = 0;
 
 protected:
-  void initialize_valid() override;
+  void initialize_context() override;
   void release_underlying() override;
 };
 

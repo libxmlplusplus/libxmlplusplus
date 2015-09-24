@@ -123,10 +123,10 @@ RelaxNGValidator::operator bool() const noexcept
 }
 
 
-void RelaxNGValidator::initialize_valid()
+void RelaxNGValidator::initialize_context()
 {
   xmlRelaxNGSetValidErrors(pimpl_->context, &callback_validity_error, &callback_validity_warning, this);
-  SchemaValidatorBase::initialize_valid();
+  SchemaValidatorBase::initialize_context();
 }
 
 void RelaxNGValidator::validate(const Document* document)
@@ -145,7 +145,7 @@ void RelaxNGValidator::validate(const Document* document)
     throw internal_error("RelaxNGValidator::validate(): Could not create validating context");
 
   xmlResetLastError();
-  initialize_valid();
+  initialize_context();
 
   const int res = xmlRelaxNGValidateDoc(pimpl_->context, const_cast<xmlDoc*>(document->cobj()));
   if (res != 0)

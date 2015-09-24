@@ -138,7 +138,7 @@ public:
   void validate(const Glib::ustring& filename) override;
 
 protected:
-  void initialize_valid() override;
+  void initialize_context() override;
   void release_underlying() override;
 
 private:

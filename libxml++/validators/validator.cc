@@ -15,7 +15,7 @@
 namespace xmlpp {
 
 Validator::Validator()
-: valid_(nullptr), exception_ptr_(nullptr)
+: exception_ptr_(nullptr)
 {
 }
 
@@ -24,34 +24,15 @@ Validator::~Validator()
   release_underlying();
 }
 
-void Validator::initialize_valid()
+void Validator::initialize_context()
 {
-  // valid_ is used only by DtdValidator.
-  //TODO: When we can break ABI, move valid_ to DtdValidator.
-  if (valid_)
-  {
-    //Tell the validation context about the callbacks:
-    valid_->error = &callback_validity_error;
-    valid_->warning = &callback_validity_warning;
-
-    //Allow the callback_validity_*() methods to retrieve the C++ instance:
-    valid_->userData = this;
-  }
-
-  //Clear these temporary buffers too:
+  //Clear these temporary buffers:
   validate_error_.erase();
   validate_warning_.erase();
 }
 
 void Validator::release_underlying()
 {
-  if(valid_)
-  {
-    valid_->userData = nullptr; //Not really necessary.
-
-    xmlFreeValidCtxt(valid_);
-    valid_ = nullptr;
-  }
 }
 
 void Validator::on_validity_error(const Glib::ustring& message)

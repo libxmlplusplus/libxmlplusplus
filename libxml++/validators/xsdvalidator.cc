@@ -120,10 +120,10 @@ XsdValidator::operator bool() const noexcept
 }
 
 
-void XsdValidator::initialize_valid()
+void XsdValidator::initialize_context()
 {
   xmlSchemaSetValidErrors(pimpl_->context, &callback_validity_error, &callback_validity_warning, this);
-  SchemaValidatorBase::initialize_valid();
+  SchemaValidatorBase::initialize_context();
 }
 
 
@@ -143,7 +143,7 @@ void XsdValidator::validate(const Document* document)
     throw internal_error("XsdValidator::validate(): Could not create validating context");
 
   xmlResetLastError();
-  initialize_valid();
+  initialize_context();
 
   const int res = xmlSchemaValidateDoc(pimpl_->context, const_cast<xmlDoc*>(document->cobj()));
   if (res != 0)
@@ -170,7 +170,7 @@ void XsdValidator::validate(const Glib::ustring& filename)
     throw internal_error("XsdValidator::validate(): Could not create validating context");
 
   xmlResetLastError();
-  initialize_valid();
+  initialize_context();
 
   const int res = xmlSchemaValidateFile(pimpl_->context, filename.c_str(), 0);
   if (res != 0)

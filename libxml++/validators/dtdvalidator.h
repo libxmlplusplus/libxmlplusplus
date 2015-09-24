@@ -95,8 +95,10 @@ public:
   void validate(const Document* document) override;
 
 protected:
+  void initialize_context() override;
   void release_underlying() override;
 
+  _xmlValidCtxt* context_;
   Dtd* dtd_;
 };
 
