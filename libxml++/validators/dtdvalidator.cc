@@ -32,7 +32,7 @@ DtdValidator::DtdValidator(const Glib::ustring& file)
   parse_subset("",file);
 }
 
-DtdValidator::DtdValidator(const Glib::ustring& external,const Glib::ustring& system)
+DtdValidator::DtdValidator(const Glib::ustring& external, const Glib::ustring& system)
 : dtd_(nullptr)
 {
   parse_subset(external,system);
@@ -49,7 +49,7 @@ void DtdValidator::parse_file(const Glib::ustring& filename)
   parse_subset("",filename);
 }
 
-void DtdValidator::parse_subset(const Glib::ustring& external,const Glib::ustring& system)
+void DtdValidator::parse_subset(const Glib::ustring& external, const Glib::ustring& system)
 {
   release_underlying(); // Free any existing dtd.
   xmlResetLastError();
@@ -106,7 +106,7 @@ void DtdValidator::release_underlying()
   }
 }
 
-DtdValidator::operator bool() const
+DtdValidator::operator bool() const noexcept
 {
   return dtd_ != nullptr;
 }
@@ -121,9 +121,9 @@ const Dtd* DtdValidator::get_dtd() const
   return dtd_;
 }
 
-bool DtdValidator::validate(const Document* doc)
+void DtdValidator::validate(const Document* document)
 {
-  if (!doc)
+  if (!document)
   {
     throw internal_error("Document pointer cannot be 0.");
   }
@@ -145,15 +145,13 @@ bool DtdValidator::validate(const Document* doc)
   xmlResetLastError();
   initialize_valid();
 
-  const bool res = (bool)xmlValidateDtd( valid_, (xmlDoc*)doc->cobj(), dtd_->cobj() );
+  const bool res = (bool)xmlValidateDtd( valid_, (xmlDoc*)document->cobj(), dtd_->cobj() );
 
   if (!res)
   {
     check_for_exception();
     throw validity_error("Document failed DTD validation\n" + format_xml_error());
   }
-
-  return res;
 }
 
 } // namespace xmlpp

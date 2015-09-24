@@ -117,7 +117,7 @@ const RelaxNGSchema* RelaxNGValidator::get_schema() const
   return pimpl_->schema;
 }
 
-RelaxNGValidator::operator const void*() const
+RelaxNGValidator::operator bool() const noexcept
 {
   return reinterpret_cast<const void*>(pimpl_->schema && pimpl_->schema->cobj());
 }

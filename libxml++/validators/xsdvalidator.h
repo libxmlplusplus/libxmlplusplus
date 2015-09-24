@@ -67,16 +67,13 @@ public:
 
   ~XsdValidator() override;
 
-  //TODO: Remove virtuals when we can break ABI,
-  //or really put these in the base class.
-
   /** Parse a schema definition file.
    * If the validator already contains a schema, that schema is released
    * (deleted if the validator owns the schema).
    * @param filename The URL of the schema.
    * @throws xmlpp::parse_error
    */
-  virtual void parse_file(const Glib::ustring& filename);
+  void parse_file(const Glib::ustring& filename) override;
 
   /** Parse a schema definition from a string.
    * If the validator already contains a schema, that schema is released
@@ -84,7 +81,7 @@ public:
    * @param contents The schema definition as a string.
    * @throws xmlpp::parse_error
    */
-  virtual void parse_memory(const Glib::ustring& contents);
+  void parse_memory(const Glib::ustring& contents) override;
 
   /** Parse a schema definition from a document.
    * If the validator already contains a schema, that schema is released
@@ -92,7 +89,7 @@ public:
    * @param document A preparsed document tree, containing the schema definition.
    * @throws xmlpp::parse_error
    */
-  virtual void parse_document(const Document* document);
+  void parse_document(const Document* document) override;
 
   /** Set a schema.
    * If the validator already contains a schema, that schema is released
@@ -114,7 +111,7 @@ public:
    *   do_something();
    * @endcode
    */
-  virtual operator BoolExpr() const;
+  explicit operator bool() const noexcept override;
 
   /** Get the schema.
    * @returns A pointer to the schema, or <tt>0</tt>.
@@ -131,14 +128,14 @@ public:
    * @throws xmlpp::internal_error
    * @throws xmlpp::validity_error
    */
-  virtual void validate(const Document* document);
+  void validate(const Document* document) override;
 
   /** Validate an XML file, using a previously parsed schema.
    * @param filename The URL of the XML file.
    * @throws xmlpp::internal_error
    * @throws xmlpp::validity_error
    */
-  virtual void validate(const Glib::ustring& filename);
+  void validate(const Glib::ustring& filename) override;
 
 protected:
   void initialize_valid() override;

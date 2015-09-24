@@ -40,9 +40,6 @@ public:
   SchemaValidatorBase();
   ~SchemaValidatorBase() override;
 
-  //TODO: Remove virtuals when we can break ABI,
-  //or really put these in the base class.
-
   /** Parse a schema definition file.
    * If the validator already contains a schema, that schema is released
    * (deleted if the validator owns the schema).
@@ -67,11 +64,6 @@ public:
    */
   virtual void parse_document(const Document* document) = 0;
 
-  /** This typedef is just to make it more obvious that
-   * our operator const void* should be used like operator bool().
-   */
-  typedef const void* BoolExpr;
-
   /** Test whether a schema has been parsed.
    * For instance
    * @code
@@ -79,7 +71,7 @@ public:
    *   do_something();
    * @endcode
    */
-  virtual operator BoolExpr() const = 0;
+  explicit virtual operator bool() const noexcept = 0;
 
   /** Validate a document, using a previously parsed schema.
    * @param document Pointer to the document.

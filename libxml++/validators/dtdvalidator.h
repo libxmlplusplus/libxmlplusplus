@@ -15,6 +15,7 @@
 namespace xmlpp {
 
 /** XML DTD validator.
+ * DTD = Document Type Definition
  */
 class DtdValidator : public Validator
 {
@@ -32,12 +33,9 @@ public:
    * @param system The URL of the DTD.
    * @throws xmlpp::parse_error
    */
-  explicit DtdValidator(const Glib::ustring& external,const Glib::ustring& system);
+  explicit DtdValidator(const Glib::ustring& external, const Glib::ustring& system);
 
   ~DtdValidator() override;
-
-  //TODO: Remove virtuals when we can break ABI,
-  //or really put these in the base class.
 
   /** Parse an external subset (DTD file).
    * If the validator already contains a DTD, that DTD is deleted.
@@ -45,32 +43,37 @@ public:
    * @param system The URL of the DTD.
    * @throws xmlpp::parse_error
    */
-  virtual void parse_subset(const Glib::ustring& external,const Glib::ustring& system);
+  void parse_subset(const Glib::ustring& external, const Glib::ustring& system);
 
   /** Parse an external subset (DTD file).
    * If the validator already contains a DTD, that DTD is deleted.
    * @param filename The URL of the DTD.
    * @throws xmlpp::parse_error
    */
-  virtual void parse_file(const Glib::ustring& filename);
+  void parse_file(const Glib::ustring& filename) override;
 
   /** Parse a DTD from a string.
    * If the validator already contains a DTD, that DTD is deleted.
    * @param contents The DTD as a string.
    * @throws xmlpp::parse_error
    */
-  virtual void parse_memory(const Glib::ustring& contents);
+  void parse_memory(const Glib::ustring& contents) override;
 
   /** Parse a DTD from a stream.
    * If the validator already contains a DTD, that DTD is deleted.
    * @param in The stream.
    * @throws xmlpp::parse_error
    */
-  virtual void parse_stream(std::istream& in);
+  void parse_stream(std::istream& in);
 
   /** Test whether a DTD has been parsed.
+   * For instance
+   * @code
+   * if (validator)
+   *   do_something();
+   * @endcode
    */
-  operator bool() const;
+  explicit operator bool() const noexcept override;
 
   /** Get the parsed DTD.
    * @returns A pointer to the parsed DTD, or <tt>0</tt>.
@@ -85,12 +88,11 @@ public:
   /** Validate a document, using a previously parsed DTD.
    * The internal subset (if present) is de-coupled (i.e. not used),
    * which could give problems if ID or IDREF is present.
-   * @param doc Pointer to the document.
-   * @returns Whether the document is valid.
+   * @param document Pointer to the document.
    * @throws xmlpp::internal_error
    * @throws xmlpp::validity_error
    */
-  bool validate(const Document* doc);
+  void validate(const Document* document) override;
 
 protected:
   void release_underlying() override;
@@ -101,4 +103,3 @@ protected:
 } // namespace xmlpp
 
 #endif //__LIBXMLPP_VALIDATORS_DTDVALIDATOR_H
-

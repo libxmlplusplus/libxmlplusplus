@@ -12,7 +12,7 @@
 #pragma warning (disable : 4786)
 #endif
 
-#include <libxml++/nodes/element.h>
+#include <libxml++/noncopyable.h>
 #include <libxml++/exceptions/validity_error.h>
 #include <libxml++/exceptions/internal_error.h>
 #include <exception> // std::exception_ptr
@@ -23,6 +23,8 @@ extern "C" {
 
 namespace xmlpp {
 
+class Document;
+
 /** Base class for XML validators.
  */
 class Validator : NonCopyable
@@ -30,6 +32,34 @@ class Validator : NonCopyable
 public:
   Validator();
   ~Validator() override;
+
+  /** Parse a schema definition file or an external subset (DTD file).
+   * @param filename The URL of the schema or the DTD.
+   * @throws xmlpp::parse_error
+   */
+  virtual void parse_file(const Glib::ustring& filename) = 0;
+
+  /** Parse a schema definition or a DTD from a string.
+   * @param contents The schema definition or the DTD as a string.
+   * @throws xmlpp::parse_error
+   */
+  virtual void parse_memory(const Glib::ustring& contents) = 0;
+
+  /** Validate a document, using a previously parsed schema or DTD.
+   * @param document Pointer to the document.
+   * @throws xmlpp::internal_error
+   * @throws xmlpp::validity_error
+   */
+  virtual void validate(const Document* document) = 0;
+
+  /** Test whether a schema or a DTD has been parsed.
+   * For instance
+   * @code
+   * if (validator)
+   *   do_something();
+   * @endcode
+   */
+  explicit virtual operator bool() const noexcept = 0;
 
 protected:
   virtual void initialize_valid();
