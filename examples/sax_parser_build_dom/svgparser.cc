@@ -1,5 +1,3 @@
-// -*- C++ -*-
-
 /* svgparser.cc
  *
  * By Dan Dennedy <dan@dennedy.org> 
@@ -69,7 +67,7 @@ void Parser::on_start_element(const Glib::ustring& name,
   else
   {
     // Create the other elements as child nodes of the last nodes:
-    element_normal = m_context.top()->add_child(elementName);
+    element_normal = m_context.top()->add_child_element(elementName);
   }
 
   // TODO: The following is a hack because it leverages knowledge of libxml++

@@ -1,5 +1,3 @@
-// -*- C++ -*-
-
 /* main.cc
  *
  * Copyright (C) 2002 The libxml++ development team
@@ -48,7 +46,7 @@ main(int /* argc */, char** /* argv */)
     nodeRoot->set_namespace_declaration("http://foobar", "foobar"); //Also associate this prefix with this namespace: 
 
     nodeRoot->set_child_text("\n");
-    auto nodeChild = nodeRoot->add_child("examplechild");
+    auto nodeChild = nodeRoot->add_child_element("examplechild");
 
     //Associate prefix with namespace:
     nodeChild->set_namespace_declaration("http://bar", "bar"); 
@@ -62,9 +60,9 @@ main(int /* argc */, char** /* argv */)
     nodeChild->add_child_text("\n");
     nodeChild->add_child_processing_instruction("application1", "This is an example node");
     nodeChild->add_child_text("\n");
-    nodeChild->add_child("child_of_child", "bar");
+    nodeChild->add_child_element("child_of_child", "bar");
 
-    nodeChild = nodeRoot->add_child("examplechild", "foobar"); //foobar is the namespace prefix
+    nodeChild = nodeRoot->add_child_element("examplechild", "foobar"); //foobar is the namespace prefix
     nodeChild->set_attribute("id", "2", "foobar"); //foobar is the namespace prefix.
 
     auto whole = document.write_to_string();
@@ -79,4 +77,3 @@ main(int /* argc */, char** /* argv */)
 
   return EXIT_SUCCESS;
 }
-

@@ -1,5 +1,3 @@
-// -*- C++ -*-
-
 /* main.cc
  *
  * Copyright (C) 2002 The libxml++ development team
@@ -61,9 +59,9 @@ int main(int argc, char* argv[])
     }
 
     /* auto nodeRoot2 = */document.create_root_node("example");
-    auto child = document.get_root_node()->add_child("examplechild");
+    auto child = document.get_root_node()->add_child_element("examplechild");
     child->set_attribute("id", "an_id");
-    child->add_child("child_of_child");
+    child->add_child_element("child_of_child");
 
     try
     {
@@ -85,4 +83,3 @@ int main(int argc, char* argv[])
   }
   return return_code;
 }
-

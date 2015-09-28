@@ -108,15 +108,110 @@ public:
   void remove_attribute(const Glib::ustring& name,
                         const Glib::ustring& ns_prefix = Glib::ustring());
 
+  /** Add a child element to this node.
+   *
+   * @newin{3,0} Replaces Node::add_child()
+   *
+   * @param name The new node name
+   * @param ns_prefix The namespace prefix. If the prefix has not been declared then this method will throw an exception.
+   * @returns The newly-created element
+   * @throws xmlpp::exception If a namespace prefix is specified, but has not been declared.
+   * @throws xmlpp::internal_error If this node is not an element node,
+   *         or the child node cannot be created.
+   */
+  Element* add_child_element(const Glib::ustring& name,
+    const Glib::ustring& ns_prefix = Glib::ustring());
+
+  /** Add a child element to this node after the specified existing child node.
+   *
+   * @newin{3,0} Replaces Node::add_child()
+   *
+   * @param previous_sibling An existing child node.
+   * @param name The new node name
+   * @param ns_prefix The namespace prefix. If the prefix has not been declared then this method will throw an exception.
+   * @returns The newly-created element
+   * @throws xmlpp::exception If a namespace prefix is specified, but has not been declared.
+   * @throws xmlpp::internal_error If this node is not an element node,
+   *         or the child node cannot be created.
+   */
+  Element* add_child_element(xmlpp::Node* previous_sibling, const Glib::ustring& name,
+    const Glib::ustring& ns_prefix = Glib::ustring());
+
+  /** Add a child element to this node before the specified existing child node.
+   *
+   * @newin{3,0} Replaces Node::add_child_before()
+   *
+   * @param next_sibling An existing child node.
+   * @param name The new node name
+   * @param ns_prefix The namespace prefix. If the prefix has not been declared then this method will throw an exception.
+   * @returns The newly-created element
+   * @throws xmlpp::exception If a namespace prefix is specified, but has not been declared.
+   * @throws xmlpp::internal_error If this node is not an element node,
+   *         or the child node cannot be created.
+   */
+  Element* add_child_element_before(xmlpp::Node* next_sibling, const Glib::ustring& name,
+    const Glib::ustring& ns_prefix = Glib::ustring());
+
+  /** Add a child element to this node.
+   *
+   * @newin{3,0} Replaces Node::add_child_with_new_ns()
+   *
+   * @param name The new node name.
+   * @param ns_uri The namespace to associate with the prefix,
+   *               or to use as the default namespace if no prefix is specified.
+   * @param ns_prefix The prefix of the node's namespace. If no prefix is specified
+   *                  then the namespace URI will be the default namespace.
+   * @returns The newly-created element.
+   * @throws xmlpp::internal_error If this node is not an element node,
+   *         or the child node or the namespace node cannot be created.
+   */
+  Element* add_child_element_with_new_ns(const Glib::ustring& name,
+    const Glib::ustring& ns_uri, const Glib::ustring& ns_prefix = Glib::ustring());
+
+  /** Add a child element to this node after the specified existing child node.
+   *
+   * @newin{3,0} Replaces Node::add_child_with_new_ns()
+   *
+   * @param previous_sibling An existing child node.
+   * @param name The new node name.
+   * @param ns_uri The namespace to associate with the prefix,
+   *               or to use as the default namespace if no prefix is specified.
+   * @param ns_prefix The prefix of the node's namespace. If no prefix is specified
+   *                  then the namespace URI will be the default namespace.
+   * @returns The newly-created element.
+   * @throws xmlpp::internal_error If this node is not an element node,
+   *         or the child node or the namespace node cannot be created.
+   */
+  Element* add_child_element_with_new_ns(xmlpp::Node* previous_sibling, const Glib::ustring& name,
+    const Glib::ustring& ns_uri, const Glib::ustring& ns_prefix = Glib::ustring());
+
+  /** Add a child element to this node before the specified existing child node.
+   *
+   * @newin{3,0} Replaces Node::add_child_before_with_new_ns()
+   *
+   * @param next_sibling An existing child node.
+   * @param name The new node name.
+   * @param ns_uri The namespace to associate with the prefix,
+   *               or to use as the default namespace if no prefix is specified.
+   * @param ns_prefix The prefix of the node's namespace. If no prefix is specified
+   *                  then the namespace URI will be the default namespace.
+   * @returns The newly-created element.
+   * @throws xmlpp::internal_error If this node is not an element node,
+   *         or the child node or the namespace node cannot be created.
+   */
+  Element* add_child_element_before_with_new_ns(xmlpp::Node* next_sibling, const Glib::ustring& name,
+    const Glib::ustring& ns_uri, const Glib::ustring& ns_prefix = Glib::ustring());
 
   /** Get the first child text content node.
-   * This is a convenience method, meant as an alternative to iterating over all the child nodes to find the first suitable node then and getting the text directly.
+   * This is a convenience method, meant as an alternative to iterating over all the
+   * child nodes to find the first suitable node then and getting the text directly.
    * @returns The first text node, if any.
    */
   TextNode* get_child_text();
 
    /** Get the first child text content node.
-   * This is a convenience method, meant as an alternative to iterating over all the child nodes to find the first suitable node then and getting the text directly.
+   * This is a convenience method, meant as an alternative to iterating over all the
+   * child nodes to find the first suitable node then and getting the text directly.
    * @returns The first text node, if any.
    */
   const TextNode* get_child_text() const;
@@ -205,8 +300,16 @@ public:
   ProcessingInstructionNode* add_child_processing_instruction(
     const Glib::ustring& name, const Glib::ustring& content);
 
-protected:
+private:
   Glib::ustring get_namespace_uri_for_prefix(const Glib::ustring& ns_prefix) const;
+
+  ///Create the C instance ready to be added to the parent node.
+  _xmlNode* create_new_child_element_node(const Glib::ustring& name,
+    const Glib::ustring& ns_prefix);
+
+  ///Create the C instance ready to be added to the parent node.
+  _xmlNode* create_new_child_element_node_with_new_ns(const Glib::ustring& name,
+    const Glib::ustring& ns_uri, const Glib::ustring& ns_prefix);
 };
 
 } // namespace xmlpp

@@ -100,10 +100,10 @@ void TestNamespace::test_create_new_node_with_default_namespace()
       "Input file shouldn't have any child in alternate default namespace");
 
   // Add child nodes in default namespace and check document again
-  auto child = root_->add_child("child");
+  auto child = root_->add_child_element("child");
   child->set_namespace_declaration(nsmap_["ns1"], "");
   root_->add_child_text("\n");
-  root_->add_child_with_new_ns("child", nsmap_["ns1"]);
+  root_->add_child_element_with_new_ns("child", nsmap_["ns1"]);
   root_->add_child_text("\n");
 
   std::cout << "   File " << filename << " after modification" << std::endl
@@ -128,12 +128,12 @@ void TestNamespace::test_create_new_node_using_existing_namespace_prefix()
       "Input file shouldn't have any child in child namespace");
 
   // Add child nodes with specific namespace and check document again
-  auto child = root_->add_child("child", "ns0");
+  auto child = root_->add_child_element("child", "ns0");
   child->set_namespace_declaration(nsmap_["ns1"], "");
   root_->add_child_text("\n");
-  root_->add_child_with_new_ns("child", nsmap_["ns1"]);
+  root_->add_child_element_with_new_ns("child", nsmap_["ns1"]);
   root_->add_child_text("\n");
-  root_->add_child_with_new_ns("child", nsmap_["ns1"], "ns3");
+  root_->add_child_element_with_new_ns("child", nsmap_["ns1"], "ns3");
   root_->add_child_text("\n");
 
   std::cout << "   File " << filename << " after modification" << std::endl
