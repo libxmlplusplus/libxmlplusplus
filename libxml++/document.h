@@ -53,9 +53,7 @@ class Document : NonCopyable
   {
   public:
     Init();
-
-    //TODO: Remove the virtual when we can break ABI?
-    virtual ~Init();
+    ~Init();
   };
 
   friend class SaxParser;
@@ -253,11 +251,9 @@ protected:
   _xmlEntity* get_entity(const Glib::ustring& name);
 
 private:
-  //TODO: Remove virtuals when we can break ABI.
-
-  virtual void do_write_to_file(const Glib::ustring& filename, const Glib::ustring& encoding, bool format);
-  virtual Glib::ustring do_write_to_string(const Glib::ustring& encoding, bool format);
-  virtual void do_write_to_stream(std::ostream& output, const Glib::ustring& encoding, bool format);
+  void do_write_to_file(const Glib::ustring& filename, const Glib::ustring& encoding, bool format);
+  Glib::ustring do_write_to_string(const Glib::ustring& encoding, bool format);
+  void do_write_to_stream(std::ostream& output, const Glib::ustring& encoding, bool format);
 
   static Init init_;
 
