@@ -25,6 +25,29 @@ class AttributeNode : public Attribute
 public:
   explicit AttributeNode(_xmlNode* node);
   ~AttributeNode() override;
+
+  /** Get the value of this attribute.
+   * @returns The attribute's value.
+   */
+  Glib::ustring get_value() const override;
+
+  /** Set the value of this attribute.
+   *
+   * @newin{3,0} Replaces Attribute::set_value()
+   */
+  void set_value(const Glib::ustring& value);
+
+  /** Access the underlying libxml implementation.
+   *
+   * @newin{3,0} Replaces Attribute::cobj()
+   */
+  _xmlAttr* cobj();
+
+  /** Access the underlying libxml implementation.
+   *
+   * @newin{3,0} Replaces Attribute::cobj() const
+   */
+  const _xmlAttr* cobj() const;
 };
 
 } // namespace xmlpp

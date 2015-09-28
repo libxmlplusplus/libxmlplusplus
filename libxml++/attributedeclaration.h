@@ -34,7 +34,7 @@ public:
   /** Get the default value of this attribute.
    * @returns The attribute's default value.
    */
-  Glib::ustring get_value() const;
+  Glib::ustring get_value() const override;
 
   ///Access the underlying libxml implementation.
   _xmlAttribute* cobj();
