@@ -303,14 +303,16 @@ Node::const_NodeList Node::get_children(const Glib::ustring& name) const
   return get_children_common<const_NodeList>(name, impl_->children);
 }
 
-void Node::remove_child(Node* node)
+//static
+void Node::remove_node(Node* node)
 {
-  //TODO: Allow a node to be removed without deleting it, to allow it to be moved?
+  //TODO: Allow a node to be disconnected from its parent without deleting it,
+  // to allow it to be moved?
   //This would require a more complex memory management API.
   if (!node)
     return;
   auto cnode = node->cobj();
-  Node::free_wrappers(cnode); //This delete the C++ node (not this) itself.
+  Node::free_wrappers(cnode); // This deletes the C++ node.
   xmlUnlinkNode(cnode);
   xmlFreeNode(cnode);
 }

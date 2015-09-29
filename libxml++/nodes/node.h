@@ -43,7 +43,10 @@ enum XPathResultType
 };
 
 /** Represents XML Nodes.
- * You should never new or delete Nodes. The Parser will create and manage them for you.
+ *
+ * You should never new and delete Nodes. The Parser will create and
+ * manage them for you. Furthermore, Document and Element have methods for
+ * adding Nodes to a Document.
  */
 class Node : public NonCopyable
 {
@@ -57,6 +60,11 @@ public:
   /** @throws xmlpp::internal_error If @a node is <tt>0</tt>.
    */
   explicit Node(_xmlNode* node);
+
+  /** Destructor.
+   * Does not destroy the underlying xmlNode. The xmlNode is owned by a xmlDoc
+   * document. If you want to also destroy the xmlNode, use remove_node().
+   */
   ~Node() override;
 
   /** Get the name of this node.
@@ -151,10 +159,17 @@ public:
    */
   const_NodeList get_children(const Glib::ustring& name = Glib::ustring()) const;
 
-  /** Remove the child node.
-   * @param node The child node to remove. This Node will be deleted and therefore unusable after calling this method.
+  /** Remove a node and its children.
+   *
+   * The node is disconnected from its parent. The underlying libxml xmlNode
+   * instances are also removed.
+   *
+   * @newin{3,0} Replaces remove_child()
+   *
+   * @param node The node to remove. This Node and all its descendants will be
+   *             deleted and therefore unusable after calling this method.
    */
-  void remove_child(Node* node);
+  static void remove_node(Node* node);
 
   /** Import node(s) from another document under this node, without affecting the source node.
    *
