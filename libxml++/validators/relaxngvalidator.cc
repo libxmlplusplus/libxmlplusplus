@@ -42,7 +42,7 @@ RelaxNGValidator::RelaxNGValidator()
 {
 }
 
-RelaxNGValidator::RelaxNGValidator(const Glib::ustring& filename)
+RelaxNGValidator::RelaxNGValidator(const std::string& filename)
 : pimpl_(new Impl)
 {
   parse_file(filename);
@@ -65,7 +65,7 @@ RelaxNGValidator::~RelaxNGValidator()
   release_underlying();
 }
 
-void RelaxNGValidator::parse_file(const Glib::ustring& filename)
+void RelaxNGValidator::parse_file(const std::string& filename)
 {
   set_schema(new RelaxNGSchema(filename), true);
 }
@@ -159,7 +159,7 @@ void RelaxNGValidator::validate(const Document* document)
   }
 }
 
-void RelaxNGValidator::validate(const Glib::ustring& filename)
+void RelaxNGValidator::validate(const std::string& filename)
 {
   // There is no xmlRelaxNGValidateFile().
   DomParser parser(filename);

@@ -26,7 +26,7 @@ DomParser::DomParser()
   doc_ = new Document();
 }
 
-DomParser::DomParser(const Glib::ustring& filename, bool validate)
+DomParser::DomParser(const std::string& filename, bool validate)
 : doc_(nullptr)
 {
   set_validate(validate);
@@ -38,7 +38,7 @@ DomParser::~DomParser()
   release_underlying();
 }
 
-void DomParser::parse_file(const Glib::ustring& filename)
+void DomParser::parse_file(const std::string& filename)
 {
   release_underlying(); //Free any existing document.
 

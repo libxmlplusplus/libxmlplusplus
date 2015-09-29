@@ -39,7 +39,7 @@ XsdValidator::XsdValidator()
 {
 }
 
-XsdValidator::XsdValidator(const Glib::ustring& filename)
+XsdValidator::XsdValidator(const std::string& filename)
 : pimpl_(new Impl)
 {
   parse_file(filename);
@@ -62,7 +62,7 @@ XsdValidator::~XsdValidator()
   release_underlying();
 }
 
-void XsdValidator::parse_file(const Glib::ustring& filename)
+void XsdValidator::parse_file(const std::string& filename)
 {
   set_schema(new XsdSchema(filename), true);
 }
@@ -157,7 +157,7 @@ void XsdValidator::validate(const Document* document)
   }
 }
 
-void XsdValidator::validate(const Glib::ustring& filename)
+void XsdValidator::validate(const std::string& filename)
 {
   if (!*this)
     throw internal_error("XsdValidator::validate(): Must have a schema to validate file.");

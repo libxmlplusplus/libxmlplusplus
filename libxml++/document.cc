@@ -320,12 +320,12 @@ ProcessingInstructionNode* Document::add_processing_instruction(
   return static_cast<ProcessingInstructionNode*>(node->_private);
 }
 
-void Document::write_to_file(const Glib::ustring& filename, const Glib::ustring& encoding)
+void Document::write_to_file(const std::string& filename, const Glib::ustring& encoding)
 {
   do_write_to_file(filename, encoding, false);
 }
 
-void Document::write_to_file_formatted(const Glib::ustring& filename, const Glib::ustring& encoding)
+void Document::write_to_file_formatted(const std::string& filename, const Glib::ustring& encoding)
 {
   do_write_to_file(filename, encoding, true);
 }
@@ -351,7 +351,7 @@ void Document::write_to_stream_formatted(std::ostream& output, const Glib::ustri
 }
 
 void Document::do_write_to_file(
-    const Glib::ustring& filename,
+    const std::string& filename,
     const Glib::ustring& encoding,
     bool format)
 {

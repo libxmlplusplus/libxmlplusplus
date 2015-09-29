@@ -60,7 +60,7 @@ XsdSchema::XsdSchema(_xmlSchema* schema)
   pimpl_->schema = schema;
 }
 
-XsdSchema::XsdSchema(const Glib::ustring& filename)
+XsdSchema::XsdSchema(const std::string& filename)
 : pimpl_(new Impl)
 {
   parse_file(filename);
@@ -77,7 +77,7 @@ XsdSchema::~XsdSchema()
   release_underlying();
 }
 
-void XsdSchema::parse_file(const Glib::ustring& filename)
+void XsdSchema::parse_file(const std::string& filename)
 {
   xmlResetLastError();
   release_underlying();

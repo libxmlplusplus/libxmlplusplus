@@ -53,7 +53,7 @@ public:
    * @param filename The URL of the schema.
    * @throws xmlpp::parse_error
    */
-  explicit XsdSchema(const Glib::ustring& filename);
+  explicit XsdSchema(const std::string& filename);
 
   /** Create a schema from an XML document.
    * @param document A preparsed document tree, containing the schema definition.
@@ -68,7 +68,7 @@ public:
    * @param filename The URL of the schema.
    * @throws xmlpp::parse_error
    */
-  void parse_file(const Glib::ustring& filename) override;
+  void parse_file(const std::string& filename) override;
 
   /** Parse a schema definition from a string.
    * If another schema has been parsed before, that schema is replaced by the new one.

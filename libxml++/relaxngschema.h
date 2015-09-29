@@ -57,7 +57,7 @@ public:
    * @param filename The URL of the schema.
    * @throws xmlpp::parse_error
    */
-  explicit RelaxNGSchema(const Glib::ustring& filename);
+  explicit RelaxNGSchema(const std::string& filename);
 
   /** Create a schema from an XML document.
    * @param document A preparsed document tree, containing the schema definition.
@@ -75,7 +75,7 @@ public:
    * @param filename The URL of the schema.
    * @throws xmlpp::parse_error
    */
-  void parse_file(const Glib::ustring& filename) override;
+  void parse_file(const std::string& filename) override;
 
   /** Parse a schema definition from a string.
    * The schema must be defined with XML syntax. The compact syntax is not supported.

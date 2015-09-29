@@ -16,7 +16,18 @@
 #include <libxml++/nodes/element.h>
 #include <libxml++/dtd.h>
 
+#include <string>
 #include <ostream>
+
+/* std::string or Glib::ustring in function prototypes in libxml++?
+ *
+ * If it's propagated to a libxml2 function that takes a xmlChar*, it's
+ * UTF-8 encoded, and Glib::ustring is the right choice.
+ *
+ * If it's propagated to a libxml2 function that takes a char*, it's not
+ * necessarily UTF-8 encoded, and std::string is usually the right choice.
+ * Most of these strings are filenames or URLs.
+ */
 
 #ifndef DOXYGEN_SHOULD_SKIP_THIS
 extern "C" {
@@ -153,13 +164,12 @@ public:
   ProcessingInstructionNode* add_processing_instruction(
     const Glib::ustring& name, const Glib::ustring& content);
 
-  //TODO: Use std::string for filenames.
   /** Write the document to a file.
    * @param filename
    * @param encoding If not provided, UTF-8 is used
    * @throws xmlpp::exception
    */
-  void write_to_file(const Glib::ustring& filename, const Glib::ustring& encoding = Glib::ustring());
+  void write_to_file(const std::string& filename, const Glib::ustring& encoding = Glib::ustring());
 
   /** Write the document to a file.
    * The output is formatted by inserting whitespaces, which is easier to read for a human,
@@ -168,7 +178,7 @@ public:
    * @param encoding If not provided, UTF-8 is used
    * @throws xmlpp::exception
    */
-  void write_to_file_formatted(const Glib::ustring& filename, const Glib::ustring& encoding = Glib::ustring());
+  void write_to_file_formatted(const std::string& filename, const Glib::ustring& encoding = Glib::ustring());
 
   /** Write the document to the memory.
    * @param encoding If not provided, UTF-8 is used
@@ -251,7 +261,7 @@ protected:
   _xmlEntity* get_entity(const Glib::ustring& name);
 
 private:
-  void do_write_to_file(const Glib::ustring& filename, const Glib::ustring& encoding, bool format);
+  void do_write_to_file(const std::string& filename, const Glib::ustring& encoding, bool format);
   Glib::ustring do_write_to_string(const Glib::ustring& encoding, bool format);
   void do_write_to_stream(std::ostream& output, const Glib::ustring& encoding, bool format);
 

@@ -23,10 +23,10 @@ public:
   DtdValidator();
 
   /** Create a validator and parse an external subset (DTD file) immediately.
-   * @param file The URL of the DTD.
+   * @param filename The URL of the DTD.
    * @throws xmlpp::parse_error
    */
-  explicit DtdValidator(const Glib::ustring& file);
+  explicit DtdValidator(const std::string& filename);
 
   /** Create a validator and parse an external subset (DTD file) immediately.
    * @param external The external ID of the DTD.
@@ -50,7 +50,7 @@ public:
    * @param filename The URL of the DTD.
    * @throws xmlpp::parse_error
    */
-  void parse_file(const Glib::ustring& filename) override;
+  void parse_file(const std::string& filename) override;
 
   /** Parse a DTD from a string.
    * If the validator already contains a DTD, that DTD is deleted.

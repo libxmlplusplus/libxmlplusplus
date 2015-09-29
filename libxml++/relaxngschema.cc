@@ -61,7 +61,7 @@ RelaxNGSchema::RelaxNGSchema(_xmlRelaxNG* schema)
   pimpl_->schema = schema;
 }
 
-RelaxNGSchema::RelaxNGSchema(const Glib::ustring& filename)
+RelaxNGSchema::RelaxNGSchema(const std::string& filename)
 : pimpl_(new Impl)
 {
   parse_file(filename);
@@ -78,7 +78,7 @@ RelaxNGSchema::~RelaxNGSchema()
   release_underlying();
 }
 
-void RelaxNGSchema::parse_file(const Glib::ustring& filename)
+void RelaxNGSchema::parse_file(const std::string& filename)
 {
   parse_context(xmlRelaxNGNewParserCtxt(filename.c_str()));
 }

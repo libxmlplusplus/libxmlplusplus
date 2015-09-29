@@ -46,7 +46,7 @@ public:
    * @param filename The URL of the schema.
    * @throws xmlpp::parse_error
    */
-  virtual void parse_file(const Glib::ustring& filename) = 0;
+  virtual void parse_file(const std::string& filename) = 0;
 
   /** Parse a schema definition from a string.
    * If the validator already contains a schema, that schema is released
@@ -86,7 +86,7 @@ public:
    * @throws xmlpp::parse_error
    * @throws xmlpp::validity_error
    */
-  virtual void validate(const Glib::ustring& filename) = 0;
+  virtual void validate(const std::string& filename) = 0;
 
 protected:
   void initialize_context() override;

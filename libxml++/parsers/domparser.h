@@ -31,7 +31,7 @@ public:
    * @throws xmlpp::parse_error
    * @throws xmlpp::validity_error
    */
-  explicit DomParser(const Glib::ustring& filename, bool validate = false);
+  explicit DomParser(const std::string& filename, bool validate = false);
   ~DomParser() override;
 
   /** Parse an XML document from a file.
@@ -42,7 +42,7 @@ public:
    * @throws xmlpp::parse_error
    * @throws xmlpp::validity_error
    */
-  void parse_file(const Glib::ustring& filename) override;
+  void parse_file(const std::string& filename) override;
 
   /** Parse an XML document from a string.
    * If the parser already contains a document, that document and all its nodes

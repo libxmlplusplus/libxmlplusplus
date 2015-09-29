@@ -15,6 +15,7 @@
 #include <libxml++/exceptions/validity_error.h>
 #include <libxml++/exceptions/internal_error.h>
 
+#include <string>
 #include <istream>
 #include <cstdarg> // va_list
 #include <memory> // std::unique_ptr
@@ -142,7 +143,7 @@ public:
    * @throw exception
    * @param filename The path to the file.
    */
-  virtual void parse_file(const Glib::ustring& filename) = 0;
+  virtual void parse_file(const std::string& filename) = 0;
 
   /** Parse an XML document from raw memory.
    * @throw exception

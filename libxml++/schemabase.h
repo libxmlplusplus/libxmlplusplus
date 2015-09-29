@@ -20,6 +20,7 @@
 #define __LIBXMLPP_SCHEMABASE_H
 
 #include <libxml++/noncopyable.h>
+#include <string>
 
 namespace Glib
 {
@@ -45,7 +46,7 @@ public:
    * @param filename The URL of the schema.
    * @throws xmlpp::parse_error
    */
-  virtual void parse_file(const Glib::ustring& filename) = 0;
+  virtual void parse_file(const std::string& filename) = 0;
 
   /** Parse a schema definition from a string.
    * If another schema has been parsed before, that schema is replaced by the new one.

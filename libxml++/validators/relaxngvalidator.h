@@ -50,7 +50,7 @@ public:
    * @param filename The URL of the schema.
    * @throws xmlpp::parse_error
    */
-  explicit RelaxNGValidator(const Glib::ustring& filename);
+  explicit RelaxNGValidator(const std::string& filename);
 
   /** Create a validator and parse a schema definition document.
    * @param document A preparsed document tree, containing the schema definition.
@@ -80,7 +80,7 @@ public:
    * @param filename The URL of the schema.
    * @throws xmlpp::parse_error
    */
-  void parse_file(const Glib::ustring& filename) override;
+  void parse_file(const std::string& filename) override;
 
   /** Parse a schema definition from a string.
    * The schema must be defined with XML syntax. The compact syntax is not supported.
@@ -145,7 +145,7 @@ public:
    * @throws xmlpp::parse_error
    * @throws xmlpp::validity_error
    */
-  void validate(const Glib::ustring& filename) override;
+  void validate(const std::string& filename) override;
 
 protected:
   void initialize_context() override;

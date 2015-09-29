@@ -178,7 +178,7 @@ void SaxParser::parse()
   }
 }
 
-void SaxParser::parse_file(const Glib::ustring& filename)
+void SaxParser::parse_file(const std::string& filename)
 {
   if(context_)
   {

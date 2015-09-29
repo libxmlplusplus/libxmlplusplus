@@ -16,6 +16,7 @@
 #include <libxml++/exceptions/validity_error.h>
 #include <libxml++/exceptions/internal_error.h>
 #include <exception> // std::exception_ptr
+#include <string>
 
 extern "C" {
   struct _xmlValidCtxt;
@@ -37,7 +38,7 @@ public:
    * @param filename The URL of the schema or the DTD.
    * @throws xmlpp::parse_error
    */
-  virtual void parse_file(const Glib::ustring& filename) = 0;
+  virtual void parse_file(const std::string& filename) = 0;
 
   /** Parse a schema definition or a DTD from a string.
    * @param contents The schema definition or the DTD as a string.

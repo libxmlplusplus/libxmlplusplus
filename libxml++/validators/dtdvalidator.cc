@@ -26,16 +26,16 @@ DtdValidator::DtdValidator()
 {
 }
 
-DtdValidator::DtdValidator(const Glib::ustring& file)
+DtdValidator::DtdValidator(const std::string& filename)
 : context_(nullptr), dtd_(nullptr)
 {
-  parse_subset("",file);
+  parse_subset("", filename);
 }
 
 DtdValidator::DtdValidator(const Glib::ustring& external, const Glib::ustring& system)
 : context_(nullptr), dtd_(nullptr)
 {
-  parse_subset(external,system);
+  parse_subset(external, system);
 }
 
 DtdValidator::~DtdValidator()
@@ -43,9 +43,9 @@ DtdValidator::~DtdValidator()
   release_underlying();
 }
 
-void DtdValidator::parse_file(const Glib::ustring& filename)
+void DtdValidator::parse_file(const std::string& filename)
 {
-  parse_subset("",filename);
+  parse_subset("", filename);
 }
 
 void DtdValidator::parse_subset(const Glib::ustring& external, const Glib::ustring& system)
