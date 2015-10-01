@@ -9,7 +9,6 @@
 
 #include <libxml++/document.h>
 #include <libxml++/dtd.h>
-#include <libxml++/attribute.h>
 #include <libxml++/nodes/element.h>
 #include <libxml++/exceptions/internal_error.h>
 #include <libxml++/keepblanks.h>

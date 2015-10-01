@@ -119,7 +119,7 @@ const RelaxNGSchema* RelaxNGValidator::get_schema() const
 
 RelaxNGValidator::operator bool() const noexcept
 {
-  return reinterpret_cast<const void*>(pimpl_->schema && pimpl_->schema->cobj());
+  return pimpl_->schema && pimpl_->schema->cobj();
 }
 
 

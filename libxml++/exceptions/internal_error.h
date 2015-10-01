@@ -22,9 +22,6 @@
 
 #include <libxml++/exceptions/exception.h>
 
-#include <exception>
-#include <glibmm/ustring.h>
-
 namespace xmlpp {
   
 class internal_error : public exception

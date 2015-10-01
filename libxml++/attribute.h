@@ -12,12 +12,6 @@
 
 #include <libxml++/nodes/node.h>
 
-#ifndef DOXYGEN_SHOULD_SKIP_THIS
-extern "C" {
-  struct _xmlAttr;
-}
-#endif //#ifndef DOXYGEN_SHOULD_SKIP_THIS
-
 namespace xmlpp
 {
 

@@ -48,12 +48,13 @@ typedef enum {
     XML_INTERNAL_PREDEFINED_ENTITY = 6
 } XmlEntityType;
 
-class Document;
-
 //TODO: Make Document inherit from Node, when we can break ABI one day?
 //
 //libxml might intend xmlDoc to derive (theoretically) from xmlNode.
-//This is suggested because the xmlNodeSet returned by xmlXPathEval (see the Node::find() implementation) can contain either xmlNode or xmlDocument elements.
+//This is suggested because the xmlNodeSet returned by xmlXPathEval (see the
+//Node::find() implementation) can contain either xmlNode or xmlDocument elements.
+// See https://bugzilla.gnome.org/show_bug.cgi?id=754673#c8 for an explanation
+// why it has not been done in libxml++ 3.0.
 /**
  * Represents an XML document in the DOM model.
  */

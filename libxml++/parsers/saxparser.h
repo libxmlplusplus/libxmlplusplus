@@ -9,7 +9,6 @@
 
 #include <libxml++/parsers/parser.h>
 
-#include <list>
 #include <deque>
 #include <memory>
 #include "libxml++/document.h"
@@ -25,6 +24,7 @@ namespace xmlpp {
 
 /** SAX XML parser.
  * Derive your own class and override the on_*() methods.
+ * SAX = Simple API for XML
  */
 class SaxParser : public Parser
 {

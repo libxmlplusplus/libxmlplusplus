@@ -5,7 +5,6 @@
  */
 
 #include "libxml++/attribute.h"
-#include "libxml++/attributedeclaration.h"
 
 #include <libxml/tree.h>
 
@@ -22,4 +21,3 @@ Attribute::~Attribute()
 }
 
 } //namespace xmlpp
-

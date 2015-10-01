@@ -8,13 +8,12 @@
 #define __LIBXMLPP_PARSERS_DOMPARSER_H
 
 #include <libxml++/parsers/parser.h>
-#include <libxml++/dtd.h>
 #include <libxml++/document.h>
 
 namespace xmlpp {
 
 /** DOM XML parser.
- *
+ * DOM = Document Object Model
  */
 class DomParser : public Parser
 {

@@ -5,7 +5,6 @@
  */
 
 #include <libxml++/nodes/cdatanode.h>
-#include <libxml++/exceptions/internal_error.h>
 
 #include <libxml/tree.h>
 

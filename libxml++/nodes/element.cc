@@ -6,7 +6,6 @@
 
 #include <libxml++/nodes/element.h>
 #include <libxml++/exceptions/internal_error.h>
-#include <libxml++/document.h>
 
 #include <libxml/tree.h>
 
