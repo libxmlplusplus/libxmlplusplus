@@ -72,9 +72,9 @@ bool xpath_test(const xmlpp::Node* node, const Glib::ustring& xpath)
       auto element = dynamic_cast<const xmlpp::Element*>(child);
       if (element)
       {
-        auto text_node = element->get_child_text();
+        auto text_node = element->get_first_child_text();
         if (text_node)
-          std::cout << ", child_text=\"" << text_node->get_content() << "\"";
+          std::cout << ", first_child_text=\"" << text_node->get_content() << "\"";
       }
       std::cout << std::endl;
     }

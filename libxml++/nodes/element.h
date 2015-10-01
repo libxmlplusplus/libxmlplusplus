@@ -204,17 +204,21 @@ public:
 
   /** Get the first child text content node.
    * This is a convenience method, meant as an alternative to iterating over all the
-   * child nodes to find the first suitable node then and getting the text directly.
+   * child nodes to find the first suitable node and then getting the text directly.
    * @returns The first text node, if any.
+   *
+   * @newin{3,0} Replaces get_child_text().
    */
-  TextNode* get_child_text();
+  TextNode* get_first_child_text();
 
    /** Get the first child text content node.
    * This is a convenience method, meant as an alternative to iterating over all the
-   * child nodes to find the first suitable node then and getting the text directly.
+   * child nodes to find the first suitable node and then getting the text directly.
    * @returns The first text node, if any.
+   *
+   * @newin{3,0} Replaces get_child_text().
    */
-  const TextNode* get_child_text() const;
+  const TextNode* get_first_child_text() const;
 
   /** Append a new text node.
    * @param content The text. This should be unescaped - see ContentNode::set_content().
@@ -246,11 +250,14 @@ public:
   TextNode* add_child_text_before(xmlpp::Node* next_sibling, const Glib::ustring& content = Glib::ustring());
 
   /** Set the text of the first text node, adding one if necessary.
-   * This is a convenience method, meant as an alternative to iterating over all the child nodes to find the first suitable node then and setting the text directly.
+   * This is a convenience method, meant as an alternative to iterating over all the
+   * child nodes to find the first suitable node and then setting the text directly.
    * @param content The text. This should be unescaped - see ContentNode::set_content().
    * @throws xmlpp::internal_error
+   *
+   * @newin{3,0} Replaces set_child_text().
    */
-  void set_child_text(const Glib::ustring& content);
+  void set_first_child_text(const Glib::ustring& content);
 
   /** Discover whether one of the child nodes is a text node.
    * This is a convenience method, meant as an alternative to iterating over all the child nodes and examining them directly.

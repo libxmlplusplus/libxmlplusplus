@@ -260,36 +260,26 @@ _xmlNode* Element::create_new_child_element_node_with_new_ns(const Glib::ustring
   return child;
 }
 
-const TextNode* Element::get_child_text() const
+TextNode* Element::get_first_child_text()
 {
-  // FIXME: return only the first content node
-  for(auto child = cobj()->children; child; child = child->next)
-     if(child->type == XML_TEXT_NODE)
+  for (auto child = cobj()->children; child; child = child->next)
+     if (child->type == XML_TEXT_NODE)
      {
        Node::create_wrapper(child);
        return static_cast<TextNode*>(child->_private);
      }
 
-  return 0;
+  return nullptr;
 }
 
-TextNode* Element::get_child_text()
+const TextNode* Element::get_first_child_text() const
 {
-  // TODO: This only returns the first content node.
-  // What should we do instead? Update the documentation if we change this. murrayc.
-  for(auto child = cobj()->children; child; child = child->next)
-     if(child->type == XML_TEXT_NODE)
-     {
-       Node::create_wrapper(child);
-       return static_cast<TextNode*>(child->_private);
-     }
-
-  return 0;
+  return const_cast<Element*>(this)->get_first_child_text();
 }
 
-void Element::set_child_text(const Glib::ustring& content)
+void Element::set_first_child_text(const Glib::ustring& content)
 {
-  auto node = get_child_text();
+  auto node = get_first_child_text();
   if(node)
     node->set_content(content);
   else
@@ -361,7 +351,7 @@ TextNode* Element::add_child_text_before(xmlpp::Node* next_sibling, const Glib::
 
 bool Element::has_child_text() const
 {
-  return get_child_text() != nullptr;
+  return get_first_child_text() != nullptr;
 }
 
 void Element::set_namespace_declaration(const Glib::ustring& ns_uri, const Glib::ustring& ns_prefix)

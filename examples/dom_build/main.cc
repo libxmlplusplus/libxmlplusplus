@@ -45,7 +45,7 @@ main(int /* argc */, char** /* argv */)
     auto nodeRoot = document.create_root_node("exampleroot", "http://foo", "foo"); //Declares the namespace and uses its prefix for this node
     nodeRoot->set_namespace_declaration("http://foobar", "foobar"); //Also associate this prefix with this namespace: 
 
-    nodeRoot->set_child_text("\n");
+    nodeRoot->set_first_child_text("\n");
     auto nodeChild = nodeRoot->add_child_element("examplechild");
 
     //Associate prefix with namespace:
@@ -53,7 +53,7 @@ main(int /* argc */, char** /* argv */)
      
     nodeChild->set_namespace("bar"); //So it will be bar::examplechild.
     nodeChild->set_attribute("id", "1", "foo"); //foo is the namespace prefix. You could also just use a name of foo:id".
-    nodeChild->set_child_text("\nSome content\n");
+    nodeChild->set_first_child_text("\nSome content\n");
     nodeChild->add_child_comment("Some comments");
     nodeChild->add_child_entity_reference("example1");
     nodeChild->add_child_entity_reference("#x20ac"); // €

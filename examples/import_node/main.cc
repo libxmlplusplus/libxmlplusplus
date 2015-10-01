@@ -46,7 +46,7 @@ int main (int /* argc */, char** /* argv */)
       cerr << "first_child2 == nullptr" << endl;
       return EXIT_FAILURE;
     }
-    auto text_to_add = first_child2->get_child_text();
+    auto text_to_add = first_child2->get_first_child_text();
 
     // Import the text under the first "child" element in example1.
     // Adjacent text nodes are merged.
