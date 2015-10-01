@@ -35,7 +35,28 @@ public:
    */
   explicit DtdValidator(const Glib::ustring& external, const Glib::ustring& system);
 
+  /** Create a validator.
+   *
+   * @newin{3,0}
+   *
+   * @param dtd A pointer to the DTD to use when validating XML documents.
+   * @param take_ownership If <tt>true</tt>, the validator takes ownership of
+   *        the DTD. The caller must not delete it.<br>
+   *        If <tt>false</tt>, the validator does not take ownership of the DTD.
+   *        The caller must guarantee that the DTD exists as long as the
+   *        validator keeps a pointer to it. The caller is responsible for
+   *        deleting the DTD when it's no longer needed.
+   */
+  explicit DtdValidator(Dtd* dtd, bool take_ownership);
+
   ~DtdValidator() override;
+
+  /** Parse an external subset (DTD file).
+   * If the validator already contains a DTD, that DTD is deleted.
+   * @param filename The URL of the DTD.
+   * @throws xmlpp::parse_error
+   */
+  void parse_file(const std::string& filename) override;
 
   /** Parse an external subset (DTD file).
    * If the validator already contains a DTD, that DTD is deleted.
@@ -44,13 +65,6 @@ public:
    * @throws xmlpp::parse_error
    */
   void parse_subset(const Glib::ustring& external, const Glib::ustring& system);
-
-  /** Parse an external subset (DTD file).
-   * If the validator already contains a DTD, that DTD is deleted.
-   * @param filename The URL of the DTD.
-   * @throws xmlpp::parse_error
-   */
-  void parse_file(const std::string& filename) override;
 
   /** Parse a DTD from a string.
    * If the validator already contains a DTD, that DTD is deleted.
@@ -65,6 +79,19 @@ public:
    * @throws xmlpp::parse_error
    */
   void parse_stream(std::istream& in);
+
+  /** Set a DTD.
+   * If the validator already contains a DTD, that DTD is released
+   * (deleted if the validator owns the DTD).
+   * @param dtd A pointer to the DTD to use when validating XML documents.
+   * @param take_ownership If <tt>true</tt>, the validator takes ownership of
+   *        the DTD. The caller must not delete it.<br>
+   *        If <tt>false</tt>, the validator does not take ownership of the DTD.
+   *        The caller must guarantee that the DTD exists as long as the
+   *        validator keeps a pointer to it. The caller is responsible for
+   *        deleting the DTD when it's no longer needed.
+   */
+  void set_dtd(Dtd* dtd, bool take_ownership);
 
   /** Test whether a DTD has been parsed.
    * For instance
@@ -98,8 +125,9 @@ protected:
   void initialize_context() override;
   void release_underlying() override;
 
-  _xmlValidCtxt* context_;
-  Dtd* dtd_;
+private:
+  struct Impl;
+  std::unique_ptr<Impl> pimpl_;
 };
 
 } // namespace xmlpp

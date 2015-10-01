@@ -21,21 +21,37 @@
 namespace xmlpp
 {
 
+struct DtdValidator::Impl
+{
+  Impl() : dtd(nullptr), is_dtd_owner(false), context(nullptr) {}
+
+  Dtd* dtd;
+  bool is_dtd_owner;
+  _xmlValidCtxt* context;
+};
+
+
 DtdValidator::DtdValidator()
-: context_(nullptr), dtd_(nullptr)
+: pimpl_(new Impl)
 {
 }
 
 DtdValidator::DtdValidator(const std::string& filename)
-: context_(nullptr), dtd_(nullptr)
+: pimpl_(new Impl)
 {
-  parse_subset("", filename);
+  parse_file(filename);
 }
 
 DtdValidator::DtdValidator(const Glib::ustring& external, const Glib::ustring& system)
-: context_(nullptr), dtd_(nullptr)
+: pimpl_(new Impl)
 {
   parse_subset(external, system);
+}
+
+DtdValidator::DtdValidator(Dtd* dtd, bool take_ownership)
+: pimpl_(new Impl)
+{
+  set_dtd(dtd, take_ownership);
 }
 
 DtdValidator::~DtdValidator()
@@ -45,86 +61,65 @@ DtdValidator::~DtdValidator()
 
 void DtdValidator::parse_file(const std::string& filename)
 {
-  parse_subset("", filename);
+  set_dtd(new Dtd(filename), true);
 }
 
 void DtdValidator::parse_subset(const Glib::ustring& external, const Glib::ustring& system)
 {
-  release_underlying(); // Free any existing dtd.
-  xmlResetLastError();
-
-  auto dtd = xmlParseDTD(
-    external.empty() ? 0 : (const xmlChar *)external.c_str(),
-    system.empty() ? 0 : (const xmlChar *)system.c_str());
-
-  if (!dtd)
-  {
-    throw parse_error("Dtd could not be parsed.\n" + format_xml_error());
-  }
-
-  Node::create_wrapper(reinterpret_cast<xmlNode*>(dtd));
-  dtd_ = static_cast<Dtd*>(dtd->_private);
+  set_dtd(new Dtd(external, system), true);
 }
 
 void DtdValidator::parse_memory(const Glib::ustring& contents)
 {
-  // Prepare an istream with buffer
-  std::istringstream is( contents );
-
-  parse_stream( is );
+  std::unique_ptr<Dtd> dtd(new Dtd());
+  dtd->parse_memory(contents);
+  set_dtd(dtd.release(), true);
 }
 
 void DtdValidator::parse_stream(std::istream& in)
 {
-  release_underlying(); // Free any existing dtd.
-  xmlResetLastError();
+  std::unique_ptr<Dtd> dtd(new Dtd());
+  dtd->parse_stream(in);
+  set_dtd(dtd.release(), true);
+}
 
-  IStreamParserInputBuffer ibuff( in );
-
-  auto dtd = xmlIOParseDTD( 0, ibuff.cobj(), XML_CHAR_ENCODING_UTF8 );
-
-  if (!dtd)
-  {
-    throw parse_error("Dtd could not be parsed.\n" + format_xml_error());
-  }
-
-  Node::create_wrapper(reinterpret_cast<xmlNode*>(dtd));
-  dtd_ = static_cast<Dtd*>(dtd->_private);
+void DtdValidator::set_dtd(Dtd* dtd, bool take_ownership)
+{
+  release_underlying();
+  pimpl_->dtd = dtd;
+  pimpl_->is_dtd_owner = take_ownership;
 }
 
 void DtdValidator::initialize_context()
 {
   Validator::initialize_context();
 
-  if (context_)
+  if (pimpl_->context)
   {
     //Tell the validation context about the callbacks:
-    context_->error = &callback_validity_error;
-    context_->warning = &callback_validity_warning;
+    pimpl_->context->error = &callback_validity_error;
+    pimpl_->context->warning = &callback_validity_warning;
 
     //Allow the callback_validity_*() methods to retrieve the C++ instance:
-    context_->userData = this;
+    pimpl_->context->userData = this;
   }
 }
 
 void DtdValidator::release_underlying()
 {
-  if (context_)
+  if (pimpl_->context)
   {
-    context_->userData = nullptr; //Not really necessary.
+    pimpl_->context->userData = nullptr; //Not really necessary.
 
-    xmlFreeValidCtxt(context_);
-    context_ = nullptr;
+    xmlFreeValidCtxt(pimpl_->context);
+    pimpl_->context = nullptr;
   }
 
-  if (dtd_)
+  if (pimpl_->dtd)
   {
-    //Make a local pointer to the underlying xmlDtd object as the wrapper is destroyed first.
-    //After free_wrappers is called dtd_ will be invalid (e.g. delete dtd_)
-    auto dtd = dtd_->cobj();
-    Node::free_wrappers(reinterpret_cast<xmlNode*>(dtd));
-    xmlFreeDtd(dtd);
-    dtd_ = nullptr;
+    if (pimpl_->is_dtd_owner)
+      delete pimpl_->dtd;
+    pimpl_->dtd = nullptr;
   }
 
   Validator::release_underlying();
@@ -132,17 +127,17 @@ void DtdValidator::release_underlying()
 
 DtdValidator::operator bool() const noexcept
 {
-  return dtd_ != nullptr;
+  return pimpl_->dtd && pimpl_->dtd->cobj();
 }
 
 Dtd* DtdValidator::get_dtd()
 {
-  return dtd_;
+  return pimpl_->dtd;
 }
 
 const Dtd* DtdValidator::get_dtd() const
 {
-  return dtd_;
+  return pimpl_->dtd;
 }
 
 void DtdValidator::validate(const Document* document)
@@ -152,16 +147,16 @@ void DtdValidator::validate(const Document* document)
     throw internal_error("Document pointer cannot be 0.");
   }
 
-  if (!dtd_)
+  if (!pimpl_->dtd)
   {
     throw internal_error("No DTD to use for validation.");
   }
 
   // A context is required at this stage only
-  if (!context_)
-    context_ = xmlNewValidCtxt();
+  if (!pimpl_->context)
+    pimpl_->context = xmlNewValidCtxt();
 
-  if(!context_)
+  if (!pimpl_->context)
   {
     throw internal_error("Couldn't create validation context");
   }
@@ -169,7 +164,8 @@ void DtdValidator::validate(const Document* document)
   xmlResetLastError();
   initialize_context();
 
-  const bool res = (bool)xmlValidateDtd( context_, (xmlDoc*)document->cobj(), dtd_->cobj() );
+  const bool res = (bool)xmlValidateDtd(pimpl_->context, (xmlDoc*)document->cobj(),
+                   pimpl_->dtd->cobj());
 
   if (!res)
   {
