@@ -58,7 +58,7 @@ typedef enum {
 /**
  * Represents an XML document in the DOM model.
  */
-class Document : NonCopyable
+class Document : public NonCopyable
 {
   //Ensure that libxml is properly initialised:
   class Init

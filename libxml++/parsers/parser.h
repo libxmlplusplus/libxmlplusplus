@@ -33,7 +33,7 @@ namespace xmlpp {
  *
  * Abstract base class for DOM parser and SAX parser.
  */
-class Parser : NonCopyable
+class Parser : public NonCopyable
 {
 public:
   Parser();

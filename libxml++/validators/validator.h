@@ -28,7 +28,7 @@ class Document;
 
 /** Base class for XML validators.
  */
-class Validator : NonCopyable
+class Validator : public NonCopyable
 {
 public:
   Validator();

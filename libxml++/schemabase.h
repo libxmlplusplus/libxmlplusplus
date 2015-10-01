@@ -35,7 +35,7 @@ class Document;
  *
  * @newin{2,38}
  */
-class SchemaBase : NonCopyable
+class SchemaBase : public NonCopyable
 {
 public:
   SchemaBase();
