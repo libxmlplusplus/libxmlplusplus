@@ -1,8 +1,43 @@
-2.90.0 (unstable):
+2.91.1 (unstable):
 
 * Renamed ABI from libxml++-2.6 to libxml++-3.0.
   This requires applications to change their pkg-config check to libxml++-3.0
   when they wish to use libxml++ 2.9x or 3.x instead of libxml++ 2.x.
+  (Kjell Ahlstedt) Bug #754673.
+  There may be more changes in ABI and/or API before the first stable
+  libxml++-3.0 release.
+
+* Node: Add const_NodeList and use it in a const version of get_children().
+  Add const_NodeSet and use it in a const version of find().
+  Replace xmlpp::NodeSet by xmlpp::Node::NodeSet.
+  Element: Add const_Attribute_list and use it in a const version of
+  get_attributes().
+  (Kjell Ahlstedt) Bug #338907 (Marcos Mayorga)
+* Document: Add a non-const version of get_root_node(). Let the const version
+  return a const pointer.
+  (Knut Aksel Røysland) Bug #632522
+* Element: Add a non-const version of get_attribute(). Let the const version
+  return a const pointer.
+  (Knut Aksel Røysland) Bug #632524
+* Replace the deprecated std::auto_ptr by std::unique_ptr
+  (Kjell Ahlstedt) Bug #753123
+* DomParser: The default behaviour is to throw both parse errors and
+  validity errors in an exception instead of printing some messages on stderr.
+* Parser: Some protected data has become private.
+* Several classes: Some virtual methods have become non-virtual, and some
+  non-virtual methods have become virtual.
+* Remove class xmlpp::wrapped_exception and the deprecated classes
+  Schema and SchemaValidator.
+* xmlpp::exception and its subclasses: Remove Raise() and Clone().
+* SaxParser: Start each parsing with a new Document for entity resolution.
+* Move all Node::add_child*() methods to Element and rename them to
+  add_child_element*().
+* Attribute: Move set_value() to AttributeNode.
+* Use std::string instead of Glib::ustring for filenames.
+* Node: Replace remove_child() by remove_node().
+* Move some code from DtdValidator to Dtd.
+* Element: Rename set/get_child_text() to set/get_first_child_text().
+
 
 2.39.2 (unstable):
 
