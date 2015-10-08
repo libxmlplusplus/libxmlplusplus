@@ -238,7 +238,7 @@ const Element* Node::get_parent() const
 Element* Node::get_parent()
 {
   if(!(cobj()->parent && cobj()->parent->type == XML_ELEMENT_NODE))
-    return 0;
+    return nullptr;
 
   Node::create_wrapper(cobj()->parent);
   return static_cast<Element*>(cobj()->parent->_private);
@@ -252,7 +252,7 @@ const Node* Node::get_next_sibling() const
 Node* Node::get_next_sibling()
 {
   if(!cobj()->next)
-    return 0;
+    return nullptr;
 
   Node::create_wrapper(cobj()->next);
   return static_cast<Node*>(cobj()->next->_private);
@@ -266,7 +266,7 @@ const Node* Node::get_previous_sibling() const
 Node* Node::get_previous_sibling()
 {
   if(!cobj()->prev)
-    return 0;
+    return nullptr;
 
   Node::create_wrapper(cobj()->prev);
   return static_cast<Node*>(cobj()->prev->_private);
@@ -276,7 +276,7 @@ Node* Node::get_first_child(const Glib::ustring& name)
 {
   auto child = impl_->children;
   if(!child)
-    return 0;
+    return nullptr;
 
   do
   {
@@ -285,7 +285,7 @@ Node* Node::get_first_child(const Glib::ustring& name)
   }
   while((child = child->next));
    
-  return 0;
+  return nullptr;
 }
 
 const Node* Node::get_first_child(const Glib::ustring& name) const
@@ -320,7 +320,7 @@ void Node::remove_node(Node* node)
 Node* Node::import_node(const Node* node, bool recursive)
 {
   if (!node)
-    return 0;
+    return nullptr;
 
   //Create the node, by copying:
   auto imported_node = xmlDocCopyNode(const_cast<xmlNode*>(node->cobj()), impl_->doc, recursive);

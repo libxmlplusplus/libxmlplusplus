@@ -301,7 +301,7 @@ Node* TextReader::get_current_node()
   }
     
   check_for_exceptions();
-  return 0;
+  return nullptr;
 }
 
 const Node* TextReader::get_current_node() const
@@ -329,7 +329,7 @@ Node* TextReader::expand()
   }
     
   check_for_exceptions();
-  return 0;
+  return nullptr;
 }
 
 bool TextReader::next()

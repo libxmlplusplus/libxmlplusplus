@@ -201,7 +201,7 @@ Dtd* Document::get_internal_subset() const
 {
   auto dtd = xmlGetIntSubset(impl_);
   if(!dtd)
-    return 0;
+    return nullptr;
 
   if(!dtd->_private)
     dtd->_private = new Dtd(dtd);
@@ -226,7 +226,7 @@ Element* Document::get_root_node()
 {
   auto root = xmlDocGetRootElement(impl_);
   if(root == nullptr)
-    return 0;
+    return nullptr;
   else
   {
     Node::create_wrapper(root);
@@ -270,7 +270,7 @@ Element* Document::create_root_node_by_import(const Node* node,
 					      bool recursive)
 {
   if (!node)
-    return 0;
+    return nullptr;
 
   //Create the node, by copying:
   auto imported_node = xmlDocCopyNode(const_cast<xmlNode*>(node->cobj()), impl_, recursive);
