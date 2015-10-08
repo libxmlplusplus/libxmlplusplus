@@ -138,7 +138,7 @@ static const char* get_encoding_or_utf8(const Glib::ustring& encoding)
 {
   if(encoding.empty())
   {
-    //If we don't specify this to the xmlDocDump* functions (using 0 instead),
+    //If we don't specify this to the xmlDocDump* functions (using nullptr instead),
     //then some other encoding is used, causing them to fail on non-ASCII characters.
     return "UTF-8";
   }
@@ -215,8 +215,8 @@ void Document::set_internal_subset(const Glib::ustring& name,
 {
   auto dtd = xmlCreateIntSubset(impl_,
 				   (const xmlChar*)name.c_str(),
-				   external_id.empty() ? (const xmlChar*)0 : (const xmlChar*)external_id.c_str(),
-				   system_id.empty() ? (const xmlChar*)0 : (const xmlChar*)system_id.c_str());
+				   external_id.empty() ? nullptr : (const xmlChar*)external_id.c_str(),
+				   system_id.empty() ? nullptr : (const xmlChar*)system_id.c_str());
 
   if (dtd && !dtd->_private)
     dtd->_private = new Dtd(dtd);
@@ -243,7 +243,7 @@ Element* Document::create_root_node(const Glib::ustring& name,
                                     const Glib::ustring& ns_uri,
                                     const Glib::ustring& ns_prefix)
 {
-  auto node = xmlNewDocNode(impl_, 0, (const xmlChar*)name.c_str(), 0);
+  auto node = xmlNewDocNode(impl_, nullptr, (const xmlChar*)name.c_str(), nullptr);
   if (!node)
     throw internal_error("Could not create root element node " + name);
 
@@ -416,8 +416,8 @@ void Document::set_entity_declaration(const Glib::ustring& name, XmlEntityType t
                               const Glib::ustring& content)
 {
   auto entity = xmlAddDocEntity( impl_, (const xmlChar*) name.c_str(), type,
-    publicId.empty() ? (const xmlChar*)0 : (const xmlChar*)publicId.c_str(),
-    systemId.empty() ? (const xmlChar*)0 : (const xmlChar*)systemId.c_str(),
+    publicId.empty() ? nullptr : (const xmlChar*)publicId.c_str(),
+    systemId.empty() ? nullptr : (const xmlChar*)systemId.c_str(),
     (const xmlChar*) content.c_str() );
   if (!entity)
     throw internal_error("Could not add entity declaration " + name);

@@ -38,7 +38,7 @@ TextReader::TextReader(
 	size_type size,
 	const Glib::ustring& uri)
 	: propertyreader(new PropertyReader(*this)), 
-	  impl_( xmlReaderForMemory ((const char*)data, size, uri.c_str(), 0, 0) ),
+	  impl_( xmlReaderForMemory ((const char*)data, size, uri.c_str(), nullptr, 0) ),
     severity_( 0 )
 {
   if( ! impl_ )
@@ -407,7 +407,7 @@ Glib::ustring TextReader::PropertyReader::String(xmlChar* value, bool free)
 {
   owner_.check_for_exceptions();
   
-  if(value == (xmlChar *)0)
+  if (!value)
     return Glib::ustring();
     
   const Glib::ustring result = (char *)value;
@@ -422,7 +422,7 @@ Glib::ustring TextReader::PropertyReader::String(xmlChar const* value)
 {
   owner_.check_for_exceptions();
 
-  if(value == (xmlChar *)0)
+  if (!value)
     return Glib::ustring();
 
   return (const char*)value;

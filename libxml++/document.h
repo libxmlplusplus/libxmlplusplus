@@ -80,7 +80,7 @@ public:
   /** Create a new C++ wrapper for an xmlDoc struct.
    * The created xmlpp::Document takes ownership of the xmlDoc.
    * When the Document is deleted, so is the xmlDoc and all its nodes.
-   * @param doc A pointer to an xmlDoc struct. Must not be <tt>0</tt>.
+   * @param doc A pointer to an xmlDoc struct. Must not be <tt>nullptr</tt>.
    */
   explicit Document(_xmlDoc* doc);
     
@@ -91,7 +91,7 @@ public:
   Glib::ustring get_encoding() const;
 
   /** Get the internal subset of this document.
-   * @returns A pointer to the DTD, or <tt>0</tt> if not found.
+   * @returns A pointer to the DTD, or <tt>nullptr</tt> if not found.
    */
   Dtd* get_internal_subset() const;
 
@@ -107,13 +107,13 @@ public:
 
   /** Return the root node.
    * This function does @b not create a default root node if it doesn't exist.
-   * @return A pointer to the root node if it exists, <tt>0</tt> otherwise.
+   * @return A pointer to the root node if it exists, <tt>nullptr</tt> otherwise.
    */
   Element* get_root_node();
 
   /** Return the root node.
    * This function does @b not create a default root node if it doesn't exist.
-   * @return A pointer to the root node if it exists, <tt>0</tt> otherwise.
+   * @return A pointer to the root node if it exists, <tt>nullptr</tt> otherwise.
    */
   const Element* get_root_node() const;
 
@@ -257,7 +257,7 @@ protected:
   /** Retrieve an Entity.
    * The entity can be from an external subset or internally declared.
    * @param name The name of the entity to get.
-   * @returns A pointer to the libxml2 entity structure, or <tt>0</tt> if not found.
+   * @returns A pointer to the libxml2 entity structure, or <tt>nullptr</tt> if not found.
    */
   _xmlEntity* get_entity(const Glib::ustring& name);
 

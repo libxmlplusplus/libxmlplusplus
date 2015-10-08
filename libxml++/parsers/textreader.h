@@ -94,7 +94,7 @@ class TextReader: public NonCopyable
      */
     TextReader(const unsigned char* data, size_type size, const Glib::ustring& uri = Glib::ustring());
 
-    ~TextReader();
+    ~TextReader() override;
 
     /** Moves the position of the current instance to the next node in the stream, exposing its properties.
      * @return true if the node was read successfully, false if there are no more nodes to read.
@@ -221,13 +221,13 @@ class TextReader: public NonCopyable
      * The C++ wrapper is not deleted. Using this method causes memory leaks,
      * unless you call xmlpp::Node::free_wrappers(), which is not intended to be
      * called by the application.
-     * @returns A pointer to the current node, or 0 in case of error.
+     * @returns A pointer to the current node, or <tt>nullptr</tt> in case of error.
      */
     Node* get_current_node();
 
     /** Get a pointer to the current node.
      * @warning See the non-const get_current_node().
-     * @returns A pointer to the current node, or 0 in case of error.
+     * @returns A pointer to the current node, or <tt>nullptr</tt> in case of error.
      */
     const Node* get_current_node() const;
 
@@ -239,7 +239,7 @@ class TextReader: public NonCopyable
      * @warning The C++ wrappers are not deleted. Using this method causes memory leaks,
      * unless you call xmlpp::Node::free_wrappers(), which is not intended to be
      * called by the application.
-     * @returns A pointer to the current node, or 0 in case of error.
+     * @returns A pointer to the current node, or <tt>nullptr</tt> in case of error.
      * @throws xmlpp::parse_error
      * @throws xmlpp::validity_error
      */

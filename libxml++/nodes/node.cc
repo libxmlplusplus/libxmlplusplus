@@ -222,7 +222,7 @@ Node::Node(xmlNode* node)
   : impl_(node)
 {
   if (!impl_)
-    throw internal_error("xmlNode pointer cannot be 0");
+    throw internal_error("xmlNode pointer cannot be nullptr");
 
   impl_->_private = this;
 }
@@ -332,7 +332,7 @@ Node* Node::import_node(const Node* node, bool recursive)
   if (imported_node->type == XML_ATTRIBUTE_NODE && impl_->type == XML_ELEMENT_NODE)
   {
     auto old_attr = xmlHasNsProp(impl_, imported_node->name,
-      imported_node->ns ? imported_node->ns->href : 0);
+      imported_node->ns ? imported_node->ns->href : nullptr);
     if (old_attr && old_attr->type != XML_ATTRIBUTE_DECL)
     {
       // *this has an attribute with the same name as the imported attribute.
@@ -396,12 +396,12 @@ Glib::ustring Node::get_path() const
 
 Node::NodeSet Node::find(const Glib::ustring& xpath)
 {
-  return find_common<NodeSet>(xpath, 0, impl_);
+  return find_common<NodeSet>(xpath, nullptr, impl_);
 }
 
 Node::const_NodeSet Node::find(const Glib::ustring& xpath) const
 {
-  return find_common<const_NodeSet>(xpath, 0, impl_);
+  return find_common<const_NodeSet>(xpath, nullptr, impl_);
 }
 
 Node::NodeSet Node::find(const Glib::ustring& xpath, const PrefixNsMap& namespaces)
@@ -416,7 +416,7 @@ Node::const_NodeSet Node::find(const Glib::ustring& xpath, const PrefixNsMap& na
 
 bool Node::eval_to_boolean(const Glib::ustring& xpath, XPathResultType* result_type) const
 {
-  return eval_common_to_boolean(xpath, 0, result_type, impl_);
+  return eval_common_to_boolean(xpath, nullptr, result_type, impl_);
 }
 
 bool Node::eval_to_boolean(const Glib::ustring& xpath, const PrefixNsMap& namespaces,
@@ -427,7 +427,7 @@ bool Node::eval_to_boolean(const Glib::ustring& xpath, const PrefixNsMap& namesp
 
 double Node::eval_to_number(const Glib::ustring& xpath, XPathResultType* result_type) const
 {
-  return eval_common_to_number(xpath, 0, result_type, impl_);
+  return eval_common_to_number(xpath, nullptr, result_type, impl_);
 }
 
 double Node::eval_to_number(const Glib::ustring& xpath, const PrefixNsMap& namespaces,
@@ -438,7 +438,7 @@ double Node::eval_to_number(const Glib::ustring& xpath, const PrefixNsMap& names
 
 Glib::ustring Node::eval_to_string(const Glib::ustring& xpath, XPathResultType* result_type) const
 {
-  return eval_common_to_string(xpath, 0, result_type, impl_);
+  return eval_common_to_string(xpath, nullptr, result_type, impl_);
 }
 
 Glib::ustring Node::eval_to_string(const Glib::ustring& xpath, const PrefixNsMap& namespaces,
@@ -502,7 +502,7 @@ void Node::set_namespace(const Glib::ustring& ns_prefix)
   }
 
   //Look for the existing namespace to use:
-  auto ns = xmlSearchNs( cobj()->doc, cobj(), (xmlChar*)(ns_prefix.empty() ? 0 : ns_prefix.c_str()) );
+  auto ns = xmlSearchNs( cobj()->doc, cobj(), (xmlChar*)(ns_prefix.empty() ? nullptr : ns_prefix.c_str()) );
   if(ns)
   {
       //Use it for this element:

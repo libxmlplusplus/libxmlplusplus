@@ -75,7 +75,7 @@ Attribute* Element::get_attribute(const Glib::ustring& name,
   // cast to an xmlAttr*, pointing to the declaration of an attribute with a
   // default value (XML_ATTRIBUTE_DECL).
   auto attr = xmlHasNsProp(const_cast<xmlNode*>(cobj()), (const xmlChar*)name.c_str(),
-                               ns_uri.empty() ? 0 : (const xmlChar*)ns_uri.c_str());
+                               ns_uri.empty() ? nullptr : (const xmlChar*)ns_uri.c_str());
   if (attr)
   {
     Node::create_wrapper(reinterpret_cast<xmlNode*>(attr));
@@ -216,7 +216,7 @@ _xmlNode* Element::create_new_child_element_node(const Glib::ustring& name,
    if (ns_prefix.empty())
    {
      //Retrieve default namespace if it exists
-     ns = xmlSearchNs(cobj()->doc, cobj(), 0);
+     ns = xmlSearchNs(cobj()->doc, cobj(), nullptr);
    }
    else
    {
@@ -235,12 +235,12 @@ _xmlNode* Element::create_new_child_element_node_with_new_ns(const Glib::ustring
   if (cobj()->type != XML_ELEMENT_NODE)
     throw internal_error("You can only add child nodes to element nodes.");
 
-  auto child = xmlNewNode(0, (const xmlChar*)name.c_str());
+  auto child = xmlNewNode(nullptr, (const xmlChar*)name.c_str());
   if (!child)
     throw internal_error("Could not create new element node.");
 
-  auto ns = xmlNewNs(child, (const xmlChar*)(ns_uri.empty() ? 0 : ns_uri.c_str()),
-                       (const xmlChar*)(ns_prefix.empty() ? 0 : ns_prefix.c_str()) );
+  auto ns = xmlNewNs(child, (const xmlChar*)(ns_uri.empty() ? nullptr : ns_uri.c_str()),
+                       (const xmlChar*)(ns_prefix.empty() ? nullptr : ns_prefix.c_str()) );
   // xmlNewNs() does not create a namespace node for the predefined xml prefix.
   // It's usually defined in the document and not in any specific node.
   if (!ns && ns_prefix == "xml")
@@ -357,13 +357,13 @@ bool Element::has_child_text() const
 void Element::set_namespace_declaration(const Glib::ustring& ns_uri, const Glib::ustring& ns_prefix)
 {
   //Create a new namespace declaration for this element:
-  auto ns = xmlNewNs(cobj(), (const xmlChar*)(ns_uri.empty() ? 0 : ns_uri.c_str()),
-                       (const xmlChar*)(ns_prefix.empty() ? 0 : ns_prefix.c_str()) );
+  auto ns = xmlNewNs(cobj(), (const xmlChar*)(ns_uri.empty() ? nullptr : ns_uri.c_str()),
+                       (const xmlChar*)(ns_prefix.empty() ? nullptr : ns_prefix.c_str()) );
   if (!ns)
   {
     // Not an error, if we try to assign the same uri to the prefix once again.
     ns = xmlSearchNs(cobj()->doc, cobj(),
-                     (const xmlChar*)(ns_prefix.empty() ? 0 : ns_prefix.c_str()));
+                     (const xmlChar*)(ns_prefix.empty() ? nullptr : ns_prefix.c_str()));
     const char* const previous_href = (ns && ns->href) ? (const char*)ns->href : "";
     if (!ns || ns_uri != previous_href)
       throw exception("Could not add namespace declaration with URI=" + ns_uri +
