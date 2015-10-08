@@ -233,7 +233,11 @@ void SaxParser::parse_stream(std::istream& in)
 
   initialize_context();
 
-  //TODO: Shouldn't we use a Glib::ustring here, and some alternative to std::getline()?
+  // std::string or Glib::ustring?
+  // Output from the XML parser is UTF-8 encoded.
+  // But the istream "in" is input, i.e. an XML file. It can use any encoding.
+  // If it's not UTF-8, the file itself must contain information about which
+  // encoding it uses. See the XML specification. Thus use std::string.
   int firstParseError = XML_ERR_OK;
   std::string line;
   while (!exception_ptr_ && std::getline(in, line))

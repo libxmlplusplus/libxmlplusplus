@@ -121,12 +121,12 @@ void DomParser::parse_context()
   }
 
   doc_ = new Document(context_->myDoc);
-  // This is to indicate to release_underlying that we took the
+  // This is to indicate to release_underlying() that we took the
   // ownership on the doc.
   context_->myDoc = nullptr;
 
-  //Free the parse context, but keep the document alive so people can navigate the DOM tree:
-  //TODO: Why not keep the context alive too?
+  // Free the parser context because it's not needed anymore,
+  // but keep the document alive so people can navigate the DOM tree:
   Parser::release_underlying();
 }
 
@@ -151,7 +151,11 @@ void DomParser::parse_stream(std::istream& in)
 
   initialize_context();
 
-  //TODO: Shouldn't we use a Glib::ustring here, and some alternative to std::getline()?
+  // std::string or Glib::ustring?
+  // Output from the XML parser is UTF-8 encoded.
+  // But the istream "in" is input, i.e. an XML file. It can use any encoding.
+  // If it's not UTF-8, the file itself must contain information about which
+  // encoding it uses. See the XML specification. Thus use std::string.
   int firstParseError = XML_ERR_OK;
   std::string line;
   while(std::getline(in, line))
@@ -194,13 +198,12 @@ void DomParser::parse_stream(std::istream& in)
   }
 
   doc_ = new Document(context_->myDoc);
-  // This is to indicate to release_underlying that we took the
+  // This is to indicate to release_underlying() that we took the
   // ownership on the doc.
   context_->myDoc = nullptr;
 
-
-  //Free the parse context, but keep the document alive so people can navigate the DOM tree:
-  //TODO: Why not keep the context alive too?
+  // Free the parser context because it's not needed anymore,
+  // but keep the document alive so people can navigate the DOM tree:
   Parser::release_underlying();
 }
 
