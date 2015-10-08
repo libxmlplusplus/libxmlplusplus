@@ -308,10 +308,7 @@ void Parser::callback_error_or_warning(MsgType msg_type, void* ctx,
         // returns an error message (as it usually does).
 
         //Convert the ... to a string:
-        char buff[1024];
-
-        vsnprintf(buff, sizeof(buff)/sizeof(buff[0]), msg, var_args);
-        ubuff = buff;
+        ubuff = format_printf_message(msg, var_args);
       }
 
       try

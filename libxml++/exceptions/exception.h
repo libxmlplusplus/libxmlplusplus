@@ -21,6 +21,7 @@
 #define __LIBXMLPP_EXCEPTION_H
 
 #include <exception>
+#include <cstdarg> // va_list
 #include <glibmm/ustring.h>
 
 #include <libxml++config.h>
@@ -51,8 +52,8 @@ private:
  *
  * @newin{2,36}
  *
- * @param error Pointer to an _xmlError struct or <tt>0</tt>. If <tt>0</tt>,
- *              the error returned by xmlGetLastError() is used.
+ * @param error Pointer to an _xmlError struct or <tt>nullptr</tt>.
+ *              If <tt>nullptr</tt>, the error returned by xmlGetLastError() is used.
  * @returns A formatted text string. If the error struct does not contain an
  *          error (error->code == XML_ERR_OK), an empty string is returned.
  */
@@ -68,6 +69,27 @@ Glib::ustring format_xml_error(const _xmlError* error = nullptr);
  *          string is returned.
  */
 Glib::ustring format_xml_parser_error(const _xmlParserCtxt* parser_context);
+
+/** Format a message from a function with C-style variadic parameters.
+ *
+ * Helper function that formats a message supplied in the form of a printf-style
+ * format specification and zero or more ... parameters.
+ *
+ * @code
+ * // Typical call:
+ * void f(const char* fmt, ...)
+ * {
+ *   va_list args;
+ *   va_start(args, fmt);
+ *   Glib::ustring msg = xmlpp::format_printf_message(fmt, args);
+ *   va_end(args);
+ *   // ...
+ * }
+ * @endcode
+ *
+ * @newin{3,0}
+ */
+Glib::ustring format_printf_message(const char* fmt, va_list args);
 
 } // namespace xmlpp
 

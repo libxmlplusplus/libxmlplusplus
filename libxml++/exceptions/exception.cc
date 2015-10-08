@@ -1,6 +1,8 @@
 #include "exception.h"
 #include <libxml/xmlerror.h>
 #include <libxml/parser.h>
+#include <cstdio>
+#include <vector>
 
 namespace xmlpp {
   
@@ -90,6 +92,24 @@ Glib::ustring format_xml_parser_error(const _xmlParserCtxt* parser_context)
     str += "Document not well-formed.\n";
 
   return str + format_xml_error(error);
+}
+
+Glib::ustring format_printf_message(const char* fmt, va_list args)
+{
+  // This code was inspired by the example at
+  // http://en.cppreference.com/w/cpp/io/c/vfprintf
+  va_list args2;
+  va_copy(args2, args);
+  // Number of characters (bytes) in the resulting string;
+  // error, if < 0.
+  const int nchar = std::vsnprintf(nullptr, 0, fmt, args2);
+  va_end(args2);
+  if (nchar < 0)
+   return Glib::ustring::format("Error code from std::vsnprintf = ", nchar);
+
+  std::vector<char> buf(nchar+1);
+  std::vsnprintf(buf.data(), buf.size(), fmt, args);
+  return Glib::ustring(buf.data());
 }
 
 } //namespace xmlpp

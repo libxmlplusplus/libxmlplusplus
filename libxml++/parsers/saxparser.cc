@@ -523,15 +523,13 @@ void SaxParserCallback::warning(void* context, const char* fmt, ...)
   auto parser = static_cast<SaxParser*>(the_context->_private);
 
   va_list arg;
-  char buff[1024]; //TODO: Larger/Shared
-
   va_start(arg, fmt);
-  vsnprintf(buff, sizeof(buff)/sizeof(buff[0]), fmt, arg);
+  const Glib::ustring buff = format_printf_message(fmt, arg);
   va_end(arg);
 
   try
   {
-    parser->on_warning(Glib::ustring(buff));
+    parser->on_warning(buff);
   }
   catch (...)
   {
@@ -544,19 +542,17 @@ void SaxParserCallback::error(void* context, const char* fmt, ...)
   auto the_context = static_cast<_xmlParserCtxt*>(context);
   auto parser = static_cast<SaxParser*>(the_context->_private);
 
-  va_list arg;
-  char buff[1024]; //TODO: Larger/Shared
-
   if (parser->exception_ptr_)
     return;
 
+  va_list arg;
   va_start(arg, fmt);
-  vsnprintf(buff, sizeof(buff)/sizeof(buff[0]), fmt, arg);
+  const Glib::ustring buff = format_printf_message(fmt, arg);
   va_end(arg);
 
   try
   {
-    parser->on_error(Glib::ustring(buff));
+    parser->on_error(buff);
   }
   catch (...)
   {
@@ -570,15 +566,13 @@ void SaxParserCallback::fatal_error(void* context, const char* fmt, ...)
   auto parser = static_cast<SaxParser*>(the_context->_private);
 
   va_list arg;
-  char buff[1024]; //TODO: Larger/Shared
-
   va_start(arg, fmt);
-  vsnprintf(buff, sizeof(buff)/sizeof(buff[0]), fmt, arg);
+  const Glib::ustring buff = format_printf_message(fmt, arg);
   va_end(arg);
 
   try
   {
-    parser->on_fatal_error(Glib::ustring(buff));
+    parser->on_fatal_error(buff);
   }
   catch (...)
   {

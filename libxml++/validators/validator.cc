@@ -1,4 +1,4 @@
-/* xml++.cc
+/* validator.cc
  * libxml++ and this file are copyright (C) 2000 by Ari Johnson
  * (C) 2002-2004 by the libxml dev team and
  * are covered by the GNU Lesser General Public License, which should be
@@ -98,15 +98,13 @@ void Validator::callback_validity_error(void* valid_, const char* msg, ...)
   {
     //Convert the ... to a string:
     va_list arg;
-    char buff[1024]; //TODO: Larger/Shared
-
     va_start(arg, msg);
-    vsnprintf(buff, sizeof(buff)/sizeof(buff[0]), msg, arg);
+    const Glib::ustring buff = format_printf_message(msg, arg);
     va_end(arg);
 
     try
     {
-      validator->on_validity_error(Glib::ustring(buff));
+      validator->on_validity_error(buff);
     }
     catch (...)
     {
@@ -123,15 +121,13 @@ void Validator::callback_validity_warning(void* valid_, const char* msg, ...)
   {
     //Convert the ... to a string:
     va_list arg;
-    char buff[1024]; //TODO: Larger/Shared
-
     va_start(arg, msg);
-    vsnprintf(buff, sizeof(buff)/sizeof(buff[0]), msg, arg);
+    const Glib::ustring buff = format_printf_message(msg, arg);
     va_end(arg);
 
     try
     {
-      validator->on_validity_warning(Glib::ustring(buff));
+      validator->on_validity_warning(buff);
     }
     catch (...)
     {
