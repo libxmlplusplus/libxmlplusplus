@@ -47,7 +47,7 @@ Attribute* Element::get_attribute(const Glib::ustring& name,
   {
     ns_uri = get_namespace_uri_for_prefix(ns_prefix);
     if (ns_uri.empty())
-      return 0; // No such prefix.
+      return nullptr; // No such prefix.
   }
 
   // The return value of xmlHasNsProp() may be either an xmlAttr*, pointing to an
@@ -55,14 +55,14 @@ Attribute* Element::get_attribute(const Glib::ustring& name,
   // cast to an xmlAttr*, pointing to the declaration of an attribute with a
   // default value (XML_ATTRIBUTE_DECL).
   auto attr = xmlHasNsProp(const_cast<xmlNode*>(cobj()), (const xmlChar*)name.c_str(),
-                               ns_uri.empty() ? 0 : (const xmlChar*)ns_uri.c_str());
+                               ns_uri.empty() ? nullptr : (const xmlChar*)ns_uri.c_str());
   if (attr)
   {
     Node::create_wrapper(reinterpret_cast<xmlNode*>(attr));
     return reinterpret_cast<Attribute*>(attr->_private);
   }
 
-  return 0;
+  return nullptr;
 }
 
 Glib::ustring Element::get_attribute_value(const Glib::ustring& name, const Glib::ustring& ns_prefix) const
@@ -102,7 +102,7 @@ Attribute* Element::set_attribute(const Glib::ustring& name, const Glib::ustring
     return reinterpret_cast<Attribute*>(attr->_private);
   }
   else
-    return 0;
+    return nullptr;
 }
 
 void Element::remove_attribute(const Glib::ustring& name, const Glib::ustring& ns_prefix)
@@ -127,7 +127,7 @@ const TextNode* Element::get_child_text() const
        return static_cast<TextNode*>(child->_private);
      }
 
-  return 0;
+  return nullptr;
 }
 
 TextNode* Element::get_child_text()
@@ -141,7 +141,7 @@ TextNode* Element::get_child_text()
        return static_cast<TextNode*>(child->_private);
      }
 
-  return 0;
+  return nullptr;
 }
 
 void Element::set_child_text(const Glib::ustring& content)
@@ -169,13 +169,13 @@ TextNode* Element::add_child_text(const Glib::ustring& content)
     Node::create_wrapper(node);
     return static_cast<TextNode*>(node->_private);
   }
-  return 0;
+  return nullptr;
 }
 
 TextNode* Element::add_child_text(xmlpp::Node* previous_sibling, const Glib::ustring& content)
 {
   if(!previous_sibling)
-    return 0;
+    return nullptr;
 
   if(cobj()->type == XML_ELEMENT_NODE)
   {
@@ -191,13 +191,13 @@ TextNode* Element::add_child_text(xmlpp::Node* previous_sibling, const Glib::ust
     Node::create_wrapper(node);
     return static_cast<TextNode*>(node->_private);
   }
-  return 0;
+  return nullptr;
 }
 
 TextNode* Element::add_child_text_before(xmlpp::Node* next_sibling, const Glib::ustring& content)
 {
   if(!next_sibling)
-    return 0;
+    return nullptr;
 
   if(cobj()->type == XML_ELEMENT_NODE)
   {
@@ -213,7 +213,7 @@ TextNode* Element::add_child_text_before(xmlpp::Node* next_sibling, const Glib::
     Node::create_wrapper(node);
     return static_cast<TextNode*>(node->_private);
   }
-  return 0;
+  return nullptr;
 }
 
 bool Element::has_child_text() const
@@ -224,13 +224,13 @@ bool Element::has_child_text() const
 void Element::set_namespace_declaration(const Glib::ustring& ns_uri, const Glib::ustring& ns_prefix)
 {
   //Create a new namespace declaration for this element:
-  auto ns = xmlNewNs(cobj(), (const xmlChar*)(ns_uri.empty() ? 0 : ns_uri.c_str()),
-                       (const xmlChar*)(ns_prefix.empty() ? 0 : ns_prefix.c_str()) );
+  auto ns = xmlNewNs(cobj(), (const xmlChar*)(ns_uri.empty() ? nullptr : ns_uri.c_str()),
+                       (const xmlChar*)(ns_prefix.empty() ? nullptr : ns_prefix.c_str()) );
   if (!ns)
   {
     // Not an error, if we try to assign the same uri to the prefix once again.
     ns = xmlSearchNs(cobj()->doc, cobj(),
-                     (const xmlChar*)(ns_prefix.empty() ? 0 : ns_prefix.c_str()));
+                     (const xmlChar*)(ns_prefix.empty() ? nullptr : ns_prefix.c_str()));
     const char* const previous_href = (ns && ns->href) ? (const char*)ns->href : "";
     if (!ns || ns_uri != previous_href)
       throw exception("Could not add namespace declaration with URI=" + ns_uri +
