@@ -55,7 +55,7 @@ class Node : public NonCopyable
 public:
   typedef std::list<Node*> NodeList;
 
-  /** @throws xmlpp::internal_error If @a node is <tt>0</tt>.
+  /** @throws xmlpp::internal_error If @a node is <tt>nullptr</tt>.
    */
   explicit Node(_xmlNode* node);
   ~Node() override;
@@ -93,39 +93,39 @@ public:
   int get_line() const;
   
   /** Get the parent element for this node.
-   * @returns The parent node, or <tt>0</tt> if the node has no parent element.
+   * @returns The parent node, or <tt>nullptr</tt> if the node has no parent element.
    */
   const Element* get_parent() const;  
 
   /** Get the parent element for this node.
-   * @returns The parent node, or <tt>0</tt> if the node has no parent element.
+   * @returns The parent node, or <tt>nullptr</tt> if the node has no parent element.
    */
   Element* get_parent();  
 
   /** Get the next sibling for this node.
-   * @returns The next sibling, or <tt>0</tt> if the node has no next sibling.
+   * @returns The next sibling, or <tt>nullptr</tt> if the node has no next sibling.
    */
   const Node* get_next_sibling() const;  
 
   /** Get the next sibling for this node.
-   * @returns The next sibling, or <tt>0</tt> if the node has no next sibling.
+   * @returns The next sibling, or <tt>nullptr</tt> if the node has no next sibling.
    */
   Node* get_next_sibling();  
 
   /** Get the previous sibling for this node .
-   * @returns The previous sibling, or <tt>0</tt> if the node has no previous sibling.
+   * @returns The previous sibling, or <tt>nullptr</tt> if the node has no previous sibling.
    */
   const Node* get_previous_sibling() const;  
 
   /** Get the previous sibling for this node.
-   * @returns The previous sibling, or <tt>0</tt> if the node has no previous sibling.
+   * @returns The previous sibling, or <tt>nullptr</tt> if the node has no previous sibling.
    */
   Node* get_previous_sibling();  
 
   /** Get the first child of this node.
    * You may optionally get the first child node which has a certain name.
    * @param name The name of the requested child node, or an empty string.
-   * @returns The first child, or <tt>0</tt> if no child node (with the specified name) exists.
+   * @returns The first child, or <tt>nullptr</tt> if no child node (with the specified name) exists.
    *
    * @newin{2,36}
    */
@@ -134,7 +134,7 @@ public:
   /** Get the first child of this node.
    * You may optionally get the first child node which has a certain name.
    * @param name The name of the requested child node, or an empty string.
-   * @returns The first child, or <tt>0</tt> if no child node (with the specified name) exists.
+   * @returns The first child, or <tt>nullptr</tt> if no child node (with the specified name) exists.
    *
    * @newin{2,36}
    */
@@ -299,7 +299,7 @@ public:
   /** Evaluate an XPath expression.
    * @param xpath The XPath expression.
    * @param[out] result_type Result type of the XPath expression before conversion
-   *             to boolean. If 0, the result type is not returned.
+   *             to boolean. If <tt>nullptr</tt>, the result type is not returned.
    * @returns The value of the XPath expression. If the value is not of type boolean,
    *          it is converted to boolean.
    * @throws xmlpp::exception If the XPath expression cannot be evaluated.
@@ -314,7 +314,7 @@ public:
    * @param xpath The XPath expression.
    * @param namespaces A map of namespace prefixes to namespace URIs to be used while evaluating.
    * @param[out] result_type Result type of the XPath expression before conversion
-   *             to boolean. If 0, the result type is not returned.
+   *             to boolean. If <tt>nullptr</tt>, the result type is not returned.
    * @returns The value of the XPath expression. If the value is not of type boolean,
    *          it is converted to boolean.
    * @throws xmlpp::exception If the XPath expression cannot be evaluated.
@@ -328,7 +328,7 @@ public:
   /** Evaluate an XPath expression.
    * @param xpath The XPath expression.
    * @param[out] result_type Result type of the XPath expression before conversion
-   *             to number. If 0, the result type is not returned.
+   *             to number. If <tt>nullptr</tt>, the result type is not returned.
    * @returns The value of the XPath expression. If the value is not of type number,
    *          it is converted to number.
    * @throws xmlpp::exception If the XPath expression cannot be evaluated.
@@ -342,7 +342,7 @@ public:
    * @param xpath The XPath expression.
    * @param namespaces A map of namespace prefixes to namespace URIs to be used while evaluating.
    * @param[out] result_type Result type of the XPath expression before conversion
-   *             to number. If 0, the result type is not returned.
+   *             to number. If <tt>nullptr</tt>, the result type is not returned.
    * @returns The value of the XPath expression. If the value is not of type number,
    *          it is converted to number.
    * @throws xmlpp::exception If the XPath expression cannot be evaluated.
@@ -356,7 +356,7 @@ public:
   /** Evaluate an XPath expression.
    * @param xpath The XPath expression.
    * @param[out] result_type Result type of the XPath expression before conversion
-   *             to string. If 0, the result type is not returned.
+   *             to string. If <tt>nullptr</tt>, the result type is not returned.
    * @returns The value of the XPath expression. If the value is not of type string,
    *          it is converted to string.
    * @throws xmlpp::exception If the XPath expression cannot be evaluated.
@@ -370,7 +370,7 @@ public:
    * @param xpath The XPath expression.
    * @param namespaces A map of namespace prefixes to namespace URIs to be used while evaluating.
    * @param[out] result_type Result type of the XPath expression before conversion
-   *             to string. If 0, the result type is not returned.
+   *             to string. If <tt>nullptr</tt>, the result type is not returned.
    * @returns The value of the XPath expression. If the value is not of type string,
    *          it is converted to string.
    * @throws xmlpp::exception If the XPath expression cannot be evaluated.

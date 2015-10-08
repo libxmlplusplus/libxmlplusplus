@@ -60,7 +60,7 @@ public:
   /** Get the attribute with this name, and optionally with this namespace.
    * @param name The name of the attribute that will be retrieved.
    * @param ns_prefix Namespace prefix.
-   * @return The attribute, or 0 if no suitable Attribute was found.
+   * @return The attribute, or <tt>nullptr</tt> if no suitable Attribute was found.
    *         Is either an AttributeNode*, pointing to an explicitly set
    *         attribute, or an AttributeDeclaration*, pointing to the declaration
    *         of an attribute with a default value.
@@ -85,7 +85,7 @@ public:
    * @param name The name of the attribute whose value will change.
    * @param value The new value for the attribute
    * @param ns_prefix Namespace prefix. If the prefix has not been declared then this method will throw an exception.
-   * @return The attribute that was changed, or 0 is no suitable Attribute was found.
+   * @return The attribute that was changed, or <tt>nullptr</tt> is no suitable Attribute was found.
    * @throws xmlpp::exception
    */
   Attribute* set_attribute(const Glib::ustring& name, const Glib::ustring& value,

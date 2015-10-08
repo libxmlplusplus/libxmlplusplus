@@ -132,7 +132,7 @@ Node::Node(xmlNode* node)
   : impl_(node)
 {
   if (!impl_)
-    throw internal_error("xmlNode pointer cannot be 0");
+    throw internal_error("xmlNode pointer cannot be nullptr");
 
   impl_->_private = this;
 }
@@ -249,7 +249,7 @@ Element* Node::add_child(xmlpp::Node* previous_sibling,
                          const Glib::ustring& ns_prefix)
 {
   if (!previous_sibling)
-    return 0;
+    return nullptr;
 
   auto child = create_new_child_node(name, ns_prefix);
   auto node = xmlAddNextSibling(previous_sibling->cobj(), child);
@@ -261,7 +261,7 @@ Element* Node::add_child_before(xmlpp::Node* next_sibling,
                          const Glib::ustring& ns_prefix)
 {
   if (!next_sibling)
-    return 0;
+    return nullptr;
 
   auto child = create_new_child_node(name, ns_prefix);
   auto node = xmlAddPrevSibling(next_sibling->cobj(), child);
@@ -281,7 +281,7 @@ Element* Node::add_child_with_new_ns(xmlpp::Node* previous_sibling,
   const Glib::ustring& ns_uri, const Glib::ustring& ns_prefix)
 {
   if (!previous_sibling)
-    return 0;
+    return nullptr;
 
   auto child = create_new_child_node_with_new_ns(name, ns_uri, ns_prefix);
   auto node = xmlAddNextSibling(previous_sibling->cobj(), child);
@@ -293,7 +293,7 @@ Element* Node::add_child_before_with_new_ns(xmlpp::Node* next_sibling,
   const Glib::ustring& ns_uri, const Glib::ustring& ns_prefix)
 {
   if (!next_sibling)
-    return 0;
+    return nullptr;
 
   auto child = create_new_child_node_with_new_ns(name, ns_uri, ns_prefix);
   auto node = xmlAddPrevSibling(next_sibling->cobj(), child);
@@ -312,7 +312,7 @@ _xmlNode* Node::create_new_child_node(const Glib::ustring& name, const Glib::ust
    if(ns_prefix.empty())
    {
      //Retrieve default namespace if it exists
-     ns = xmlSearchNs(impl_->doc, impl_, 0);
+     ns = xmlSearchNs(impl_->doc, impl_, nullptr);
    }
    else
    {
@@ -333,12 +333,12 @@ _xmlNode* Node::create_new_child_node_with_new_ns(const Glib::ustring& name,
   if (impl_->type != XML_ELEMENT_NODE)
     throw internal_error("You can only add child nodes to element nodes.");
 
-  auto child = xmlNewNode(0, (const xmlChar*)name.c_str());
+  auto child = xmlNewNode(nullptr, (const xmlChar*)name.c_str());
   if (!child)
     throw internal_error("Could not create new element node.");
 
-  auto ns = xmlNewNs(child, (const xmlChar*)(ns_uri.empty() ? 0 : ns_uri.c_str()),
-                       (const xmlChar*)(ns_prefix.empty() ? 0 : ns_prefix.c_str()) );
+  auto ns = xmlNewNs(child, (const xmlChar*)(ns_uri.empty() ? nullptr : ns_uri.c_str()),
+                       (const xmlChar*)(ns_prefix.empty() ? nullptr : ns_prefix.c_str()) );
   // xmlNewNs() does not create a namespace node for the predefined xml prefix.
   // It's usually defined in the document and not in any specific node.
   if (!ns && ns_prefix == "xml")
@@ -385,7 +385,7 @@ Node* Node::import_node(const Node* node, bool recursive)
   if (imported_node->type == XML_ATTRIBUTE_NODE && impl_->type == XML_ELEMENT_NODE)
   {
     auto old_attr = xmlHasNsProp(impl_, imported_node->name,
-      imported_node->ns ? imported_node->ns->href : 0);
+      imported_node->ns ? imported_node->ns->href : nullptr);
     if (old_attr && old_attr->type != XML_ATTRIBUTE_DECL)
     {
       // *this has an attribute with the same name as the imported attribute.
@@ -536,7 +536,7 @@ NodeSet Node::find(const Glib::ustring& xpath,
 
 bool Node::eval_to_boolean(const Glib::ustring& xpath, XPathResultType* result_type) const
 {
-  return eval_common_to_boolean(xpath, 0, result_type, impl_);
+  return eval_common_to_boolean(xpath, nullptr, result_type, impl_);
 }
 
 bool Node::eval_to_boolean(const Glib::ustring& xpath, const PrefixNsMap& namespaces,
@@ -547,7 +547,7 @@ bool Node::eval_to_boolean(const Glib::ustring& xpath, const PrefixNsMap& namesp
 
 double Node::eval_to_number(const Glib::ustring& xpath, XPathResultType* result_type) const
 {
-  return eval_common_to_number(xpath, 0, result_type, impl_);
+  return eval_common_to_number(xpath, nullptr, result_type, impl_);
 }
 
 double Node::eval_to_number(const Glib::ustring& xpath, const PrefixNsMap& namespaces,
@@ -558,7 +558,7 @@ double Node::eval_to_number(const Glib::ustring& xpath, const PrefixNsMap& names
 
 Glib::ustring Node::eval_to_string(const Glib::ustring& xpath, XPathResultType* result_type) const
 {
-  return eval_common_to_string(xpath, 0, result_type, impl_);
+  return eval_common_to_string(xpath, nullptr, result_type, impl_);
 }
 
 Glib::ustring Node::eval_to_string(const Glib::ustring& xpath, const PrefixNsMap& namespaces,
@@ -622,7 +622,7 @@ void Node::set_namespace(const Glib::ustring& ns_prefix)
   }
 
   //Look for the existing namespace to use:
-  auto ns = xmlSearchNs( cobj()->doc, cobj(), (xmlChar*)(ns_prefix.empty() ? 0 : ns_prefix.c_str()) );
+  auto ns = xmlSearchNs( cobj()->doc, cobj(), (xmlChar*)(ns_prefix.empty() ? nullptr : ns_prefix.c_str()) );
   if(ns)
   {
       //Use it for this element:
