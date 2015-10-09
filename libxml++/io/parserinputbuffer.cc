@@ -54,7 +54,7 @@ namespace xmlpp
     bool result = do_close();
     // the underlying structure is being freed by libxml, the pointer will soon be
     // invalid.
-    impl_ = 0;
+    impl_ = nullptr;
 
     return result;
   }
