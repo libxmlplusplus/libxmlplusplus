@@ -138,11 +138,11 @@ void DomParser::parse_stream(std::istream& in)
   xmlResetLastError();
 
   context_ = xmlCreatePushParserCtxt(
-      0, // Setting those two parameters to 0 force the parser
-      0, // to create a document while parsing.
-      0, // chunk
-      0, // size
-      0); // no filename for fetching external entities
+      nullptr,  // Setting those two parameters to nullptr force the parser
+      nullptr,  // to create a document while parsing.
+      nullptr,  // chunk
+      0,        // size
+      nullptr); // no filename for fetching external entities
 
   if(!context_)
   {
@@ -169,7 +169,7 @@ void DomParser::parse_stream(std::istream& in)
       firstParseError = parseError;
   }
 
-  const int parseError = xmlParseChunk(context_, 0, 0, 1 /* last chunk */);
+  const int parseError = xmlParseChunk(context_, nullptr, 0, 1 /* last chunk */);
   if (parseError != XML_ERR_OK && firstParseError == XML_ERR_OK)
     firstParseError = parseError;
 

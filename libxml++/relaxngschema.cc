@@ -91,7 +91,7 @@ void RelaxNGSchema::parse_memory(const Glib::ustring& contents)
 void RelaxNGSchema::parse_document(const Document* document)
 {
   if (!document)
-    throw parse_error("RelaxNGSchema::parse_document(): document must not be 0.");
+    throw parse_error("RelaxNGSchema::parse_document(): document must not be nullptr.");
 
   // xmlRelaxNGNewDocParserCtxt() takes a copy of the xmlDoc.
   parse_context(xmlRelaxNGNewDocParserCtxt(const_cast<xmlDoc*>(document->cobj())));

@@ -196,7 +196,7 @@ protected:
    * Unlike the DomParser, the SaxParser will also tell you about entity references for the 5 predefined entities.
    *
    * @param name The entity reference name.
-   * @returns The resolved xmlEntity for the entity reference, or <tt>0</tt> if not found.
+   * @returns The resolved xmlEntity for the entity reference, or <tt>nullptr</tt> if not found.
    *          You must include libxml/parser.h in order to use this C struct.
    * This instance will not be freed by the caller.
    */

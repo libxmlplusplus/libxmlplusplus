@@ -55,8 +55,8 @@ void DtdValidator::parse_subset(const Glib::ustring& external,const Glib::ustrin
   xmlResetLastError();
 
   auto dtd = xmlParseDTD(
-    external.empty() ? 0 : (const xmlChar *)external.c_str(),
-    system.empty() ? 0 : (const xmlChar *)system.c_str());
+    external.empty() ? nullptr : (const xmlChar *)external.c_str(),
+    system.empty() ? nullptr : (const xmlChar *)system.c_str());
 
   if (!dtd)
   {
@@ -82,7 +82,7 @@ void DtdValidator::parse_stream(std::istream& in)
 
   IStreamParserInputBuffer ibuff( in );
 
-  auto dtd = xmlIOParseDTD( 0, ibuff.cobj(), XML_CHAR_ENCODING_UTF8 );
+  auto dtd = xmlIOParseDTD(nullptr, ibuff.cobj(), XML_CHAR_ENCODING_UTF8);
 
   if (!dtd)
   {
@@ -125,7 +125,7 @@ bool DtdValidator::validate(const Document* doc)
 {
   if (!doc)
   {
-    throw internal_error("Document pointer cannot be 0.");
+    throw internal_error("Document pointer cannot be nullptr.");
   }
 
   if (!dtd_)

@@ -132,7 +132,7 @@ void RelaxNGValidator::initialize_valid()
 void RelaxNGValidator::validate(const Document* document)
 {
   if (!document)
-    throw internal_error("RelaxNGValidator::validate(): document must not be 0.");
+    throw internal_error("RelaxNGValidator::validate(): document must not be nullptr.");
 
   if (!*this)
     throw internal_error("RelaxNGValidator::validate(): Must have a schema to validate document");

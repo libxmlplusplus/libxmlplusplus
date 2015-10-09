@@ -1,5 +1,3 @@
-// -*- C++ -*-
-
 /* exception.h
  *
  * Copyright (C) 2002 The libxml++ development team
@@ -57,7 +55,7 @@ private:
  *
  * @newin{2,36}
  *
- * @param error Pointer to an _xmlError struct or <tt>0</tt>. If <tt>0</tt>,
+ * @param error Pointer to an _xmlError struct or <tt>nullptr</tt>. If <tt>nullptr</tt>,
  *              the error returned by xmlGetLastError() is used.
  * @returns A formatted text string. If the error struct does not contain an
  *          error (error->code == XML_ERR_OK), an empty string is returned.

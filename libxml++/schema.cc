@@ -104,7 +104,7 @@ void Schema::release_underlying()
 Document* Schema::get_document()
 {
   if (!(impl_ && impl_->doc))
-    return 0;
+    return nullptr;
 
   if (!impl_->doc->_private) // Possible if *this was created with Schema(xmlSchema* schema).
     new Document(impl_->doc); // Sets impl_->doc->_private

@@ -80,12 +80,12 @@ public:
   operator bool() const;
   
   /** Get the parsed document.
-   * @returns A pointer to the parsed document, or <tt>0</tt>.
+   * @returns A pointer to the parsed document, or <tt>nullptr</tt>.
    */
   Document* get_document();
 
   /** Get the parsed document.
-   * @returns A pointer to the parsed document, or <tt>0</tt>.
+   * @returns A pointer to the parsed document, or <tt>nullptr</tt>.
    */
   const Document* get_document() const;
   

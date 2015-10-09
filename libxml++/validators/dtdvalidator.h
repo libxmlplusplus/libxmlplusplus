@@ -73,12 +73,12 @@ public:
   operator bool() const;
 
   /** Get the parsed DTD.
-   * @returns A pointer to the parsed DTD, or <tt>0</tt>.
+   * @returns A pointer to the parsed DTD, or <tt>nullptr</tt>.
    */
   Dtd* get_dtd();
 
   /** Get the parsed DTD.
-   * @returns A pointer to the parsed DTD, or <tt>0</tt>.
+   * @returns A pointer to the parsed DTD, or <tt>nullptr</tt>.
    */
   const Dtd* get_dtd() const;
 

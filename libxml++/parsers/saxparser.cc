@@ -44,37 +44,37 @@ SaxParser::SaxParser(bool use_get_entity)
 {
   xmlSAXHandler temp = {
     SaxParserCallback::internal_subset,
-    0,  // isStandalone
-    0,  // hasInternalSubset
-    0,  // hasExternalSubset
-    0,  // resolveEntity
-    use_get_entity ? SaxParserCallback::get_entity : 0, // getEntity
+    nullptr, // isStandalone
+    nullptr, // hasInternalSubset
+    nullptr, // hasExternalSubset
+    nullptr, // resolveEntity
+    use_get_entity ? SaxParserCallback::get_entity : nullptr, // getEntity
     SaxParserCallback::entity_decl, // entityDecl
-    0,  // notationDecl
-    0,  // attributeDecl
-    0,  // elementDecl
-    0,  // unparsedEntityDecl
-    0,  // setDocumentLocator
+    nullptr, // notationDecl
+    nullptr, // attributeDecl
+    nullptr, // elementDecl
+    nullptr, // unparsedEntityDecl
+    nullptr, // setDocumentLocator
     SaxParserCallback::start_document, // startDocument
     SaxParserCallback::end_document, // endDocument
     SaxParserCallback::start_element, // startElement
     SaxParserCallback::end_element, // endElement
-    0,  // reference
+    nullptr, // reference
     SaxParserCallback::characters, // characters
-    0,  // ignorableWhitespace
-    0,  // processingInstruction
+    nullptr, // ignorableWhitespace
+    nullptr, // processingInstruction
     SaxParserCallback::comment,  // comment
     SaxParserCallback::warning,  // warning
     SaxParserCallback::error,  // error
     SaxParserCallback::fatal_error, // fatalError
-    0,  // getParameterEntity
+    nullptr, // getParameterEntity
     SaxParserCallback::cdata_block, // cdataBlock
-    0,  // externalSubset
-    0,  // initialized
-    0,  // private
-    0,  // startElementNs
-    0,  // endElementNs
-    0,  // serror
+    nullptr, // externalSubset
+    0,       // initialized
+    nullptr, // private
+    nullptr, // startElementNs
+    nullptr, // endElementNs
+    nullptr, // serror
   };
   *sax_handler_ = temp;
 }
@@ -227,10 +227,10 @@ void SaxParser::parse_stream(std::istream& in)
 
   context_ = xmlCreatePushParserCtxt(
       sax_handler_.get(),
-      0, // user_data
-      0, // chunk
-      0, // size
-      0); // no filename for fetching external entities
+      nullptr,  // user_data
+      nullptr,  // chunk
+      0,        // size
+      nullptr); // no filename for fetching external entities
 
   if(!context_)
   {
@@ -262,7 +262,7 @@ void SaxParser::parse_stream(std::istream& in)
   if( ! exception_ )
   {
      //This is called just to terminate parsing.
-    const int parseError = xmlParseChunk(context_, 0 /* chunk */, 0 /* size */, 1 /* terminate (1 or 0) */);
+    const int parseError = xmlParseChunk(context_, nullptr /* chunk */, 0 /* size */, 1 /* terminate (1 or 0) */);
 
     if (parseError != XML_ERR_OK && firstParseError == XML_ERR_OK)
       firstParseError = parseError;
@@ -296,10 +296,10 @@ void SaxParser::parse_chunk_raw(const unsigned char* contents, size_type bytes_c
   {
     context_ = xmlCreatePushParserCtxt(
       sax_handler_.get(),
-      0, // user_data
-      0, // chunk
-      0, // size
-      0); // no filename for fetching external entities
+      nullptr,  // user_data
+      nullptr,  // chunk
+      0,        // size
+      nullptr); // no filename for fetching external entities
 
     if(!context_)
     {
@@ -337,10 +337,10 @@ void SaxParser::finish_chunk_parsing()
   {
     context_ = xmlCreatePushParserCtxt(
       sax_handler_.get(),
-      0, // this, // user_data
-      0, // chunk
-      0, // size
-      0); // no filename for fetching external entities
+      nullptr,  // user_data
+      nullptr,  // chunk
+      0,        // size
+      nullptr); // no filename for fetching external entities
 
     if(!context_)
     {
@@ -354,7 +354,7 @@ void SaxParser::finish_chunk_parsing()
   int parseError = XML_ERR_OK;
   if(!exception_)
     //This is called just to terminate parsing.
-    parseError = xmlParseChunk(context_, 0 /* chunk */, 0 /* size */, 1 /* terminate (1 or 0) */);
+    parseError = xmlParseChunk(context_, nullptr /* chunk */, 0 /* size */, 1 /* terminate (1 or 0) */);
 
   auto error_str = format_xml_parser_error(context_);
   if (error_str.empty() && parseError != XML_ERR_OK)

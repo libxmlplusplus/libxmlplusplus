@@ -38,14 +38,14 @@ public:
   explicit Schema(_xmlSchema* schema);
 
   /** Create a schema from an XML document.
-   * @param document XMLSchema document, 0 to create an empty schema document.
+   * @param document XMLSchema document, <tt>nullptr</tt> to create an empty schema document.
    * @param embed If true, the document will be deleted when
    *   the schema is deleted or another document is set.
    * @throws xmlpp::parse_error
    * @throws xmlpp::internal_error If an empty schema document can't be created.
    * @deprecated Use XsdSchema instead.
    */
-  explicit Schema(Document* document = 0, bool embed = false);
+  explicit Schema(Document* document = nullptr, bool embed = false);
   ~Schema();
 
   //TODO: Remove virtual when we can break ABI?
@@ -53,13 +53,13 @@ public:
   /** Set a new document to the schema.
    * If the old schema document is owned by the schema (embed == true), the old
    * schema document and all its nodes are deleted.
-   * @param document XMLSchema document, 0 to create an empty schema document.
+   * @param document XMLSchema document, <tt>nullptr</tt> to create an empty schema document.
    * @param embed If true, the document will be deleted when the schema is deleted or another document is set.
    * @throws xmlpp::parse_error
    * @throws xmlpp::internal_error If an empty schema document can't be created.
    * @deprecated Use XsdSchema::parse_document() instead.
    */
-  virtual void set_document(Document* document = 0, bool embed = false);
+  virtual void set_document(Document* document = nullptr, bool embed = false);
 
   /** @deprecated There is no replacement.
    */
@@ -74,13 +74,13 @@ public:
   Glib::ustring get_version() const;
 
   /** Get the schema document.
-   * @returns A pointer to the schema document, or <tt>0</tt> if none exists.
+   * @returns A pointer to the schema document, or <tt>nullptr</tt> if none exists.
    * @deprecated There is no replacement.
    */
   Document* get_document();
 
   /** Get the schema document.
-   * @returns A pointer to the schema document, or <tt>0</tt> if none exists.
+   * @returns A pointer to the schema document, or <tt>nullptr</tt> if none exists.
    * @deprecated There is no replacement.
    */
   const Document* get_document() const;
