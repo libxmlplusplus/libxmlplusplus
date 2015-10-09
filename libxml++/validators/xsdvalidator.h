@@ -114,12 +114,12 @@ public:
   explicit operator bool() const noexcept override;
 
   /** Get the schema.
-   * @returns A pointer to the schema, or <tt>0</tt>.
+   * @returns A pointer to the schema, or <tt>nullptr</tt>.
    */
   XsdSchema* get_schema();
 
   /** Get the schema.
-   * @returns A pointer to the schema, or <tt>0</tt>.
+   * @returns A pointer to the schema, or <tt>nullptr</tt>.
    */
   const XsdSchema* get_schema() const;
 

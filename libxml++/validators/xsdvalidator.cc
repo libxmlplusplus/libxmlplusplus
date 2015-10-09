@@ -130,7 +130,7 @@ void XsdValidator::initialize_context()
 void XsdValidator::validate(const Document* document)
 {
   if (!document)
-    throw internal_error("XsdValidator::validate(): document must not be 0.");
+    throw internal_error("XsdValidator::validate(): document must not be nullptr.");
 
   if (!*this)
     throw internal_error("XsdValidator::validate(): Must have a schema to validate document");

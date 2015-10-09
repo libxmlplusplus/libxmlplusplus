@@ -1,4 +1,4 @@
-/* document.h
+/* parserinputbuffer.cc
  * this file is part of libxml++
  *
  * copyright (C) 2003 by libxml++ developer's team
@@ -39,7 +39,7 @@ namespace xmlpp
         &ParserInputBufferCallback::on_close,
         static_cast<void*>(this),
         XML_CHAR_ENCODING_NONE);
-    if(impl_ == 0)
+    if (!impl_)
     {
       throw internal_error("Cannot initialise underlying xmlParserInputBuffer");
     }

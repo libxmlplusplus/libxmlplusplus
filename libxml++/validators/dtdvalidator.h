@@ -1,4 +1,4 @@
-/* xml++.h
+/* dtdvalidator.h
  * libxml++ and this file are copyright (C) 2000 by Ari Johnson,
  * (C) 2002-2004 by the libxml dev team and
  * are covered by the GNU Lesser General Public License, which should be
@@ -103,12 +103,12 @@ public:
   explicit operator bool() const noexcept override;
 
   /** Get the parsed DTD.
-   * @returns A pointer to the parsed DTD, or <tt>0</tt>.
+   * @returns A pointer to the parsed DTD, or <tt>nullptr</tt>.
    */
   Dtd* get_dtd();
 
   /** Get the parsed DTD.
-   * @returns A pointer to the parsed DTD, or <tt>0</tt>.
+   * @returns A pointer to the parsed DTD, or <tt>nullptr</tt>.
    */
   const Dtd* get_dtd() const;
 

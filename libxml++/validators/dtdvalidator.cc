@@ -144,7 +144,7 @@ void DtdValidator::validate(const Document* document)
 {
   if (!document)
   {
-    throw internal_error("Document pointer cannot be 0.");
+    throw internal_error("Document pointer cannot be nullptr.");
   }
 
   if (!pimpl_->dtd)

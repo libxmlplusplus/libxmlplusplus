@@ -93,7 +93,7 @@ void Dtd::parse_stream(std::istream& in)
 
   IStreamParserInputBuffer ibuff(in);
 
-  auto dtd = xmlIOParseDTD(0, ibuff.cobj(), XML_CHAR_ENCODING_UTF8);
+  auto dtd = xmlIOParseDTD(nullptr, ibuff.cobj(), XML_CHAR_ENCODING_UTF8);
 
   if (!dtd)
   {

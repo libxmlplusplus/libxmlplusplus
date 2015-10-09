@@ -123,12 +123,12 @@ public:
   explicit operator bool() const noexcept override;
 
   /** Get the schema.
-   * @returns A pointer to the schema, or <tt>0</tt>.
+   * @returns A pointer to the schema, or <tt>nullptr</tt>.
    */
   RelaxNGSchema* get_schema();
 
   /** Get the schema.
-   * @returns A pointer to the schema, or <tt>0</tt>.
+   * @returns A pointer to the schema, or <tt>nullptr</tt>.
    */
   const RelaxNGSchema* get_schema() const;
 

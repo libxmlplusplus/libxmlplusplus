@@ -94,7 +94,7 @@ void XsdSchema::parse_memory(const Glib::ustring& contents)
 void XsdSchema::parse_document(const Document* document)
 {
   if (!document)
-    throw parse_error("XsdSchema::parse_document(): document must not be 0.");
+    throw parse_error("XsdSchema::parse_document(): document must not be nullptr.");
 
   xmlResetLastError();
   release_underlying();
