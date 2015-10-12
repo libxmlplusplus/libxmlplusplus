@@ -60,9 +60,6 @@ AC_PATH_PROGS([DB2LATEX], [db2latex docbook2latex], [db2latex])
 AC_ARG_VAR([DB2LATEX], [path to db2latex utility])
 MM_CHECK_PERL()
 
-# This is just defined to avoid breaking old code:
-AC_DEFINE([LIBXMLCPP_EXCEPTIONS_ENABLED],[1], [This is always set. This is only for backwards compatibility.])
-
 AC_CONFIG_FILES([Makefile
         libxml++/Makefile
         examples/Makefile

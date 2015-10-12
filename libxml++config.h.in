@@ -6,9 +6,6 @@
 /* Define to omit deprecated API from the library. */
 #undef LIBXMLXX_DISABLE_DEPRECATED
 
-/* This is always set. This is only for backwards compatibility. */
-#undef LIBXMLCPP_EXCEPTIONS_ENABLED
-
 /* Major version number of libxml++. */
 #undef LIBXMLXX_MAJOR_VERSION
 
