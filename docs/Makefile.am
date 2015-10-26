@@ -19,7 +19,7 @@ book_name = $(LIBXMLXX_MODULE_NAME)
 doc_input = $(addprefix $(top_srcdir)/libxml++/,$(h_sources_public))
 
 # Sets dist_noinst_DATA, DISTCLEANFILES and MAINTAINERCLEANFILES
-include $(top_srcdir)/macros/doc-reference.am
+include $(top_srcdir)/build/doc-reference.am
 
 manual/libxml++.xml: manual/libxml++_without_code.xml manual/insert_example_code.pl
 	$(AM_V_GEN)$(PERL) -- manual/insert_example_code.pl ../examples $< >$@

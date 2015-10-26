@@ -1,6 +1,6 @@
 ## This file is part of libxml++.
 
-ACLOCAL_AMFLAGS = -I macros ${ACLOCAL_FLAGS}
+ACLOCAL_AMFLAGS = -I build ${ACLOCAL_FLAGS}
 DISTCHECK_CONFIGURE_FLAGS = --enable-warnings=fatal
 
 if ENABLE_DOCUMENTATION
@@ -25,4 +25,4 @@ dist_noinst_SCRIPTS = autogen.sh
 DISTCLEANFILES = MSVC_Net2010/libxml++/libxml++config.h
 
 # Optional: auto-generate the ChangeLog file from the git log on make dist
-include $(top_srcdir)/macros/dist-changelog.am
+include $(top_srcdir)/build/dist-changelog.am
