@@ -381,13 +381,9 @@ xmlEntityPtr SaxParserCallback::get_entity(void* context, const xmlChar* name)
   {
     result = parser->on_get_entity((const char*)name);
   }
-  catch(const exception& e)
+  catch (...)
   {
-    parser->handleException(e);
-  }
-  catch(...)
-  {
-    parser->handleException(wrapped_exception(std::current_exception()));
+    parser->handle_exception();
   }
 
   return result;
@@ -407,13 +403,9 @@ void SaxParserCallback::entity_decl(void* context, const xmlChar* name, int type
       ( systemId ? Glib::ustring((const char*)systemId) : ""),
       ( content ? Glib::ustring((const char*)content) : "") );
   }
-  catch(const exception& e)
+  catch (...)
   {
-    parser->handleException(e);
-  }
-  catch(...)
-  {
-    parser->handleException(wrapped_exception(std::current_exception()));
+    parser->handle_exception();
   }
 }
 
@@ -426,13 +418,9 @@ void SaxParserCallback::start_document(void* context)
   {
     parser->on_start_document();
   }
-  catch(const exception& e)
+  catch (...)
   {
-    parser->handleException(e);
-  }
-  catch(...)
-  {
-    parser->handleException(wrapped_exception(std::current_exception()));
+    parser->handle_exception();
   }
 }
 
@@ -448,13 +436,9 @@ void SaxParserCallback::end_document(void* context)
   {
     parser->on_end_document();
   }
-  catch(const exception& e)
+  catch (...)
   {
-    parser->handleException(e);
-  }
-  catch(...)
-  {
-    parser->handleException(wrapped_exception(std::current_exception()));
+    parser->handle_exception();
   }
 }
 
@@ -476,13 +460,9 @@ void SaxParserCallback::start_element(void* context,
   {
     parser->on_start_element(Glib::ustring((const char*) name), attributes);
   }
-  catch(const exception& e)
+  catch (...)
   {
-    parser->handleException(e);
-  }
-  catch(...)
-  {
-    parser->handleException(wrapped_exception(std::current_exception()));
+    parser->handle_exception();
   }
 }
 
@@ -495,13 +475,9 @@ void SaxParserCallback::end_element(void* context, const xmlChar* name)
   {
     parser->on_end_element(Glib::ustring((const char*) name));
   }
-  catch(const exception& e)
+  catch (...)
   {
-    parser->handleException(e);
-  }
-  catch(...)
-  {
-    parser->handleException(wrapped_exception(std::current_exception()));
+    parser->handle_exception();
   }
 }
 
@@ -520,13 +496,9 @@ void SaxParserCallback::characters(void * context, const xmlChar* ch, int len)
           reinterpret_cast<const char *>(ch),
           reinterpret_cast<const char *>(ch + len) ) );
   }
-  catch(const exception& e)
+  catch (...)
   {
-    parser->handleException(e);
-  }
-  catch(...)
-  {
-    parser->handleException(wrapped_exception(std::current_exception()));
+    parser->handle_exception();
   }
 }
 
@@ -539,13 +511,9 @@ void SaxParserCallback::comment(void* context, const xmlChar* value)
   {
     parser->on_comment(Glib::ustring((const char*) value));
   }
-  catch(const exception& e)
+  catch (...)
   {
-    parser->handleException(e);
-  }
-  catch(...)
-  {
-    parser->handleException(wrapped_exception(std::current_exception()));
+    parser->handle_exception();
   }
 }
 
@@ -565,13 +533,9 @@ void SaxParserCallback::warning(void* context, const char* fmt, ...)
   {
     parser->on_warning(Glib::ustring(buff));
   }
-  catch(const exception& e)
+  catch (...)
   {
-    parser->handleException(e);
-  }
-  catch(...)
-  {
-    parser->handleException(wrapped_exception(std::current_exception()));
+    parser->handle_exception();
   }
 }
 
@@ -594,13 +558,9 @@ void SaxParserCallback::error(void* context, const char* fmt, ...)
   {
     parser->on_error(Glib::ustring(buff));
   }
-  catch(const exception& e)
+  catch (...)
   {
-    parser->handleException(e);
-  }
-  catch(...)
-  {
-    parser->handleException(wrapped_exception(std::current_exception()));
+    parser->handle_exception();
   }
 }
 
@@ -620,13 +580,9 @@ void SaxParserCallback::fatal_error(void* context, const char* fmt, ...)
   {
     parser->on_fatal_error(Glib::ustring(buff));
   }
-  catch(const exception& e)
+  catch (...)
   {
-    parser->handleException(e);
-  }
-  catch(...)
-  {
-    parser->handleException(wrapped_exception(std::current_exception()));
+    parser->handle_exception();
   }
 }
 
@@ -644,13 +600,9 @@ void SaxParserCallback::cdata_block(void* context, const xmlChar* value, int len
           reinterpret_cast<const char *>(value),
           reinterpret_cast<const char *>(value + len) ) );
   }
-  catch(const exception& e)
+  catch (...)
   {
-    parser->handleException(e);
-  }
-  catch(...)
-  {
-    parser->handleException(wrapped_exception(std::current_exception()));
+    parser->handle_exception();
   }
 }
 
@@ -667,13 +619,9 @@ void SaxParserCallback::internal_subset(void* context, const xmlChar* name,
 
     parser->on_internal_subset( Glib::ustring((const char*) name), pid, sid);
   }
-  catch(const exception& e)
+  catch (...)
   {
-    parser->handleException(e);
-  }
-  catch(...)
-  {
-    parser->handleException(wrapped_exception(std::current_exception()));
+    parser->handle_exception();
   }
 }
 

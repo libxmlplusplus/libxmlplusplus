@@ -20,6 +20,8 @@
 namespace xmlpp
 {
 
+#ifdef LIBXMLXX_HAVE_EXCEPTION_PTR
+
 wrapped_exception::wrapped_exception(std::exception_ptr exception_ptr)
   : exception("Wrapped exception"), exception_ptr_(exception_ptr)
 {
@@ -38,5 +40,7 @@ exception* wrapped_exception::Clone() const
 {
   return new wrapped_exception(exception_ptr_);
 }
+
+#endif // LIBXMLXX_HAVE_EXCEPTION_PTR
 
 } // namespace xmlpp

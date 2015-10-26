@@ -15,12 +15,13 @@
  * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  */
 
+#include <config.h>
+#include <libxml++/libxml++.h>
+
 #include <cstdlib>
 #include <glibmm.h>
 #include <sstream>
 #include <stdexcept>
-
-#include <libxml++/libxml++.h>
 
 class MySaxParser : public xmlpp::SaxParser
 {
@@ -48,7 +49,11 @@ int main()
       parser.parse_chunk("<?");
       parser.finish_chunk_parsing();
     }
+#ifdef LIBXMLXX_HAVE_EXCEPTION_PTR
     catch(const std::runtime_error& e)
+#else
+    catch(const xmlpp::exception& e)
+#endif
     {
       exceptionThrown = true;
       g_assert_cmpstr(e.what(), ==, "on_error() called");
@@ -68,7 +73,11 @@ int main()
       // error should not have been thrown.
       g_assert_not_reached();
     }
+#ifdef LIBXMLXX_HAVE_EXCEPTION_PTR
     catch(const std::runtime_error& e)
+#else
+    catch(const xmlpp::exception& e)
+#endif
     {
       exceptionThrown = true;
       g_assert_cmpstr(e.what(), ==, "some custom runtime exception");

@@ -15,12 +15,12 @@
  * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  */
 
+#include <config.h>
+#include <libxml++/libxml++.h>
+
 #include <cstdlib>
 #include <glibmm.h>
 #include <stdexcept>
-
-#include <libxml++/libxml++.h>
-
 
 class OnCdataBlockTestParser : public xmlpp::SaxParser
 {
@@ -40,7 +40,11 @@ void test_on_cdata_block()
   {
     parser.parse_memory("<root><![CDATA[some CDATA]]></root>");
   }
+#ifdef LIBXMLXX_HAVE_EXCEPTION_PTR
   catch(const std::runtime_error& e)
+#else
+  catch(const xmlpp::exception& e)
+#endif
   {
     exceptionThrown = true;
     g_assert_cmpstr(e.what(), ==, "on_cdata_block runtime exception");
@@ -67,7 +71,11 @@ void test_on_characters()
   {
     parser.parse_memory("<root>abc</root>");
   }
+#ifdef LIBXMLXX_HAVE_EXCEPTION_PTR
   catch(const std::runtime_error& e)
+#else
+  catch(const xmlpp::exception& e)
+#endif
   {
     exceptionThrown = true;
     g_assert_cmpstr(e.what(), ==, "on_characters runtime exception");
@@ -94,7 +102,11 @@ void test_on_comment()
   {
     parser.parse_memory("<root><!--a comment--></root>");
   }
+#ifdef LIBXMLXX_HAVE_EXCEPTION_PTR
   catch(const std::runtime_error& e)
+#else
+  catch(const xmlpp::exception& e)
+#endif
   {
     exceptionThrown = true;
     g_assert_cmpstr(e.what(), ==, "on_comment runtime exception");
@@ -120,7 +132,11 @@ void test_on_end_document()
   {
     parser.parse_memory("<root></root>");
   }
+#ifdef LIBXMLXX_HAVE_EXCEPTION_PTR
   catch(const std::runtime_error& e)
+#else
+  catch(const xmlpp::exception& e)
+#endif
   {
     exceptionThrown = true;
     g_assert_cmpstr(e.what(), ==, "on_end_document runtime exception");
@@ -147,7 +163,11 @@ void test_on_end_element()
   {
     parser.parse_memory("<a:root xmlns:a=\"urn:test\"></a:root>");
   }
+#ifdef LIBXMLXX_HAVE_EXCEPTION_PTR
   catch(const std::runtime_error& e)
+#else
+  catch(const xmlpp::exception& e)
+#endif
   {
     exceptionThrown = true;
     g_assert_cmpstr(e.what(), ==, "on_end_element runtime exception");
@@ -177,7 +197,11 @@ void test_on_entity_declaration()
   {
     parser.parse_memory("<!DOCTYPE MyDocument [<!ENTITY number \"42\">]><root></root>");
   }
+#ifdef LIBXMLXX_HAVE_EXCEPTION_PTR
   catch(const std::runtime_error& e)
+#else
+  catch(const xmlpp::exception& e)
+#endif
   {
     exceptionThrown = true;
     g_assert_cmpstr(e.what(), ==, "on_entity_declaration runtime exception");
@@ -203,7 +227,11 @@ void test_on_error()
   {
     parser.parse_memory("<root>&unknown;</root>");
   }
+#ifdef LIBXMLXX_HAVE_EXCEPTION_PTR
   catch(const std::runtime_error& e)
+#else
+  catch(const xmlpp::exception& e)
+#endif
   {
     exceptionThrown = true;
     g_assert_cmpstr(e.what(), ==, "on_error runtime exception");
@@ -235,7 +263,11 @@ void test_on_get_entity()
   {
     parser.parse_memory("<!DOCTYPE MyDocument [<!ENTITY number \"42\">]><root>&number;</root>");
   }
+#ifdef LIBXMLXX_HAVE_EXCEPTION_PTR
   catch(const std::runtime_error& e)
+#else
+  catch(const xmlpp::exception& e)
+#endif
   {
     exceptionThrown = true;
     g_assert_cmpstr(e.what(), ==, "on_get_entity runtime exception");
@@ -261,7 +293,11 @@ void test_on_start_document()
   {
     parser.parse_memory("<root></root>");
   }
+#ifdef LIBXMLXX_HAVE_EXCEPTION_PTR
   catch(const std::runtime_error& e)
+#else
+  catch(const xmlpp::exception& e)
+#endif
   {
     exceptionThrown = true;
     g_assert_cmpstr(e.what(), ==, "on_start_document runtime exception");
@@ -289,7 +325,11 @@ void test_on_start_element()
   {
     parser.parse_memory("<b:root xmlns:b=\"urn:test\" someattr=\"test\"></b:root>");
   }
+#ifdef LIBXMLXX_HAVE_EXCEPTION_PTR
   catch(const std::runtime_error& e)
+#else
+  catch(const xmlpp::exception& e)
+#endif
   {
     exceptionThrown = true;
     g_assert_cmpstr(e.what(), ==, "on_start_element runtime exception");

@@ -162,7 +162,11 @@ protected:
   virtual void on_validity_error(const Glib::ustring& message);
   virtual void on_validity_warning(const Glib::ustring& message);
 
+  //TODO: When we can break ABI/API, remove handleException() and make
+  // handle_exception() virtual.
   virtual void handleException(const exception& e);
+  /// To be called in an exception handler.
+  void handle_exception();
   virtual void check_for_exception();
 
   //TODO: In a future API/ABI-break, change the name of this function to

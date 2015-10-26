@@ -21,17 +21,14 @@
 #include <exception>
 
 #include <libxml++/exceptions/exception.h>
+#include <libxml++config.h>
 
 namespace xmlpp
 {
 
-#ifndef DOXYGEN_SHOULD_SKIP_THIS
-//TODO: At the next ABI break, consider changing
-//   exception* exception_;
-// to
-//   std::exception_ptr exception_ptr_;
-// in xmlpp::Parser and xmlpp::Validator, and removing xmlpp::wrapped_exception.
+#ifdef LIBXMLXX_HAVE_EXCEPTION_PTR
 
+#ifndef DOXYGEN_SHOULD_SKIP_THIS
 /** Helper class for propagating an exception through C code.
  * Should not be used by applications.
  *
@@ -50,6 +47,8 @@ private:
   std::exception_ptr exception_ptr_;
 };
 #endif //DOXYGEN_SHOULD_SKIP_THIS
+
+#endif // LIBXMLXX_HAVE_EXCEPTION_PTR
 
 } // namespace xmlpp
 

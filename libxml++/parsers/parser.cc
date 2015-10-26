@@ -347,13 +347,9 @@ void Parser::callback_error_or_warning(MsgType msg_type, void* ctx,
             break;
         }
       }
-      catch(const exception& e)
+      catch (...)
       {
-        parser->handleException(e);
-      }
-      catch(...)
-      {
-        parser->handleException(wrapped_exception(std::current_exception()));
+        parser->handle_exception();
       }
     }
   }
@@ -365,6 +361,42 @@ void Parser::handleException(const exception& e)
   exception_ = e.Clone();
 
   if(context_)
+    xmlStopParser(context_);
+
+  //release_underlying();
+}
+
+void Parser::handle_exception()
+{
+  delete exception_;
+  exception_ = nullptr;
+
+  try
+  {
+    throw; // Rethrow current exception
+  }
+  catch (const exception& e)
+  {
+    exception_ = e.Clone();
+  }
+#ifdef LIBXMLXX_HAVE_EXCEPTION_PTR
+  catch (...)
+  {
+    exception_ = new wrapped_exception(std::current_exception());
+  }
+#else
+  catch (const std::exception& e)
+  {
+    exception_ = new exception(e.what());
+  }
+  catch (...)
+  {
+    exception_ = new exception("An exception was thrown that is not derived from std::exception or xmlpp::exception.\n"
+      "It could not be caught and rethrown because this platform does not support std::exception_ptr.");
+  }
+#endif
+
+  if (context_)
     xmlStopParser(context_);
 
   //release_underlying();
