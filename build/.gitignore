@@ -1,0 +1,13 @@
+/compile
+/compile-binding.am
+/config.*
+/depcomp
+/dist-changelog.am
+/doc-reference.am
+/generate-binding.am
+/install-sh
+/libtool.m4
+/lt*.m4
+/ltmain.sh
+/missing
+/test-driver

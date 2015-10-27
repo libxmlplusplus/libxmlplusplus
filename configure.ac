@@ -6,8 +6,8 @@ AC_INIT([libxml++], [2.91.1],
 AC_PREREQ([2.59])
 
 AC_CONFIG_SRCDIR([libxml++/libxml++.h])
-AC_CONFIG_AUX_DIR([macros])
-AC_CONFIG_MACRO_DIR([macros])
+AC_CONFIG_AUX_DIR([build])
+AC_CONFIG_MACRO_DIR([build])
 AC_CONFIG_HEADERS([config.h libxml++config.h])
 
 AM_INIT_AUTOMAKE([1.9 -Wno-portability dist-bzip2 no-define nostdinc subdir-objects])
@@ -39,6 +39,7 @@ PKG_CHECK_MODULES([LIBXMLXX], [$LIBXMLXX_MODULES])
 
 AC_LANG([C++])
 AC_CHECK_HEADERS([string list map], [], [AC_MSG_ERROR([required headers not found])])
+LIBXMLXX_CXX_HAS_EXCEPTION_PTR
 
 MM_ARG_ENABLE_DOCUMENTATION
 MM_ARG_WITH_TAGFILE_DOC([libstdc++.tag], [mm-common-libstdc++])

@@ -6,6 +6,9 @@
 /* Define to omit deprecated API from the library. */
 #undef LIBXMLXX_DISABLE_DEPRECATED
 
+/* Defined if the C++ library supports std::exception_ptr. */
+#undef LIBXMLXX_HAVE_EXCEPTION_PTR
+
 /* Major version number of libxml++. */
 #undef LIBXMLXX_MAJOR_VERSION
 
