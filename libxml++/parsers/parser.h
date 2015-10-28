@@ -26,6 +26,8 @@ extern "C" {
 
 namespace xmlpp {
 
+class SaxParserCallback; // Remove, when handle_exception() is made protected.
+
 /** XML parser.
  *
  */
@@ -163,10 +165,8 @@ protected:
   virtual void on_validity_warning(const Glib::ustring& message);
 
   //TODO: When we can break ABI/API, remove handleException() and make
-  // handle_exception() virtual.
+  // handle_exception() protected virtual.
   virtual void handleException(const exception& e);
-  /// To be called in an exception handler.
-  void handle_exception();
   virtual void check_for_exception();
 
   //TODO: In a future API/ABI-break, change the name of this function to
@@ -204,6 +204,11 @@ protected:
   //bool include_default_attributes_;
   //int set_options_;
   //int clear_options_;
+
+private:
+  friend SaxParserCallback; // Remove, when handle_exception() is made protected.
+  /// To be called in an exception handler.
+  void handle_exception();
 };
 
 /** Equivalent to Parser::parse_stream().

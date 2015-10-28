@@ -31,6 +31,7 @@ namespace xmlpp
 #ifndef DOXYGEN_SHOULD_SKIP_THIS
 /** Helper class for propagating an exception through C code.
  * Should not be used by applications.
+ * Does not exist in systems that don't support std::exception_ptr.
  *
  * @newin{2,40}
  */
