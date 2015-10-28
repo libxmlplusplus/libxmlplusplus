@@ -1,3 +1,9 @@
+2.40.1 (stable):
+
+* Add a config-time test for support of std::exception_ptr. Don't try to
+  use std::exception_ptr on a system where it does not exist.
+  (Daniel Trebbien, Kjell Ahlstedt) Bug #757042 (Michael Biebl)
+
 2.40:
 
 Major changes since 2.38:
@@ -6,9 +12,9 @@ Major changes since 2.38:
   (Murray Cumming, Kjell Ahlstedt, Mikhail Titov)
 * SaxParser: Fix “double free or corruption” if a std::exception is thrown
   by a handler method.
-  (Daniel Trebbien, Kjell Ahlstedt)
+  (Daniel Trebbien, Kjell Ahlstedt) Bug #753570
 
-2.40.0 (unstable):
+2.40.0 (stable):
 
 * Build improvements.
   (Kjell Ahlstedt)
@@ -17,7 +23,7 @@ Major changes since 2.38:
 
 * SaxParser: Fix “double free or corruption” if a std::exception is thrown
   by a handler method.
-  (Daniel Trebbien, Kjell Ahlstedt)
+  (Daniel Trebbien, Kjell Ahlstedt) Bug #753570
 * Replace some (deprecated in C++11) std::auto_ptr by std::unique_ptr.
   There are still some auto_ptrs in header files bug replacing them would
   break ABI.
