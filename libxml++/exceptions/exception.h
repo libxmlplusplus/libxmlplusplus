@@ -44,6 +44,9 @@ public:
 
   const char* what() const noexcept override;
 
+  virtual void raise() const;
+  virtual exception* clone() const;
+
 private:
   Glib::ustring message_;
 };

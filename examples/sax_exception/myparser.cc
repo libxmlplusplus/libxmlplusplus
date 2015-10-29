@@ -34,6 +34,16 @@ MyException::~MyException() throw ()
 {
 }
 
+void MyException::raise() const
+{
+  throw *this;
+}
+
+xmlpp::exception* MyException::clone() const
+{
+  return new MyException(*this);
+}
+
 /*
  * MySaxParser implementation
  */

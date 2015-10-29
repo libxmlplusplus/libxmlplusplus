@@ -29,6 +29,9 @@ class internal_error : public exception
 public:
   explicit internal_error(const Glib::ustring& message);
   ~internal_error() noexcept override;
+
+  void raise() const override;
+  exception* clone() const override;
 };
 
 } // namespace xmlpp

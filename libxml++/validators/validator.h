@@ -15,7 +15,7 @@
 #include <libxml++/noncopyable.h>
 #include <libxml++/exceptions/validity_error.h>
 #include <libxml++/exceptions/internal_error.h>
-#include <exception> // std::exception_ptr
+#include <memory> // std::unique_ptr
 #include <string>
 
 extern "C" {
@@ -77,7 +77,7 @@ protected:
   static void callback_validity_error(void* ctx, const char* msg, ...);
   static void callback_validity_warning(void* ctx, const char* msg, ...);
 
-  std::exception_ptr exception_ptr_;
+  std::unique_ptr<exception> exception_;
   // Built gradually - used in an exception at the end of validation.
   Glib::ustring validate_error_;
   Glib::ustring validate_warning_;

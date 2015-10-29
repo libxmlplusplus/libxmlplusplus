@@ -25,6 +25,11 @@ namespace xmlpp {
 /** SAX XML parser.
  * Derive your own class and override the on_*() methods.
  * SAX = Simple API for XML
+ *
+ * In a system that does not support std::exception_ptr: If an overridden on_*()
+ * method throws an exception which is not derived from xmlpp::exception,
+ * that exception is replaced by a xmlpp::exception before it is propagated
+ * out of the parse method, such as parse_file().
  */
 class SaxParser : public Parser
 {

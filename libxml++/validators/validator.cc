@@ -5,6 +5,7 @@
  * included with libxml++ as the file COPYING.
  */
 
+#include "libxml++/exceptions/wrapped_exception.h"
 #include "libxml++/validators/validator.h"
 
 #include <libxml/parser.h>
@@ -15,7 +16,7 @@
 namespace xmlpp {
 
 Validator::Validator()
-: exception_ptr_(nullptr)
+: exception_(nullptr)
 {
 }
 
@@ -49,20 +50,7 @@ void Validator::on_validity_warning(const Glib::ustring& message)
 
 void Validator::check_for_validity_messages()
 {
-  Glib::ustring msg;
-  try
-  {
-    if (exception_ptr_)
-      std::rethrow_exception(exception_ptr_);
-  }
-  catch (const std::exception& e)
-  {
-    msg = e.what();
-  }
-  catch (...)
-  {
-    msg = "Unknown exception\n";
-  }
+  Glib::ustring msg(exception_ ? exception_->what() : "");
   bool validity_msg = false;
 
   if (!validate_error_.empty())
@@ -79,15 +67,8 @@ void Validator::check_for_validity_messages()
     validate_warning_.erase();
   }
 
-  try
-  {
-    if (validity_msg)
-      throw validity_error(msg);
-  }
-  catch (...)
-  {
-    exception_ptr_ = std::current_exception();
-  }
+  if (validity_msg)
+    exception_.reset(new validity_error(msg));
 }
 
 void Validator::callback_validity_error(void* valid_, const char* msg, ...)
@@ -138,7 +119,30 @@ void Validator::callback_validity_warning(void* valid_, const char* msg, ...)
 
 void Validator::handle_exception()
 {
-  exception_ptr_ = std::current_exception();
+  try
+  {
+    throw; // Re-throw current exception
+  }
+  catch (const exception& e)
+  {
+    exception_.reset(e.clone());
+  }
+#ifdef LIBXMLXX_HAVE_EXCEPTION_PTR
+  catch (...)
+  {
+    exception_.reset(new wrapped_exception(std::current_exception()));
+  }
+#else
+  catch (const std::exception& e)
+  {
+    exception_.reset(new exception(e.what()));
+  }
+  catch (...)
+  {
+    exception_.reset(new exception("An exception was thrown that is not derived from std::exception or xmlpp::exception.\n"
+      "It could not be caught and rethrown because this platform does not support std::exception_ptr."));
+  }
+#endif
 
   // Don't delete the DTD validation context or schema validation context
   // while validating. It would cause accesses to deallocated memory in libxml2
@@ -156,11 +160,10 @@ void Validator::check_for_exception()
 {
   check_for_validity_messages();
   
-  if (exception_ptr_)
+  if (exception_)
   {
-    std::exception_ptr tmp(exception_ptr_);
-    exception_ptr_ = nullptr;
-    std::rethrow_exception(tmp);
+    std::unique_ptr<exception> tmp(std::move(exception_));
+    tmp->raise();
   }
 }
 

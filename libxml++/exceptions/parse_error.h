@@ -32,6 +32,9 @@ class parse_error : public exception
 public:
   explicit parse_error(const Glib::ustring& message);
   ~parse_error() noexcept override;
+
+  void raise() const override;
+  exception* clone() const override;
 };
 
 } // namespace xmlpp

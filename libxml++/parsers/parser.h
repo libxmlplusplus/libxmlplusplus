@@ -19,7 +19,6 @@
 #include <istream>
 #include <cstdarg> // va_list
 #include <memory> // std::unique_ptr
-#include <exception> // std::exception_ptr
 
 #ifndef DOXYGEN_SHOULD_SKIP_THIS
 extern "C" {
@@ -198,7 +197,7 @@ protected:
                                         const char* msg, va_list var_args);
 
   _xmlParserCtxt* context_;
-  std::exception_ptr exception_ptr_;
+  std::unique_ptr<exception> exception_;
 
 private:
   struct Impl;

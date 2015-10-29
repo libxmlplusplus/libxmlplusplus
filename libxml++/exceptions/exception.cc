@@ -19,6 +19,16 @@ const char* exception::what() const noexcept
   return message_.c_str();
 }
 
+void exception::raise() const
+{
+  throw *this;
+}
+
+exception* exception::clone() const
+{
+  return new exception(*this);
+}
+
 Glib::ustring format_xml_error(const _xmlError* error)
 {
   if (!error)

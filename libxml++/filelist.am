@@ -15,7 +15,8 @@ h_exceptions_sources_public = \
   exceptions/exception.h \
   exceptions/parse_error.h \
   exceptions/validity_error.h \
-  exceptions/internal_error.h
+  exceptions/internal_error.h \
+  exceptions/wrapped_exception.h
 h_io_sources_public = \
   io/istreamparserinputbuffer.h \
   io/outputbuffer.h \

@@ -27,6 +27,8 @@ class MyException: public xmlpp::exception
   public:
     MyException();
     ~MyException() noexcept override;
+    void raise() const override;
+    xmlpp::exception* clone() const override;
 };
 
 class MySaxParser : public xmlpp::SaxParser

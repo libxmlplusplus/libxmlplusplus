@@ -240,7 +240,7 @@ void SaxParser::parse_stream(std::istream& in)
   // encoding it uses. See the XML specification. Thus use std::string.
   int firstParseError = XML_ERR_OK;
   std::string line;
-  while (!exception_ptr_ && std::getline(in, line))
+  while (!exception_ && std::getline(in, line))
   {
     // since getline does not get the line separator, we have to add it since the parser care
     // about layout in certain cases.
@@ -256,7 +256,7 @@ void SaxParser::parse_stream(std::istream& in)
       firstParseError = parseError;
   }
 
-  if (!exception_ptr_)
+  if (!exception_)
   {
      //This is called just to terminate parsing.
     const int parseError = xmlParseChunk(context_, nullptr /* chunk */, 0 /* size */, 1 /* terminate (1 or 0) */);
@@ -308,7 +308,7 @@ void SaxParser::parse_chunk_raw(const unsigned char* contents, size_type bytes_c
     xmlCtxtResetLastError(context_);
   
   int parseError = XML_ERR_OK;
-  if (!exception_ptr_)
+  if (!exception_)
     parseError = xmlParseChunk(context_, (const char*)contents, bytes_count, 0 /* don't terminate */);
 
   check_for_exception();
@@ -344,7 +344,7 @@ void SaxParser::finish_chunk_parsing()
     xmlCtxtResetLastError(context_);
 
   int parseError = XML_ERR_OK;
-  if (!exception_ptr_)
+  if (!exception_)
     //This is called just to terminate parsing.
     parseError = xmlParseChunk(context_, nullptr /* chunk */, 0 /* size */, 1 /* terminate (1 or 0) */);
 
@@ -433,7 +433,7 @@ void SaxParserCallback::end_document(void* context)
   auto the_context = static_cast<_xmlParserCtxt*>(context);
   auto parser = static_cast<SaxParser*>(the_context->_private);
 
-  if (parser->exception_ptr_)
+  if (parser->exception_)
     return;
 
   try
@@ -546,7 +546,7 @@ void SaxParserCallback::error(void* context, const char* fmt, ...)
   auto the_context = static_cast<_xmlParserCtxt*>(context);
   auto parser = static_cast<SaxParser*>(the_context->_private);
 
-  if (parser->exception_ptr_)
+  if (parser->exception_)
     return;
 
   va_list arg;
