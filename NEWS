@@ -1,3 +1,18 @@
+2.91.2 (unstable):
+
+* Remove the preprocessor constant LIBXMLCPP_EXCEPTIONS_ENABLED.
+  It was always 1.
+
+* Add a config-time test for support of std::exception_ptr. Don't try to
+  use std::exception_ptr on a system where it does not exist.
+  This includes re-implementing the wrapped_exception class and the
+  raise() and clone() methods in xmlpp::exception and its subclasses.
+  (Daniel Trebbien, Kjell Ahlstedt) Bug #757042 (Michael Biebl)
+
+* The ABI is not identical to that of libxml++ 2.91.1.
+  There may be more changes in ABI and/or API before the first stable
+  libxml++-3.0 release.
+
 2.91.1 (unstable):
 
 * Renamed ABI from libxml++-2.6 to libxml++-3.0.
