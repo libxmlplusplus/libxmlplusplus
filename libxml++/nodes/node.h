@@ -98,36 +98,36 @@ public:
    * @returns The line number.
    */
   int get_line() const;
-  
-  /** Get the parent element for this node.
-   * @returns The parent node, or <tt>nullptr</tt> if the node has no parent element.
-   */
-  const Element* get_parent() const;  
 
   /** Get the parent element for this node.
    * @returns The parent node, or <tt>nullptr</tt> if the node has no parent element.
    */
-  Element* get_parent();  
+  const Element* get_parent() const;
+
+  /** Get the parent element for this node.
+   * @returns The parent node, or <tt>nullptr</tt> if the node has no parent element.
+   */
+  Element* get_parent();
 
   /** Get the next sibling for this node.
    * @returns The next sibling, or <tt>nullptr</tt> if the node has no next sibling.
    */
-  const Node* get_next_sibling() const;  
+  const Node* get_next_sibling() const;
 
   /** Get the next sibling for this node.
    * @returns The next sibling, or <tt>nullptr</tt> if the node has no next sibling.
    */
-  Node* get_next_sibling();  
+  Node* get_next_sibling();
 
   /** Get the previous sibling for this node .
    * @returns The previous sibling, or <tt>nullptr</tt> if the node has no previous sibling.
    */
-  const Node* get_previous_sibling() const;  
+  const Node* get_previous_sibling() const;
 
   /** Get the previous sibling for this node.
    * @returns The previous sibling, or <tt>nullptr</tt> if the node has no previous sibling.
    */
-  Node* get_previous_sibling();  
+  Node* get_previous_sibling();
 
   /** Get the first child of this node.
    * You may optionally get the first child node which has a certain name.
@@ -186,7 +186,7 @@ public:
    */
   Node* import_node(const Node* node, bool recursive = true);
 
-  
+
   /** Get the XPath of this node.
    * @result The XPath of the node.
    */
@@ -328,15 +328,15 @@ public:
    * @param node A pointer to an xmlNode or a "derived" struct, such as xmlDoc, xmlAttr, etc.
    */
   static void create_wrapper(_xmlNode* node);
-  
-  /** Delete the C++ instance for a given libxml C struct instance, and also 
+
+  /** Delete the C++ instance for a given libxml C struct instance, and also
    * recursively destroy the C++ instances for any children.
    *
    * This is only for use by the libxml++ implementation.
    * @param node A pointer to an xmlNode or a "derived" struct, such as xmlDoc, xmlAttr, etc.
    */
   static void free_wrappers(_xmlNode* node);
-  
+
 private:
   _xmlNode* impl_;
 };

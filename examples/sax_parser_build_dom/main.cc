@@ -1,6 +1,6 @@
 /* main.cc
  *
- * By Dan Dennedy <dan@dennedy.org> 
+ * By Dan Dennedy <dan@dennedy.org>
  *
  * Copyright (C) 2003 The libxml++ development team
  *
@@ -72,6 +72,6 @@ main(int argc, char* argv[])
     std::cerr << "libxml++ exception: " << ex.what() << std::endl;
     return EXIT_FAILURE;
   }
-  
+
   return EXIT_SUCCESS;
 }

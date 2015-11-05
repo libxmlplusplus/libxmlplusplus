@@ -48,7 +48,7 @@ struct XsdSchema::Impl
   _xmlDoc* document;
 };
 
-  
+
 XsdSchema::XsdSchema()
 : pimpl_(new Impl)
 {
@@ -111,7 +111,7 @@ void XsdSchema::parse_context(_xmlSchemaParserCtxt* context)
 {
   if (!context)
     throw parse_error("XsdSchema::parse_context(): Could not create parser context.\n" + format_xml_error());
-  
+
   XsdSchemaParserContextHolder holder(context);
 
   pimpl_->schema = xmlSchemaParse(context);

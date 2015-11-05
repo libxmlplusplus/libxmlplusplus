@@ -10,7 +10,7 @@
 
 namespace xmlpp
 {
-  
+
 TextNode::TextNode(xmlNode* node)
 : ContentNode(node)
 {}

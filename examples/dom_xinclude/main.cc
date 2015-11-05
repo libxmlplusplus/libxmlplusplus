@@ -156,7 +156,7 @@ int main(int argc, char* argv[])
     filepath = argv[argi]; //Allow the user to specify a different XML file to parse.
   else
     filepath = "example.xml";
- 
+
   try
   {
     xmlpp::DomParser parser;

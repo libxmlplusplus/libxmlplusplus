@@ -1,6 +1,6 @@
 <?xml version="1.0"?>
 <root name="example2" type="example">
 <child>added content from other document
-<grandchild>grand child content</grandchild> 
+<grandchild>grand child content</grandchild>
 </child>
 </root>

@@ -1,5 +1,3 @@
-// -*- C++ -*-
-
 /* main.cc
  *
  * Copyright (C) 2002 The libxml++ development team
@@ -42,7 +40,7 @@ main(int argc, char* argv[])
     filepath = argv[1]; //Allow the user to specify a different XML file to parse.
   else
     filepath = "example.xml";
-    
+
   // Parse the entire document in one go:
   auto return_code = EXIT_SUCCESS;
   try
@@ -61,7 +59,7 @@ main(int argc, char* argv[])
   try
   {
     std::cout << std::endl << "Incremental SAX Parser:" << std::endl;
-    
+
     std::ifstream is(filepath.c_str());
     if (!is)
       throw xmlpp::exception("Could not open file " + filepath);
@@ -97,4 +95,3 @@ main(int argc, char* argv[])
 
   return return_code;
 }
-

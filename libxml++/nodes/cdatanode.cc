@@ -10,7 +10,7 @@
 
 namespace xmlpp
 {
-  
+
 CdataNode::CdataNode(xmlNode* node)
 : ContentNode(node)
 {}

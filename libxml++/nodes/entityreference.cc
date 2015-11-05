@@ -10,7 +10,7 @@
 
 namespace xmlpp
 {
-  
+
 EntityReference::EntityReference(xmlNode* node)
 : Node(node)
 {}
@@ -31,7 +31,7 @@ Glib::ustring EntityReference::get_resolved_text() const
       if(pch)
         result = (const char*)pch;
   }
-      
+
   return result;
 }
 

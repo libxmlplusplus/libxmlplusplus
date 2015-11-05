@@ -21,7 +21,7 @@ namespace xmlpp
   OStreamOutputBuffer::~OStreamOutputBuffer()
   {
   }
-  
+
   bool OStreamOutputBuffer::do_write(
       const char * buffer,
       int len)

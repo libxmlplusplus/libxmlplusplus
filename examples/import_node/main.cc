@@ -14,13 +14,13 @@ int main (int /* argc */, char** /* argv */)
   std::locale::global(std::locale(""));
 
   try
-  { 
+  {
     DomParser example1("example1.xml");
     DomParser example2("example2.xml");
-    
+
     auto doc1 = example1.get_document();
     auto doc2 = example2.get_document();
-    
+
     auto root1 = doc1->get_root_node();
     auto root2 = doc2->get_root_node();
 
@@ -34,11 +34,11 @@ int main (int /* argc */, char** /* argv */)
     // Import an attribute that will replace an existing attribute in the root element.
     auto attribute_to_add = root2->get_attribute("name");
     root1->import_node(attribute_to_add);
-    
+
     // Import an attribute that will be added to the root element.
     attribute_to_add = root2->get_attribute("type");
     root1->import_node(attribute_to_add);
-    
+
     // Find the first text child of the first "child" element in example2.
     auto first_child2 = dynamic_cast<Element*>(child_list2.front());
     if (!first_child2)

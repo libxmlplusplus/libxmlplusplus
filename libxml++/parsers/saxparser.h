@@ -53,7 +53,7 @@ public:
 
   /** This functor is a helper to find an attribute by name in an
    * AttributeList using the standard algorithm std::find_if
-   * 
+   *
    * Example:@n
    * <code>
    *   Glib::ustring name = "foo";@n
@@ -74,8 +74,8 @@ public:
       return attribute.name == name;
     }
   };
-  
-  /** 
+
+  /**
    * @param use_get_entity Set this to true if you will override on_get_entity().
    * In theory, if you do not override on_get_entity() the parser should behave exactly the same
    * whether you use true or false here. But the default implementation of on_get_entity(), needed
@@ -117,7 +117,7 @@ public:
    * @throws xmlpp::validity_error
    */
   void parse_stream(std::istream& in) override;
-  
+
   /** Parse a chunk of data.
    *
    * This lets you pass a document in small chunks, e.g. from a network
@@ -164,7 +164,7 @@ public:
   void finish_chunk_parsing();
 
 protected:
-        
+
   virtual void on_start_document();
   virtual void on_end_document();
   virtual void on_start_element(const Glib::ustring& name, const AttributeList& attributes);
@@ -215,10 +215,10 @@ protected:
 
   void release_underlying() override;
   void initialize_context() override;
-  
+
 private:
   void parse();
-  
+
   std::unique_ptr<_xmlSAXHandler> sax_handler_;
 
   // A separate xmlpp::Document that is just used for entity resolution,

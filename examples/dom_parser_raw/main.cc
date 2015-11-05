@@ -1,5 +1,3 @@
-// -*- C++ -*-
-
 /* main.cc
  *
  * Copyright (C) 2002 The libxml++ development team
@@ -29,7 +27,7 @@
 void print_node(const xmlpp::Node* node, unsigned int indentation = 0)
 {
   std::cout << std::endl; //Separate nodes by an empty line.
-  
+
   std::cout << "Node name = " << node->get_name() << std::endl;
 
   //Recurse through child nodes:
@@ -68,13 +66,13 @@ int main(int argc, char* argv[])
     filepath = argv[1]; //Allow the user to specify a different XML file to parse.
   else
     filepath = "example.xml";
-  
+
   try
   {
     xmlpp::DomParser parser;
     parser.set_validate();
     parser.set_substitute_entities(); //We just want the text to be resolved/unescaped automatically.
-   
+
 
     auto contents = read_from_disk(filepath);
     std::string contents_ucs2;

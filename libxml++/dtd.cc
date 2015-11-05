@@ -12,7 +12,7 @@
 
 namespace xmlpp
 {
-  
+
 struct Dtd::Impl
 {
   Impl() : dtd(nullptr), is_dtd_owner(false) {}

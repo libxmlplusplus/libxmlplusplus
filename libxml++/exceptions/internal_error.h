@@ -23,7 +23,7 @@
 #include <libxml++/exceptions/exception.h>
 
 namespace xmlpp {
-  
+
 class internal_error : public exception
 {
 public:

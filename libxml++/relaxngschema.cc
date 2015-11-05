@@ -49,7 +49,7 @@ struct RelaxNGSchema::Impl
   _xmlRelaxNG* schema;
 };
 
-  
+
 RelaxNGSchema::RelaxNGSchema()
 : pimpl_(new Impl)
 {
@@ -104,7 +104,7 @@ void RelaxNGSchema::parse_context(_xmlRelaxNGParserCtxt* context)
 
   if (!context)
     throw parse_error("RelaxNGSchema::parse_context(): Could not create parser context.\n" + format_xml_error());
-  
+
   RelaxNGSchemaParserContextHolder holder(context);
 
   pimpl_->schema = xmlRelaxNGParse(context);

@@ -30,14 +30,14 @@ void print_node(const xmlpp::Node* node, unsigned int indentation = 0)
 {
   const Glib::ustring indent(indentation, ' ');
   std::cout << std::endl; //Separate nodes by an empty line.
-  
+
   const auto nodeContent = dynamic_cast<const xmlpp::ContentNode*>(node);
   const auto nodeText = dynamic_cast<const xmlpp::TextNode*>(node);
   const auto nodeComment = dynamic_cast<const xmlpp::CommentNode*>(node);
 
   if(nodeText && nodeText->is_white_space()) //Let's ignore the indenting - you don't always want to do this.
     return;
-    
+
   const auto nodename = node->get_name();
 
   if(!nodeText && !nodeComment && !nodename.empty()) //Let's not say "name: text".
@@ -54,7 +54,7 @@ void print_node(const xmlpp::Node* node, unsigned int indentation = 0)
     std::cout << indent << "Text Node" << std::endl;
   }
 
-  //Treat the various node types differently: 
+  //Treat the various node types differently:
   if(nodeText)
   {
     std::cout << indent << "text = \"" << CatchConvertError(nodeText->get_content()) << "\"" << std::endl;
@@ -97,7 +97,7 @@ void print_node(const xmlpp::Node* node, unsigned int indentation = 0)
       std::cout << "title = " << CatchConvertError(attribute->get_value()) << std::endl;
     }
   }
-  
+
   if(!nodeContent)
   {
     //Recurse through child nodes:
@@ -158,7 +158,7 @@ int main(int argc, char* argv[])
     filepath = argv[argi]; //Allow the user to specify a different XML file to parse.
   else
     filepath = "example.xml";
- 
+
   try
   {
     xmlpp::DomParser parser;

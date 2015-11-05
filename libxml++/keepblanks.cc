@@ -15,7 +15,7 @@ namespace xmlpp
 #if _MSC_VER == 1200 // detect MSVC 6.0
       const bool KeepBlanks::Default = true;
 #endif
-	  
+
   KeepBlanks::KeepBlanks(bool value)
   {
     oldIndentTreeOutput_ = xmlIndentTreeOutput;

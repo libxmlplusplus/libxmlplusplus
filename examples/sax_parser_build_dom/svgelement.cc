@@ -1,8 +1,6 @@
-// -*- C++ -*-
-
 /* svgelement.cc
  *
- * By Dan Dennedy <dan@dennedy.org> 
+ * By Dan Dennedy <dan@dennedy.org>
  *
  * Copyright (C) 2003 The libxml++ development team
  *
@@ -28,7 +26,7 @@ namespace SVG {
 Element::Element(xmlNode* node)
   : xmlpp::Element(node)
 {}
-    
+
 Element::~Element()
 {}
 
@@ -37,7 +35,7 @@ void Element::set_style(const Glib::ustring& style)
 {
   set_attribute("style", style);
 }
-    
+
 const Glib::ustring Element::get_style() const
 {
   return get_attribute("style")->get_value();

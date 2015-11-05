@@ -1,11 +1,9 @@
-// -*- C++ -*-
-
 /* svgelement.h
  *
- * By Dan Dennedy <dan@dennedy.org> 
+ * By Dan Dennedy <dan@dennedy.org>
  *
  * Copyright (C) 2003 The libxml++ development team
- * 
+ *
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Library General Public
  * License as published by the Free Software Foundation; either
@@ -40,8 +38,8 @@ public:
   // example custom methods
   void set_style(const Glib::ustring& style);
   const Glib::ustring get_style() const;
-    
-  // TODO: add custom methods 
+
+  // TODO: add custom methods
 
 private:
   // TODO: add custom properties

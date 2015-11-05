@@ -28,7 +28,7 @@
 #include <cstdlib>
 
 void print_node(const xmlpp::Node* node, bool substitute_entities, unsigned int indentation = 0)
-{  
+{
   const Glib::ustring indent(indentation, ' ');
   std::cout << std::endl; //Separate nodes by an empty line.
 
@@ -58,7 +58,7 @@ void print_node(const xmlpp::Node* node, bool substitute_entities, unsigned int 
   {
     //Recurse through child nodes:
     for(const auto& child : node->get_children())
-    {   
+    {
       print_node(child, substitute_entities, indentation + 2); //recursive
     }
   }
@@ -75,7 +75,7 @@ int main(int argc, char* argv[])
     filepath = argv[1]; //Allow the user to specify a different XML file to parse.
   else
     filepath = "example.xml";
-  
+
   // Parse first without, then with, entity substitution.
   int return_code = EXIT_SUCCESS;
   bool substitute_entities = false;

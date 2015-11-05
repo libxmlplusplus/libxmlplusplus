@@ -31,7 +31,7 @@ void find_wrappers(xmlNode* node, NodeMap& node_map)
 {
   if (!node)
     return;
-    
+
   //If an entity declaration contains an entity reference, there can be cyclic
   //references between entity declarations and entity references. (It's not
   //a tree.) We must avoid an infinite recursion.
@@ -69,9 +69,9 @@ void find_wrappers(xmlNode* node, NodeMap& node_map)
     return;
 
   //Walk the attributes list.
-  //Note that some "derived" structs have a different layout, so 
+  //Note that some "derived" structs have a different layout, so
   //_xmlNode::properties would be a nonsense value, leading to crashes
-  //(and shown as valgrind warnings), so we return above, to avoid 
+  //(and shown as valgrind warnings), so we return above, to avoid
   //checking it here.
   for (auto attr = node->properties; attr; attr = attr->next)
     find_wrappers(reinterpret_cast<xmlNode*>(attr), node_map);
@@ -83,7 +83,7 @@ void remove_found_wrappers(xmlNode* node, NodeMap& node_map)
 {
   if (!node)
     return;
-    
+
   if (node->type != XML_ENTITY_REF_NODE)
   {
     // Walk the children list.
@@ -293,7 +293,7 @@ Element* Document::create_root_node_by_import(const Node* node,
 CommentNode* Document::add_comment(const Glib::ustring& content)
 {
   auto child = xmlNewComment((const xmlChar*)content.c_str());
- 
+
   // Use the result, because child can be freed when merging text nodes:
   auto node = xmlAddChild((xmlNode*)impl_, child);
   if (!node)
@@ -404,7 +404,7 @@ void Document::do_write_to_stream(std::ostream& output, const Glib::ustring& enc
   xmlResetLastError();
   const int result = xmlSaveFormatFileTo(buffer.cobj(), impl_,
     get_encoding_or_utf8(encoding), format ? 1 : 0);
-  
+
   if(result == -1)
   {
     throw exception("do_write_to_stream() failed.\n" + format_xml_error());

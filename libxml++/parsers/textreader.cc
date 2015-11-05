@@ -8,7 +8,7 @@
 
 namespace xmlpp
 {
-  
+
 class TextReader::PropertyReader
 {
 public:
@@ -34,10 +34,10 @@ TextReader::TextReader(
 }
 
 TextReader::TextReader(
-	const unsigned char* data, 
+	const unsigned char* data,
 	size_type size,
 	const Glib::ustring& uri)
-	: propertyreader(new PropertyReader(*this)), 
+	: propertyreader(new PropertyReader(*this)),
 	  impl_( xmlReaderForMemory ((const char*)data, size, uri.c_str(), nullptr, 0) ),
     severity_( 0 )
 {
@@ -299,7 +299,7 @@ Node* TextReader::get_current_node()
     Node::create_wrapper(node);
     return static_cast<Node*>(node->_private);
   }
-    
+
   check_for_exceptions();
   return nullptr;
 }
@@ -327,7 +327,7 @@ Node* TextReader::expand()
     Node::create_wrapper(node);
     return static_cast<Node*>(node->_private);
   }
-    
+
   check_for_exceptions();
   return nullptr;
 }
@@ -347,7 +347,7 @@ bool TextReader::is_valid() const
 void TextReader::setup_exceptions()
 {
   xmlTextReaderErrorFunc func = nullptr;
-  void* arg = nullptr; 
+  void* arg = nullptr;
 
   // We respect any other error handlers already setup:
   xmlTextReaderGetErrorHandler(impl_, &func, &arg);
@@ -369,7 +369,7 @@ void TextReader::check_for_exceptions() const
 {
   if( severity_ == 0 )
     return;
-    
+
   auto ths = const_cast<TextReader*>(this);
 
   int severity = severity_;
@@ -393,7 +393,7 @@ bool TextReader::PropertyReader::Bool(int value)
 {
   if(value == -1)
     owner_.check_for_exceptions();
-    
+
   return value > 0;
 }
 
@@ -406,10 +406,10 @@ char TextReader::PropertyReader::Char(int value)
 Glib::ustring TextReader::PropertyReader::String(xmlChar* value, bool free)
 {
   owner_.check_for_exceptions();
-  
+
   if (!value)
     return Glib::ustring();
-    
+
   const Glib::ustring result = (char *)value;
 
   if(free)

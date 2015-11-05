@@ -1,5 +1,3 @@
-// -*- C++ -*-
-
 /* myparser.cc
  *
  * Copyright (C) 2002 The libxml++ development team
@@ -87,7 +85,7 @@ void MySaxParser::on_fatal_error(const Glib::ustring& text)
 _xmlEntity* MySaxParser::on_get_entity(const Glib::ustring& name)
 {
   std::cout << "on_get_entity(): " << name << std::endl;
-  
+
   //Call the base class:
   return SaxParser::on_get_entity(name);
 }
@@ -99,5 +97,3 @@ void MySaxParser::on_entity_declaration(const Glib::ustring& name, xmlpp::XmlEnt
   //Call the base class:
   SaxParser::on_entity_declaration(name, type, publicId, systemId, content);
 }
-
-

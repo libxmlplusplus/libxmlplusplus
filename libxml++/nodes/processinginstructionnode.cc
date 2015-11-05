@@ -10,7 +10,7 @@
 
 namespace xmlpp
 {
-  
+
 ProcessingInstructionNode::ProcessingInstructionNode(xmlNode* node)
 : ContentNode(node)
 {}
@@ -19,4 +19,3 @@ ProcessingInstructionNode::~ProcessingInstructionNode()
 {}
 
 } //namespace xmlpp
-

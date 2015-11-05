@@ -114,7 +114,7 @@ public:
   Glib::ustring get_name() const;
   Glib::ustring get_external_id() const;
   Glib::ustring get_system_id() const;
-  
+
   /** Access the underlying libxml implementation.
    */
   _xmlDtd* cobj();

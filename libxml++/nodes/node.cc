@@ -111,9 +111,9 @@ Tvector find_common(const Glib::ustring& xpath,
         std::cerr << "Node::find(): Ignoring an xmlNs object." << std::endl;
         continue;
       }
-      
+
       //TODO: Check for other cnode->type values?
-  
+
       nodes.push_back(_convert_node(cnode));
     }
   }
@@ -284,7 +284,7 @@ Node* Node::get_first_child(const Glib::ustring& name)
       return _convert_node(child);
   }
   while((child = child->next));
-   
+
   return nullptr;
 }
 
@@ -610,7 +610,7 @@ void Node::free_wrappers(xmlNode* node)
 {
   if(!node)
     return;
-    
+
   //If an entity declaration contains an entity reference, there can be cyclic
   //references between entity declarations and entity references. (It's not
   //a tree.) We must avoid an infinite recursion.
@@ -648,9 +648,9 @@ void Node::free_wrappers(xmlNode* node)
   }
 
   //Walk the attributes list.
-  //Note that some "derived" struct have a different layout, so 
+  //Note that some "derived" struct have a different layout, so
   //_xmlNode::properties would be a nonsense value, leading to crashes,
-  //(and shown as valgrind warnings), so we return above, to avoid 
+  //(and shown as valgrind warnings), so we return above, to avoid
   //checking it here.
   for(auto attr = node->properties; attr; attr = attr->next)
     free_wrappers(reinterpret_cast<xmlNode*>(attr));

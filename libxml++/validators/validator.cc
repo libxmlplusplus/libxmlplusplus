@@ -159,7 +159,7 @@ void Validator::handle_exception()
 void Validator::check_for_exception()
 {
   check_for_validity_messages();
-  
+
   if (exception_)
   {
     std::unique_ptr<exception> tmp(std::move(exception_));

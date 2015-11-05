@@ -150,7 +150,7 @@ public:
    * @param bytes_count The number of bytes in the @a contents array.
    */
   virtual void parse_memory_raw(const unsigned char* contents, size_type bytes_count) = 0;
-  
+
   /** Parse an XML document from a string.
    * @throw exception
    * @param contents The XML document as a string.

@@ -76,14 +76,14 @@ public:
    * @throws xmlpp::internal_error If memory allocation fails.
    */
   explicit Document(const Glib::ustring& version = "1.0");
-  
+
   /** Create a new C++ wrapper for an xmlDoc struct.
    * The created xmlpp::Document takes ownership of the xmlDoc.
    * When the Document is deleted, so is the xmlDoc and all its nodes.
    * @param doc A pointer to an xmlDoc struct. Must not be <tt>nullptr</tt>.
    */
   explicit Document(_xmlDoc* doc);
-    
+
   ~Document() override;
 
   /** @return The encoding used in the source from which the document has been loaded.

@@ -1,9 +1,9 @@
 /* svgdocument.h
  *
- * By Dan Dennedy <dan@dennedy.org> 
+ * By Dan Dennedy <dan@dennedy.org>
  *
  * Copyright (C) 2003 The libxml++ development team
- * 
+ *
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Library General Public
  * License as published by the Free Software Foundation; either

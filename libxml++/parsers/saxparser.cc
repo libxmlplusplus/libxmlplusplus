@@ -94,7 +94,7 @@ xmlEntityPtr SaxParser::on_get_entity(const Glib::ustring& name)
 void SaxParser::on_entity_declaration(const Glib::ustring& name, XmlEntityType type, const Glib::ustring& publicId, const Glib::ustring& systemId, const Glib::ustring& content)
 {
   entity_resolver_doc_->set_entity_declaration(name, type, publicId, systemId, content);
-}  
+}
 
 void SaxParser::on_start_document()
 {
@@ -159,7 +159,7 @@ void SaxParser::parse()
 
   xmlResetLastError();
   initialize_context();
-  
+
   const int parseError = xmlParseDocument(context_);
 
   context_->sax = old_sax;
@@ -203,7 +203,7 @@ void SaxParser::parse_memory_raw(const unsigned char* contents, size_type bytes_
   context_ = xmlCreateMemoryParserCtxt((const char*)contents, bytes_count);
   parse();
 }
-  
+
 void SaxParser::parse_memory(const Glib::ustring& contents)
 {
   parse_memory_raw((const unsigned char*)contents.c_str(), contents.bytes());
@@ -306,7 +306,7 @@ void SaxParser::parse_chunk_raw(const unsigned char* contents, size_type bytes_c
   }
   else
     xmlCtxtResetLastError(context_);
-  
+
   int parseError = XML_ERR_OK;
   if (!exception_)
     parseError = xmlParseChunk(context_, (const char*)contents, bytes_count, 0 /* don't terminate */);
@@ -609,7 +609,7 @@ void SaxParserCallback::internal_subset(void* context, const xmlChar* name,
 {
   auto the_context = static_cast<_xmlParserCtxt*>(context);
   auto parser = static_cast<SaxParser*>(the_context->_private);
-  
+
   try
   {
     const auto pid = publicId ? Glib::ustring((const char*) publicId) : "";

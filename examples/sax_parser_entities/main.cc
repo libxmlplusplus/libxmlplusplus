@@ -1,5 +1,3 @@
-// -*- C++ -*-
-
 /* main.cc
  *
  * Copyright (C) 2002 The libxml++ development team
@@ -53,7 +51,7 @@ main(int argc, char* argv[])
     std::cerr << "libxml++ exception: " << ex.what() << std::endl;
     return EXIT_FAILURE;
   }
-  
+
   return EXIT_SUCCESS;
 }
 

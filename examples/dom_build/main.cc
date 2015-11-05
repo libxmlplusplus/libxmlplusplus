@@ -43,14 +43,14 @@ main(int /* argc */, char** /* argv */)
 
     //foo is the default namespace prefix.
     auto nodeRoot = document.create_root_node("exampleroot", "http://foo", "foo"); //Declares the namespace and uses its prefix for this node
-    nodeRoot->set_namespace_declaration("http://foobar", "foobar"); //Also associate this prefix with this namespace: 
+    nodeRoot->set_namespace_declaration("http://foobar", "foobar"); //Also associate this prefix with this namespace:
 
     nodeRoot->set_first_child_text("\n");
     auto nodeChild = nodeRoot->add_child_element("examplechild");
 
     //Associate prefix with namespace:
-    nodeChild->set_namespace_declaration("http://bar", "bar"); 
-     
+    nodeChild->set_namespace_declaration("http://bar", "bar");
+
     nodeChild->set_namespace("bar"); //So it will be bar::examplechild.
     nodeChild->set_attribute("id", "1", "foo"); //foo is the namespace prefix. You could also just use a name of foo:id".
     nodeChild->set_first_child_text("\nSome content\n");

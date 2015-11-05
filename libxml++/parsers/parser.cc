@@ -158,7 +158,7 @@ void Parser::release_underlying()
   if(context_)
   {
     context_->_private = nullptr; //Not really necessary.
-    
+
     if( context_->myDoc != nullptr )
     {
       xmlFreeDoc(context_->myDoc);
@@ -231,7 +231,7 @@ void Parser::check_for_error_and_warning_messages()
   else if (parser_msg)
     exception_.reset(new parse_error(msg));
 }
-  
+
 //static
 void Parser::callback_parser_error(void* ctx, const char* msg, ...)
 {
@@ -273,7 +273,7 @@ void Parser::callback_error_or_warning(MsgType msg_type, void* ctx,
                                        const char* msg, va_list var_args)
 {
   //See xmlHTMLValidityError() in xmllint.c in libxml for more about this:
-  
+
   auto context = (xmlParserCtxtPtr)ctx;
   if(context)
   {
@@ -354,7 +354,7 @@ void Parser::handle_exception()
 void Parser::check_for_exception()
 {
   check_for_error_and_warning_messages();
-  
+
   if (exception_)
   {
     std::unique_ptr<exception> tmp(std::move(exception_));

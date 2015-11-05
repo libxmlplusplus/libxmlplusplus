@@ -23,7 +23,7 @@ class Attribute : public Node
 public:
   explicit Attribute(_xmlNode* node);
   ~Attribute() override;
-  
+
   /** Get the value of this attribute.
    * @returns The attribute's value.
    */

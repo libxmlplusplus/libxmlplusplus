@@ -151,7 +151,7 @@ Element* Element::add_child_element(const Glib::ustring& name,
   return add_child_element_common(name, child, node);
 }
 
-Element* Element::add_child_element(xmlpp::Node* previous_sibling, 
+Element* Element::add_child_element(xmlpp::Node* previous_sibling,
   const Glib::ustring& name, const Glib::ustring& ns_prefix)
 {
   if (!previous_sibling)
@@ -162,7 +162,7 @@ Element* Element::add_child_element(xmlpp::Node* previous_sibling,
   return add_child_element_common(name, child, node);
 }
 
-Element* Element::add_child_element_before(xmlpp::Node* next_sibling, 
+Element* Element::add_child_element_before(xmlpp::Node* next_sibling,
   const Glib::ustring& name, const Glib::ustring& ns_prefix)
 {
   if (!next_sibling)
@@ -381,20 +381,20 @@ void Element::set_namespace_declaration(const Glib::ustring& ns_uri, const Glib:
 Glib::ustring Element::get_namespace_uri_for_prefix(const Glib::ustring& ns_prefix) const
 {
   Glib::ustring result;
-  
+
   //Find the namespace:
   const auto ns = xmlSearchNs( cobj()->doc, const_cast<xmlNode*>(cobj()), (xmlChar*)ns_prefix.c_str() );
   //Get the namespace URI associated with this prefix:
   if (ns && ns->href)
     result = (const char*)ns->href;
-  
+
   return result;
 }
 
 CommentNode* Element::add_child_comment(const Glib::ustring& content)
 {
   auto child = xmlNewComment((const xmlChar*)content.c_str());
- 
+
   // Use the result, because child can be freed when merging text nodes:
   auto node = xmlAddChild(cobj(), child);
   if (!node)

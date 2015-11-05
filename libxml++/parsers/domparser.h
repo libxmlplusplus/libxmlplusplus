@@ -25,7 +25,7 @@ public:
 
   /** Instantiate the parser and parse a document immediately.
    * @param filename The path to the file.
-   * @param validate Whether the parser should validate the XML.             
+   * @param validate Whether the parser should validate the XML.
    * @throws xmlpp::internal_error
    * @throws xmlpp::parse_error
    * @throws xmlpp::validity_error
@@ -52,7 +52,7 @@ public:
    * @throws xmlpp::validity_error
    */
   void parse_memory(const Glib::ustring& contents) override;
-  
+
   /** Parse an XML document from raw memory.
    * If the parser already contains a document, that document and all its nodes
    * are deleted.
@@ -77,7 +77,7 @@ public:
   /** Test whether a document has been parsed.
    */
   operator bool() const;
-  
+
   /** Get the parsed document.
    * @returns A pointer to the parsed document, or <tt>nullptr</tt>.
    */
@@ -87,12 +87,12 @@ public:
    * @returns A pointer to the parsed document, or <tt>nullptr</tt>.
    */
   const Document* get_document() const;
-  
+
 protected:
   void parse_context();
 
   void release_underlying() override;
-  
+
   Document* doc_;
 };
 

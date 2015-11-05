@@ -34,7 +34,7 @@ DomParser::DomParser(const std::string& filename, bool validate)
 }
 
 DomParser::~DomParser()
-{ 
+{
   release_underlying();
 }
 

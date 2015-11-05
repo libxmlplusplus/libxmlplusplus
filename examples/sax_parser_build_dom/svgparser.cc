@@ -1,6 +1,6 @@
 /* svgparser.cc
  *
- * By Dan Dennedy <dan@dennedy.org> 
+ * By Dan Dennedy <dan@dennedy.org>
  *
  * Copyright (C) 2003 The libxml++ development team
  *
@@ -46,11 +46,11 @@ void Parser::on_start_element(const Glib::ustring& name,
   //with an instance of a derived node.
   //This is not a recommended technique, and might not
   //work with future versions of libxml++.
-  
+
   // Parse namespace prefix and save for later:
   Glib::ustring elementPrefix;
   Glib::ustring elementName = name;
-  Glib::ustring::size_type idx = name.find(':'); 
+  Glib::ustring::size_type idx = name.find(':');
   if (idx != Glib::ustring::npos) //If the separator was found
   {
     elementPrefix = name.substr(0, idx);

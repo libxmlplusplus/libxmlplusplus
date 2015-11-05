@@ -5,7 +5,7 @@
 #include <vector>
 
 namespace xmlpp {
-  
+
 exception::exception(const Glib::ustring& message)
 : message_(message)
 {

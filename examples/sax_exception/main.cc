@@ -1,5 +1,3 @@
-// -*- C++ -*-
-
 /* main.cc
  *
  * Copyright (C) 2002 The libxml++ development team
@@ -38,7 +36,7 @@ int main(int /* argc */, char** /* argv */)
   std::locale::global(std::locale(""));
 
   MySaxParser parser;
-  
+
   try
   {
     parser.parse_file("example.xml");

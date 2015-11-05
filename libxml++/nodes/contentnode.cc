@@ -11,7 +11,7 @@
 
 namespace xmlpp
 {
-  
+
 ContentNode::ContentNode(xmlNode* node)
 : Node(node)
 {}
@@ -34,7 +34,7 @@ void ContentNode::set_content(const Glib::ustring& content)
    if(cobj()->type == XML_ELEMENT_NODE)
    {
      throw internal_error("can't set content for this node type");
-   }   
+   }
 
    xmlNodeSetContent(cobj(), (xmlChar*)content.c_str());
 }
