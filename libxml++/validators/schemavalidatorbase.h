@@ -46,7 +46,7 @@ public:
    * @param filename The URL of the schema.
    * @throws xmlpp::parse_error
    */
-  virtual void parse_file(const std::string& filename) = 0;
+  void parse_file(const std::string& filename) override = 0;
 
   /** Parse a schema definition from a string.
    * If the validator already contains a schema, that schema is released
@@ -54,7 +54,7 @@ public:
    * @param contents The schema definition as a string.
    * @throws xmlpp::parse_error
    */
-  virtual void parse_memory(const Glib::ustring& contents) = 0;
+  void parse_memory(const Glib::ustring& contents) override = 0;
 
   /** Parse a schema definition from a document.
    * If the validator already contains a schema, that schema is released
@@ -71,14 +71,14 @@ public:
    *   do_something();
    * @endcode
    */
-  explicit virtual operator bool() const noexcept = 0;
+  explicit virtual operator bool() const noexcept override = 0;
 
   /** Validate a document, using a previously parsed schema.
    * @param document Pointer to the document.
    * @throws xmlpp::internal_error
    * @throws xmlpp::validity_error
    */
-  virtual void validate(const Document* document) = 0;
+  void validate(const Document* document) override = 0;
 
   /** Validate an XML file, using a previously parsed schema.
    * @param filename The URL of the XML file.
