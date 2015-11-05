@@ -384,12 +384,9 @@ Glib::ustring Element::get_namespace_uri_for_prefix(const Glib::ustring& ns_pref
   
   //Find the namespace:
   const auto ns = xmlSearchNs( cobj()->doc, const_cast<xmlNode*>(cobj()), (xmlChar*)ns_prefix.c_str() );
-  if(ns)
-  {
-    //Get the namespace URI associated with this prefix:
-    if(ns && ns->href)
-      result = (const char*)ns->href;
-  }
+  //Get the namespace URI associated with this prefix:
+  if (ns && ns->href)
+    result = (const char*)ns->href;
   
   return result;
 }
