@@ -1,5 +1,3 @@
-// -*- C++ -*-
-
 /* myparser.h
  *
  * Copyright (C) 2002 The libxml++ development team
@@ -34,8 +32,8 @@ protected:
   //overrides:
   void on_start_document() override;
   void on_end_document() override;
-  virtual void on_start_element(const Glib::ustring& name,
-                                const AttributeList& properties);
+  void on_start_element(const Glib::ustring& name,
+                        const AttributeList& properties) override;
   void on_end_element(const Glib::ustring& name) override;
   void on_characters(const Glib::ustring& characters) override;
   void on_comment(const Glib::ustring& text) override;
@@ -44,8 +42,8 @@ protected:
   void on_fatal_error(const Glib::ustring& text) override;
 
   _xmlEntity* on_get_entity(const Glib::ustring& name) override;
-  void on_entity_declaration(const Glib::ustring& name, xmlpp::XmlEntityType type, const Glib::ustring& publicId, const Glib::ustring& systemId, const Glib::ustring& content) override;
+  void on_entity_declaration(const Glib::ustring& name, xmlpp::XmlEntityType type,
+    const Glib::ustring& publicId, const Glib::ustring& systemId, const Glib::ustring& content) override;
 };
-
 
 #endif //__LIBXMLPP_EXAMPLES_MYPARSER_H
