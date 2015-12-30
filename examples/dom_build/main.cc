@@ -36,7 +36,7 @@ main(int /* argc */, char** /* argv */)
   {
     xmlpp::Document document;
     document.set_internal_subset("example_xml_doc", "", "example_xml_doc.dtd");
-    document.set_entity_declaration("example1", xmlpp::XML_INTERNAL_GENERAL_ENTITY,
+    document.set_entity_declaration("example1", xmlpp::XmlEntityType::INTERNAL_GENERAL,
       "", "example_xml_doc.dtd", "Entity content");
     document.add_processing_instruction("application1", "This is an example document");
     document.add_comment("First comment");

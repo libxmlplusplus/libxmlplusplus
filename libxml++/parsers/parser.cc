@@ -237,7 +237,7 @@ void Parser::callback_parser_error(void* ctx, const char* msg, ...)
 {
   va_list var_args;
   va_start(var_args, msg);
-  callback_error_or_warning(MsgParserError, ctx, msg, var_args);
+  callback_error_or_warning(MsgType::ParserError, ctx, msg, var_args);
   va_end(var_args);
 }
 
@@ -246,7 +246,7 @@ void Parser::callback_parser_warning(void* ctx, const char* msg, ...)
 {
   va_list var_args;
   va_start(var_args, msg);
-  callback_error_or_warning(MsgParserWarning, ctx, msg, var_args);
+  callback_error_or_warning(MsgType::ParserWarning, ctx, msg, var_args);
   va_end(var_args);
 }
 
@@ -255,7 +255,7 @@ void Parser::callback_validity_error(void* ctx, const char* msg, ...)
 {
   va_list var_args;
   va_start(var_args, msg);
-  callback_error_or_warning(MsgValidityError, ctx, msg, var_args);
+  callback_error_or_warning(MsgType::ValidityError, ctx, msg, var_args);
   va_end(var_args);
 }
 
@@ -264,7 +264,7 @@ void Parser::callback_validity_warning(void* ctx, const char* msg, ...)
 {
   va_list var_args;
   va_start(var_args, msg);
-  callback_error_or_warning(MsgValidityWarning, ctx, msg, var_args);
+  callback_error_or_warning(MsgType::ValidityWarning, ctx, msg, var_args);
   va_end(var_args);
 }
 
@@ -296,16 +296,16 @@ void Parser::callback_error_or_warning(MsgType msg_type, void* ctx,
       {
         switch (msg_type)
         {
-          case MsgParserError:
+          case MsgType::ParserError:
             parser->on_parser_error(ubuff);
             break;
-          case MsgParserWarning:
+          case MsgType::ParserWarning:
             parser->on_parser_warning(ubuff);
             break;
-          case MsgValidityError:
+          case MsgType::ValidityError:
             parser->on_validity_error(ubuff);
             break;
-          case MsgValidityWarning:
+          case MsgType::ValidityWarning:
             parser->on_validity_warning(ubuff);
             break;
         }

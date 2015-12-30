@@ -29,38 +29,47 @@ namespace xmlpp
 class TextReader: public NonCopyable
 {
   public:
-    enum xmlNodeType {
+    // xmlpp::TextReader::NodeType is similar to xmlReaderTypes in libxml2.
+    /** Node type of the current node.
+     * See DotGNU's <a href="http://www.gnu.org/software/dotgnu/pnetlib-doc/System/Xml/XmlNodeType.html">XmlNodeType</a> enum.
+     */
+    enum class NodeType
+    {
+      InternalError = -1,
+      None = 0,
+      Element = 1,
       Attribute = 2,
+      Text = 3,
       CDATA = 4,
+      EntityReference = 5,
+      Entity = 6,
+      ProcessingInstruction = 7,
       Comment = 8,
       Document = 9,
-      DocumentFragment = 11,
       DocumentType = 10,
-      Element = 1,
+      DocumentFragment = 11,
+      Notation = 12,
+      Whitespace = 13,
+      SignificantWhitespace = 14,
       EndElement = 15,
       EndEntity = 16,
-      Entity = 6,
-      EntityReference = 5,
-      None = 0,
-      Notation = 12,
-      ProcessingInstruction = 7,
-      SignificantWhitespace = 14,
-      Text = 3,
-      Whitespace = 13,
       XmlDeclaration = 17
     };
 
-    enum xmlReadState
+    // xmlpp::TextReader::ReadState is similar to xmlTextReaderMode in libxml2.
+    enum class ReadState
     {
-      Closed = 4,
-      EndOfFile = 3,
-      Error = 2,
+      InternalError = -1,
       Initial = 0,
       Interactive = 1,
+      Error = 2,
+      EndOfFile = 3,
+      Closed = 4,
       Reading = 5
     };
 
-    enum ParserProperties
+    // xmlpp::TextReader::ParserProperties is similar to xmlParserProperties in libxml2.
+    enum class ParserProperties
     {
       LoadDtd = 1,
       DefaultAttrs = 2,
@@ -174,9 +183,13 @@ class TextReader: public NonCopyable
     Glib::ustring get_namespace_uri() const;
 
     /** Get the node type of the current node.
-     * @returns The xmlpp::xmlNodeType of the current node, or -1 in case of error.
+     * @returns The xmlpp::TextReader::NodeType of the current node.
+     *          In case of error, either returns xmlpp::TextReader::NodeType::InternalError
+     *          or throws an exception.
+     * @throws xmlpp::parse_error
+     * @throws xmlpp::validity_error
      */
-    xmlNodeType get_node_type() const;
+    NodeType get_node_type() const;
 
     /** Get the namespace prefix associated with the current node.
      * @returns The namespace prefix, or an empty string if not available.
@@ -191,7 +204,7 @@ class TextReader: public NonCopyable
     Glib::ustring get_value() const;
     Glib::ustring get_xml_lang() const;
 
-    xmlReadState get_read_state() const;
+    ReadState get_read_state() const;
 
     void close();
 

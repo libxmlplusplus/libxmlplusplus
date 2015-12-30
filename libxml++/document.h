@@ -39,14 +39,18 @@ extern "C" {
 namespace xmlpp
 {
 
-typedef enum {
-    XML_INTERNAL_GENERAL_ENTITY = 1,
-    XML_EXTERNAL_GENERAL_PARSED_ENTITY = 2,
-    XML_EXTERNAL_GENERAL_UNPARSED_ENTITY = 3,
-    XML_INTERNAL_PARAMETER_ENTITY = 4,
-    XML_EXTERNAL_PARAMETER_ENTITY = 5,
-    XML_INTERNAL_PREDEFINED_ENTITY = 6
-} XmlEntityType;
+// xmlpp::XmlEntityType is similar to xmlEntityType in libxml2.
+/** The valid entity types.
+ */
+enum class XmlEntityType
+{
+  INTERNAL_GENERAL = 1,
+  EXTERNAL_GENERAL_PARSED = 2,
+  EXTERNAL_GENERAL_UNPARSED = 3,
+  INTERNAL_PARAMETER = 4,
+  EXTERNAL_PARAMETER = 5,
+  INTERNAL_PREDEFINED = 6
+};
 
 //TODO: Make Document inherit from Node, when we can break ABI one day?
 //

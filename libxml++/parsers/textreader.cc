@@ -157,12 +157,12 @@ Glib::ustring TextReader::get_namespace_uri() const
       xmlTextReaderNamespaceUri(impl_), true);
 }
 
-TextReader::xmlNodeType TextReader::get_node_type() const
+TextReader::NodeType TextReader::get_node_type() const
 {
   int result = xmlTextReaderNodeType(impl_);
   if(result == -1)
     check_for_exceptions();
-  return (xmlNodeType)result;
+  return static_cast<NodeType>(result);
 }
 
 Glib::ustring TextReader::get_prefix() const
@@ -189,12 +189,12 @@ Glib::ustring TextReader::get_xml_lang() const
       xmlTextReaderXmlLang(impl_));
 }
 
-TextReader::xmlReadState TextReader::get_read_state() const
+TextReader::ReadState TextReader::get_read_state() const
 {
   int result = xmlTextReaderReadState(impl_);
   if(result == -1)
     check_for_exceptions();
-  return (xmlReadState)result;
+  return static_cast<ReadState>(result);
 }
 
 void TextReader::close()

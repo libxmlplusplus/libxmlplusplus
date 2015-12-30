@@ -415,10 +415,11 @@ void Document::set_entity_declaration(const Glib::ustring& name, XmlEntityType t
                               const Glib::ustring& publicId, const Glib::ustring& systemId,
                               const Glib::ustring& content)
 {
-  auto entity = xmlAddDocEntity( impl_, (const xmlChar*) name.c_str(), type,
+  auto entity = xmlAddDocEntity(impl_, (const xmlChar*)name.c_str(),
+    static_cast<int>(type),
     publicId.empty() ? nullptr : (const xmlChar*)publicId.c_str(),
     systemId.empty() ? nullptr : (const xmlChar*)systemId.c_str(),
-    (const xmlChar*) content.c_str() );
+    (const xmlChar*)content.c_str());
   if (!entity)
     throw internal_error("Could not add entity declaration " + name);
 }

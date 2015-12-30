@@ -185,12 +185,12 @@ protected:
   static void callback_validity_error(void* ctx, const char* msg, ...);
   static void callback_validity_warning(void* ctx, const char* msg, ...);
 
-  enum MsgType
+  enum class MsgType
   {
-    MsgParserError,
-    MsgParserWarning,
-    MsgValidityError,
-    MsgValidityWarning
+    ParserError,
+    ParserWarning,
+    ValidityError,
+    ValidityWarning
   };
 
   static void callback_error_or_warning(MsgType msg_type, void* ctx,

@@ -29,12 +29,12 @@ Glib::ustring result_type_to_ustring(xmlpp::XPathResultType result_type)
 {
   switch (result_type)
   {
-    case xmlpp::XPATH_RESULT_NODESET: return "nodeset";
-    case xmlpp::XPATH_RESULT_BOOLEAN: return "boolean";
-    case xmlpp::XPATH_RESULT_NUMBER:  return "number";
-    case xmlpp::XPATH_RESULT_STRING:  return "string";
+    case xmlpp::XPathResultType::NODESET: return "nodeset";
+    case xmlpp::XPathResultType::BOOLEAN: return "boolean";
+    case xmlpp::XPathResultType::NUMBER:  return "number";
+    case xmlpp::XPathResultType::STRING:  return "string";
 
-    case xmlpp::XPATH_RESULT_UNDEFINED:
+    case xmlpp::XPathResultType::UNDEFINED:
     default:
       return "undefined";
   }

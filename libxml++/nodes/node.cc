@@ -155,7 +155,7 @@ xmlXPathObject* eval_common(const Glib::ustring& xpath,
   if (!xpath_value)
   {
     if (result_type)
-      *result_type = xmlpp::XPATH_RESULT_UNDEFINED;
+      *result_type = xmlpp::XPathResultType::UNDEFINED;
 
     throw xmlpp::exception("Invalid XPath: " + xpath);
   }
@@ -168,7 +168,7 @@ xmlXPathObject* eval_common(const Glib::ustring& xpath,
         xpath_value->type == XPATH_STRING)
       *result_type = static_cast<xmlpp::XPathResultType>(xpath_value->type);
     else
-      *result_type = xmlpp::XPATH_RESULT_UNDEFINED;
+      *result_type = xmlpp::XPathResultType::UNDEFINED;
   }
 
   return xpath_value;

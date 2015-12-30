@@ -33,13 +33,13 @@ class Element;
  *   - number
  *   - string
  */
-enum XPathResultType
+enum class XPathResultType
 {
-    XPATH_RESULT_UNDEFINED = 0,
-    XPATH_RESULT_NODESET = 1,
-    XPATH_RESULT_BOOLEAN = 2,
-    XPATH_RESULT_NUMBER = 3,
-    XPATH_RESULT_STRING = 4
+  UNDEFINED = 0,
+  NODESET = 1,
+  BOOLEAN = 2,
+  NUMBER = 3,
+  STRING = 4
 };
 
 /** Represents XML Nodes.
