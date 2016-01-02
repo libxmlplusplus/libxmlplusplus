@@ -49,7 +49,7 @@ public:
       }
   };
 
-  typedef std::deque< Attribute > AttributeList;
+  using AttributeList = std::deque<Attribute>;
 
   /** This functor is a helper to find an attribute by name in an
    * AttributeList using the standard algorithm std::find_if

@@ -26,8 +26,8 @@ public:
   explicit Element(_xmlNode* node);
   ~Element() override;
 
-  typedef std::list<Attribute*> AttributeList;
-  typedef std::list<const Attribute*> const_AttributeList;
+  using AttributeList = std::list<Attribute*>;
+  using const_AttributeList = std::list<const Attribute*>;
 
   /** Add a namespace declaration to this node which will apply to this node and all children.
    *

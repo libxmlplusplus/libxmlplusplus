@@ -38,7 +38,7 @@ public:
   Parser();
   ~Parser() override;
 
-  typedef unsigned int size_type;
+  using size_type = unsigned int;
 
   /** By default, the parser will not validate the XML file.
    * @param val Whether the document should be validated.

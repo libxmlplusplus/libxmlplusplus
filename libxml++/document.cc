@@ -23,7 +23,7 @@
 
 namespace // anonymous
 {
-typedef std::map<xmlpp::Node*, xmlElementType> NodeMap;
+using NodeMap = std::map<xmlpp::Node*, xmlElementType>;
 
 // Find all C++ wrappers of 'node' and its descendants.
 // Compare xmlpp::Node::free_wrappers().

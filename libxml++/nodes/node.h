@@ -51,11 +51,11 @@ enum class XPathResultType
 class Node : public NonCopyable
 {
 public:
-  typedef std::list<Node*> NodeList;
-  typedef std::list<const Node*> const_NodeList;
+  using NodeList = std::list<Node*>;
+  using const_NodeList = std::list<const Node*>;
 
-  typedef std::vector<Node*> NodeSet;
-  typedef std::vector<const Node*> const_NodeSet;
+  using NodeSet = std::vector<Node*>;
+  using const_NodeSet = std::vector<const Node*>;
 
   /** @throws xmlpp::internal_error If @a node is <tt>nullptr</tt>.
    */
@@ -210,7 +210,7 @@ public:
 
   /** A map of namespace prefixes to namespace URIs.
    */
-  typedef std::map<Glib::ustring, Glib::ustring> PrefixNsMap;
+  using PrefixNsMap = std::map<Glib::ustring, Glib::ustring>;
 
   /** Find nodes from an XPath expression.
    * @param xpath The XPath of the nodes.

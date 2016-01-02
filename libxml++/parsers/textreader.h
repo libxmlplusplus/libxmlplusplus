@@ -77,7 +77,7 @@ class TextReader: public NonCopyable
       SubstEntities = 4
     };
 
-  typedef unsigned int size_type;
+  using size_type = unsigned int;
 
   public:
     /**
