@@ -44,53 +44,53 @@ Parser::~Parser()
   release_underlying();
 }
 
-void Parser::set_validate(bool val)
+void Parser::set_validate(bool val) noexcept
 {
   pimpl_->validate_ = val;
 }
 
-bool Parser::get_validate() const
+bool Parser::get_validate() const noexcept
 {
   return pimpl_->validate_;
 }
 
-void Parser::set_substitute_entities(bool val)
+void Parser::set_substitute_entities(bool val) noexcept
 {
   pimpl_->substitute_entities_ = val;
 }
 
-bool Parser::get_substitute_entities() const
+bool Parser::get_substitute_entities() const noexcept
 {
   return pimpl_->substitute_entities_;
 }
 
-void Parser::set_throw_messages(bool val)
+void Parser::set_throw_messages(bool val) noexcept
 {
   pimpl_->throw_messages_ = val;
 }
 
-bool Parser::get_throw_messages() const
+bool Parser::get_throw_messages() const noexcept
 {
   return pimpl_->throw_messages_;
 }
 
-void Parser::set_include_default_attributes(bool val)
+void Parser::set_include_default_attributes(bool val) noexcept
 {
   pimpl_->include_default_attributes_ = val;
 }
 
-bool Parser::get_include_default_attributes()
+bool Parser::get_include_default_attributes() noexcept
 {
   return pimpl_->include_default_attributes_;
 }
 
-void Parser::set_parser_options(int set_options, int clear_options)
+void Parser::set_parser_options(int set_options, int clear_options) noexcept
 {
   pimpl_->set_options_ = set_options;
   pimpl_->clear_options_ = clear_options;
 }
 
-void Parser::get_parser_options(int& set_options, int& clear_options)
+void Parser::get_parser_options(int& set_options, int& clear_options) noexcept
 {
   set_options = pimpl_->set_options_;
   clear_options = pimpl_->clear_options_;

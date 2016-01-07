@@ -31,7 +31,7 @@ class Document;
 class Validator : public NonCopyable
 {
 public:
-  Validator();
+  Validator() noexcept;
   ~Validator() override;
 
   /** Parse a schema definition file or an external subset (DTD file).

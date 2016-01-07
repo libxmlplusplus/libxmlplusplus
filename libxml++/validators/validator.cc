@@ -15,7 +15,7 @@
 
 namespace xmlpp {
 
-Validator::Validator()
+Validator::Validator() noexcept
 : exception_(nullptr)
 {
 }

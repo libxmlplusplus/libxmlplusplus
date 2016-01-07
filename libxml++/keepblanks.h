@@ -10,10 +10,8 @@
 
 namespace xmlpp
 {
-
-  /**
-   * This class set KeepBlanksDefault and IndentTreeOutput of libxmlpp
-   * and restore their initial value in its destructor. As a consequence
+  /** This class sets KeepBlanksDefault and IndentTreeOutput of libxmlpp
+   * and restores their initial values in its destructor. As a consequence
    * the wanted setting is kept during instance lifetime.
    */
   class KeepBlanks {
@@ -25,14 +23,13 @@ namespace xmlpp
 #endif
 
     public:
-      KeepBlanks(bool value);
-      ~KeepBlanks();
+      KeepBlanks(bool value) noexcept;
+      ~KeepBlanks() noexcept;
 
     private:
       int oldKeepBlanksDefault_;
       int oldIndentTreeOutput_;
   };
-
 }
 
 #endif // __LIBXMLPP_KEEPBLANKS_H

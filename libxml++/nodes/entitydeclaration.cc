@@ -27,14 +27,14 @@ Glib::ustring EntityDeclaration::get_original_text() const
   return cobj()->orig ? (const char*)cobj()->orig : "";
 }
 
-xmlEntity* EntityDeclaration::cobj()
+xmlEntity* EntityDeclaration::cobj() noexcept
 {
   // An XML_ENTITY_DECL is represented by an xmlEntity struct. Reinterpret
   // the xmlNode pointer stored in the base class as an xmlEntity pointer.
   return reinterpret_cast<xmlEntity*>(Node::cobj());
 }
 
-const xmlEntity* EntityDeclaration::cobj() const
+const xmlEntity* EntityDeclaration::cobj() const noexcept
 {
   // An XML_ENTITY_DECL is represented by an xmlEntity struct. Reinterpret
   // the xmlNode pointer stored in the base class as an xmlEntity pointer.

@@ -85,10 +85,10 @@ public:
   void parse_document(const Document* document) override;
 
   /** Access the underlying libxml implementation. */
-  _xmlSchema* cobj();
+  _xmlSchema* cobj() noexcept;
 
   /** Access the underlying libxml implementation. */
-  const _xmlSchema* cobj() const;
+  const _xmlSchema* cobj() const noexcept;
 
 protected:
   void release_underlying();

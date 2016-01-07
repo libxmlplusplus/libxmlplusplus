@@ -29,7 +29,7 @@ namespace
   class XsdSchemaParserContextHolder
   {
   public:
-    XsdSchemaParserContextHolder(xmlSchemaParserCtxtPtr ctx): ctx_(ctx) {}
+    XsdSchemaParserContextHolder(xmlSchemaParserCtxtPtr ctx) noexcept : ctx_(ctx) {}
     ~XsdSchemaParserContextHolder() { if (ctx_) xmlSchemaFreeParserCtxt(ctx_); }
 
   private:
@@ -42,7 +42,7 @@ namespace xmlpp
 
 struct XsdSchema::Impl
 {
-  Impl() : schema(nullptr), document(nullptr) {}
+  Impl() noexcept : schema(nullptr), document(nullptr) {}
 
   _xmlSchema* schema;
   _xmlDoc* document;
@@ -122,12 +122,12 @@ void XsdSchema::parse_context(_xmlSchemaParserCtxt* context)
   }
 }
 
-_xmlSchema* XsdSchema::cobj()
+_xmlSchema* XsdSchema::cobj() noexcept
 {
   return pimpl_->schema;
 }
 
-const _xmlSchema* XsdSchema::cobj() const
+const _xmlSchema* XsdSchema::cobj() const noexcept
 {
   return pimpl_->schema;
 }

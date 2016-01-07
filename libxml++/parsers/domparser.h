@@ -76,17 +76,17 @@ public:
 
   /** Test whether a document has been parsed.
    */
-  operator bool() const;
+  operator bool() const noexcept;
 
   /** Get the parsed document.
    * @returns A pointer to the parsed document, or <tt>nullptr</tt>.
    */
-  Document* get_document();
+  Document* get_document() noexcept;
 
   /** Get the parsed document.
    * @returns A pointer to the parsed document, or <tt>nullptr</tt>.
    */
-  const Document* get_document() const;
+  const Document* get_document() const noexcept;
 
 protected:
   void parse_context();

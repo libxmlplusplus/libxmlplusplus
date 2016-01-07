@@ -29,7 +29,7 @@ namespace xmlpp
 
 struct RelaxNGValidator::Impl
 {
-  Impl() : schema(nullptr), is_schema_owner(false), context(nullptr) {}
+  Impl() noexcept : schema(nullptr), is_schema_owner(false), context(nullptr) {}
 
   RelaxNGSchema* schema;
   bool is_schema_owner;
@@ -107,12 +107,12 @@ void RelaxNGValidator::release_underlying()
   SchemaValidatorBase::release_underlying();
 }
 
-RelaxNGSchema* RelaxNGValidator::get_schema()
+RelaxNGSchema* RelaxNGValidator::get_schema() noexcept
 {
   return pimpl_->schema;
 }
 
-const RelaxNGSchema* RelaxNGValidator::get_schema() const
+const RelaxNGSchema* RelaxNGValidator::get_schema() const noexcept
 {
   return pimpl_->schema;
 }

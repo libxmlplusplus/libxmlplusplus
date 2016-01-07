@@ -23,7 +23,7 @@ namespace xmlpp
 
 struct DtdValidator::Impl
 {
-  Impl() : dtd(nullptr), is_dtd_owner(false), context(nullptr) {}
+  Impl() noexcept : dtd(nullptr), is_dtd_owner(false), context(nullptr) {}
 
   Dtd* dtd;
   bool is_dtd_owner;
@@ -130,12 +130,12 @@ DtdValidator::operator bool() const noexcept
   return pimpl_->dtd && pimpl_->dtd->cobj();
 }
 
-Dtd* DtdValidator::get_dtd()
+Dtd* DtdValidator::get_dtd() noexcept
 {
   return pimpl_->dtd;
 }
 
-const Dtd* DtdValidator::get_dtd() const
+const Dtd* DtdValidator::get_dtd() const noexcept
 {
   return pimpl_->dtd;
 }

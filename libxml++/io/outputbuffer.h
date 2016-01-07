@@ -46,11 +46,11 @@ namespace xmlpp
     public:
       /** gives an access to the underlying libxml structure to the children
        */
-      _xmlOutputBuffer* cobj();
+      _xmlOutputBuffer* cobj() noexcept;
 
       /** gives an access to the underlying libxml structure to the children
        */
-      const _xmlOutputBuffer* cobj() const;
+      const _xmlOutputBuffer* cobj() const noexcept;
 
     private:
       bool on_write(const char * buffer, int len);

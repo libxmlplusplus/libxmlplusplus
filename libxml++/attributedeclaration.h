@@ -37,10 +37,10 @@ public:
   Glib::ustring get_value() const override;
 
   ///Access the underlying libxml implementation.
-  _xmlAttribute* cobj();
+  _xmlAttribute* cobj() noexcept;
 
   ///Access the underlying libxml implementation.
-  const _xmlAttribute* cobj() const;
+  const _xmlAttribute* cobj() const noexcept;
 };
 
 } // namespace xmlpp

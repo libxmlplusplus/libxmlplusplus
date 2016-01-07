@@ -316,10 +316,10 @@ public:
     XPathResultType* result_type = nullptr) const;
 
   ///Access the underlying libxml implementation.
-  _xmlNode* cobj();
+  _xmlNode* cobj() noexcept;
 
   ///Access the underlying libxml implementation.
-  const _xmlNode* cobj() const;
+  const _xmlNode* cobj() const noexcept;
 
   /** Construct the correct C++ instance for a given libxml C struct instance.
    *

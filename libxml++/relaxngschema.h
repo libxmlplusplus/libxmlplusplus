@@ -94,10 +94,10 @@ public:
   void parse_document(const Document* document) override;
 
   /** Access the underlying libxml implementation. */
-  _xmlRelaxNG* cobj();
+  _xmlRelaxNG* cobj() noexcept;
 
   /** Access the underlying libxml implementation. */
-  const _xmlRelaxNG* cobj() const;
+  const _xmlRelaxNG* cobj() const noexcept;
 
 protected:
   void release_underlying();

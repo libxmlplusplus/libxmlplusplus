@@ -11,21 +11,19 @@
 
 namespace xmlpp
 {
-
 #if _MSC_VER == 1200 // detect MSVC 6.0
       const bool KeepBlanks::Default = true;
 #endif
 
-  KeepBlanks::KeepBlanks(bool value)
+  KeepBlanks::KeepBlanks(bool value) noexcept
   {
     oldIndentTreeOutput_ = xmlIndentTreeOutput;
     oldKeepBlanksDefault_ = xmlKeepBlanksDefault( value?1:0 );
   }
 
-  KeepBlanks::~KeepBlanks()
+  KeepBlanks::~KeepBlanks() noexcept
   {
     xmlKeepBlanksDefault(oldKeepBlanksDefault_);
     xmlIndentTreeOutput = oldIndentTreeOutput_;
   }
 }
-

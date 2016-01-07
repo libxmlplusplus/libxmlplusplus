@@ -26,7 +26,7 @@ namespace xmlpp
 
 struct XsdValidator::Impl
 {
-  Impl() : schema(nullptr), is_schema_owner(false), context(nullptr) {}
+  Impl() noexcept : schema(nullptr), is_schema_owner(false), context(nullptr) {}
 
   XsdSchema* schema;
   bool is_schema_owner;
@@ -104,12 +104,12 @@ void XsdValidator::release_underlying()
   SchemaValidatorBase::release_underlying();
 }
 
-XsdSchema* XsdValidator::get_schema()
+XsdSchema* XsdValidator::get_schema() noexcept
 {
   return pimpl_->schema;
 }
 
-const XsdSchema* XsdValidator::get_schema() const
+const XsdSchema* XsdValidator::get_schema() const noexcept
 {
   return pimpl_->schema;
 }

@@ -71,12 +71,12 @@ namespace xmlpp
     return true;
   }
 
-  _xmlParserInputBuffer* ParserInputBuffer::cobj()
+  _xmlParserInputBuffer* ParserInputBuffer::cobj() noexcept
   {
     return impl_;
   }
 
-  const _xmlParserInputBuffer* ParserInputBuffer::cobj() const
+  const _xmlParserInputBuffer* ParserInputBuffer::cobj() const noexcept
   {
     return impl_;
   }

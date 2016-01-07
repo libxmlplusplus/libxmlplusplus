@@ -43,10 +43,10 @@ public:
   Glib::ustring get_original_text() const;
 
   ///Access the underlying libxml implementation.
-  _xmlEntity* cobj();
+  _xmlEntity* cobj() noexcept;
 
   ///Access the underlying libxml implementation.
-  const _xmlEntity* cobj() const;
+  const _xmlEntity* cobj() const noexcept;
 };
 
 } // namespace xmlpp

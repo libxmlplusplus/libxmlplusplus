@@ -10,7 +10,7 @@
 namespace xmlpp
 {
 
-NonCopyable::NonCopyable()
+NonCopyable::NonCopyable() noexcept
 {
 }
 

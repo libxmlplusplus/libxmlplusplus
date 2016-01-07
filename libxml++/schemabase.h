@@ -38,7 +38,7 @@ class Document;
 class SchemaBase : public NonCopyable
 {
 public:
-  SchemaBase();
+  SchemaBase() noexcept;
   ~SchemaBase() override;
 
   /** Parse a schema definition file.

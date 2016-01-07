@@ -43,24 +43,24 @@ public:
   /** By default, the parser will not validate the XML file.
    * @param val Whether the document should be validated.
    */
-  void set_validate(bool val = true);
+  void set_validate(bool val = true) noexcept;
 
   /** See set_validate().
    * @returns Whether the parser will validate the XML file.
    */
-  bool get_validate() const;
+  bool get_validate() const noexcept;
 
   /** Set whether the parser will automatically substitute entity references with the text of the entities' definitions.
    * For instance, this affects the text returned by ContentNode::get_content().
    * By default, the parser will not substitute entities, so that you do not lose the entity reference information.
    * @param val Whether entities will be substitued.
    */
-  void set_substitute_entities(bool val = true);
+  void set_substitute_entities(bool val = true) noexcept;
 
   /** See set_substitute_entities().
    * @returns Whether entities will be substituted during parsing.
    */
-  bool get_substitute_entities() const;
+  bool get_substitute_entities() const noexcept;
 
   /** Set whether the parser will collect and throw error and warning messages.
    *
@@ -84,7 +84,7 @@ public:
    *
    * @param val Whether messages will be collected and thrown in an exception.
    */
-  void set_throw_messages(bool val = true);
+  void set_throw_messages(bool val = true) noexcept;
 
   /** See set_throw_messages().
    *
@@ -92,7 +92,7 @@ public:
    *
    * @returns Whether messages will be collected and thrown in an exception.
    */
-  bool get_throw_messages() const;
+  bool get_throw_messages() const noexcept;
 
   /** Set whether default attribute values from the DTD shall be included in the node tree.
    * If set, attributes not assigned a value in the XML file, but with a default value
@@ -104,7 +104,7 @@ public:
    *
    * @param val Whether attributes with default values will be included in the node tree.
    */
-  void set_include_default_attributes(bool val = true);
+  void set_include_default_attributes(bool val = true) noexcept;
 
   /** See set_include_default_attributes().
    *
@@ -112,7 +112,7 @@ public:
    *
    * @returns Whether attributes with default values will be included in the node tree.
    */
-  bool get_include_default_attributes();
+  bool get_include_default_attributes() noexcept;
 
   /** Set and/or clear parser option flags.
    * See the libxml2 documentation, enum xmlParserOption, for a list of parser options.
@@ -126,7 +126,7 @@ public:
    * @param clear_options Set bits correspond to flags that shall be cleared during parsing.
    *        Bits that are set in neither @a set_options nor @a clear_options are not affected.
    */
-  void set_parser_options(int set_options = 0, int clear_options = 0);
+  void set_parser_options(int set_options = 0, int clear_options = 0) noexcept;
 
   /** See set_parser_options().
    *
@@ -136,7 +136,7 @@ public:
    * @param [out] clear_options Set bits correspond to flags that shall be cleared during parsing.
    *        Bits that are set in neither @a set_options nor @a clear_options are not affected.
    */
-  void get_parser_options(int& set_options, int& clear_options);
+  void get_parser_options(int& set_options, int& clear_options) noexcept;
 
   /** Parse an XML document from a file.
    * @throw exception

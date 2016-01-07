@@ -376,12 +376,12 @@ int Node::get_line() const
 }
 
 
-xmlNode* Node::cobj()
+xmlNode* Node::cobj() noexcept
 {
   return impl_;
 }
 
-const xmlNode* Node::cobj() const
+const xmlNode* Node::cobj() const noexcept
 {
   return impl_;
 }

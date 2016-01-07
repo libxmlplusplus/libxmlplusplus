@@ -37,7 +37,7 @@ class Document;
 class SchemaValidatorBase : public Validator
 {
 public:
-  SchemaValidatorBase();
+  SchemaValidatorBase() noexcept;
   ~SchemaValidatorBase() override;
 
   /** Parse a schema definition file.

@@ -31,7 +31,7 @@ namespace
   class RelaxNGSchemaParserContextHolder
   {
   public:
-    RelaxNGSchemaParserContextHolder(xmlRelaxNGParserCtxtPtr ctx): ctx_(ctx) {}
+    RelaxNGSchemaParserContextHolder(xmlRelaxNGParserCtxtPtr ctx) noexcept : ctx_(ctx) {}
     ~RelaxNGSchemaParserContextHolder() { if (ctx_) xmlRelaxNGFreeParserCtxt(ctx_); }
 
   private:
@@ -44,7 +44,7 @@ namespace xmlpp
 
 struct RelaxNGSchema::Impl
 {
-  Impl() : schema(nullptr) {}
+  Impl() noexcept : schema(nullptr) {}
 
   _xmlRelaxNG* schema;
 };
@@ -112,12 +112,12 @@ void RelaxNGSchema::parse_context(_xmlRelaxNGParserCtxt* context)
     throw parse_error("RelaxNGSchema::parse_context(): Schema could not be parsed.\n" + format_xml_error());
 }
 
-_xmlRelaxNG* RelaxNGSchema::cobj()
+_xmlRelaxNG* RelaxNGSchema::cobj() noexcept
 {
   return pimpl_->schema;
 }
 
-const _xmlRelaxNG* RelaxNGSchema::cobj() const
+const _xmlRelaxNG* RelaxNGSchema::cobj() const noexcept
 {
   return pimpl_->schema;
 }

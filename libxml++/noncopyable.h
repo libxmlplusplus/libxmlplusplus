@@ -17,7 +17,7 @@ namespace xmlpp
 class NonCopyable
 {
 protected:
-  NonCopyable();
+  NonCopyable() noexcept;
   virtual ~NonCopyable();
 
   NonCopyable(const NonCopyable&) = delete;

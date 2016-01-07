@@ -218,17 +218,17 @@ void DomParser::release_underlying()
   Parser::release_underlying();
 }
 
-DomParser::operator bool() const
+DomParser::operator bool() const noexcept
 {
   return doc_ != nullptr;
 }
 
-Document* DomParser::get_document()
+Document* DomParser::get_document() noexcept
 {
   return doc_;
 }
 
-const Document* DomParser::get_document() const
+const Document* DomParser::get_document() const noexcept
 {
   return doc_;
 }

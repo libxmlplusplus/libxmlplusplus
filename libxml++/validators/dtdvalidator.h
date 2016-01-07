@@ -105,12 +105,12 @@ public:
   /** Get the parsed DTD.
    * @returns A pointer to the parsed DTD, or <tt>nullptr</tt>.
    */
-  Dtd* get_dtd();
+  Dtd* get_dtd() noexcept;
 
   /** Get the parsed DTD.
    * @returns A pointer to the parsed DTD, or <tt>nullptr</tt>.
    */
-  const Dtd* get_dtd() const;
+  const Dtd* get_dtd() const noexcept;
 
   /** Validate a document, using a previously parsed DTD.
    * The internal subset (if present) is de-coupled (i.e. not used),

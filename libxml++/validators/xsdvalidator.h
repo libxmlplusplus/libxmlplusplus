@@ -116,12 +116,12 @@ public:
   /** Get the schema.
    * @returns A pointer to the schema, or <tt>nullptr</tt>.
    */
-  XsdSchema* get_schema();
+  XsdSchema* get_schema() noexcept;
 
   /** Get the schema.
    * @returns A pointer to the schema, or <tt>nullptr</tt>.
    */
-  const XsdSchema* get_schema() const;
+  const XsdSchema* get_schema() const noexcept;
 
   /** Validate a document, using a previously parsed schema.
    * @param document Pointer to the document.

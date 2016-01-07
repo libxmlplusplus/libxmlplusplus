@@ -15,7 +15,7 @@ namespace xmlpp
 
 struct Dtd::Impl
 {
-  Impl() : dtd(nullptr), is_dtd_owner(false) {}
+  Impl() noexcept : dtd(nullptr), is_dtd_owner(false) {}
 
   _xmlDtd* dtd;
   bool is_dtd_owner;
@@ -120,12 +120,12 @@ Glib::ustring Dtd::get_system_id() const
   return (pimpl_->dtd && pimpl_->dtd->SystemID) ? (const char*)pimpl_->dtd->SystemID : "";
 }
 
-_xmlDtd* Dtd::cobj()
+_xmlDtd* Dtd::cobj() noexcept
 {
   return pimpl_->dtd;
 }
 
-const _xmlDtd* Dtd::cobj() const
+const _xmlDtd* Dtd::cobj() const noexcept
 {
   return pimpl_->dtd;
 }

@@ -69,7 +69,7 @@ class Document : public NonCopyable
   {
   public:
     Init();
-    ~Init();
+    ~Init() noexcept;
   };
 
   friend class SaxParser;
@@ -252,10 +252,10 @@ public:
   int process_xinclude(bool generate_xinclude_nodes = true);
 
   ///Access the underlying libxml implementation.
-  _xmlDoc* cobj();
+  _xmlDoc* cobj() noexcept;
 
   ///Access the underlying libxml implementation.
-  const _xmlDoc* cobj() const;
+  const _xmlDoc* cobj() const noexcept;
 
 protected:
   /** Retrieve an Entity.

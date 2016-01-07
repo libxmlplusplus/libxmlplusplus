@@ -93,12 +93,12 @@ namespace xmlpp
     return true;
   }
 
-  _xmlOutputBuffer* OutputBuffer::cobj()
+  _xmlOutputBuffer* OutputBuffer::cobj() noexcept
   {
     return impl_;
   }
 
-  const _xmlOutputBuffer* OutputBuffer::cobj() const
+  const _xmlOutputBuffer* OutputBuffer::cobj() const noexcept
   {
     return impl_;
   }

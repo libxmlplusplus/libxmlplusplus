@@ -42,14 +42,14 @@ void AttributeNode::set_value(const Glib::ustring& value)
     xmlSetProp(cobj()->parent, cobj()->name, (const xmlChar*)value.c_str());
 }
 
-xmlAttr* AttributeNode::cobj()
+xmlAttr* AttributeNode::cobj() noexcept
 {
   // An XML_ATTRIBUTE_NODE is represented by an xmlAttr struct. Reinterpret
   // the xmlNode pointer stored in the base class as an xmlAttr pointer.
   return reinterpret_cast<xmlAttr*>(Node::cobj());
 }
 
-const xmlAttr* AttributeNode::cobj() const
+const xmlAttr* AttributeNode::cobj() const noexcept
 {
   // An XML_ATTRIBUTE_NODE is represented by an xmlAttr struct. Reinterpret
   // the xmlNode pointer stored in the base class as an xmlAttr pointer.

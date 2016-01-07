@@ -125,12 +125,12 @@ public:
   /** Get the schema.
    * @returns A pointer to the schema, or <tt>nullptr</tt>.
    */
-  RelaxNGSchema* get_schema();
+  RelaxNGSchema* get_schema() noexcept;
 
   /** Get the schema.
    * @returns A pointer to the schema, or <tt>nullptr</tt>.
    */
-  const RelaxNGSchema* get_schema() const;
+  const RelaxNGSchema* get_schema() const noexcept;
 
   /** Validate a document, using a previously parsed schema.
    * @param document Pointer to the document.

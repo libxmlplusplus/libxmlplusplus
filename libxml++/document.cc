@@ -152,7 +152,7 @@ Document::Init::Init()
   xmlInitParser(); //Not always necessary, but necessary for thread safety.
 }
 
-Document::Init::~Init()
+Document::Init::~Init() noexcept
 {
   //We don't call this because it breaks libxml generally and should only be
   //called at the very end of a process, such as at the end of a main().
@@ -470,12 +470,12 @@ _xmlEntity* Document::get_entity(const Glib::ustring& name)
   return xmlGetDocEntity(impl_, (const xmlChar*) name.c_str());
 }
 
-_xmlDoc* Document::cobj()
+_xmlDoc* Document::cobj() noexcept
 {
   return impl_;
 }
 
-const _xmlDoc* Document::cobj() const
+const _xmlDoc* Document::cobj() const noexcept
 {
   return impl_;
 }

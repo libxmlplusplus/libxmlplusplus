@@ -47,13 +47,13 @@ public:
    *
    * @newin{3,0} Replaces Attribute::cobj()
    */
-  _xmlAttr* cobj();
+  _xmlAttr* cobj() noexcept;
 
   /** Access the underlying libxml implementation.
    *
    * @newin{3,0} Replaces Attribute::cobj() const
    */
-  const _xmlAttr* cobj() const;
+  const _xmlAttr* cobj() const noexcept;
 };
 
 } // namespace xmlpp

@@ -117,11 +117,11 @@ public:
 
   /** Access the underlying libxml implementation.
    */
-  _xmlDtd* cobj();
+  _xmlDtd* cobj() noexcept;
 
   /** Access the underlying libxml implementation.
    */
-  const _xmlDtd* cobj() const;
+  const _xmlDtd* cobj() const noexcept;
 
 protected:
   void release_underlying();
