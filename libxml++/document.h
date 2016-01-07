@@ -85,6 +85,7 @@ public:
    * The created xmlpp::Document takes ownership of the xmlDoc.
    * When the Document is deleted, so is the xmlDoc and all its nodes.
    * @param doc A pointer to an xmlDoc struct. Must not be <tt>nullptr</tt>.
+   * @throws xmlpp::internal_error If @a doc is <tt>nullptr</tt>.
    */
   explicit Document(_xmlDoc* doc);
 

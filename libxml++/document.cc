@@ -179,6 +179,9 @@ Document::Document(const Glib::ustring& version)
 Document::Document(xmlDoc* doc)
   : impl_(doc)
 {
+  if (!impl_)
+    throw internal_error("xmlDoc pointer cannot be nullptr");
+
   impl_->_private = this;
 }
 
