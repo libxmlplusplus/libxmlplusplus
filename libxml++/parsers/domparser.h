@@ -76,7 +76,7 @@ public:
 
   /** Test whether a document has been parsed.
    */
-  operator bool() const noexcept;
+  explicit operator bool() const noexcept;
 
   /** Get the parsed document.
    * @returns A pointer to the parsed document, or <tt>nullptr</tt>.
