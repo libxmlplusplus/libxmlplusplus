@@ -1,3 +1,17 @@
+2.91.3 (unstable):
+
+* Element: Remove a redundant nullptr check
+  (Renu Tyagi) Bug #757515
+
+* Use scoped enums (enum class) instead of unscoped enums
+* Document: Test for nullptr in a constructor
+* DomParser: Make operator bool() explicit
+  (Kjell Ahlstedt)
+
+* The ABI and API are not identical to libxml++ 2.91.2.
+  There may be more changes in ABI and/or API before the first stable
+  libxml++-3.0 release.
+
 2.91.2 (unstable):
 
 * Remove the preprocessor constant LIBXMLCPP_EXCEPTIONS_ENABLED.
