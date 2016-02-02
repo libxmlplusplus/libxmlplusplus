@@ -1,6 +1,6 @@
 ## This file is part of libxml++.
 
-AC_INIT([libxml++], [2.91.3],
+AC_INIT([libxml++], [3.0.0],
         [https://bugzilla.gnome.org/enter_bug.cgi?product=libxml%2B%2B],
         [libxml++], [http://libxmlplusplus.sourceforge.net/])
 AC_PREREQ([2.59])
@@ -23,10 +23,9 @@ MM_INIT_MODULE([libxml++-3.0])
 # so we can dist them to avoid a tarball-build dependency.
 MM_CONFIG_DOCTOOL_DIR([docs])
 
-# libxml++ does not use libtool's versioning system.
-# Let LIBXMLXX_SO_VERSION remain equal to 0:0:0.
+# Library version (so version) [current:revision:age]
 # http://www.gnu.org/software/libtool/manual/html_node/Updating-version-info.html
-AC_SUBST([LIBXMLXX_SO_VERSION], [0:0:0])
+AC_SUBST([LIBXMLXX_SO_VERSION], [1:0:0])
 
 AC_PROG_CXX
 MM_AX_CXX_COMPILE_STDCXX_11([noext],[mandatory])

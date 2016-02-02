@@ -1,3 +1,16 @@
+3.0.0 (stable):
+
+* This is the first stable release of libxml++-3.0. ABI and API are
+  incompatible with libxml++-2.6. These two series of libxml++ can be
+  installed in parallel.
+  Applications that want to upgrade from libxml++-2.6 to libxml++-3.0
+  must change their pkg-config check to libxml++-3.0.
+  (Kjell Ahlstedt) Bug #754673.
+
+* This release is identical to the unstable 2.91.3, except for the so name,
+  which has now been bumped.
+  (Kjell Ahlstedt) Bug #760574 (Dominique Leuenberger)
+
 2.91.3 (unstable):
 
 * Element: Remove a redundant nullptr check
