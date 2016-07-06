@@ -15,7 +15,7 @@
 namespace xmlpp
 {
 
-/** Represents an XML Node attribute.
+/** Represents an XML attribute node or attribute declaration.
  * This will be instantiated by the parser.
  */
 class Attribute : public Node

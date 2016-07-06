@@ -20,7 +20,7 @@ extern "C" {
 namespace xmlpp
 {
 
-/** Represents the default value of an attribute of an XML Element node.
+/** Represents the default value of an attribute of an XML element node.
  * This will be instantiated by the parser.
  *
  * @newin{2,36}

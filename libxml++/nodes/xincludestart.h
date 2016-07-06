@@ -24,7 +24,7 @@
 namespace xmlpp
 {
 
-/** XIncludeStart node.
+/** %XIncludeStart node.
  * This will be instantiated by xmlpp::Document::process_xinclude().
  *
  * @newin{2,36}

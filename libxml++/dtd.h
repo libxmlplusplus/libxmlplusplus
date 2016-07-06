@@ -25,7 +25,7 @@ namespace xmlpp
 // See https://bugzilla.gnome.org/show_bug.cgi?id=754673#c8 for an explanation
 // why it has not been done in libxml++ 3.0.
 /** Represents an XML DTD for validating XML files.
- * DTD = Document Type Definition
+ * DTD = %Document Type Definition
  */
 class Dtd : public NonCopyable
 {

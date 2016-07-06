@@ -12,7 +12,7 @@
 namespace xmlpp
 {
 
-/** Comment Node. This will be instantiated by the parser.
+/** Comment node. This will be instantiated by the parser.
  */
 class CommentNode : public ContentNode
 {

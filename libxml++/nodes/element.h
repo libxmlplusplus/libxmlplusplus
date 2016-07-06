@@ -18,7 +18,8 @@
 namespace xmlpp
 {
 
-/** Element nodes have attributes as well as child nodes. This will be instantiated by the parser.
+/** %Element nodes have attributes as well as child nodes.
+ * This will be instantiated by the parser.
  */
 class Element : public Node
 {

@@ -13,7 +13,7 @@
 namespace xmlpp {
 
 /** DOM XML parser.
- * DOM = Document Object Model
+ * DOM = %Document Object Model
  */
 class DomParser : public Parser
 {
