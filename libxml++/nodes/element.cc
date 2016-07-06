@@ -107,13 +107,35 @@ Attribute* Element::set_attribute(const Glib::ustring& name, const Glib::ustring
 
 void Element::remove_attribute(const Glib::ustring& name, const Glib::ustring& ns_prefix)
 {
+  // xmlHasProp() seaches for an attribute with a specified name in any namespace.
+  // Not useful here.
+  // xmlHasNsProp() seaches both for an attribute node in the element node
+  // and for an attribute declaration in the DTD.
+  // xmlUnsetProp() or xmlUnsetNsProp() won't delete an attribute declaration.
+  auto attr = xmlHasNsProp(cobj(), (const xmlChar*)name.c_str(),
+    ns_prefix.empty() ? nullptr : (const xmlChar*)ns_prefix.c_str());
+  if (!attr || attr->type == XML_ATTRIBUTE_DECL)
+    return;
+
   if (ns_prefix.empty())
+  {
+    // *this has an attribute with the specified name and no namespace.
+    // xmlUnsetProp() will delete the existing attribute.
+    // Delete the C++ wrapper before the call to xmlUnsetProp().
+    Node::free_wrappers(reinterpret_cast<xmlNode*>(attr));
     xmlUnsetProp(cobj(), (const xmlChar*)name.c_str());
+  }
   else
   {
     auto ns = xmlSearchNs(cobj()->doc, cobj(), (const xmlChar*)ns_prefix.c_str());
     if (ns)
+    {
+      // *this has an attribute with the specified name and namespace.
+      // xmlUnsetNsProp() will delete the existing attribute.
+      // Delete the C++ wrapper before the call to xmlUnsetNsProp().
+      Node::free_wrappers(reinterpret_cast<xmlNode*>(attr));
       xmlUnsetNsProp(cobj(), ns, (const xmlChar*)name.c_str());
+    }
   }
 }
 
