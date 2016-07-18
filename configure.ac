@@ -17,7 +17,7 @@ m4_ifdef([AM_SILENT_RULES], [AM_SILENT_RULES([yes])])
 AM_MAINTAINER_MODE([disable])
 AC_ARG_VAR([ACLOCAL_FLAGS], [aclocal flags, e.g. -I <macro dir>])
 
-MM_PREREQ([0.9.8])
+MM_PREREQ([0.9.10])
 MM_INIT_MODULE([libxml++-2.6])
 
 # Copy the mm-common .pl scripts into docs/,
