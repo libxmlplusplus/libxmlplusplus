@@ -11,7 +11,9 @@ AC_CONFIG_MACRO_DIR([build])
 AC_CONFIG_HEADERS([config.h libxml++config.h])
 
 AM_INIT_AUTOMAKE([1.9 -Wno-portability dist-bzip2 no-define nostdinc subdir-objects])
-m4_ifdef([AM_SILENT_RULES], [AM_SILENT_RULES])
+# Support silent build rules.
+# Disable by either passing --disable-silent-rules to configure or passing V=1 to make.
+m4_ifdef([AM_SILENT_RULES], [AM_SILENT_RULES([yes])])
 AM_MAINTAINER_MODE([disable])
 AC_ARG_VAR([ACLOCAL_FLAGS], [aclocal flags, e.g. -I <macro dir>])
 
@@ -28,7 +30,7 @@ MM_CONFIG_DOCTOOL_DIR([docs])
 AC_SUBST([LIBXMLXX_SO_VERSION], [1:0:0])
 
 AC_PROG_CXX
-MM_AX_CXX_COMPILE_STDCXX_11([noext],[mandatory])
+MM_AX_CXX_COMPILE_STDCXX([11], [noext],[mandatory])
 
 LT_PREREQ([2.2.6])
 LT_INIT([dlopen win32-dll disable-static])
