@@ -153,18 +153,18 @@ dist_noinst_DATA = \
 # Here it's necessary to specify parameters when the input file and the output
 # file are located in different directories.
 dom_read_write/make_check.sh: Makefile
-	echo '# Generated and used by "make check"' >$@
-	echo 'dom_read_write/dom_read_write "$(srcdir)/dom_read_write/example.xml" dom_read_write/example_output.xml >/dev/null' >>$@
-	chmod +x $@
+	$(AM_V_GEN)echo '# Generated and used by "make check"' >$@
+	$(AM_V_at)echo 'dom_read_write/dom_read_write "$(srcdir)/dom_read_write/example.xml" dom_read_write/example_output.xml >/dev/null' >>$@
+	$(AM_V_at)chmod +x $@
 
 script_template = cd "$(srcdir)/<!progname!>" && "$(abs_builddir)/<!progname!>/<!progname!>" >/dev/null
 standard_scripts = $(filter-out dom_read_write/make_check.sh,$(check_SCRIPTS))
 
 # All other script files are generated like so:
 $(standard_scripts): Makefile
-	echo '# Generated and used by "make check"' >$@
-	echo '$(subst <!progname!>,$(subst /make_check.sh,,$@),$(script_template))' >>$@
-	chmod +x $@
+	$(AM_V_GEN)echo '# Generated and used by "make check"' >$@
+	$(AM_V_at)echo '$(subst <!progname!>,$(subst /make_check.sh,,$@),$(script_template))' >>$@
+	$(AM_V_at)chmod +x $@
 
 CLEANFILES = \
   dom_read_write/example_output.xml \
