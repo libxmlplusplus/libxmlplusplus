@@ -18,7 +18,7 @@ AM_MAINTAINER_MODE([disable])
 AC_ARG_VAR([ACLOCAL_FLAGS], [aclocal flags, e.g. -I <macro dir>])
 
 MM_PREREQ([0.9.10])
-MM_INIT_MODULE([libxml++-3.0])
+MM_INIT_MODULE([libxml++-4.0])
 
 # Tell mm-common-prepare to copy the mm-common .pl scripts
 # and some other files into docs/, and use them from there,

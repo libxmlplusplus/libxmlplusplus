@@ -33,14 +33,14 @@
  *
  * If your source file is @c program.cc, you can compile it with:
  * @code
- * g++ program.cc -o program `pkg-config --cflags --libs libxml++-3.0`
+ * g++ program.cc -o program `pkg-config --cflags --libs libxml++-4.0`
  * @endcode
  * If your version of g++ is not C++11-compliant be default,
  * add the @c -std=c++11 or @c -std=c++0x option.
  *
  * Alternatively, if using autoconf, use the following in @c configure.ac:
  * @code
- * PKG_CHECK_MODULES([LIBXMLXX], [libxml++-3.0])
+ * PKG_CHECK_MODULES([LIBXMLXX], [libxml++-4.0])
  * @endcode
  * Then use the generated @c LIBXMLXX_CFLAGS and @c LIBXMLXX_LIBS variables in
  * the project @c Makefile.am files. For example:
