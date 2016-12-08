@@ -80,7 +80,7 @@ void Parser::on_start_element(const Glib::ustring& name,
   delete element_normal;
   element_normal = nullptr;
 
-  // TODO: Again, this requires knowledge of the libxml++ implemenation -
+  // TODO: Again, this requires knowledge of the libxml++ implementation -
   // specifically that the base xmlpp::Node() constructor will reassociate
   // the underyling C instance with this new C++ instance, by seeting _private.
   //
