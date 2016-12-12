@@ -32,12 +32,12 @@ class Tests
 
   protected:
     template<typename RefType, typename ValueType>
-    void assert_equal(const RefType& reference, const ValueType& value, const std::string& msg);
+    static void assert_equal(const RefType& reference, const ValueType& value, const std::string& msg);
     template<typename RefType, typename ValueType>
-    void assert_not_equal(const RefType& reference, const ValueType& value, const std::string& msg);
+    static void assert_not_equal(const RefType& reference, const ValueType& value, const std::string& msg);
 
     template <typename RefType, typename ValueType>
-    void fail(const RefType& reference, const ValueType& value, const std::string& msg);
+    static void fail(const RefType& reference, const ValueType& value, const std::string& msg);
 };
 
 class fail_exception : public std::exception
