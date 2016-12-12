@@ -360,7 +360,7 @@ void TextReader::setup_exceptions()
 
 void TextReader::on_libxml_error(void* arg, const char* msg, int severity, void* /* locator */)
 {
-  auto ths = (TextReader*)arg;
+  auto ths = static_cast<TextReader*>(arg);
   ths->severity_ = severity;
   ths->error_ = msg ? msg : "unknown parse error";
 }
