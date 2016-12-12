@@ -29,7 +29,7 @@ namespace
   class XsdSchemaParserContextHolder
   {
   public:
-    XsdSchemaParserContextHolder(xmlSchemaParserCtxtPtr ctx) noexcept : ctx_(ctx) {}
+    explicit XsdSchemaParserContextHolder(xmlSchemaParserCtxtPtr ctx) noexcept : ctx_(ctx) {}
     ~XsdSchemaParserContextHolder() { if (ctx_) xmlSchemaFreeParserCtxt(ctx_); }
 
   private:

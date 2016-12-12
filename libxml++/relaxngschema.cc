@@ -31,7 +31,7 @@ namespace
   class RelaxNGSchemaParserContextHolder
   {
   public:
-    RelaxNGSchemaParserContextHolder(xmlRelaxNGParserCtxtPtr ctx) noexcept : ctx_(ctx) {}
+    explicit RelaxNGSchemaParserContextHolder(xmlRelaxNGParserCtxtPtr ctx) noexcept : ctx_(ctx) {}
     ~RelaxNGSchemaParserContextHolder() { if (ctx_) xmlRelaxNGFreeParserCtxt(ctx_); }
 
   private:

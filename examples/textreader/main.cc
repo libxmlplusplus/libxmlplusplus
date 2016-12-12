@@ -31,7 +31,7 @@
 
 struct indent {
   int depth_;
-  indent(int depth): depth_(depth) {};
+  explicit indent(int depth): depth_(depth) {};
 };
 
 std::ostream & operator<<(std::ostream & o, indent const & in)

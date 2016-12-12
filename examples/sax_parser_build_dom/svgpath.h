@@ -31,7 +31,7 @@ namespace SVG {
 class Path : public Element
 {
 public:
-  Path(xmlNode* node)
+  explicit Path(xmlNode* node)
     : Element(node)
     {}
 

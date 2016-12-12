@@ -31,7 +31,7 @@ namespace SVG {
 class Parser : public xmlpp::SaxParser
 {
 public:
-  Parser(xmlpp::Document& document);
+  explicit Parser(xmlpp::Document& document);
   ~Parser() override;
 
 protected:

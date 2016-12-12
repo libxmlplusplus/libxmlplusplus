@@ -32,7 +32,7 @@ class Element : public xmlpp::Element
 {
 public:
 
-  Element(xmlNode* node);
+  explicit Element(xmlNode* node);
   ~Element() override;
 
   // example custom methods
