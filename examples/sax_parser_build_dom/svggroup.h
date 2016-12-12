@@ -30,7 +30,7 @@ namespace SVG {
 class Group : public Element
 {
 public:
-  Group(xmlNode* node)
+  explicit Group(xmlNode* node)
     : Element(node)
     {}
 };

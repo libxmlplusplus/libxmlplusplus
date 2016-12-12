@@ -43,7 +43,7 @@ class Tests
 class fail_exception : public std::exception
 {
   public:
-    fail_exception(const std::string& msg) : msg_(msg) {}
+    explicit fail_exception(const std::string& msg) : msg_(msg) {}
     ~fail_exception() noexcept override {}
     const char* what() const noexcept override { return msg_.c_str(); }
 

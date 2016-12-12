@@ -12,7 +12,7 @@ namespace xmlpp
 class TextReader::PropertyReader
 {
 public:
-  PropertyReader(TextReader& owner)
+  explicit PropertyReader(TextReader& owner)
   : owner_(owner)
   {}
 
