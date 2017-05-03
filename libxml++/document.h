@@ -244,13 +244,18 @@ public:
    * The type of a C++ wrapper can't change. The old wrapper is deleted, and a
    * new one is created if and when it's required.)
    *
+   * Parser::set_parser_options() and DomParser::set_xinclude_options() do not
+   * affect %Document::process_xinclude().
+   *
    * @newin{2,36}
    *
    * @param generate_xinclude_nodes Generate XIncludeStart and XIncludeEnd nodes.
+   * @param fixup_base_uris Add or replace xml:base attributes in included element
+   *        nodes, if necessary to preserve the target of relative URIs.
    * @returns The number of substitutions.
    * @throws xmlpp::exception
    */
-  int process_xinclude(bool generate_xinclude_nodes = true);
+  int process_xinclude(bool generate_xinclude_nodes = true, bool fixup_base_uris = true);
 
   ///Access the underlying libxml implementation.
   _xmlDoc* cobj() noexcept;

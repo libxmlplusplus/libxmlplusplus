@@ -33,6 +33,31 @@ public:
   explicit DomParser(const std::string& filename, bool validate = false);
   ~DomParser() override;
 
+  /** Set whether and how the parser will perform XInclude substitution.
+   *
+   * @newin{3,2}
+   *
+   * @param process_xinclude Do XInclude substitution on the XML document.
+   *        If <tt>false</tt>, the other parameters have no effect.
+   * @param generate_xinclude_nodes Generate XIncludeStart and XIncludeEnd nodes.
+   * @param fixup_base_uris Add or replace xml:base attributes in included element
+   *        nodes, if necessary to preserve the target of relative URIs.
+   */
+  void set_xinclude_options(bool process_xinclude = true,
+    bool generate_xinclude_nodes = true, bool fixup_base_uris = true) noexcept;
+
+  /** Get whether and how the parser will perform XInclude substitution.
+   *
+   * @newin{3,2}
+   *
+   * @param[out] process_xinclude Do XInclude substitution on the XML document.
+   * @param[out] generate_xinclude_nodes Generate XIncludeStart and XIncludeEnd nodes.
+   * @param[out] fixup_base_uris Add or replace xml:base attributes in included element
+   *        nodes, if necessary to preserve the target of relative URIs.
+   */
+  void get_xinclude_options(bool& process_xinclude,
+    bool& generate_xinclude_nodes, bool& fixup_base_uris) const noexcept;
+
   /** Parse an XML document from a file.
    * If the parser already contains a document, that document and all its nodes
    * are deleted.
@@ -90,9 +115,11 @@ public:
 
 protected:
   void parse_context();
+  void check_xinclude_and_finish_parsing();
 
   void release_underlying() override;
 
+  int xinclude_options_ = 0;
   Document* doc_;
 };
 
