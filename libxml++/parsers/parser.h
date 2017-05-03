@@ -112,7 +112,7 @@ public:
    *
    * @returns Whether attributes with default values will be included in the node tree.
    */
-  bool get_include_default_attributes() noexcept;
+  bool get_include_default_attributes() const noexcept;
 
   /** Set and/or clear parser option flags.
    * See the libxml2 documentation, enum xmlParserOption, for a list of parser options.
@@ -132,11 +132,11 @@ public:
    *
    * @newin{2,38}
    *
-   * @param [out] set_options Set bits correspond to flags that shall be set during parsing.
-   * @param [out] clear_options Set bits correspond to flags that shall be cleared during parsing.
+   * @param[out] set_options Set bits correspond to flags that shall be set during parsing.
+   * @param[out] clear_options Set bits correspond to flags that shall be cleared during parsing.
    *        Bits that are set in neither @a set_options nor @a clear_options are not affected.
    */
-  void get_parser_options(int& set_options, int& clear_options) noexcept;
+  void get_parser_options(int& set_options, int& clear_options) const noexcept;
 
   /** Parse an XML document from a file.
    * @throw exception

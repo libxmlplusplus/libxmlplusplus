@@ -79,7 +79,7 @@ void Parser::set_include_default_attributes(bool val) noexcept
   pimpl_->include_default_attributes_ = val;
 }
 
-bool Parser::get_include_default_attributes() noexcept
+bool Parser::get_include_default_attributes() const noexcept
 {
   return pimpl_->include_default_attributes_;
 }
@@ -90,7 +90,7 @@ void Parser::set_parser_options(int set_options, int clear_options) noexcept
   pimpl_->clear_options_ = clear_options;
 }
 
-void Parser::get_parser_options(int& set_options, int& clear_options) noexcept
+void Parser::get_parser_options(int& set_options, int& clear_options) const noexcept
 {
   set_options = pimpl_->set_options_;
   clear_options = pimpl_->clear_options_;
