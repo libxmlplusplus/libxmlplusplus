@@ -71,10 +71,8 @@ void print_node(const xmlpp::Node* node, unsigned int indentation = 0)
     std::cout << indent << "     Element line = " << node->get_line() << std::endl;
 
     //Print attributes:
-    const auto attributes = nodeElement->get_attributes();
-    for (xmlpp::Element::AttributeList::const_iterator iter = attributes.begin(); iter != attributes.end(); ++iter)
+    for (const auto& attribute : nodeElement->get_attributes())
     {
-      const auto attribute = *iter;
       const auto namespace_prefix = attribute->get_namespace_prefix();
 
       std::cout << indent << "  Attribute ";
@@ -119,6 +117,7 @@ int main(int argc, char* argv[])
   bool throw_messages = false;
   bool substitute_entities = true;
   bool generate_xinclude_nodes = true;
+  bool fixup_base_uris = true;
 
   int argi = 1;
   while (argc > argi && *argv[argi] == '-') // option
@@ -142,13 +141,17 @@ int main(int argc, char* argv[])
       case 'X':
         generate_xinclude_nodes = false;
         break;
+      case 'B':
+        fixup_base_uris = false;
+        break;
      default:
-       std::cout << "Usage: " << argv[0] << " [-v] [-t] [-e] [-x] [filename]" << std::endl
+       std::cout << "Usage: " << argv[0] << " [options]... [filename]" << std::endl
                  << "       -v  Validate" << std::endl
                  << "       -t  Throw messages in an exception" << std::endl
                  << "       -e  Write messages to stderr" << std::endl
                  << "       -E  Do not substitute entities" << std::endl
-                 << "       -X  Do not generate XInclude nodes" << std::endl;
+                 << "       -X  Do not generate XInclude nodes" << std::endl
+                 << "       -B  Do not fix up base URIs" << std::endl;
        return EXIT_FAILURE;
      }
      argi++;
@@ -158,12 +161,11 @@ int main(int argc, char* argv[])
     filepath = argv[argi]; //Allow the user to specify a different XML file to parse.
   else
     filepath = "example.xml";
- 
+
   try
   {
     xmlpp::DomParser parser;
-    if (validate)
-      parser.set_validate();
+    parser.set_validate(validate);
     if (set_throw_messages)
       parser.set_throw_messages(throw_messages);
     //We can have the text resolved/unescaped automatically.
@@ -176,14 +178,31 @@ int main(int argc, char* argv[])
       print_node(pNode);
 
       std::cout << std::endl << ">>>>> Number of XInclude substitutions: "
-                << parser.get_document()->process_xinclude(generate_xinclude_nodes)
+                << parser.get_document()->process_xinclude(
+                     generate_xinclude_nodes, fixup_base_uris)
+                << std::endl << std::endl;
+
+      std::cout << ">>>>> After XInclude processing with xmlpp::Document::process_xinclude(): "
                 << std::endl << std::endl;
       pNode = parser.get_document()->get_root_node();
       print_node(pNode);
 
+      // xmlpp::Document::write_to_string() does not write XIncludeStart and
+      // XIncludeEnd nodes.
       const auto whole = parser.get_document()->write_to_string();
-      std::cout << std::endl << ">>>>> XML after XInclude processing: " << std::endl
-                << whole << std::endl;
+      std::cout << std::endl << whole << std::endl;
+    }
+
+    parser.set_xinclude_options(true, generate_xinclude_nodes, fixup_base_uris);
+    parser.parse_file(filepath);
+    if (parser)
+    {
+      std::cout << ">>>>> After XInclude processing with xmlpp::DomParser::parse_file(): "
+                << std::endl << std::endl;
+      print_node(parser.get_document()->get_root_node());
+
+      const auto whole = parser.get_document()->write_to_string();
+      std::cout << std::endl << whole << std::endl;
     }
   }
   catch (const std::exception& ex)

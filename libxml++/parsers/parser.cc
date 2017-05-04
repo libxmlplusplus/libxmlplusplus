@@ -20,6 +20,9 @@
 
 namespace // anonymous
 {
+//TODO: When we can break ABI, remove ExtraParserData::xinclude_options_
+// and move all XInclude stuff to DomParser.
+
 // These are new data members that can't be added to xmlpp::Parser now,
 // because it would break ABI.
 struct ExtraParserData
@@ -27,7 +30,8 @@ struct ExtraParserData
   // Strange default values for throw_*_messages chosen for backward compatibility.
   ExtraParserData()
   : throw_parser_messages_(false), throw_validity_messages_(true),
-  include_default_attributes_(false), set_options_(0), clear_options_(0)
+  include_default_attributes_(false), set_options_(0), clear_options_(0),
+  xinclude_options_(0)
   {}
 
   Glib::ustring parser_error_;
@@ -37,6 +41,7 @@ struct ExtraParserData
   bool include_default_attributes_;
   int set_options_;
   int clear_options_;
+  int xinclude_options_;
 };
 
 std::map<const xmlpp::Parser*, ExtraParserData> extra_parser_data;
@@ -132,6 +137,18 @@ void Parser::get_parser_options(int& set_options, int& clear_options)
   Glib::Threads::Mutex::Lock lock(extra_parser_data_mutex);
   set_options = extra_parser_data[this].set_options_;
   clear_options = extra_parser_data[this].clear_options_;
+}
+
+void Parser::set_xinclude_options_internal(int xinclude_options) noexcept
+{
+  Glib::Threads::Mutex::Lock lock(extra_parser_data_mutex);
+  extra_parser_data[this].xinclude_options_ = xinclude_options;
+}
+
+int Parser::get_xinclude_options_internal() const noexcept
+{
+  Glib::Threads::Mutex::Lock lock(extra_parser_data_mutex);
+  return extra_parser_data[this].xinclude_options_;
 }
 
 void Parser::initialize_context()

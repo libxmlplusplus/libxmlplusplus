@@ -17,7 +17,7 @@
 
 #include <libxml/tree.h>
 #include <libxml/xinclude.h>
-#include <libxml/parser.h> // XML_PARSE_NOXINCNODE
+#include <libxml/parser.h> // XML_PARSE_NOXINCNODE, XML_PARSE_NOBASEFIX
 
 #include <iostream>
 #include <map>
@@ -421,6 +421,11 @@ void Document::set_entity_declaration(const Glib::ustring& name, XmlEntityType t
 
 int Document::process_xinclude(bool generate_xinclude_nodes)
 {
+  return process_xinclude(generate_xinclude_nodes, true);
+}
+
+int Document::process_xinclude(bool generate_xinclude_nodes, bool fixup_base_uris)
+{
   NodeMap node_map;
 
   auto root = xmlDocGetRootElement(impl_);
@@ -428,8 +433,13 @@ int Document::process_xinclude(bool generate_xinclude_nodes)
   find_wrappers(root, node_map);
 
   xmlResetLastError();
-  const int n_substitutions = xmlXIncludeProcessTreeFlags(root,
-    generate_xinclude_nodes ? 0 : XML_PARSE_NOXINCNODE);
+
+  int flags = 0;
+  if (!generate_xinclude_nodes)
+    flags |= XML_PARSE_NOXINCNODE;
+  if (!fixup_base_uris)
+    flags |= XML_PARSE_NOBASEFIX;
+  const int n_substitutions = xmlXIncludeProcessTreeFlags(root, flags);
 
   remove_found_wrappers(reinterpret_cast<xmlNode*>(impl_), node_map);
 

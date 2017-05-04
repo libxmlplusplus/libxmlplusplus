@@ -218,6 +218,8 @@ public:
                                       const Glib::ustring& publicId, const Glib::ustring& systemId,
                                       const Glib::ustring& content);
 
+  //TODO: When we can break ABI, remove the process_xinclude() with one parameter,
+  // and add default values = true in the other process_xinclude()
   /** Perform XInclude substitution on the XML document.
    * XInclude substitution may both add and delete nodes in the document,
    * as well as change the type of some nodes. All pointers to deleted nodes
@@ -226,6 +228,9 @@ public:
    * The type of a C++ wrapper can't change. The old wrapper is deleted, and a
    * new one is created if and when it's required.)
    *
+   * Parser::set_parser_options() and DomParser::set_xinclude_options() do not
+   * affect %Document::process_xinclude().
+   *
    * @newin{2,36}
    *
    * @param generate_xinclude_nodes Generate XIncludeStart and XIncludeEnd nodes.
@@ -233,6 +238,27 @@ public:
    * @throws xmlpp::exception
    */
   int process_xinclude(bool generate_xinclude_nodes = true);
+
+  /** Perform XInclude substitution on the XML document.
+   * XInclude substitution may both add and delete nodes in the document,
+   * as well as change the type of some nodes. All pointers to deleted nodes
+   * and nodes whose type is changed become invalid.
+   * (The node type represented by an underlying xmlNode struct can change.
+   * The type of a C++ wrapper can't change. The old wrapper is deleted, and a
+   * new one is created if and when it's required.)
+   *
+   * Parser::set_parser_options() and DomParser::set_xinclude_options() do not
+   * affect %Document::process_xinclude().
+   *
+   * @newin{2,42}
+   *
+   * @param generate_xinclude_nodes Generate XIncludeStart and XIncludeEnd nodes.
+   * @param fixup_base_uris Add or replace xml:base attributes in included element
+   *        nodes, if necessary to preserve the target of relative URIs.
+   * @returns The number of substitutions.
+   * @throws xmlpp::exception
+   */
+  int process_xinclude(bool generate_xinclude_nodes, bool fixup_base_uris);
 
   ///Access the underlying libxml implementation.
   _xmlDoc* cobj();
