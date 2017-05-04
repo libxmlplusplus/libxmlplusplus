@@ -12,12 +12,15 @@
 namespace xmlpp
 {
 
+//TODO: When we can break ABI, remove Parser::Impl::xinclude_options_
+// and move all XInclude stuff to DomParser.
 struct Parser::Impl
 {
   Impl()
   :
   throw_messages_(true), validate_(false), substitute_entities_(false),
-  include_default_attributes_(false), set_options_(0), clear_options_(0)
+  include_default_attributes_(false), set_options_(0), clear_options_(0),
+  xinclude_options_(0)
   {}
 
   // Built gradually - used in an exception at the end of parsing.
@@ -32,6 +35,7 @@ struct Parser::Impl
   bool include_default_attributes_;
   int set_options_;
   int clear_options_;
+  int xinclude_options_;
 };
 
 Parser::Parser()
@@ -94,6 +98,16 @@ void Parser::get_parser_options(int& set_options, int& clear_options) noexcept
 {
   set_options = pimpl_->set_options_;
   clear_options = pimpl_->clear_options_;
+}
+
+void Parser::set_xinclude_options_internal(int xinclude_options) noexcept
+{
+  pimpl_->xinclude_options_ = xinclude_options;
+}
+
+int Parser::get_xinclude_options_internal() const noexcept
+{
+  return pimpl_->xinclude_options_;
 }
 
 void Parser::initialize_context()

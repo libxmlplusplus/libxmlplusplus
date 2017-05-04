@@ -124,8 +124,8 @@ dist_noinst_DATA = \
   dom_update_namespace/example1.xml \
   dom_update_namespace/example2.xml \
   dom_xinclude/example.xml \
-  dom_xinclude/include1.txt \
-  dom_xinclude/include2.xml \
+  dom_xinclude/xinclude/include1.txt \
+  dom_xinclude/xinclude/include2.xml \
   dom_xpath/example.xml \
   dtdvalidation/example.dtd \
   import_node/example1.xml \

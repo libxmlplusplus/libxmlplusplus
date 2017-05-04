@@ -196,6 +196,11 @@ protected:
   static void callback_error_or_warning(MsgType msg_type, void* ctx,
                                         const char* msg, va_list var_args);
 
+  //TODO: When we can break ABI, remove set/get_xinclude_options_internal()
+  // and move all XInclude stuff to DomParser.
+  void set_xinclude_options_internal(int xinclude_options) noexcept;
+  int get_xinclude_options_internal() const noexcept;
+
   _xmlParserCtxt* context_;
   std::unique_ptr<exception> exception_;
 

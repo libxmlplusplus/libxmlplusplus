@@ -12,6 +12,7 @@
 #include "libxml++/keepblanks.h"
 #include "libxml++/exceptions/internal_error.h"
 #include <libxml/parserInternals.h>//For xmlCreateFileParserCtxt().
+#include <libxml/xinclude.h>
 
 #include <sstream>
 #include <iostream>
@@ -36,6 +37,32 @@ DomParser::DomParser(const std::string& filename, bool validate)
 DomParser::~DomParser()
 {
   release_underlying();
+}
+
+//TODO: When we can break ABI, remove set/get_xinclude_options_internal() in
+// Parser and move all XInclude stuff to DomParser.
+void DomParser::set_xinclude_options(bool process_xinclude,
+  bool generate_xinclude_nodes, bool fixup_base_uris) noexcept
+{
+  int xinclude_options = 0;
+  if (process_xinclude)
+    xinclude_options |= XML_PARSE_XINCLUDE;
+  if (!generate_xinclude_nodes)
+    xinclude_options |= XML_PARSE_NOXINCNODE;
+  if (!fixup_base_uris)
+    xinclude_options |= XML_PARSE_NOBASEFIX;
+
+  set_xinclude_options_internal(xinclude_options);
+}
+
+void DomParser::get_xinclude_options(bool& process_xinclude,
+  bool& generate_xinclude_nodes, bool& fixup_base_uris) const noexcept
+{
+  const int xinclude_options = get_xinclude_options_internal();
+
+  process_xinclude = (xinclude_options & XML_PARSE_XINCLUDE) != 0;
+  generate_xinclude_nodes = (xinclude_options & XML_PARSE_NOXINCNODE) == 0;
+  fixup_base_uris = (xinclude_options & XML_PARSE_NOBASEFIX) == 0;
 }
 
 void DomParser::parse_file(const std::string& filename)
@@ -120,6 +147,29 @@ void DomParser::parse_context()
     throw parse_error(error_str);
   }
 
+  check_xinclude_and_finish_parsing();
+}
+
+void DomParser::check_xinclude_and_finish_parsing()
+{
+  int set_options = 0;
+  int clear_options = 0;
+  get_parser_options(set_options, clear_options);
+
+  int options = get_xinclude_options_internal();
+  // Turn on/off any xinclude options.
+  options |= set_options;
+  options &= ~clear_options;
+
+  if (options & XML_PARSE_XINCLUDE)
+  {
+    const int n_substitutions = xmlXIncludeProcessFlags(context_->myDoc, options);
+    if (n_substitutions < 0)
+    {
+      throw parse_error("Couldn't process XInclude\n" + format_xml_error());
+    }
+  }
+
   doc_ = new Document(context_->myDoc);
   // This is to indicate to release_underlying() that we took the
   // ownership on the doc.
@@ -197,14 +247,7 @@ void DomParser::parse_stream(std::istream& in)
     throw parse_error(error_str);
   }
 
-  doc_ = new Document(context_->myDoc);
-  // This is to indicate to release_underlying() that we took the
-  // ownership on the doc.
-  context_->myDoc = nullptr;
-
-  // Free the parser context because it's not needed anymore,
-  // but keep the document alive so people can navigate the DOM tree:
-  Parser::release_underlying();
+  check_xinclude_and_finish_parsing();
 }
 
 void DomParser::release_underlying()
