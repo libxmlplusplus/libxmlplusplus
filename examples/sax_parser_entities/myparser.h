@@ -35,7 +35,7 @@ protected:
   void on_start_document() override;
   void on_end_document() override;
   virtual void on_start_element(const Glib::ustring& name,
-                                const AttributeList& properties);
+                                const AttributeList& properties) override;
   void on_end_element(const Glib::ustring& name) override;
   void on_characters(const Glib::ustring& characters) override;
   void on_comment(const Glib::ustring& text) override;
