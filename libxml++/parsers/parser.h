@@ -22,7 +22,7 @@ extern "C" {
 
 namespace xmlpp {
 
-class SaxParserCallback; // Remove, when handle_exception() is made protected.
+struct SaxParserCallback; // Remove, when handle_exception() is made protected.
 
 /** XML parser.
  *
