@@ -30,12 +30,12 @@ MM_CONFIG_DOCTOOL_DIR([docs])
 AC_SUBST([LIBXMLXX_SO_VERSION], [1:0:0])
 
 AC_PROG_CXX
-MM_AX_CXX_COMPILE_STDCXX([11], [noext],[mandatory])
+MM_AX_CXX_COMPILE_STDCXX([14], [noext],[mandatory])
 
 LT_PREREQ([2.2.6])
 LT_INIT([dlopen win32-dll disable-static])
 
-AC_SUBST([LIBXMLXX_MODULES], ['libxml-2.0 >= 2.7.7 glibmm-2.56 >= 2.32.0'])
+AC_SUBST([LIBXMLXX_MODULES], ['libxml-2.0 >= 2.7.7 glibmm-2.58 >= 2.32.0'])
 PKG_CHECK_MODULES([LIBXMLXX], [$LIBXMLXX_MODULES])
 
 AC_LANG([C++])
@@ -45,7 +45,7 @@ LIBXMLXX_CXX_HAS_EXCEPTION_PTR
 MM_ARG_ENABLE_DOCUMENTATION
 MM_ARG_WITH_TAGFILE_DOC([libstdc++.tag], [mm-common-libstdc++])
 MM_ARG_WITH_TAGFILE_DOC([libsigc++-3.0.tag], [sigc++-3.0])
-MM_ARG_WITH_TAGFILE_DOC([glibmm-2.56.tag], [glibmm-2.56])
+MM_ARG_WITH_TAGFILE_DOC([glibmm-2.58.tag], [glibmm-2.58])
 
 # Evaluate the --enable-warnings=level option.
 MM_ARG_ENABLE_WARNINGS([LIBXMLXX_WXXFLAGS],
