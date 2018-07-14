@@ -19,7 +19,6 @@
 #include <libxml++/libxml++.h>
 
 #include <cstdlib>
-#include <glibmm.h>
 #include <stdexcept>
 
 class OnCdataBlockTestParser : public xmlpp::SaxParser
@@ -340,7 +339,9 @@ void test_on_start_element()
 
 int main()
 {
-  Glib::init();
+  // Set the global C and C++ locale to the user-configured locale,
+  // so we can use std::cout with UTF-8, via Glib::ustring, without exceptions.
+  std::locale::global(std::locale(""));
 
   test_on_cdata_block();
   test_on_characters();
