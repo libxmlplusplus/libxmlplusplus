@@ -22,7 +22,8 @@ doc_input = $(addprefix $(top_srcdir)/libxml++/,$(h_sources_public))
 include $(top_srcdir)/build/doc-reference.am
 
 manual/libxml++.xml: ${top_srcdir}/docs/manual/libxml++_without_code.xml ${top_srcdir}/docs/manual/insert_example_code.pl
-	$(AM_V_GEN)$(PERL) -- ${top_srcdir}/docs/manual/insert_example_code.pl ../examples $< >$@
+	$(AM_V_at)$(MKDIR_P) manual
+	$(AM_V_GEN)$(PERL) -- ${top_srcdir}/docs/manual/insert_example_code.pl ${top_srcdir}/examples $< >$@
 
 manualdir = $(docdir)/manual
 manual_htmldir = $(manualdir)/html
