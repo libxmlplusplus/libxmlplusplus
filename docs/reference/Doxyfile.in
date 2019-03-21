@@ -293,10 +293,6 @@ PREDEFINED             = __cplusplus \
                          "G_GNUC_PURE=" \
                          "G_GNUC_WARN_UNUSED_RESULT=" \
                          "G_MODULE_EXPORT=" \
-                         GLIBMM_DEFAULT_SIGNAL_HANDLERS_ENABLED \
-                         GLIBMM_EXCEPTIONS_ENABLED \
-                         GLIBMM_PROPERTIES_ENABLED \
-                         GLIBMM_VFUNCS_ENABLED \
                          "LIBXMLXX_API="
 EXPAND_AS_DEFINED      = LIBXMLXX_MAJOR_VERSION \
                          LIBXMLXX_MINOR_VERSION \
