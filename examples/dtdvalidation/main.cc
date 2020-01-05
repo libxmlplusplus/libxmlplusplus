@@ -28,10 +28,6 @@
 
 int main(int argc, char* argv[])
 {
-  // Set the global C and C++ locale to the user-configured locale,
-  // so we can use std::cout with UTF-8, via Glib::ustring, without exceptions.
-  std::locale::global(std::locale(""));
-
   std::string dtdfilepath;
   if(argc > 1)
     dtdfilepath = argv[1]; //Allow the user to specify a different dtd file to use.

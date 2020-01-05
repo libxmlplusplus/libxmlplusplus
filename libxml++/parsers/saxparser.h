@@ -40,10 +40,10 @@ public:
    */
   struct Attribute
   {
-    Glib::ustring name;
-    Glib::ustring value;
+    ustring name;
+    ustring value;
 
-    Attribute(Glib::ustring const & n, Glib::ustring const & v)
+    Attribute(ustring const & n, ustring const & v)
       : name(n), value(v)
       {
       }
@@ -56,15 +56,15 @@ public:
    *
    * Example:@n
    * <code>
-   *   Glib::ustring name = "foo";@n
+   *   ustring name = "foo";@n
    *   AttributeList::const_iterator attribute = std::find_if(attributes.begin(), attributes.end(), AttributeHasName(name));
    * </code>
    */
   struct AttributeHasName
   {
-    Glib::ustring const & name;
+    ustring const & name;
 
-    AttributeHasName(Glib::ustring const & n)
+    AttributeHasName(ustring const & n)
       : name(n)
       {
       }
@@ -99,7 +99,7 @@ public:
    * @throws xmlpp::parse_error
    * @throws xmlpp::validity_error
    */
-  void parse_memory(const Glib::ustring& contents) override;
+  void parse_memory(const ustring& contents) override;
 
   /** Parse an XML document from raw memory.
    * @param contents The XML document as an array of bytes.
@@ -132,7 +132,7 @@ public:
    * @throws xmlpp::parse_error
    * @throws xmlpp::validity_error
    */
-  void parse_chunk(const Glib::ustring& chunk);
+  void parse_chunk(const ustring& chunk);
 
   /** Parse a chunk of data.
    *
@@ -167,21 +167,21 @@ protected:
 
   virtual void on_start_document();
   virtual void on_end_document();
-  virtual void on_start_element(const Glib::ustring& name, const AttributeList& attributes);
-  virtual void on_end_element(const Glib::ustring& name);
-  virtual void on_characters(const Glib::ustring& characters);
-  virtual void on_comment(const Glib::ustring& text);
-  virtual void on_warning(const Glib::ustring& text);
-  virtual void on_error(const Glib::ustring& text);
+  virtual void on_start_element(const ustring& name, const AttributeList& attributes);
+  virtual void on_end_element(const ustring& name);
+  virtual void on_characters(const ustring& characters);
+  virtual void on_comment(const ustring& text);
+  virtual void on_warning(const ustring& text);
+  virtual void on_error(const ustring& text);
 
   /** @throws xmlpp::parse_error
    */
-  virtual void on_fatal_error(const Glib::ustring& text);
-  virtual void on_cdata_block(const Glib::ustring& text);
+  virtual void on_fatal_error(const ustring& text);
+  virtual void on_cdata_block(const ustring& text);
 
   /** Override this to receive information about the document's DTD and any entity declarations.
    */
-  virtual void on_internal_subset(const Glib::ustring& name, const Glib::ustring& publicId, const Glib::ustring& systemId);
+  virtual void on_internal_subset(const ustring& name, const ustring& publicId, const ustring& systemId);
 
   /** Override this method to resolve entities references in your derived parser, instead of using the default entity resolution,
    * or to be informed when entity references are encountered.
@@ -203,7 +203,7 @@ protected:
    *          You must include libxml/parser.h in order to use this C struct.
    * This instance will not be freed by the caller.
    */
-  virtual _xmlEntity* on_get_entity(const Glib::ustring& name);
+  virtual _xmlEntity* on_get_entity(const ustring& name);
 
   /** Override this to receive information about every entity declaration.
    * If you override this function, and you want normal entity substitution to work, then you must call the base class in your override.
@@ -211,7 +211,7 @@ protected:
    * This would be useful when overriding on_get_entity().
    * @throws xmlpp::internal_error
    */
-  virtual void on_entity_declaration(const Glib::ustring& name, XmlEntityType type, const Glib::ustring& publicId, const Glib::ustring& systemId, const Glib::ustring& content);
+  virtual void on_entity_declaration(const ustring& name, XmlEntityType type, const ustring& publicId, const ustring& systemId, const ustring& content);
 
   void release_underlying() override;
   void initialize_context() override;

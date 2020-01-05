@@ -8,7 +8,7 @@
 #define __LIBXMLPP_DTD_H
 
 #include <libxml++/noncopyable.h>
-#include <glibmm/ustring.h>
+#include "libxml++/ustring.h"
 #include <string>
 #include <memory> // std::unique_ptr
 
@@ -62,7 +62,7 @@ public:
    * @param system The URL of the DTD.
    * @throws xmlpp::parse_error
    */
-  Dtd(const Glib::ustring& external, const Glib::ustring& system);
+  Dtd(const ustring& external, const ustring& system);
 
   ~Dtd() override;
 
@@ -87,7 +87,7 @@ public:
    * @param system The URL of the DTD.
    * @throws xmlpp::parse_error
    */
-  void parse_subset(const Glib::ustring& external, const Glib::ustring& system);
+  void parse_subset(const ustring& external, const ustring& system);
 
   /** Parse a DTD from a string.
    * If another DTD has been parsed before, that DTD is replaced by the new one
@@ -98,7 +98,7 @@ public:
    * @param contents The DTD as a string.
    * @throws xmlpp::parse_error
    */
-  void parse_memory(const Glib::ustring& contents);
+  void parse_memory(const ustring& contents);
 
   /** Parse a DTD from a stream.
    * If another DTD has been parsed before, that DTD is replaced by the new one
@@ -111,9 +111,9 @@ public:
    */
   void parse_stream(std::istream& in);
 
-  Glib::ustring get_name() const;
-  Glib::ustring get_external_id() const;
-  Glib::ustring get_system_id() const;
+  ustring get_name() const;
+  ustring get_external_id() const;
+  ustring get_system_id() const;
 
   /** Access the underlying libxml implementation.
    */

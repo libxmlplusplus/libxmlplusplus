@@ -21,10 +21,10 @@ struct Parser::Impl
   {}
 
   // Built gradually - used in an exception at the end of parsing.
-  Glib::ustring parser_error_;
-  Glib::ustring parser_warning_;
-  Glib::ustring validate_error_;
-  Glib::ustring validate_warning_;
+  ustring parser_error_;
+  ustring parser_warning_;
+  ustring validate_error_;
+  ustring validate_warning_;
 
   bool throw_messages_;
   bool validate_;
@@ -169,24 +169,24 @@ void Parser::release_underlying()
   }
 }
 
-void Parser::on_parser_error(const Glib::ustring& message)
+void Parser::on_parser_error(const ustring& message)
 {
   //Throw an exception later when the whole message has been received:
   pimpl_->parser_error_ += message;
 }
 
-void Parser::on_parser_warning(const Glib::ustring& message)
+void Parser::on_parser_warning(const ustring& message)
 {
   //Throw an exception later when the whole message has been received:
   pimpl_->parser_warning_ += message;
 }
-void Parser::on_validity_error(const Glib::ustring& message)
+void Parser::on_validity_error(const ustring& message)
 {
   //Throw an exception later when the whole message has been received:
   pimpl_->validate_error_ += message;
 }
 
-void Parser::on_validity_warning(const Glib::ustring& message)
+void Parser::on_validity_warning(const ustring& message)
 {
   //Throw an exception later when the whole message has been received:
   pimpl_->validate_warning_ += message;
@@ -194,7 +194,7 @@ void Parser::on_validity_warning(const Glib::ustring& message)
 
 void Parser::check_for_error_and_warning_messages()
 {
-  Glib::ustring msg(exception_ ? exception_->what() : "");
+  ustring msg(exception_ ? exception_->what() : "");
   bool parser_msg = false;
   bool validity_msg = false;
 

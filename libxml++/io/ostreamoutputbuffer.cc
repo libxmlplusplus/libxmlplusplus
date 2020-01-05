@@ -13,7 +13,7 @@ namespace xmlpp
 {
   OStreamOutputBuffer::OStreamOutputBuffer(
       std::ostream & output,
-      const Glib::ustring& encoding)
+      const ustring& encoding)
     : OutputBuffer(encoding), output_(output)
   {
   }

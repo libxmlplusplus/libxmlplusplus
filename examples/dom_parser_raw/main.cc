@@ -21,7 +21,6 @@
 
 #include <iostream>
 #include <fstream>
-#include <glibmm/convert.h>
 #include <stdlib.h>
 
 void print_node(const xmlpp::Node* node, unsigned int indentation = 0)
@@ -57,10 +56,6 @@ std::string read_from_disk(const std::string& filepath)
 
 int main(int argc, char* argv[])
 {
-  // Set the global C++ locale to the user-configured locale,
-  // so we can use std::cout with UTF-8, via Glib::ustring, without exceptions.
-  std::locale::global(std::locale(""));
-
   std::string filepath;
   if(argc > 1 )
     filepath = argv[1]; //Allow the user to specify a different XML file to parse.
@@ -77,26 +72,19 @@ int main(int argc, char* argv[])
     auto contents = read_from_disk(filepath);
     std::string contents_ucs2;
 
-    try
-    {
-      contents_ucs2 = Glib::convert(contents, "UCS-2", "UTF-8");
-    }
-    catch(const Glib::Error& ex)
-    {
-      std::cerr << "Glib::convert failed: " << ex.what() << std::endl;
-    }
-
-    parser.parse_memory_raw((const unsigned char*)contents_ucs2.c_str(), contents_ucs2.size());
+    // TODO: Convert to UCS2 (previously we used Glib::convert()) and pass that to parse_memory_raw().
+    //
 
     //Look at the first few bytes, to see whether it really looks like UCS2.
     //Because UCS2 uses 2 bytes, we would expect every second byte to be zero for our simple example:
-    std::cout << "First 10 bytes of the UCS-2 data:" << std::endl;
-    for(std::string::size_type i = 0; (i < 10) && (i < contents_ucs2.size()); ++i)
-    {
-      std::cout << std::hex << (int)contents_ucs2[i] << ", ";
-    }
-    std::cout << std::endl;
+    // std::cout << "First 10 bytes of the UCS-2 data:" << std::endl;
+    // for(std::string::size_type i = 0; (i < 10) && (i < contents_ucs2.size()); ++i)
+    // {
+    //   std::cout << std::hex << (int)contents_ucs2[i] << ", ";
+    // }
+    // std::cout << std::endl;
 
+    parser.parse_memory_raw((const unsigned char*)contents.c_str(), contents.size());
     if(parser)
     {
       //Walk the tree:

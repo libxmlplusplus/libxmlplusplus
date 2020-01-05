@@ -22,7 +22,7 @@
 
 #include <exception>
 #include <cstdarg> // va_list
-#include <glibmm/ustring.h>
+#include "libxml++/ustring.h"
 
 #include <libxml++config.h>
 
@@ -39,7 +39,7 @@ namespace xmlpp
 class LIBXMLPP_API exception : public std::exception
 {
 public:
-  explicit exception(const Glib::ustring& message);
+  explicit exception(const ustring& message);
   ~exception() noexcept override;
 
   const char* what() const noexcept override;
@@ -48,7 +48,7 @@ public:
   virtual exception* clone() const;
 
 private:
-  Glib::ustring message_;
+  ustring message_;
 };
 
 /** Format an _xmlError struct into a text string, suitable for printing.
@@ -60,7 +60,7 @@ private:
  * @returns A formatted text string. If the error struct does not contain an
  *          error (error->code == XML_ERR_OK), an empty string is returned.
  */
-Glib::ustring format_xml_error(const _xmlError* error = nullptr);
+ustring format_xml_error(const _xmlError* error = nullptr);
 
 /** Format a parser error into a text string, suitable for printing.
  *
@@ -71,7 +71,7 @@ Glib::ustring format_xml_error(const _xmlError* error = nullptr);
  *          error (parser_context->lastError.code == XML_ERR_OK), an empty
  *          string is returned.
  */
-Glib::ustring format_xml_parser_error(const _xmlParserCtxt* parser_context);
+ustring format_xml_parser_error(const _xmlParserCtxt* parser_context);
 
 /** Format a message from a function with C-style variadic parameters.
  *
@@ -84,7 +84,7 @@ Glib::ustring format_xml_parser_error(const _xmlParserCtxt* parser_context);
  * {
  *   va_list args;
  *   va_start(args, fmt);
- *   Glib::ustring msg = xmlpp::format_printf_message(fmt, args);
+ *   ustring msg = xmlpp::format_printf_message(fmt, args);
  *   va_end(args);
  *   // ...
  * }
@@ -92,7 +92,7 @@ Glib::ustring format_xml_parser_error(const _xmlParserCtxt* parser_context);
  *
  * @newin{3,0}
  */
-Glib::ustring format_printf_message(const char* fmt, va_list args);
+ustring format_printf_message(const char* fmt, va_list args);
 
 } // namespace xmlpp
 

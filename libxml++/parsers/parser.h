@@ -155,7 +155,7 @@ public:
    * @throw exception
    * @param contents The XML document as a string.
    */
-  virtual void parse_memory(const Glib::ustring& contents) = 0;
+  virtual void parse_memory(const ustring& contents) = 0;
 
   /** Parse an XML document from a stream.
    * @throw exception
@@ -169,10 +169,10 @@ protected:
   virtual void initialize_context();
   virtual void release_underlying();
 
-  virtual void on_parser_error(const Glib::ustring& message);
-  virtual void on_parser_warning(const Glib::ustring& message);
-  virtual void on_validity_error(const Glib::ustring& message);
-  virtual void on_validity_warning(const Glib::ustring& message);
+  virtual void on_parser_error(const ustring& message);
+  virtual void on_parser_warning(const ustring& message);
+  virtual void on_validity_error(const ustring& message);
+  virtual void on_validity_warning(const ustring& message);
 
   /// To be called in an exception handler.
   virtual void handle_exception();

@@ -24,11 +24,6 @@
 #include <libxml++/validators/schemavalidatorbase.h>
 #include <memory> // std::unique_ptr
 
-namespace Glib
-{
-class ustring;
-}
-
 namespace xmlpp
 {
 class Document;
@@ -90,7 +85,7 @@ public:
    * @param contents The schema definition as a string.
    * @throws xmlpp::parse_error
    */
-  void parse_memory(const Glib::ustring& contents) override;
+  void parse_memory(const ustring& contents) override;
 
   /** Parse a schema definition from a document.
    * If the validator already contains a schema, that schema is released

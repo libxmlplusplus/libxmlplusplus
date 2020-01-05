@@ -10,6 +10,7 @@ h_root_sources_public = \
   noncopyable.h \
   relaxngschema.h \
   schemabase.h \
+  ustring.h \
   xsdschema.h
 h_exceptions_sources_public = \
   exceptions/exception.h \

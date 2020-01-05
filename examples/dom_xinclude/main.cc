@@ -26,7 +26,7 @@
 
 void print_node(const xmlpp::Node* node, unsigned int indentation = 0)
 {
-  const Glib::ustring indent(indentation, ' ');
+  const std::string indent(indentation, ' ');
 
   const auto nodeContent = dynamic_cast<const xmlpp::ContentNode*>(node);
   const auto nodeText = dynamic_cast<const xmlpp::TextNode*>(node);
@@ -108,10 +108,6 @@ void print_node(const xmlpp::Node* node, unsigned int indentation = 0)
 
 int main(int argc, char* argv[])
 {
-  // Set the global C++ locale to the user-configured locale,
-  // so we can use std::cout with UTF-8, via Glib::ustring, without exceptions.
-  std::locale::global(std::locale(""));
-
   bool validate = false;
   bool set_throw_messages = false;
   bool throw_messages = false;

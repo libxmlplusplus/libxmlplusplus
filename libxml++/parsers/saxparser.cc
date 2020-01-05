@@ -86,12 +86,12 @@ SaxParser::~SaxParser()
   release_underlying();
 }
 
-xmlEntityPtr SaxParser::on_get_entity(const Glib::ustring& name)
+xmlEntityPtr SaxParser::on_get_entity(const ustring& name)
 {
   return entity_resolver_doc_->get_entity(name);
 }
 
-void SaxParser::on_entity_declaration(const Glib::ustring& name, XmlEntityType type, const Glib::ustring& publicId, const Glib::ustring& systemId, const Glib::ustring& content)
+void SaxParser::on_entity_declaration(const ustring& name, XmlEntityType type, const ustring& publicId, const ustring& systemId, const ustring& content)
 {
   entity_resolver_doc_->set_entity_declaration(name, type, publicId, systemId, content);
 }
@@ -104,43 +104,43 @@ void SaxParser::on_end_document()
 {
 }
 
-void SaxParser::on_start_element(const Glib::ustring& /* name */, const AttributeList& /* attributes */)
+void SaxParser::on_start_element(const ustring& /* name */, const AttributeList& /* attributes */)
 {
 }
 
-void SaxParser::on_end_element(const Glib::ustring& /* name */)
+void SaxParser::on_end_element(const ustring& /* name */)
 {
 }
 
-void SaxParser::on_characters(const Glib::ustring& /* text */)
+void SaxParser::on_characters(const ustring& /* text */)
 {
 }
 
-void SaxParser::on_comment(const Glib::ustring& /* text */)
+void SaxParser::on_comment(const ustring& /* text */)
 {
 }
 
-void SaxParser::on_warning(const Glib::ustring& /* text */)
+void SaxParser::on_warning(const ustring& /* text */)
 {
 }
 
-void SaxParser::on_error(const Glib::ustring& /* text */)
+void SaxParser::on_error(const ustring& /* text */)
 {
 }
 
 
-void SaxParser::on_fatal_error(const Glib::ustring& text)
+void SaxParser::on_fatal_error(const ustring& text)
 {
   throw parse_error("Fatal error: " + text);
 }
 
-void SaxParser::on_cdata_block(const Glib::ustring& /* text */)
+void SaxParser::on_cdata_block(const ustring& /* text */)
 {
 }
 
-void SaxParser::on_internal_subset(const Glib::ustring& name,
-                         const Glib::ustring& publicId,
-                         const Glib::ustring& systemId)
+void SaxParser::on_internal_subset(const ustring& name,
+                         const ustring& publicId,
+                         const ustring& systemId)
 {
   entity_resolver_doc_->set_internal_subset(name, publicId, systemId);
 }
@@ -204,9 +204,9 @@ void SaxParser::parse_memory_raw(const unsigned char* contents, size_type bytes_
   parse();
 }
 
-void SaxParser::parse_memory(const Glib::ustring& contents)
+void SaxParser::parse_memory(const ustring& contents)
 {
-  parse_memory_raw((const unsigned char*)contents.c_str(), contents.bytes());
+  parse_memory_raw((const unsigned char*)contents.c_str(), contents.size());
 }
 
 void SaxParser::parse_stream(std::istream& in)
@@ -233,7 +233,7 @@ void SaxParser::parse_stream(std::istream& in)
 
   initialize_context();
 
-  // std::string or Glib::ustring?
+  // std::string or ustring?
   // Output from the XML parser is UTF-8 encoded.
   // But the istream "in" is input, i.e. an XML file. It can use any encoding.
   // If it's not UTF-8, the file itself must contain information about which
@@ -267,7 +267,7 @@ void SaxParser::parse_stream(std::istream& in)
 
   auto error_str = format_xml_parser_error(context_);
   if (error_str.empty() && firstParseError != XML_ERR_OK)
-    error_str = "Error code from xmlParseChunk(): " + Glib::ustring::format(firstParseError);
+    error_str = "Error code from xmlParseChunk(): " + std::to_string(firstParseError);
 
   release_underlying(); // Free context_
 
@@ -279,9 +279,9 @@ void SaxParser::parse_stream(std::istream& in)
   }
 }
 
-void SaxParser::parse_chunk(const Glib::ustring& chunk)
+void SaxParser::parse_chunk(const ustring& chunk)
 {
-  parse_chunk_raw((const unsigned char*)chunk.c_str(), chunk.bytes());
+  parse_chunk_raw((const unsigned char*)chunk.c_str(), chunk.size());
 }
 
 void SaxParser::parse_chunk_raw(const unsigned char* contents, size_type bytes_count)
@@ -315,7 +315,7 @@ void SaxParser::parse_chunk_raw(const unsigned char* contents, size_type bytes_c
 
   auto error_str = format_xml_parser_error(context_);
   if (error_str.empty() && parseError != XML_ERR_OK)
-    error_str = "Error code from xmlParseChunk(): " + Glib::ustring::format(parseError);
+    error_str = "Error code from xmlParseChunk(): " + std::to_string(parseError);
   if(!error_str.empty())
   {
     throw parse_error(error_str);
@@ -350,7 +350,7 @@ void SaxParser::finish_chunk_parsing()
 
   auto error_str = format_xml_parser_error(context_);
   if (error_str.empty() && parseError != XML_ERR_OK)
-    error_str = "Error code from xmlParseChunk(): " + Glib::ustring::format(parseError);
+    error_str = "Error code from xmlParseChunk(): " + std::to_string(parseError);
 
   release_underlying(); // Free context_
 
@@ -401,11 +401,11 @@ void SaxParserCallback::entity_decl(void* context, const xmlChar* name, int type
   try
   {
     parser->on_entity_declaration(
-      ( name ? Glib::ustring((const char*)name) : ""),
+      ( name ? ustring((const char*)name) : ""),
       static_cast<XmlEntityType>(type),
-      ( publicId ? Glib::ustring((const char*)publicId) : ""),
-      ( systemId ? Glib::ustring((const char*)systemId) : ""),
-      ( content ? Glib::ustring((const char*)content) : "") );
+      ( publicId ? ustring((const char*)publicId) : ""),
+      ( systemId ? ustring((const char*)systemId) : ""),
+      ( content ? ustring((const char*)content) : "") );
   }
   catch (...)
   {
@@ -462,7 +462,7 @@ void SaxParserCallback::start_element(void* context,
 
   try
   {
-    parser->on_start_element(Glib::ustring((const char*) name), attributes);
+    parser->on_start_element(ustring((const char*) name), attributes);
   }
   catch (...)
   {
@@ -477,7 +477,7 @@ void SaxParserCallback::end_element(void* context, const xmlChar* name)
 
   try
   {
-    parser->on_end_element(Glib::ustring((const char*) name));
+    parser->on_end_element(ustring((const char*) name));
   }
   catch (...)
   {
@@ -492,11 +492,11 @@ void SaxParserCallback::characters(void * context, const xmlChar* ch, int len)
 
   try
   {
-    // Here we force the use of Glib::ustring::ustring( InputIterator begin, InputIterator end )
-    // instead of Glib::ustring::ustring( const char*, size_type ) because it
+    // Here we force the use of ustring::ustring( InputIterator begin, InputIterator end )
+    // instead of ustring::ustring( const char*, size_type ) because it
     // expects the length of the string in characters, not in bytes.
     parser->on_characters(
-        Glib::ustring(
+        ustring(
           reinterpret_cast<const char *>(ch),
           reinterpret_cast<const char *>(ch + len) ) );
   }
@@ -513,7 +513,7 @@ void SaxParserCallback::comment(void* context, const xmlChar* value)
 
   try
   {
-    parser->on_comment(Glib::ustring((const char*) value));
+    parser->on_comment(ustring((const char*) value));
   }
   catch (...)
   {
@@ -528,7 +528,7 @@ void SaxParserCallback::warning(void* context, const char* fmt, ...)
 
   va_list arg;
   va_start(arg, fmt);
-  const Glib::ustring buff = format_printf_message(fmt, arg);
+  const ustring buff = format_printf_message(fmt, arg);
   va_end(arg);
 
   try
@@ -551,7 +551,7 @@ void SaxParserCallback::error(void* context, const char* fmt, ...)
 
   va_list arg;
   va_start(arg, fmt);
-  const Glib::ustring buff = format_printf_message(fmt, arg);
+  const ustring buff = format_printf_message(fmt, arg);
   va_end(arg);
 
   try
@@ -571,7 +571,7 @@ void SaxParserCallback::fatal_error(void* context, const char* fmt, ...)
 
   va_list arg;
   va_start(arg, fmt);
-  const Glib::ustring buff = format_printf_message(fmt, arg);
+  const ustring buff = format_printf_message(fmt, arg);
   va_end(arg);
 
   try
@@ -591,10 +591,10 @@ void SaxParserCallback::cdata_block(void* context, const xmlChar* value, int len
 
   try
   {
-    // Here we force the use of Glib::ustring::ustring( InputIterator begin, InputIterator end )
+    // Here we force the use of ustring::ustring( InputIterator begin, InputIterator end )
     // see comments in SaxParserCallback::characters
     parser->on_cdata_block(
-        Glib::ustring(
+        ustring(
           reinterpret_cast<const char *>(value),
           reinterpret_cast<const char *>(value + len) ) );
   }
@@ -612,10 +612,10 @@ void SaxParserCallback::internal_subset(void* context, const xmlChar* name,
 
   try
   {
-    const auto pid = publicId ? Glib::ustring((const char*) publicId) : "";
-    const auto sid = systemId ? Glib::ustring((const char*) systemId) : "";
+    const auto pid = publicId ? ustring((const char*) publicId) : "";
+    const auto sid = systemId ? ustring((const char*) systemId) : "";
 
-    parser->on_internal_subset( Glib::ustring((const char*) name), pid, sid);
+    parser->on_internal_subset( ustring((const char*) name), pid, sid);
   }
   catch (...)
   {

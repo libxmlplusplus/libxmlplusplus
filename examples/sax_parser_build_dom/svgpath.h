@@ -22,7 +22,7 @@
 #ifndef __LIBXMLPP_SVGPATH_H
 #define __LIBXMLPP_SVGPATH_H
 
-#include <glibmm/ustring.h>
+#include "libxml++/ustring.h"
 #include <libxml++/libxml++.h>
 #include "svgelement.h"
 
@@ -35,7 +35,7 @@ public:
     : Element(node)
     {}
 
-  const Glib::ustring get_data() const
+  const xmlpp::ustring get_data() const
     {
       return get_attribute("d")->get_value();
     }

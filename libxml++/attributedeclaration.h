@@ -7,7 +7,7 @@
 #ifndef __LIBXMLPP_ATTRIBUTEDECLARATION_H
 #define __LIBXMLPP_ATTRIBUTEDECLARATION_H
 
-#include <glibmm/ustring.h>
+#include "libxml++/ustring.h"
 
 #include <libxml++/attribute.h>
 
@@ -34,7 +34,7 @@ public:
   /** Get the default value of this attribute.
    * @returns The attribute's default value.
    */
-  Glib::ustring get_value() const override;
+  ustring get_value() const override;
 
   ///Access the underlying libxml implementation.
   _xmlAttribute* cobj() noexcept;

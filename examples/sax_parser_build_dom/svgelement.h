@@ -22,7 +22,7 @@
 #ifndef __LIBXMLPP_SVGELEMENT_H
 #define __LIBXMLPP_SVGELEMENT_H
 
-#include <glibmm/ustring.h>
+#include "libxml++/ustring.h"
 #include <libxml++/libxml++.h>
 #include <libxml/tree.h>
 
@@ -36,8 +36,8 @@ public:
   ~Element() override;
 
   // example custom methods
-  void set_style(const Glib::ustring& style);
-  const Glib::ustring get_style() const;
+  void set_style(const xmlpp::ustring& style);
+  const xmlpp::ustring get_style() const;
 
   // TODO: add custom methods
 

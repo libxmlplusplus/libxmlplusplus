@@ -54,11 +54,9 @@ url="http://libxmlplusplus.sourceforge.net">libxmlplusplus.sourceforge.net</ulin
     </sect1>
 
     <sect1>
-    <title>UTF-8 and Glib::ustring</title>
+    <title>UTF-8 and xmlpp::ustring</title>
     <para>The libxml++ API takes, and gives, strings in the UTF-8 Unicode encoding, which can support all known languages and locales. This choice was made because, of the encodings that have this capability, UTF-8 is the most commonly accepted choice. UTF-8 is a multi-byte encoding, meaning that some characters use more than 1 byte. But for compatibility, old-fashioned 7-bit ASCII strings are unchanged when encoded as UTF-8, and UTF-8 strings do not contain null bytes which would cause old code to misjudge the number of bytes. For these reasons, you can store a UTF-8 string in a std::string object. However, the std::string API will operate on that string in terms of bytes, instead of characters.</para>
-    <para>Because Standard C++ has no string class that can fully handle UTF-8, libxml++ uses the Glib::ustring class from the glibmm library. Glib::ustring has almost exactly the same API as std::string, but methods such as length() and operator[] deal with whole UTF-8 characters rather than raw bytes.</para>
-    <para>There are implicit conversions between std::string and Glib::ustring, so you can use std::string wherever you see a Glib::ustring in the API, if you really don't care about any locale other than English. However, that is unlikely in today's connected world.</para>
-    <para>glibmm also provides useful API to convert between encodings and locales.</para>
+    <para>The libxml++ API indicates when a string should be provided as UTF-8, or will be provided as UTF-8, by using the xmlpp::ustring type alias. However, this is really just a std::string, whose operator[] and size() consider bytes, not characters.</para>
     </sect1>
 
     <sect1>
@@ -80,7 +78,7 @@ url="http://libxmlplusplus.sourceforge.net">libxmlplusplus.sourceforge.net</ulin
   <chapter id="chapter-parsers">
     <title>Parsers</title>
     <para>Like the underlying libxml2 library, libxml++ allows the use of 3 parsers, depending on your needs - the DOM, SAX, and TextReader parsers. The relative advantages and behaviour of these parsers will be explained here.</para>
-    <para>All of the parsers may parse XML documents directly from disk, a string, or a C++ std::istream. Although the libxml++ API uses only Glib::ustring, and therefore the UTF-8 encoding, libxml++ can parse documents in any encoding, converting to UTF-8 automatically. This conversion will not lose any information because UTF-8 can represent any locale.</para>
+    <para>All of the parsers may parse XML documents directly from disk, a string, or a C++ std::istream. Although the libxml++ API uses only xmlpp::ustring, indicating the UTF-8 encoding, libxml++ can parse documents in any encoding, converting to UTF-8 automatically. This conversion will not lose any information because UTF-8 can represent any locale.</para>
     <para>Remember that white space is usually significant in XML documents, so the parsers might provide unexpected text nodes that contain only spaces and new lines. The parser does not know whether you care about these text nodes, but your application may choose to ignore them.</para> 
   
     <sect1>

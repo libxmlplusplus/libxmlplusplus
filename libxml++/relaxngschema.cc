@@ -83,9 +83,9 @@ void RelaxNGSchema::parse_file(const std::string& filename)
   parse_context(xmlRelaxNGNewParserCtxt(filename.c_str()));
 }
 
-void RelaxNGSchema::parse_memory(const Glib::ustring& contents)
+void RelaxNGSchema::parse_memory(const ustring& contents)
 {
-  parse_context(xmlRelaxNGNewMemParserCtxt(contents.c_str(), contents.bytes()));
+  parse_context(xmlRelaxNGNewMemParserCtxt(contents.c_str(), contents.size()));
 }
 
 void RelaxNGSchema::parse_document(const Document* document)

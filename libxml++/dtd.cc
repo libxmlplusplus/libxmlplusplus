@@ -10,6 +10,8 @@
 
 #include <libxml/tree.h>
 
+#include <sstream>
+
 namespace xmlpp
 {
 
@@ -43,7 +45,7 @@ Dtd::Dtd(const std::string& filename)
   parse_subset("", filename);
 }
 
-Dtd::Dtd(const Glib::ustring& external, const Glib::ustring& system)
+Dtd::Dtd(const ustring& external, const ustring& system)
 : pimpl_(new Impl)
 {
   parse_subset(external, system);
@@ -59,7 +61,7 @@ void Dtd::parse_file(const std::string& filename)
   parse_subset("", filename);
 }
 
-void Dtd::parse_subset(const Glib::ustring& external, const Glib::ustring& system)
+void Dtd::parse_subset(const ustring& external, const ustring& system)
 {
   release_underlying(); // Free any existing dtd.
   xmlResetLastError();
@@ -78,7 +80,7 @@ void Dtd::parse_subset(const Glib::ustring& external, const Glib::ustring& syste
   pimpl_->is_dtd_owner = true;
 }
 
-void Dtd::parse_memory(const Glib::ustring& contents)
+void Dtd::parse_memory(const ustring& contents)
 {
   // Prepare an istream with buffer
   std::istringstream is(contents);
@@ -105,17 +107,17 @@ void Dtd::parse_stream(std::istream& in)
   pimpl_->is_dtd_owner = true;
 }
 
-Glib::ustring Dtd::get_name() const
+ustring Dtd::get_name() const
 {
   return (pimpl_->dtd && pimpl_->dtd->name) ? (const char*)pimpl_->dtd->name : "";
 }
 
-Glib::ustring Dtd::get_external_id() const
+ustring Dtd::get_external_id() const
 {
   return (pimpl_->dtd && pimpl_->dtd->ExternalID) ? (const char*)pimpl_->dtd->ExternalID : "";
 }
 
-Glib::ustring Dtd::get_system_id() const
+ustring Dtd::get_system_id() const
 {
   return (pimpl_->dtd && pimpl_->dtd->SystemID) ? (const char*)pimpl_->dtd->SystemID : "";
 }

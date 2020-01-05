@@ -18,15 +18,16 @@
 #include <config.h>
 #include <libxml++/libxml++.h>
 
+#include <cassert>
 #include <cstdlib>
 #include <stdexcept>
 
 class OnCdataBlockTestParser : public xmlpp::SaxParser
 {
 protected:
-  void on_cdata_block(const Glib::ustring& text) override
+  void on_cdata_block(const xmlpp::ustring& text) override
   {
-    g_assert_cmpstr(text.c_str(), ==, "some CDATA");
+    assert(text == xmlpp::ustring("some CDATA"));
     throw std::runtime_error("on_cdata_block runtime exception");
   }
 };
@@ -46,18 +47,18 @@ void test_on_cdata_block()
 #endif
   {
     exceptionThrown = true;
-    g_assert_cmpstr(e.what(), ==, "on_cdata_block runtime exception");
+    assert(e.what() == xmlpp::ustring("on_cdata_block runtime exception"));
   }
-  g_assert_true(exceptionThrown);
+  assert(exceptionThrown);
 }
 
 
 class OnCharactersTestParser : public xmlpp::SaxParser
 {
 protected:
-  void on_characters(const Glib::ustring& characters) override
+  void on_characters(const xmlpp::ustring& characters) override
   {
-    g_assert_cmpstr(characters.c_str(), ==, "abc");
+    assert(characters == xmlpp::ustring("abc"));
     throw std::runtime_error("on_characters runtime exception");
   }
 };
@@ -77,18 +78,18 @@ void test_on_characters()
 #endif
   {
     exceptionThrown = true;
-    g_assert_cmpstr(e.what(), ==, "on_characters runtime exception");
+    assert(e.what() == xmlpp::ustring("on_characters runtime exception"));
   }
-  g_assert_true(exceptionThrown);
+  assert(exceptionThrown);
 }
 
 
 class OnCommentTestParser : public xmlpp::SaxParser
 {
 protected:
-  void on_comment(const Glib::ustring& text) override
+  void on_comment(const xmlpp::ustring& text) override
   {
-    g_assert_cmpstr(text.c_str(), ==, "a comment");
+    assert(text == xmlpp::ustring("a comment"));
     throw std::runtime_error("on_comment runtime exception");
   }
 };
@@ -108,9 +109,9 @@ void test_on_comment()
 #endif
   {
     exceptionThrown = true;
-    g_assert_cmpstr(e.what(), ==, "on_comment runtime exception");
+    assert(e.what() == xmlpp::ustring("on_comment runtime exception"));
   }
-  g_assert_true(exceptionThrown);
+  assert(exceptionThrown);
 }
 
 
@@ -138,18 +139,18 @@ void test_on_end_document()
 #endif
   {
     exceptionThrown = true;
-    g_assert_cmpstr(e.what(), ==, "on_end_document runtime exception");
+    assert(e.what() == xmlpp::ustring("on_end_document runtime exception"));
   }
-  g_assert_true(exceptionThrown);
+  assert(exceptionThrown);
 }
 
 
 class OnEndElementTestParser : public xmlpp::SaxParser
 {
 protected:
-  void on_end_element(const Glib::ustring& name) override
+  void on_end_element(const xmlpp::ustring& name) override
   {
-    g_assert_cmpstr(name.c_str(), ==, "a:root");
+    assert(name == xmlpp::ustring("a:root"));
     throw std::runtime_error("on_end_element runtime exception");
   }
 };
@@ -169,21 +170,21 @@ void test_on_end_element()
 #endif
   {
     exceptionThrown = true;
-    g_assert_cmpstr(e.what(), ==, "on_end_element runtime exception");
+    assert(e.what() == xmlpp::ustring("on_end_element runtime exception"));
   }
-  g_assert_true(exceptionThrown);
+  assert(exceptionThrown);
 }
 
 
 class OnEntityDeclarationTestParser : public xmlpp::SaxParser
 {
 protected:
-  void on_entity_declaration(const Glib::ustring& name, xmlpp::XmlEntityType /* type */,
-    const Glib::ustring& /* publicId */, const Glib::ustring& /* systemId */,
-    const Glib::ustring& content) override
+  void on_entity_declaration(const xmlpp::ustring& name, xmlpp::XmlEntityType /* type */,
+    const xmlpp::ustring& /* publicId */, const xmlpp::ustring& /* systemId */,
+    const xmlpp::ustring& content) override
   {
-    g_assert_cmpstr(name.c_str(), ==, "number");
-    g_assert_cmpstr(content.c_str(), ==, "42");
+    assert(name == xmlpp::ustring("number"));
+    assert(content.c_str() == xmlpp::ustring("42"));
     throw std::runtime_error("on_entity_declaration runtime exception");
   }
 };
@@ -203,16 +204,16 @@ void test_on_entity_declaration()
 #endif
   {
     exceptionThrown = true;
-    g_assert_cmpstr(e.what(), ==, "on_entity_declaration runtime exception");
+    assert(e.what() == xmlpp::ustring("on_entity_declaration runtime exception"));
   }
-  g_assert_true(exceptionThrown);
+  assert(exceptionThrown);
 }
 
 
 class OnErrorTestParser : public xmlpp::SaxParser
 {
 protected:
-  void on_error(const Glib::ustring& /* text */) override
+  void on_error(const xmlpp::ustring& /* text */) override
   {
     throw std::runtime_error("on_error runtime exception");
   }
@@ -233,9 +234,9 @@ void test_on_error()
 #endif
   {
     exceptionThrown = true;
-    g_assert_cmpstr(e.what(), ==, "on_error runtime exception");
+    assert(e.what() == xmlpp::ustring("on_error runtime exception"));
   }
-  g_assert_true(exceptionThrown);
+  assert(exceptionThrown);
 }
 
 
@@ -247,9 +248,9 @@ public:
   {
   }
 protected:
-  _xmlEntity* on_get_entity(const Glib::ustring& name) override
+  _xmlEntity* on_get_entity(const xmlpp::ustring& name) override
   {
-    g_assert_cmpstr(name.c_str(), ==, "number");
+    assert(name == xmlpp::ustring("number"));
     throw std::runtime_error("on_get_entity runtime exception");
   }
 };
@@ -269,9 +270,9 @@ void test_on_get_entity()
 #endif
   {
     exceptionThrown = true;
-    g_assert_cmpstr(e.what(), ==, "on_get_entity runtime exception");
+    assert(e.what() == xmlpp::ustring("on_get_entity runtime exception"));
   }
-  g_assert_true(exceptionThrown);
+  assert(exceptionThrown);
 }
 
 
@@ -299,19 +300,19 @@ void test_on_start_document()
 #endif
   {
     exceptionThrown = true;
-    g_assert_cmpstr(e.what(), ==, "on_start_document runtime exception");
+    assert(e.what() == xmlpp::ustring("on_start_document runtime exception"));
   }
-  g_assert_true(exceptionThrown);
+  assert(exceptionThrown);
 }
 
 
 class OnStartElementTestParser : public xmlpp::SaxParser
 {
 protected:
-  void on_start_element(const Glib::ustring& name, const xmlpp::SaxParser::AttributeList& attributes) override
+  void on_start_element(const xmlpp::ustring& name, const xmlpp::SaxParser::AttributeList& attributes) override
   {
-    g_assert_cmpstr(name.c_str(), ==, "b:root");
-    g_assert_cmpint(attributes.size(), ==, 2);
+    assert(name == xmlpp::ustring("b:root"));
+    assert(attributes.size() == 2);
     throw std::runtime_error("on_start_element runtime exception");
   }
 };
@@ -331,18 +332,14 @@ void test_on_start_element()
 #endif
   {
     exceptionThrown = true;
-    g_assert_cmpstr(e.what(), ==, "on_start_element runtime exception");
+    assert(e.what() == xmlpp::ustring("on_start_element runtime exception"));
   }
-  g_assert_true(exceptionThrown);
+  assert(exceptionThrown);
 }
 
 
 int main()
 {
-  // Set the global C and C++ locale to the user-configured locale,
-  // so we can use std::cout with UTF-8, via Glib::ustring, without exceptions.
-  std::locale::global(std::locale(""));
-
   test_on_cdata_block();
   test_on_characters();
   test_on_comment();

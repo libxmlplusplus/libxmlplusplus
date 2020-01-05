@@ -76,7 +76,7 @@ public:
    * @throws xmlpp::parse_error
    * @throws xmlpp::validity_error
    */
-  void parse_memory(const Glib::ustring& contents) override;
+  void parse_memory(const ustring& contents) override;
 
   /** Parse an XML document from raw memory.
    * If the parser already contains a document, that document and all its nodes

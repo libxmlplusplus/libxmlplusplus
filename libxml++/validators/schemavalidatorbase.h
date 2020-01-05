@@ -21,11 +21,6 @@
 
 #include <libxml++/validators/validator.h>
 
-namespace Glib
-{
-class ustring;
-}
-
 namespace xmlpp
 {
 class Document;
@@ -54,7 +49,7 @@ public:
    * @param contents The schema definition as a string.
    * @throws xmlpp::parse_error
    */
-  void parse_memory(const Glib::ustring& contents) override = 0;
+  void parse_memory(const ustring& contents) override = 0;
 
   /** Parse a schema definition from a document.
    * If the validator already contains a schema, that schema is released

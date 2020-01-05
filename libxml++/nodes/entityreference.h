@@ -26,12 +26,12 @@ public:
    * if the XML document had been parsed with Parser::set_substitute_entities(true).
    * @returns The text with character references unescaped.
    */
-  Glib::ustring get_resolved_text() const;
+  ustring get_resolved_text() const;
 
   /** Get the text as read from the XML or DTD file.
    * @returns The escaped text.
    */
-  Glib::ustring get_original_text() const;
+  ustring get_original_text() const;
 
 };
 

@@ -36,13 +36,13 @@ void Validator::release_underlying()
 {
 }
 
-void Validator::on_validity_error(const Glib::ustring& message)
+void Validator::on_validity_error(const ustring& message)
 {
   //Throw an exception later when the whole message has been received:
   validate_error_ += message;
 }
 
-void Validator::on_validity_warning(const Glib::ustring& message)
+void Validator::on_validity_warning(const ustring& message)
 {
   //Throw an exception later when the whole message has been received:
   validate_warning_ += message;
@@ -50,7 +50,7 @@ void Validator::on_validity_warning(const Glib::ustring& message)
 
 void Validator::check_for_validity_messages()
 {
-  Glib::ustring msg(exception_ ? exception_->what() : "");
+  ustring msg(exception_ ? exception_->what() : "");
   bool validity_msg = false;
 
   if (!validate_error_.empty())
@@ -80,7 +80,7 @@ void Validator::callback_validity_error(void* valid_, const char* msg, ...)
     //Convert the ... to a string:
     va_list arg;
     va_start(arg, msg);
-    const Glib::ustring buff = format_printf_message(msg, arg);
+    const ustring buff = format_printf_message(msg, arg);
     va_end(arg);
 
     try
@@ -103,7 +103,7 @@ void Validator::callback_validity_warning(void* valid_, const char* msg, ...)
     //Convert the ... to a string:
     va_list arg;
     va_start(arg, msg);
-    const Glib::ustring buff = format_printf_message(msg, arg);
+    const ustring buff = format_printf_message(msg, arg);
     va_end(arg);
 
     try

@@ -20,12 +20,8 @@
 #define __LIBXMLPP_SCHEMABASE_H
 
 #include <libxml++/noncopyable.h>
+#include <libxml++/ustring.h>
 #include <string>
-
-namespace Glib
-{
-class ustring;
-}
 
 namespace xmlpp
 {
@@ -53,7 +49,7 @@ public:
    * @param contents The schema definition as a string.
    * @throws xmlpp::parse_error
    */
-  virtual void parse_memory(const Glib::ustring& contents) = 0;
+  virtual void parse_memory(const ustring& contents) = 0;
 
   /** Parse a schema definition from a document.
    * If another schema has been parsed before, that schema is replaced by the new one.

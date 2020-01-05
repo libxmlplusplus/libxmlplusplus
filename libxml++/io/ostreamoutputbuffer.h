@@ -26,7 +26,7 @@ namespace xmlpp
        * @param encoding Charset in which data will be encoded before being
        * sent to the stream
        */
-      OStreamOutputBuffer(std::ostream& output, const Glib::ustring& encoding = Glib::ustring());
+      OStreamOutputBuffer(std::ostream& output, const ustring& encoding = ustring());
       ~OStreamOutputBuffer() override;
 
     private:

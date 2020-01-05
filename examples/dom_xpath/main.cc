@@ -25,7 +25,7 @@
 #include <stdlib.h>
 #include <iostream>
 
-Glib::ustring result_type_to_ustring(xmlpp::XPathResultType result_type)
+std::string result_type_to_ustring(xmlpp::XPathResultType result_type)
 {
   switch (result_type)
   {
@@ -40,7 +40,7 @@ Glib::ustring result_type_to_ustring(xmlpp::XPathResultType result_type)
   }
 }
 
-bool xpath_test(const xmlpp::Node* node, const Glib::ustring& xpath)
+bool xpath_test(const xmlpp::Node* node, const std::string& xpath)
 {
   bool result = true;
   std::cout << std::endl; //Separate tests by an empty line.
@@ -103,10 +103,6 @@ bool xpath_test(const xmlpp::Node* node, const Glib::ustring& xpath)
 
 int main(int argc, char* argv[])
 {
-  // Set the global C++ locale to the user-configured locale,
-  // so we can use std::cout with UTF-8, via Glib::ustring, without exceptions.
-  std::locale::global(std::locale(""));
-
   std::string filepath;
   if (argc > 1)
     filepath = argv[1]; //Allow the user to specify a different XML file to parse.

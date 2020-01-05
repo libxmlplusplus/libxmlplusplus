@@ -8,7 +8,7 @@
 #define __LIBXMLPP_ATTRIBUTENODE_H
 
 
-#include <glibmm/ustring.h>
+#include "libxml++/ustring.h"
 
 #include <libxml++/attribute.h>
 
@@ -35,13 +35,13 @@ public:
   /** Get the value of this attribute.
    * @returns The attribute's value.
    */
-  Glib::ustring get_value() const override;
+  ustring get_value() const override;
 
   /** Set the value of this attribute.
    *
    * @newin{3,0} Replaces Attribute::set_value()
    */
-  void set_value(const Glib::ustring& value);
+  void set_value(const ustring& value);
 
   /** Access the underlying libxml implementation.
    *

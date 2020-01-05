@@ -2,7 +2,7 @@
 
 namespace xmlpp {
 
-internal_error::internal_error(const Glib::ustring& message)
+internal_error::internal_error(const ustring& message)
 : exception(message)
 {
 }

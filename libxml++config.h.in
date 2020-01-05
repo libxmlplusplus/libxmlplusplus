@@ -1,8 +1,6 @@
 #ifndef _LIBXMLPP_CONFIG_H
 #define _LIBXMLPP_CONFIG_H
 
-#include <glibmmconfig.h>
-
 /* Define to omit deprecated API from the library. */
 #undef LIBXMLXX_DISABLE_DEPRECATED
 

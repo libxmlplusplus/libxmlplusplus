@@ -33,7 +33,7 @@ public:
    * @param system The URL of the DTD.
    * @throws xmlpp::parse_error
    */
-  explicit DtdValidator(const Glib::ustring& external, const Glib::ustring& system);
+  explicit DtdValidator(const ustring& external, const ustring& system);
 
   /** Create a validator.
    *
@@ -64,14 +64,14 @@ public:
    * @param system The URL of the DTD.
    * @throws xmlpp::parse_error
    */
-  void parse_subset(const Glib::ustring& external, const Glib::ustring& system);
+  void parse_subset(const ustring& external, const ustring& system);
 
   /** Parse a DTD from a string.
    * If the validator already contains a DTD, that DTD is deleted.
    * @param contents The DTD as a string.
    * @throws xmlpp::parse_error
    */
-  void parse_memory(const Glib::ustring& contents) override;
+  void parse_memory(const ustring& contents) override;
 
   /** Parse a DTD from a stream.
    * If the validator already contains a DTD, that DTD is deleted.

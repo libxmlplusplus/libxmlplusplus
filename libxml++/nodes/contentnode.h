@@ -24,13 +24,13 @@ public:
    * @returns The text. Note that the 5 predefined entities (&amp;, &quot;, &lt;, &gt;, &apos;)
    * are always resolved, so this content will show their human-readable equivalents.
    */
-  Glib::ustring get_content() const;
+  ustring get_content() const;
 
   /** Set the text of this content node
    * @param content The text. This must be unescaped, meaning that the predefined entities will be created for you where necessary.
    * See get_content().
    */
-  void set_content(const Glib::ustring& content);
+  void set_content(const ustring& content);
 
   /// @returns Whether this node contains only white space, or is empty.
   bool is_white_space() const;
