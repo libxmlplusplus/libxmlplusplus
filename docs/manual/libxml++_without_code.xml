@@ -44,7 +44,7 @@ url="http://www.gnome.org">GNOME</ulink> project, of which libxml++ is a part.</
     <para>libxml++ is packaged by major Linux and *BSD distributions and can be installed from source on Linux and Windows, using any modern compiler, such as g++, SUN Forte, or MSVC++.</para>
     <para>For instance, to install libxml++ and its documentation on debian, use apt-get or synaptic like so:
     <programlisting>
-    # apt-get install libxml++3.0-dev libxml++3.0-doc
+    # apt-get install libxml++5.0-dev libxml++5.0-doc
     </programlisting>
     </para>
     <para>To check that you have the libxml++ development packages installed, and that your environment is working properly, try <command>pkg-config libxml++-4.0 --modversion</command>.</para>
