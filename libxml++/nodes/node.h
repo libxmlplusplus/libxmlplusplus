@@ -9,7 +9,7 @@
 
 #include <libxml++/noncopyable.h>
 #include <libxml++/exceptions/exception.h>
-#include <glibmm/ustring.h>
+#include "libxml++/ustring.h"
 #include <list>
 #include <map>
 #include <vector>
@@ -70,29 +70,29 @@ public:
   /** Get the name of this node.
    * @returns The node's name.
    */
-  Glib::ustring get_name() const;
+  ustring get_name() const;
 
   /** Set the name of this node.
    * @param name The new name for the node.
    */
-  void set_name(const Glib::ustring& name);
+  void set_name(const ustring& name);
 
   /** Set the namespace prefix used by the node.
    * If no such namespace prefix has been declared then this method will throw an exception.
    * @param ns_prefix The namespace prefix.
    * @throws xmlpp::exception
    */
-  void set_namespace(const Glib::ustring& ns_prefix);
+  void set_namespace(const ustring& ns_prefix);
 
   /** Get the namespace prefix of this node.
    * @returns The node's namespace prefix. Can be an empty string.
    */
-  Glib::ustring get_namespace_prefix() const;
+  ustring get_namespace_prefix() const;
 
   /** Get the namespace URI of this node.
    * @returns The node's namespace URI. Can be an empty string.
    */
-  Glib::ustring get_namespace_uri() const;
+  ustring get_namespace_uri() const;
 
   /** Discover at what line number this node occurs in the XML file.
    * @returns The line number.
@@ -136,7 +136,7 @@ public:
    *
    * @newin{2,36}
    */
-  const Node* get_first_child(const Glib::ustring& name = Glib::ustring()) const;
+  const Node* get_first_child(const ustring& name = ustring()) const;
 
   /** Get the first child of this node.
    * You may optionally get the first child node which has a certain name.
@@ -145,19 +145,19 @@ public:
    *
    * @newin{2,36}
    */
-  Node* get_first_child(const Glib::ustring& name = Glib::ustring());
+  Node* get_first_child(const ustring& name = ustring());
 
   /** Obtain the list of child nodes. You may optionally obtain a list of only the child nodes which have a certain name.
    * @param name The names of the child nodes to get. If you do not specify a name, then the list will contain all nodes, regardless of their names.
    * @returns The list of child nodes.
    */
-  NodeList get_children(const Glib::ustring& name = Glib::ustring());
+  NodeList get_children(const ustring& name = ustring());
 
   /** Obtain the list of child nodes. You may optionally obtain a list of only the child nodes which have a certain name.
    * @param name The names of the child nodes to get. If you do not specify a name, then the list will contain all nodes, regardless of their names.
    * @returns The list of child nodes.
    */
-  const_NodeList get_children(const Glib::ustring& name = Glib::ustring()) const;
+  const_NodeList get_children(const ustring& name = ustring()) const;
 
   /** Remove a node and its children.
    *
@@ -190,7 +190,7 @@ public:
   /** Get the XPath of this node.
    * @result The XPath of the node.
    */
-  Glib::ustring get_path() const;
+  ustring get_path() const;
 
   /** Find nodes from an XPath expression.
    * @param xpath The XPath of the nodes.
@@ -198,7 +198,7 @@ public:
    * @throws xmlpp::exception If the XPath expression cannot be evaluated.
    * @throws xmlpp::internal_error If the result type is not nodeset.
    */
-  NodeSet find(const Glib::ustring& xpath);
+  NodeSet find(const ustring& xpath);
 
   /** Find nodes from an XPath expression.
    * @param xpath The XPath of the nodes.
@@ -206,11 +206,11 @@ public:
    * @throws xmlpp::exception If the XPath expression cannot be evaluated.
    * @throws xmlpp::internal_error If the result type is not nodeset.
    */
-  const_NodeSet find(const Glib::ustring& xpath) const;
+  const_NodeSet find(const ustring& xpath) const;
 
   /** A map of namespace prefixes to namespace URIs.
    */
-  using PrefixNsMap = std::map<Glib::ustring, Glib::ustring>;
+  using PrefixNsMap = std::map<ustring, ustring>;
 
   /** Find nodes from an XPath expression.
    * @param xpath The XPath of the nodes.
@@ -219,7 +219,7 @@ public:
    * @throws xmlpp::exception If the XPath expression cannot be evaluated.
    * @throws xmlpp::internal_error If the result type is not nodeset.
    */
-  NodeSet find(const Glib::ustring& xpath, const PrefixNsMap& namespaces);
+  NodeSet find(const ustring& xpath, const PrefixNsMap& namespaces);
 
   /** Find nodes from an XPath expression.
    * @param xpath The XPath of the nodes.
@@ -228,7 +228,7 @@ public:
    * @throws xmlpp::exception If the XPath expression cannot be evaluated.
    * @throws xmlpp::internal_error If the result type is not nodeset.
    */
-  const_NodeSet find(const Glib::ustring& xpath, const PrefixNsMap& namespaces) const;
+  const_NodeSet find(const ustring& xpath, const PrefixNsMap& namespaces) const;
 
   /** Evaluate an XPath expression.
    * @param xpath The XPath expression.
@@ -241,7 +241,7 @@ public:
    *
    * @newin{2,36}
    */
-  bool eval_to_boolean(const Glib::ustring& xpath, XPathResultType* result_type = nullptr) const;
+  bool eval_to_boolean(const ustring& xpath, XPathResultType* result_type = nullptr) const;
 
 
   /** Evaluate an XPath expression.
@@ -256,7 +256,7 @@ public:
    *
    * @newin{2,36}
    */
-  bool eval_to_boolean(const Glib::ustring& xpath, const PrefixNsMap& namespaces,
+  bool eval_to_boolean(const ustring& xpath, const PrefixNsMap& namespaces,
     XPathResultType* result_type = nullptr) const;
 
   /** Evaluate an XPath expression.
@@ -270,7 +270,7 @@ public:
    *
    * @newin{2,36}
    */
-  double eval_to_number(const Glib::ustring& xpath, XPathResultType* result_type = nullptr) const;
+  double eval_to_number(const ustring& xpath, XPathResultType* result_type = nullptr) const;
 
   /** Evaluate an XPath expression.
    * @param xpath The XPath expression.
@@ -284,7 +284,7 @@ public:
    *
    * @newin{2,36}
    */
-  double eval_to_number(const Glib::ustring& xpath, const PrefixNsMap& namespaces,
+  double eval_to_number(const ustring& xpath, const PrefixNsMap& namespaces,
     XPathResultType* result_type = nullptr) const;
 
   /** Evaluate an XPath expression.
@@ -298,7 +298,7 @@ public:
    *
    * @newin{2,36}
    */
-  Glib::ustring eval_to_string(const Glib::ustring& xpath, XPathResultType* result_type = nullptr) const;
+  ustring eval_to_string(const ustring& xpath, XPathResultType* result_type = nullptr) const;
 
   /** Evaluate an XPath expression.
    * @param xpath The XPath expression.
@@ -312,7 +312,7 @@ public:
    *
    * @newin{2,36}
    */
-  Glib::ustring eval_to_string(const Glib::ustring& xpath, const PrefixNsMap& namespaces,
+  ustring eval_to_string(const ustring& xpath, const PrefixNsMap& namespaces,
     XPathResultType* result_type = nullptr) const;
 
   ///Access the underlying libxml implementation.

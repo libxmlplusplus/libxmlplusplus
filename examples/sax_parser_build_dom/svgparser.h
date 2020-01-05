@@ -23,7 +23,7 @@
 #define __LIBXMLPP_SVGPARSER_H
 
 #include <stack>
-#include <glibmm/ustring.h>
+#include "libxml++/ustring.h"
 #include <libxml++/libxml++.h>
 
 namespace SVG {
@@ -38,15 +38,15 @@ protected:
   // SAX parser callbacks
   void on_start_document() override {};
   void on_end_document() override {};
-  void on_start_element(const Glib::ustring& name,
+  void on_start_element(const xmlpp::ustring& name,
                         const AttributeList& properties) override;
-  void on_end_element(const Glib::ustring& name) override;
-  void on_characters(const Glib::ustring& characters) override;
-  void on_comment(const Glib::ustring& text) override;
-  void on_warning(const Glib::ustring& text) override;
-  void on_error(const Glib::ustring& text) override;
-  void on_fatal_error(const Glib::ustring& text) override;
-  void on_cdata_block(const Glib::ustring& text) override;
+  void on_end_element(const xmlpp::ustring& name) override;
+  void on_characters(const xmlpp::ustring& characters) override;
+  void on_comment(const xmlpp::ustring& text) override;
+  void on_warning(const xmlpp::ustring& text) override;
+  void on_error(const xmlpp::ustring& text) override;
+  void on_fatal_error(const xmlpp::ustring& text) override;
+  void on_cdata_block(const xmlpp::ustring& text) override;
 
 private:
   // context is a stack to keep track of parent node while the SAX parser

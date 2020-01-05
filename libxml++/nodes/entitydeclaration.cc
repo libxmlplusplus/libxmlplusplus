@@ -17,12 +17,12 @@ EntityDeclaration::EntityDeclaration(xmlNode* node)
 EntityDeclaration::~EntityDeclaration()
 {}
 
-Glib::ustring EntityDeclaration::get_resolved_text() const
+ustring EntityDeclaration::get_resolved_text() const
 {
   return cobj()->content ? (const char*)cobj()->content : "";
 }
 
-Glib::ustring EntityDeclaration::get_original_text() const
+ustring EntityDeclaration::get_original_text() const
 {
   return cobj()->orig ? (const char*)cobj()->orig : "";
 }

@@ -8,7 +8,7 @@
 #define __LIBXMLPP_ATTRIBUTE_H
 
 
-#include <glibmm/ustring.h>
+#include "libxml++/ustring.h"
 
 #include <libxml++/nodes/node.h>
 
@@ -27,7 +27,7 @@ public:
   /** Get the value of this attribute.
    * @returns The attribute's value.
    */
-  virtual Glib::ustring get_value() const = 0;
+  virtual ustring get_value() const = 0;
 };
 
 } // namespace xmlpp

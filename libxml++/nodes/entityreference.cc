@@ -18,9 +18,9 @@ EntityReference::EntityReference(xmlNode* node)
 EntityReference::~EntityReference()
 {}
 
-Glib::ustring EntityReference::get_resolved_text() const
+ustring EntityReference::get_resolved_text() const
 {
-  Glib::ustring result;
+  ustring result;
 
   //Get the child xmlEntity node (there should only be 1).
   auto cChild = cobj()->children;
@@ -35,9 +35,9 @@ Glib::ustring EntityReference::get_resolved_text() const
   return result;
 }
 
-Glib::ustring EntityReference::get_original_text() const
+ustring EntityReference::get_original_text() const
 {
-  Glib::ustring result;
+  ustring result;
 
   //Get the child xmlEntity node (there should only be 1).
   auto cChild = cobj()->children;

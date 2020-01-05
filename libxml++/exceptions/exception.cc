@@ -6,7 +6,7 @@
 
 namespace xmlpp {
 
-exception::exception(const Glib::ustring& message)
+exception::exception(const ustring& message)
 : message_(message)
 {
 }
@@ -29,7 +29,7 @@ exception* exception::clone() const
   return new exception(*this);
 }
 
-Glib::ustring format_xml_error(const _xmlError* error)
+ustring format_xml_error(const _xmlError* error)
 {
   if (!error)
     error = xmlGetLastError();
@@ -37,7 +37,7 @@ Glib::ustring format_xml_error(const _xmlError* error)
   if (!error || error->code == XML_ERR_OK)
     return ""; // No error
 
-  Glib::ustring str;
+  ustring str;
 
   if (error->file && *error->file != '\0')
   {
@@ -47,9 +47,9 @@ Glib::ustring format_xml_error(const _xmlError* error)
 
   if (error->line > 0)
   {
-    str += (str.empty() ? "Line " : ", line ") + Glib::ustring::format(error->line);
+    str += (str.empty() ? "Line " : ", line ") + std::to_string(error->line);
     if (error->int2 > 0)
-      str += ", column " + Glib::ustring::format(error->int2);
+      str += ", column " + std::to_string(error->int2);
   }
 
   const bool two_lines = !str.empty();
@@ -77,7 +77,7 @@ Glib::ustring format_xml_error(const _xmlError* error)
   if (error->message && *error->message != '\0')
     str += error->message;
   else
-    str += "Error code " + Glib::ustring::format(error->code);
+    str += "Error code " + std::to_string(error->code);
 
   // If the string does not end with end-of-line, append an end-of-line.
   if (*str.rbegin() != '\n')
@@ -86,7 +86,7 @@ Glib::ustring format_xml_error(const _xmlError* error)
   return str;
 }
 
-Glib::ustring format_xml_parser_error(const _xmlParserCtxt* parser_context)
+ustring format_xml_parser_error(const _xmlParserCtxt* parser_context)
 {
   if (!parser_context)
     return "Error. xmlpp::format_xml_parser_error() called with parser_context == nullptr\n";
@@ -96,7 +96,7 @@ Glib::ustring format_xml_parser_error(const _xmlParserCtxt* parser_context)
   if (!error)
     return ""; // No error
 
-  Glib::ustring str;
+  ustring str;
 
   if (!parser_context->wellFormed)
     str += "Document not well-formed.\n";
@@ -104,7 +104,7 @@ Glib::ustring format_xml_parser_error(const _xmlParserCtxt* parser_context)
   return str + format_xml_error(error);
 }
 
-Glib::ustring format_printf_message(const char* fmt, va_list args)
+ustring format_printf_message(const char* fmt, va_list args)
 {
   // This code was inspired by the example at
   // http://en.cppreference.com/w/cpp/io/c/vfprintf
@@ -115,11 +115,11 @@ Glib::ustring format_printf_message(const char* fmt, va_list args)
   const int nchar = std::vsnprintf(nullptr, 0, fmt, args2);
   va_end(args2);
   if (nchar < 0)
-   return Glib::ustring::format("Error code from std::vsnprintf = ", nchar);
+   return "Error code from std::vsnprintf = " + std::to_string(nchar);
 
   std::vector<char> buf(nchar+1);
   std::vsnprintf(buf.data(), buf.size(), fmt, args);
-  return Glib::ustring(buf.data());
+  return ustring(buf.data());
 }
 
 } //namespace xmlpp

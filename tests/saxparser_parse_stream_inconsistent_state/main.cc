@@ -18,6 +18,7 @@
 #include <config.h>
 #include <libxml++/libxml++.h>
 
+#include <cassert>
 #include <cstdlib>
 #include <sstream>
 #include <stdexcept>
@@ -33,10 +34,6 @@ protected:
 
 int main()
 {
-  // Set the global C and C++ locale to the user-configured locale,
-  // so we can use std::cout with UTF-8, via Glib::ustring, without exceptions.
-  std::locale::global(std::locale(""));
-
   {
     MySaxParser parser;
 
@@ -53,9 +50,9 @@ int main()
 #endif
     {
       exceptionThrown = true;
-      g_assert_cmpstr(e.what(), ==, "some custom runtime exception");
+      assert(e.what() == xmlpp::ustring("some custom runtime exception"));
     }
-    g_assert_true(exceptionThrown);
+    assert(exceptionThrown);
 
     // Try parsing a different stream.
     exceptionThrown = false;
@@ -68,7 +65,7 @@ int main()
     {
       // An "Attempt to start a second parse while a parse is in progress." parse
       // error should not have been thrown.
-      g_assert_not_reached();
+      assert(false);
     }
 #ifdef LIBXMLXX_HAVE_EXCEPTION_PTR
     catch(const std::runtime_error& e)
@@ -77,9 +74,9 @@ int main()
 #endif
     {
       exceptionThrown = true;
-      g_assert_cmpstr(e.what(), ==, "some custom runtime exception");
+      assert(e.what() == xmlpp::ustring("some custom runtime exception"));
     }
-    g_assert_true(exceptionThrown);
+    assert(exceptionThrown);
   }
 
   return EXIT_SUCCESS;

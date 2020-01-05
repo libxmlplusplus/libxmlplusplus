@@ -19,7 +19,7 @@ ContentNode::ContentNode(xmlNode* node)
 ContentNode::~ContentNode()
 {}
 
-Glib::ustring ContentNode::get_content() const
+ustring ContentNode::get_content() const
 {
   if(cobj()->type == XML_ELEMENT_NODE)
   {
@@ -29,7 +29,7 @@ Glib::ustring ContentNode::get_content() const
   return cobj()->content ? (char*)cobj()->content : "";
 }
 
-void ContentNode::set_content(const Glib::ustring& content)
+void ContentNode::set_content(const ustring& content)
 {
    if(cobj()->type == XML_ELEMENT_NODE)
    {

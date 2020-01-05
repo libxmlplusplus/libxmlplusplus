@@ -20,7 +20,7 @@ AttributeDeclaration::~AttributeDeclaration()
 {
 }
 
-Glib::ustring AttributeDeclaration::get_value() const
+ustring AttributeDeclaration::get_value() const
 {
   return (const char*)cobj()->defaultValue;
 }

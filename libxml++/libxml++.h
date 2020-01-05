@@ -74,5 +74,6 @@
 #include <libxml++/validators/dtdvalidator.h>
 #include <libxml++/validators/relaxngvalidator.h>
 #include <libxml++/validators/xsdvalidator.h>
+#include <libxml++/ustring.h>
 
 #endif //__LIBXMLCPP_H

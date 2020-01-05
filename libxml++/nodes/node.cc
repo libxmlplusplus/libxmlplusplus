@@ -39,7 +39,7 @@ xmlpp::Node* _convert_node(xmlNode* node)
 
 // Common part of const and non-const get_children()
 template <typename Tlist>
-Tlist get_children_common(const Glib::ustring& name, xmlNode* child)
+Tlist get_children_common(const xmlpp::ustring& name, xmlNode* child)
 {
   Tlist children;
 
@@ -55,7 +55,7 @@ Tlist get_children_common(const Glib::ustring& name, xmlNode* child)
 
 // Common part of all overloaded xmlpp::Node::find() methods.
 template <typename Tvector>
-Tvector find_common(const Glib::ustring& xpath,
+Tvector find_common(const xmlpp::ustring& xpath,
   const xmlpp::Node::PrefixNsMap* namespaces, xmlNode* node)
 {
   auto ctxt = xmlXPathNewContext(node->doc);
@@ -129,7 +129,7 @@ Tvector find_common(const Glib::ustring& xpath,
 }
 
 // Common part of xmlpp::Node::eval_to_[boolean|number|string]
-xmlXPathObject* eval_common(const Glib::ustring& xpath,
+xmlXPathObject* eval_common(const xmlpp::ustring& xpath,
   const xmlpp::Node::PrefixNsMap* namespaces,
   xmlpp::XPathResultType* result_type, xmlNode* node)
 {
@@ -175,7 +175,7 @@ xmlXPathObject* eval_common(const Glib::ustring& xpath,
 }
 
 // Common part of all overloaded xmlpp::Node::eval_to_boolean() methods.
-bool eval_common_to_boolean(const Glib::ustring& xpath,
+bool eval_common_to_boolean(const xmlpp::ustring& xpath,
   const xmlpp::Node::PrefixNsMap* namespaces,
   xmlpp::XPathResultType* result_type, xmlNode* node)
 {
@@ -186,7 +186,7 @@ bool eval_common_to_boolean(const Glib::ustring& xpath,
 }
 
 // Common part of all overloaded xmlpp::Node::eval_to_number() methods.
-double eval_common_to_number(const Glib::ustring& xpath,
+double eval_common_to_number(const xmlpp::ustring& xpath,
   const xmlpp::Node::PrefixNsMap* namespaces,
   xmlpp::XPathResultType* result_type, xmlNode* node)
 {
@@ -197,7 +197,7 @@ double eval_common_to_number(const Glib::ustring& xpath,
 }
 
 // Common part of all overloaded xmlpp::Node::eval_to_string() methods.
-Glib::ustring eval_common_to_string(const Glib::ustring& xpath,
+xmlpp::ustring eval_common_to_string(const xmlpp::ustring& xpath,
   const xmlpp::Node::PrefixNsMap* namespaces,
   xmlpp::XPathResultType* result_type, xmlNode* node)
 {
@@ -206,11 +206,11 @@ Glib::ustring eval_common_to_string(const Glib::ustring& xpath,
   xmlXPathFreeObject(xpath_value);
   if (result)
   {
-    const Glib::ustring uresult(reinterpret_cast<const char*>(result));
+    const xmlpp::ustring uresult(reinterpret_cast<const char*>(result));
     xmlFree(result);
     return uresult;
   }
-  return Glib::ustring();
+  return {};
 }
 
 } // anonymous namespace
@@ -272,7 +272,7 @@ Node* Node::get_previous_sibling()
   return static_cast<Node*>(cobj()->prev->_private);
 }
 
-Node* Node::get_first_child(const Glib::ustring& name)
+Node* Node::get_first_child(const ustring& name)
 {
   auto child = impl_->children;
   if(!child)
@@ -288,17 +288,17 @@ Node* Node::get_first_child(const Glib::ustring& name)
   return nullptr;
 }
 
-const Node* Node::get_first_child(const Glib::ustring& name) const
+const Node* Node::get_first_child(const ustring& name) const
 {
   return const_cast<Node*>(this)->get_first_child(name);
 }
 
-Node::NodeList Node::get_children(const Glib::ustring& name)
+Node::NodeList Node::get_children(const ustring& name)
 {
   return get_children_common<NodeList>(name, impl_->children);
 }
 
-Node::const_NodeList Node::get_children(const Glib::ustring& name) const
+Node::const_NodeList Node::get_children(const ustring& name) const
 {
   return get_children_common<const_NodeList>(name, impl_->children);
 }
@@ -360,12 +360,12 @@ Node* Node::import_node(const Node* node, bool recursive)
   return static_cast<Node*>(added_node->_private);
 }
 
-Glib::ustring Node::get_name() const
+ustring Node::get_name() const
 {
   return impl_->name ? (const char*)impl_->name : "";
 }
 
-void Node::set_name(const Glib::ustring& name)
+void Node::set_name(const ustring& name)
 {
   xmlNodeSetName( impl_, (const xmlChar *)name.c_str() );
 }
@@ -386,68 +386,68 @@ const xmlNode* Node::cobj() const noexcept
   return impl_;
 }
 
-Glib::ustring Node::get_path() const
+ustring Node::get_path() const
 {
   xmlChar* path = xmlGetNodePath(impl_);
-  Glib::ustring retn = path ? (char*)path : "";
+  ustring retn = path ? (char*)path : "";
   xmlFree(path);
   return retn;
 }
 
-Node::NodeSet Node::find(const Glib::ustring& xpath)
+Node::NodeSet Node::find(const ustring& xpath)
 {
   return find_common<NodeSet>(xpath, nullptr, impl_);
 }
 
-Node::const_NodeSet Node::find(const Glib::ustring& xpath) const
+Node::const_NodeSet Node::find(const ustring& xpath) const
 {
   return find_common<const_NodeSet>(xpath, nullptr, impl_);
 }
 
-Node::NodeSet Node::find(const Glib::ustring& xpath, const PrefixNsMap& namespaces)
+Node::NodeSet Node::find(const ustring& xpath, const PrefixNsMap& namespaces)
 {
   return find_common<NodeSet>(xpath, &namespaces, impl_);
 }
 
-Node::const_NodeSet Node::find(const Glib::ustring& xpath, const PrefixNsMap& namespaces) const
+Node::const_NodeSet Node::find(const ustring& xpath, const PrefixNsMap& namespaces) const
 {
   return find_common<const_NodeSet>(xpath, &namespaces, impl_);
 }
 
-bool Node::eval_to_boolean(const Glib::ustring& xpath, XPathResultType* result_type) const
+bool Node::eval_to_boolean(const ustring& xpath, XPathResultType* result_type) const
 {
   return eval_common_to_boolean(xpath, nullptr, result_type, impl_);
 }
 
-bool Node::eval_to_boolean(const Glib::ustring& xpath, const PrefixNsMap& namespaces,
+bool Node::eval_to_boolean(const ustring& xpath, const PrefixNsMap& namespaces,
   XPathResultType* result_type) const
 {
   return eval_common_to_boolean(xpath, &namespaces, result_type, impl_);
 }
 
-double Node::eval_to_number(const Glib::ustring& xpath, XPathResultType* result_type) const
+double Node::eval_to_number(const ustring& xpath, XPathResultType* result_type) const
 {
   return eval_common_to_number(xpath, nullptr, result_type, impl_);
 }
 
-double Node::eval_to_number(const Glib::ustring& xpath, const PrefixNsMap& namespaces,
+double Node::eval_to_number(const ustring& xpath, const PrefixNsMap& namespaces,
   XPathResultType* result_type) const
 {
   return eval_common_to_number(xpath, &namespaces, result_type, impl_);
 }
 
-Glib::ustring Node::eval_to_string(const Glib::ustring& xpath, XPathResultType* result_type) const
+ustring Node::eval_to_string(const ustring& xpath, XPathResultType* result_type) const
 {
   return eval_common_to_string(xpath, nullptr, result_type, impl_);
 }
 
-Glib::ustring Node::eval_to_string(const Glib::ustring& xpath, const PrefixNsMap& namespaces,
+ustring Node::eval_to_string(const ustring& xpath, const PrefixNsMap& namespaces,
   XPathResultType* result_type) const
 {
   return eval_common_to_string(xpath, &namespaces, result_type, impl_);
 }
 
-Glib::ustring Node::get_namespace_prefix() const
+ustring Node::get_namespace_prefix() const
 {
   if(impl_->type == XML_DOCUMENT_NODE || impl_->type == XML_ENTITY_DECL)
   {
@@ -458,7 +458,7 @@ Glib::ustring Node::get_namespace_prefix() const
     //This can be an issue when calling this method on a Node returned by Node::find().
     //See the TODO comment on Document, suggesting that Document should derive from Node.
 
-    return Glib::ustring();
+    return ustring();
   }
   else if (impl_->type == XML_ATTRIBUTE_DECL)
   {
@@ -469,10 +469,10 @@ Glib::ustring Node::get_namespace_prefix() const
   else if(impl_->ns && impl_->ns->prefix)
     return (char*)impl_->ns->prefix;
   else
-    return Glib::ustring();
+    return ustring();
 }
 
-Glib::ustring Node::get_namespace_uri() const
+ustring Node::get_namespace_uri() const
 {
   if(impl_->type == XML_DOCUMENT_NODE ||
      impl_->type == XML_ENTITY_DECL ||
@@ -485,16 +485,16 @@ Glib::ustring Node::get_namespace_uri() const
     //This can be an issue when calling this method on a Node returned by Node::find().
     //See the TODO comment on Document, suggesting that Document should derived from Node.
 
-    return Glib::ustring();
+    return ustring();
   }
 
   if(impl_->ns && impl_->ns->href)
     return (char*)impl_->ns->href;
   else
-    return Glib::ustring();
+    return ustring();
 }
 
-void Node::set_namespace(const Glib::ustring& ns_prefix)
+void Node::set_namespace(const ustring& ns_prefix)
 {
   if (impl_->type == XML_ATTRIBUTE_DECL)
   {
@@ -599,7 +599,7 @@ void Node::create_wrapper(xmlNode* node)
     {
       // good default for release versions
       node->_private = new xmlpp::Node(node);
-      std::cerr << G_STRFUNC << " Warning: new node of unknown type created: "
+      std::cerr << __PRETTY_FUNCTION__ << " Warning: new node of unknown type created: "
                 << node->type << std::endl;
       break;
     }

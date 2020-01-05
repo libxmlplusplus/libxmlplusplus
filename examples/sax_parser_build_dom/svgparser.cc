@@ -39,7 +39,7 @@ Parser::~Parser()
 {
 }
 
-void Parser::on_start_element(const Glib::ustring& name,
+void Parser::on_start_element(const xmlpp::ustring& name,
                                    const AttributeList& attributes)
 {
   //This method replaces the normal libxml++ node
@@ -48,10 +48,10 @@ void Parser::on_start_element(const Glib::ustring& name,
   //work with future versions of libxml++.
 
   // Parse namespace prefix and save for later:
-  Glib::ustring elementPrefix;
-  Glib::ustring elementName = name;
-  Glib::ustring::size_type idx = name.find(':');
-  if (idx != Glib::ustring::npos) //If the separator was found
+  xmlpp::ustring elementPrefix;
+  xmlpp::ustring elementName = name;
+  xmlpp::ustring::size_type idx = name.find(':');
+  if (idx != xmlpp::ustring::npos) //If the separator was found
   {
     elementPrefix = name.substr(0, idx);
     elementName = name.substr(idx + 1);
@@ -109,7 +109,7 @@ void Parser::on_start_element(const Glib::ustring& name,
       const auto attr_name = attr_pair.name;
       const auto attr_value = attr_pair.value;
       const auto idx_colon = attr_name.find(':');
-      if (idx_colon == Glib::ustring::npos) // If the separator was not found.
+      if (idx_colon == xmlpp::ustring::npos) // If the separator was not found.
       {
         if (attr_name == "xmlns") // This is a namespace declaration.
         {
@@ -146,19 +146,19 @@ void Parser::on_start_element(const Glib::ustring& name,
   }
 }
 
-void Parser::on_end_element(const Glib::ustring& /* name */)
+void Parser::on_end_element(const xmlpp::ustring& /* name */)
 {
   // This causes the next child elements to be added to the sibling, not this node.
   m_context.pop();
 }
 
-void Parser::on_characters(const Glib::ustring& text)
+void Parser::on_characters(const xmlpp::ustring& text)
 {
   if(!m_context.empty())
     m_context.top()->add_child_text(text);
 }
 
-void Parser::on_comment(const Glib::ustring& text)
+void Parser::on_comment(const xmlpp::ustring& text)
 {
   if(!m_context.empty())
     m_context.top()->add_child_comment(text);
@@ -166,22 +166,22 @@ void Parser::on_comment(const Glib::ustring& text)
     m_doc.add_comment(text);
 }
 
-void Parser::on_warning(const Glib::ustring& text)
+void Parser::on_warning(const xmlpp::ustring& text)
 {
   std::cout << "on_warning(): " << text << std::endl;
 }
 
-void Parser::on_error(const Glib::ustring& text)
+void Parser::on_error(const xmlpp::ustring& text)
 {
   std::cout << "on_error(): " << text << std::endl;
 }
 
-void Parser::on_fatal_error(const Glib::ustring& text)
+void Parser::on_fatal_error(const xmlpp::ustring& text)
 {
   std::cout << "on_fatal_error(): " << text << std::endl;
 }
 
-void Parser::on_cdata_block(const Glib::ustring& text)
+void Parser::on_cdata_block(const xmlpp::ustring& text)
 {
   if(!m_context.empty())
     m_context.top()->add_child_cdata(text);

@@ -84,11 +84,11 @@ void XsdSchema::parse_file(const std::string& filename)
   parse_context(xmlSchemaNewParserCtxt(filename.c_str()));
 }
 
-void XsdSchema::parse_memory(const Glib::ustring& contents)
+void XsdSchema::parse_memory(const ustring& contents)
 {
   xmlResetLastError();
   release_underlying();
-  parse_context(xmlSchemaNewMemParserCtxt(contents.c_str(), contents.bytes()));
+  parse_context(xmlSchemaNewMemParserCtxt(contents.c_str(), contents.size()));
 }
 
 void XsdSchema::parse_document(const Document* document)

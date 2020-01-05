@@ -27,7 +27,7 @@ namespace xmlpp {
 class internal_error : public exception
 {
 public:
-  explicit internal_error(const Glib::ustring& message);
+  explicit internal_error(const ustring& message);
   ~internal_error() noexcept override;
 
   void raise() const override;

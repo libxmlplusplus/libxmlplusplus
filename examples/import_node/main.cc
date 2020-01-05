@@ -1,6 +1,5 @@
 #include <iostream>
 #include <stdexcept>
-#include <glibmm/ustring.h>
 #include <cstdlib>
 #include <libxml++/libxml++.h>
 
@@ -9,10 +8,6 @@ using namespace std;
 
 int main (int /* argc */, char** /* argv */)
 {
-  // Set the global C and C++ locale to the user-configured locale,
-  // so we can use std::cout with UTF-8, via Glib::ustring, without exceptions.
-  std::locale::global(std::locale(""));
-
   try
   {
     DomParser example1("example1.xml");

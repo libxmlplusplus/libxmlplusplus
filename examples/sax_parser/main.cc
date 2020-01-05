@@ -31,10 +31,6 @@
 int
 main(int argc, char* argv[])
 {
-  // Set the global C and C++ locale to the user-configured locale,
-  // so we can use std::cout with UTF-8, via Glib::ustring, without exceptions.
-  std::locale::global(std::locale(""));
-
   std::string filepath;
   if(argc > 1 )
     filepath = argv[1]; //Allow the user to specify a different XML file to parse.
@@ -76,10 +72,7 @@ main(int argc, char* argv[])
       is.read(buffer, buffer_size-1);
       if(is.gcount())
       {
-        // We use Glib::ustring::ustring(InputIterator begin, InputIterator end)
-        // instead of Glib::ustring::ustring( const char*, size_type ) because it
-        // expects the length of the string in characters, not in bytes.
-        Glib::ustring input(buffer, buffer+is.gcount());
+        xmlpp::ustring input(buffer, buffer+is.gcount());
         parser.parse_chunk(input);
       }
     }

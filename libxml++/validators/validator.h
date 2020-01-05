@@ -44,7 +44,7 @@ public:
    * @param contents The schema definition or the DTD as a string.
    * @throws xmlpp::parse_error
    */
-  virtual void parse_memory(const Glib::ustring& contents) = 0;
+  virtual void parse_memory(const ustring& contents) = 0;
 
   /** Validate a document, using a previously parsed schema or DTD.
    * @param document Pointer to the document.
@@ -66,8 +66,8 @@ protected:
   virtual void initialize_context();
   virtual void release_underlying();
 
-  virtual void on_validity_error(const Glib::ustring& message);
-  virtual void on_validity_warning(const Glib::ustring& message);
+  virtual void on_validity_error(const ustring& message);
+  virtual void on_validity_warning(const ustring& message);
 
   /// To be called in an exception handler.
   virtual void handle_exception();
@@ -79,8 +79,8 @@ protected:
 
   std::unique_ptr<exception> exception_;
   // Built gradually - used in an exception at the end of validation.
-  Glib::ustring validate_error_;
-  Glib::ustring validate_warning_;
+  ustring validate_error_;
+  ustring validate_warning_;
 };
 
 } // namespace xmlpp

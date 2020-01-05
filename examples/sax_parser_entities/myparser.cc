@@ -40,7 +40,7 @@ void MySaxParser::on_end_document()
   std::cout << "on_end_document()" << std::endl;
 }
 
-void MySaxParser::on_start_element(const Glib::ustring& name,
+void MySaxParser::on_start_element(const xmlpp::ustring& name,
                                    const AttributeList& attributes)
 {
   std::cout << "node name=" << name << std::endl;
@@ -52,37 +52,37 @@ void MySaxParser::on_start_element(const Glib::ustring& name,
   }
 }
 
-void MySaxParser::on_end_element(const Glib::ustring& /* name */)
+void MySaxParser::on_end_element(const xmlpp::ustring& /* name */)
 {
   std::cout << "on_end_element()" << std::endl;
 }
 
-void MySaxParser::on_characters(const Glib::ustring& text)
+void MySaxParser::on_characters(const xmlpp::ustring& text)
 {
   std::cout << "on_characters(): " << text << std::endl;
 }
 
-void MySaxParser::on_comment(const Glib::ustring& text)
+void MySaxParser::on_comment(const xmlpp::ustring& text)
 {
   std::cout << "on_comment(): " << text << std::endl;
 }
 
-void MySaxParser::on_warning(const Glib::ustring& text)
+void MySaxParser::on_warning(const xmlpp::ustring& text)
 {
   std::cout << "on_warning(): " << text << std::endl;
 }
 
-void MySaxParser::on_error(const Glib::ustring& text)
+void MySaxParser::on_error(const xmlpp::ustring& text)
 {
   std::cout << "on_error(): " << text << std::endl;
 }
 
-void MySaxParser::on_fatal_error(const Glib::ustring& text)
+void MySaxParser::on_fatal_error(const xmlpp::ustring& text)
 {
   std::cout << "on_fatal_error(): " << text << std::endl;
 }
 
-_xmlEntity* MySaxParser::on_get_entity(const Glib::ustring& name)
+_xmlEntity* MySaxParser::on_get_entity(const xmlpp::ustring& name)
 {
   std::cout << "on_get_entity(): " << name << std::endl;
 
@@ -90,7 +90,7 @@ _xmlEntity* MySaxParser::on_get_entity(const Glib::ustring& name)
   return SaxParser::on_get_entity(name);
 }
 
-void MySaxParser::on_entity_declaration(const Glib::ustring& name, xmlpp::XmlEntityType type, const Glib::ustring& publicId, const Glib::ustring& systemId, const Glib::ustring& content)
+void MySaxParser::on_entity_declaration(const xmlpp::ustring& name, xmlpp::XmlEntityType type, const xmlpp::ustring& publicId, const xmlpp::ustring& systemId, const xmlpp::ustring& content)
 {
   std::cout << "on_entity_declaration(): name=" << name << ", publicId=" << publicId << ", systemId=" << systemId << ", content=" << content << std::endl;
 

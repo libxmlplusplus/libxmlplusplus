@@ -19,8 +19,8 @@ public:
   int Int(int value);
   bool Bool(int value);
   char Char(int value);
-  Glib::ustring String(xmlChar* value, bool free = false);
-  Glib::ustring String(xmlChar const* value);
+  ustring String(xmlChar* value, bool free = false);
+  ustring String(xmlChar const* value);
 
   TextReader & owner_;
 };
@@ -36,7 +36,7 @@ TextReader::TextReader(
 TextReader::TextReader(
 	const unsigned char* data,
 	size_type size,
-	const Glib::ustring& uri)
+	const ustring& uri)
 	: propertyreader(new PropertyReader(*this)),
 	  impl_( xmlReaderForMemory ((const char*)data, size, uri.c_str(), nullptr, 0) ),
     severity_( 0 )
@@ -50,7 +50,7 @@ TextReader::TextReader(
 }
 
 TextReader::TextReader(
-    const Glib::ustring& URI)
+    const ustring& URI)
   : propertyreader(new PropertyReader(*this)), impl_( xmlNewTextReaderFilename(URI.c_str()) ),
     severity_( 0 )
 {
@@ -73,19 +73,19 @@ bool TextReader::read()
       xmlTextReaderRead(impl_));
 }
 
-Glib::ustring TextReader::read_inner_xml()
+ustring TextReader::read_inner_xml()
 {
   return propertyreader->String(
       xmlTextReaderReadInnerXml(impl_), true);
 }
 
-Glib::ustring TextReader::read_outer_xml()
+ustring TextReader::read_outer_xml()
 {
   return propertyreader->String(
       xmlTextReaderReadOuterXml(impl_), true);
 }
 
-Glib::ustring TextReader::read_string()
+ustring TextReader::read_string()
 {
   return propertyreader->String(
       xmlTextReaderReadString(impl_), true);
@@ -103,7 +103,7 @@ int TextReader::get_attribute_count() const
       xmlTextReaderAttributeCount(impl_));
 }
 
-Glib::ustring TextReader::get_base_uri() const
+ustring TextReader::get_base_uri() const
 {
   return propertyreader->String(
       xmlTextReaderBaseUri(impl_), true);
@@ -139,19 +139,19 @@ bool TextReader::is_empty_element() const
       xmlTextReaderIsEmptyElement(impl_));
 }
 
-Glib::ustring TextReader::get_local_name() const
+ustring TextReader::get_local_name() const
 {
   return propertyreader->String(
       xmlTextReaderLocalName(impl_), true);
 }
 
-Glib::ustring TextReader::get_name() const
+ustring TextReader::get_name() const
 {
   return propertyreader->String(
       xmlTextReaderName(impl_), true);
 }
 
-Glib::ustring TextReader::get_namespace_uri() const
+ustring TextReader::get_namespace_uri() const
 {
   return propertyreader->String(
       xmlTextReaderNamespaceUri(impl_), true);
@@ -165,7 +165,7 @@ TextReader::NodeType TextReader::get_node_type() const
   return static_cast<NodeType>(result);
 }
 
-Glib::ustring TextReader::get_prefix() const
+ustring TextReader::get_prefix() const
 {
   return propertyreader->String(
       xmlTextReaderPrefix(impl_), true);
@@ -177,13 +177,13 @@ char TextReader::get_quote_char() const
       xmlTextReaderQuoteChar(impl_));
 }
 
-Glib::ustring TextReader::get_value() const
+ustring TextReader::get_value() const
 {
   return propertyreader->String(
       xmlTextReaderValue(impl_), true);
 }
 
-Glib::ustring TextReader::get_xml_lang() const
+ustring TextReader::get_xml_lang() const
 {
   return propertyreader->String(
       xmlTextReaderXmlLang(impl_));
@@ -203,29 +203,29 @@ void TextReader::close()
     check_for_exceptions();
 }
 
-Glib::ustring TextReader::get_attribute(int number) const
+ustring TextReader::get_attribute(int number) const
 {
   return propertyreader->String(
       xmlTextReaderGetAttributeNo(impl_, number), true);
 }
 
-Glib::ustring TextReader::get_attribute(
-    const Glib::ustring& name) const
+ustring TextReader::get_attribute(
+    const ustring& name) const
 {
   return propertyreader->String(
       xmlTextReaderGetAttribute(impl_, (const xmlChar *)name.c_str()), true);
 }
 
-Glib::ustring TextReader::get_attribute(
-    const Glib::ustring& localName,
-    const Glib::ustring& namespaceURI) const
+ustring TextReader::get_attribute(
+    const ustring& localName,
+    const ustring& namespaceURI) const
 {
   return propertyreader->String(
       xmlTextReaderGetAttributeNs(impl_, (const xmlChar *)localName.c_str(), (const xmlChar *)namespaceURI.c_str()), true);
 }
 
-Glib::ustring TextReader::lookup_namespace(
-    const Glib::ustring& prefix) const
+ustring TextReader::lookup_namespace(
+    const ustring& prefix) const
 {
   return propertyreader->String(
       xmlTextReaderLookupNamespace(impl_, (const xmlChar *)prefix.c_str()), true);
@@ -238,15 +238,15 @@ bool TextReader::move_to_attribute(int number)
 }
 
 bool TextReader::move_to_attribute(
-    const Glib::ustring& name)
+    const ustring& name)
 {
   return propertyreader->Bool(
       xmlTextReaderMoveToAttribute(impl_, (const xmlChar *)name.c_str()));
 }
 
 bool TextReader::move_to_attribute(
-    const Glib::ustring& localName,
-    const Glib::ustring& namespaceURI)
+    const ustring& localName,
+    const ustring& namespaceURI)
 {
   return propertyreader->Bool(
       xmlTextReaderMoveToAttributeNs(impl_, (const xmlChar *)localName.c_str(), (const xmlChar *)namespaceURI.c_str()));
@@ -403,14 +403,14 @@ char TextReader::PropertyReader::Char(int value)
   return value;
 }
 
-Glib::ustring TextReader::PropertyReader::String(xmlChar* value, bool free)
+ustring TextReader::PropertyReader::String(xmlChar* value, bool free)
 {
   owner_.check_for_exceptions();
 
   if (!value)
-    return Glib::ustring();
+    return ustring();
 
-  const Glib::ustring result = (char *)value;
+  const ustring result = (char *)value;
 
   if(free)
     xmlFree(value);
@@ -418,12 +418,12 @@ Glib::ustring TextReader::PropertyReader::String(xmlChar* value, bool free)
   return result;
 }
 
-Glib::ustring TextReader::PropertyReader::String(xmlChar const* value)
+ustring TextReader::PropertyReader::String(xmlChar const* value)
 {
   owner_.check_for_exceptions();
 
   if (!value)
-    return Glib::ustring();
+    return ustring();
 
   return (const char*)value;
 }

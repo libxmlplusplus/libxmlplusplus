@@ -42,7 +42,7 @@ DtdValidator::DtdValidator(const std::string& filename)
   parse_file(filename);
 }
 
-DtdValidator::DtdValidator(const Glib::ustring& external, const Glib::ustring& system)
+DtdValidator::DtdValidator(const ustring& external, const ustring& system)
 : pimpl_(new Impl)
 {
   parse_subset(external, system);
@@ -64,12 +64,12 @@ void DtdValidator::parse_file(const std::string& filename)
   set_dtd(new Dtd(filename), true);
 }
 
-void DtdValidator::parse_subset(const Glib::ustring& external, const Glib::ustring& system)
+void DtdValidator::parse_subset(const ustring& external, const ustring& system)
 {
   set_dtd(new Dtd(external, system), true);
 }
 
-void DtdValidator::parse_memory(const Glib::ustring& contents)
+void DtdValidator::parse_memory(const ustring& contents)
 {
   std::unique_ptr<Dtd> dtd(new Dtd());
   dtd->parse_memory(contents);

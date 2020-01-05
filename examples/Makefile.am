@@ -58,14 +58,12 @@ check_SCRIPTS = \
 
 TESTS = $(check_SCRIPTS)
 
-xmlpp_test_util = testutilities.h testutilities.cc
-
 dom_build_dom_build_SOURCES = \
   dom_build/main.cc
 dom_parse_entities_dom_parse_entities_SOURCES = \
-  dom_parse_entities/main.cc $(xmlpp_test_util)
+  dom_parse_entities/main.cc
 dom_parser_dom_parser_SOURCES = \
-  dom_parser/main.cc $(xmlpp_test_util)
+  dom_parser/main.cc
 dom_parser_raw_dom_parser_raw_SOURCES = \
   dom_parser_raw/main.cc
 dom_read_write_dom_read_write_SOURCES = \

@@ -27,10 +27,6 @@
 
 int main(int argc, char* argv[])
 {
-  // Set the global C and C++ locale to the user-configured locale,
-  // so we can use std::cout with UTF-8, via Glib::ustring, without exceptions.
-  std::locale::global(std::locale(""));
-
   std::string docfilepath("example.xml");
   std::string xsdschemafilepath("example.xsd");
   std::string rngschemafilepath("example.rng");
@@ -48,7 +44,7 @@ int main(int argc, char* argv[])
     rngschemafilepath = argv[3];
   }
 
-  Glib::ustring phase;
+  xmlpp::ustring phase;
   try
   {
     phase = "XSD";

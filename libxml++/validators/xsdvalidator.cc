@@ -67,7 +67,7 @@ void XsdValidator::parse_file(const std::string& filename)
   set_schema(new XsdSchema(filename), true);
 }
 
-void XsdValidator::parse_memory(const Glib::ustring& contents)
+void XsdValidator::parse_memory(const ustring& contents)
 {
   std::unique_ptr<XsdSchema> schema(new XsdSchema());
   schema->parse_memory(contents);
@@ -152,7 +152,7 @@ void XsdValidator::validate(const Document* document)
 
     auto error_str = format_xml_error();
     if (error_str.empty())
-      error_str = "Error code from xmlSchemaValidateDoc(): " + Glib::ustring::format(res);
+      error_str = "Error code from xmlSchemaValidateDoc(): " + std::to_string(res);
     throw validity_error("Document failed XSD schema validation.\n" + error_str);
   }
 }
@@ -179,7 +179,7 @@ void XsdValidator::validate(const std::string& filename)
 
     auto error_str = format_xml_error();
     if (error_str.empty())
-      error_str = "Error code from xmlSchemaValidateFile(): " + Glib::ustring::format(res);
+      error_str = "Error code from xmlSchemaValidateFile(): " + std::to_string(res);
     throw validity_error("XML file failed XSD schema validation.\n" + error_str);
   }
 }

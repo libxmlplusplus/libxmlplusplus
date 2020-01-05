@@ -134,7 +134,7 @@ void remove_found_wrappers(xmlNode* node, NodeMap& node_map)
 namespace xmlpp
 {
 
-static const char* get_encoding_or_utf8(const Glib::ustring& encoding)
+static const char* get_encoding_or_utf8(const ustring& encoding)
 {
   if(encoding.empty())
   {
@@ -168,7 +168,7 @@ Document::Init::~Init() noexcept
 
 Document::Init Document::init_;
 
-Document::Document(const Glib::ustring& version)
+Document::Document(const ustring& version)
   : impl_(xmlNewDoc((const xmlChar*)version.c_str()))
 {
   if (!impl_)
@@ -191,9 +191,9 @@ Document::~Document()
   xmlFreeDoc(impl_);
 }
 
-Glib::ustring Document::get_encoding() const
+ustring Document::get_encoding() const
 {
-  Glib::ustring encoding;
+  ustring encoding;
   if(impl_->encoding)
     encoding = (const char*)impl_->encoding;
 
@@ -212,9 +212,9 @@ Dtd* Document::get_internal_subset() const
   return reinterpret_cast<Dtd*>(dtd->_private);
 }
 
-void Document::set_internal_subset(const Glib::ustring& name,
-                                   const Glib::ustring& external_id,
-                                   const Glib::ustring& system_id)
+void Document::set_internal_subset(const ustring& name,
+                                   const ustring& external_id,
+                                   const ustring& system_id)
 {
   auto dtd = xmlCreateIntSubset(impl_,
 				   (const xmlChar*)name.c_str(),
@@ -242,9 +242,9 @@ const Element* Document::get_root_node() const
   return const_cast<Document*>(this)->get_root_node();
 }
 
-Element* Document::create_root_node(const Glib::ustring& name,
-                                    const Glib::ustring& ns_uri,
-                                    const Glib::ustring& ns_prefix)
+Element* Document::create_root_node(const ustring& name,
+                                    const ustring& ns_uri,
+                                    const ustring& ns_prefix)
 {
   auto node = xmlNewDocNode(impl_, nullptr, (const xmlChar*)name.c_str(), nullptr);
   if (!node)
@@ -293,7 +293,7 @@ Element* Document::create_root_node_by_import(const Node* node,
   return get_root_node();
 }
 
-CommentNode* Document::add_comment(const Glib::ustring& content)
+CommentNode* Document::add_comment(const ustring& content)
 {
   auto child = xmlNewComment((const xmlChar*)content.c_str());
 
@@ -309,7 +309,7 @@ CommentNode* Document::add_comment(const Glib::ustring& content)
 }
 
 ProcessingInstructionNode* Document::add_processing_instruction(
-  const Glib::ustring& name, const Glib::ustring& content)
+  const ustring& name, const ustring& content)
 {
   auto child = xmlNewDocPI(impl_, (const xmlChar*)name.c_str(), (const xmlChar*)content.c_str());
   auto node = xmlAddChild((xmlNode*)impl_, child);
@@ -322,39 +322,39 @@ ProcessingInstructionNode* Document::add_processing_instruction(
   return static_cast<ProcessingInstructionNode*>(node->_private);
 }
 
-void Document::write_to_file(const std::string& filename, const Glib::ustring& encoding)
+void Document::write_to_file(const std::string& filename, const ustring& encoding)
 {
   do_write_to_file(filename, encoding, false);
 }
 
-void Document::write_to_file_formatted(const std::string& filename, const Glib::ustring& encoding)
+void Document::write_to_file_formatted(const std::string& filename, const ustring& encoding)
 {
   do_write_to_file(filename, encoding, true);
 }
 
-Glib::ustring Document::write_to_string(const Glib::ustring& encoding)
+ustring Document::write_to_string(const ustring& encoding)
 {
   return do_write_to_string(encoding, false);
 }
 
-Glib::ustring Document::write_to_string_formatted(const Glib::ustring& encoding)
+ustring Document::write_to_string_formatted(const ustring& encoding)
 {
   return do_write_to_string(encoding, true);
 }
 
-void Document::write_to_stream(std::ostream& output, const Glib::ustring& encoding)
+void Document::write_to_stream(std::ostream& output, const ustring& encoding)
 {
   do_write_to_stream(output, encoding.empty()?get_encoding():encoding, false);
 }
 
-void Document::write_to_stream_formatted(std::ostream& output, const Glib::ustring& encoding)
+void Document::write_to_stream_formatted(std::ostream& output, const ustring& encoding)
 {
   do_write_to_stream(output, encoding.empty()?get_encoding():encoding, true);
 }
 
 void Document::do_write_to_file(
     const std::string& filename,
-    const Glib::ustring& encoding,
+    const ustring& encoding,
     bool format)
 {
   KeepBlanks k(KeepBlanks::Default);
@@ -369,8 +369,8 @@ void Document::do_write_to_file(
   }
 }
 
-Glib::ustring Document::do_write_to_string(
-    const Glib::ustring& encoding,
+ustring Document::do_write_to_string(
+    const ustring& encoding,
     bool format)
 {
   KeepBlanks k(KeepBlanks::Default);
@@ -387,12 +387,12 @@ Glib::ustring Document::do_write_to_string(
     throw exception("do_write_to_string() failed.\n" + format_xml_error());
   }
 
-  // Create a Glib::ustring copy of the buffer
+  // Create a ustring copy of the buffer
 
-  // Here we force the use of Glib::ustring::ustring( InputIterator begin, InputIterator end )
-  // instead of Glib::ustring::ustring( const char*, size_type ) because it
+  // Here we force the use of ustring::ustring( InputIterator begin, InputIterator end )
+  // instead of ustring::ustring( const char*, size_type ) because it
   // expects the length of the string in characters, not in bytes.
-  Glib::ustring result( reinterpret_cast<const char *>(buffer), reinterpret_cast<const char *>(buffer + length) );
+  ustring result( reinterpret_cast<const char *>(buffer), reinterpret_cast<const char *>(buffer + length) );
 
   // Deletes the original buffer
   xmlFree(buffer);
@@ -400,7 +400,7 @@ Glib::ustring Document::do_write_to_string(
   return result;
 }
 
-void Document::do_write_to_stream(std::ostream& output, const Glib::ustring& encoding, bool format)
+void Document::do_write_to_stream(std::ostream& output, const ustring& encoding, bool format)
 {
   // TODO assert document encoding is UTF-8 if encoding is different than UTF-8
   OStreamOutputBuffer buffer(output, encoding);
@@ -414,9 +414,9 @@ void Document::do_write_to_stream(std::ostream& output, const Glib::ustring& enc
   }
 }
 
-void Document::set_entity_declaration(const Glib::ustring& name, XmlEntityType type,
-                              const Glib::ustring& publicId, const Glib::ustring& systemId,
-                              const Glib::ustring& content)
+void Document::set_entity_declaration(const ustring& name, XmlEntityType type,
+                              const ustring& publicId, const ustring& systemId,
+                              const ustring& content)
 {
   auto entity = xmlAddDocEntity(impl_, (const xmlChar*)name.c_str(),
     static_cast<int>(type),
@@ -473,7 +473,7 @@ int Document::process_xinclude(bool generate_xinclude_nodes, bool fixup_base_uri
   return n_substitutions;
 }
 
-_xmlEntity* Document::get_entity(const Glib::ustring& name)
+_xmlEntity* Document::get_entity(const ustring& name)
 {
   return xmlGetDocEntity(impl_, (const xmlChar*) name.c_str());
 }

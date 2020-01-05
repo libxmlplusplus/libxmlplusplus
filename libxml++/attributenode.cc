@@ -20,7 +20,7 @@ AttributeNode::~AttributeNode()
 {
 }
 
-Glib::ustring AttributeNode::get_value() const
+ustring AttributeNode::get_value() const
 {
   xmlChar* value = nullptr;
   if (cobj()->ns && cobj()->ns->href)
@@ -28,13 +28,13 @@ Glib::ustring AttributeNode::get_value() const
   else
     value = xmlGetNoNsProp(cobj()->parent, cobj()->name);
 
-  const Glib::ustring retn = value ? (const char*)value : "";
+  const ustring retn = value ? (const char*)value : "";
   if (value)
     xmlFree(value);
   return retn;
 }
 
-void AttributeNode::set_value(const Glib::ustring& value)
+void AttributeNode::set_value(const ustring& value)
 {
   if (cobj()->ns)
     xmlSetNsProp(cobj()->parent, cobj()->ns, cobj()->name, (const xmlChar*)value.c_str());

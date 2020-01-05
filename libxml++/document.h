@@ -19,10 +19,10 @@
 #include <string>
 #include <ostream>
 
-/* std::string or Glib::ustring in function prototypes in libxml++?
+/* std::string or ustring in function prototypes in libxml++?
  *
  * If it's propagated to a libxml2 function that takes a xmlChar*, it's
- * UTF-8 encoded, and Glib::ustring is the right choice.
+ * UTF-8 encoded, and ustring is the right choice.
  *
  * If it's propagated to a libxml2 function that takes a char*, it's not
  * necessarily UTF-8 encoded, and std::string is usually the right choice.
@@ -79,7 +79,7 @@ public:
    * @param version XML version.
    * @throws xmlpp::internal_error If memory allocation fails.
    */
-  explicit Document(const Glib::ustring& version = "1.0");
+  explicit Document(const ustring& version = "1.0");
 
   /** Create a new C++ wrapper for an xmlDoc struct.
    * The created xmlpp::Document takes ownership of the xmlDoc.
@@ -93,7 +93,7 @@ public:
 
   /** @return The encoding used in the source from which the document has been loaded.
    */
-  Glib::ustring get_encoding() const;
+  ustring get_encoding() const;
 
   /** Get the internal subset of this document.
    * @returns A pointer to the DTD, or <tt>nullptr</tt> if not found.
@@ -106,9 +106,9 @@ public:
    * @param external_id The external (PUBLIC) ID, or an empty string.
    * @param system_id The system ID, or an empty string.
    */
-  void set_internal_subset(const Glib::ustring& name,
-                           const Glib::ustring& external_id,
-                           const Glib::ustring& system_id);
+  void set_internal_subset(const ustring& name,
+                           const ustring& external_id,
+                           const ustring& system_id);
 
   /** Return the root node.
    * This function does @b not create a default root node if it doesn't exist.
@@ -134,9 +134,9 @@ public:
    * @throws xmlpp::internal_error If memory allocation fails.
    * @throws xmlpp::exception If a new namespace node cannot be created.
    */
-  Element* create_root_node(const Glib::ustring& name,
-                            const Glib::ustring& ns_uri = Glib::ustring(),
-                            const Glib::ustring& ns_prefix = Glib::ustring() );
+  Element* create_root_node(const ustring& name,
+                            const ustring& ns_uri = ustring(),
+                            const ustring& ns_prefix = ustring() );
 
   /** Create a root element node by importing the node from another document,
    * without affecting the source node.
@@ -156,7 +156,7 @@ public:
    * @returns The new comment node.
    * @throws xmlpp::internal_error
    */
-  CommentNode* add_comment(const Glib::ustring& content);
+  CommentNode* add_comment(const ustring& content);
 
   /** Append a new processing instruction node.
    *
@@ -168,14 +168,14 @@ public:
    * @throws xmlpp::internal_error
    */
   ProcessingInstructionNode* add_processing_instruction(
-    const Glib::ustring& name, const Glib::ustring& content);
+    const ustring& name, const ustring& content);
 
   /** Write the document to a file.
    * @param filename
    * @param encoding If not provided, UTF-8 is used
    * @throws xmlpp::exception
    */
-  void write_to_file(const std::string& filename, const Glib::ustring& encoding = Glib::ustring());
+  void write_to_file(const std::string& filename, const ustring& encoding = ustring());
 
   /** Write the document to a file.
    * The output is formatted by inserting whitespaces, which is easier to read for a human,
@@ -184,14 +184,14 @@ public:
    * @param encoding If not provided, UTF-8 is used
    * @throws xmlpp::exception
    */
-  void write_to_file_formatted(const std::string& filename, const Glib::ustring& encoding = Glib::ustring());
+  void write_to_file_formatted(const std::string& filename, const ustring& encoding = ustring());
 
   /** Write the document to the memory.
    * @param encoding If not provided, UTF-8 is used
    * @returns The written document.
    * @throws xmlpp::exception
    */
-  Glib::ustring write_to_string(const Glib::ustring& encoding = Glib::ustring());
+  ustring write_to_string(const ustring& encoding = ustring());
 
   /** Write the document to the memory.
    * The output is formatted by inserting whitespaces, which is easier to read for a human,
@@ -200,7 +200,7 @@ public:
    * @returns The written document.
    * @throws xmlpp::exception
    */
-  Glib::ustring write_to_string_formatted(const Glib::ustring& encoding = Glib::ustring());
+  ustring write_to_string_formatted(const ustring& encoding = ustring());
 
   /** Write the document to a std::ostream.
    * @param output A reference to the stream in which the document will be written
@@ -210,7 +210,7 @@ public:
    * @warning This method is much less efficient than write_to_string if you want to dump the
    * document to a buffer or the standard output. Writing to a fstream is almost as fast as write_to_file
    */
-  void write_to_stream(std::ostream& output, const Glib::ustring& encoding = Glib::ustring());
+  void write_to_stream(std::ostream& output, const ustring& encoding = ustring());
 
   /** Write the document to a std::ostream.
    * The output is formatted by inserting whitespaces, which is easier to read for a human,
@@ -221,7 +221,7 @@ public:
    * @throws xmlpp::internal_error
    * @warning See write_to_stream
    */
-  void write_to_stream_formatted(std::ostream & output, const Glib::ustring& encoding = Glib::ustring());
+  void write_to_stream_formatted(std::ostream & output, const ustring& encoding = ustring());
 
   /** Add an Entity declaration to the document.
    * @param name The name of the entity that will be used in an entity reference.
@@ -232,9 +232,9 @@ public:
    * is the replacement value.
    * @throws xmlpp::internal_error
    */
-  virtual void set_entity_declaration(const Glib::ustring& name, XmlEntityType type,
-                                      const Glib::ustring& publicId, const Glib::ustring& systemId,
-                                      const Glib::ustring& content);
+  virtual void set_entity_declaration(const ustring& name, XmlEntityType type,
+                                      const ustring& publicId, const ustring& systemId,
+                                      const ustring& content);
 
   /** Perform XInclude substitution on the XML document.
    * XInclude substitution may both add and delete nodes in the document,
@@ -269,12 +269,12 @@ protected:
    * @param name The name of the entity to get.
    * @returns A pointer to the libxml2 entity structure, or <tt>nullptr</tt> if not found.
    */
-  _xmlEntity* get_entity(const Glib::ustring& name);
+  _xmlEntity* get_entity(const ustring& name);
 
 private:
-  void do_write_to_file(const std::string& filename, const Glib::ustring& encoding, bool format);
-  Glib::ustring do_write_to_string(const Glib::ustring& encoding, bool format);
-  void do_write_to_stream(std::ostream& output, const Glib::ustring& encoding, bool format);
+  void do_write_to_file(const std::string& filename, const ustring& encoding, bool format);
+  ustring do_write_to_string(const ustring& encoding, bool format);
+  void do_write_to_stream(std::ostream& output, const ustring& encoding, bool format);
 
   static Init init_;
 

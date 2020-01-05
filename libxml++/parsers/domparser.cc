@@ -100,9 +100,9 @@ void DomParser::parse_memory_raw(const unsigned char* contents, size_type bytes_
   parse_context();
 }
 
-void DomParser::parse_memory(const Glib::ustring& contents)
+void DomParser::parse_memory(const ustring& contents)
 {
-  parse_memory_raw((const unsigned char*)contents.c_str(), contents.bytes());
+  parse_memory_raw((const unsigned char*)contents.c_str(), contents.size());
 }
 
 void DomParser::parse_context()
@@ -195,7 +195,7 @@ void DomParser::parse_stream(std::istream& in)
 
   initialize_context();
 
-  // std::string or Glib::ustring?
+  // std::string or ustring?
   // Output from the XML parser is UTF-8 encoded.
   // But the istream "in" is input, i.e. an XML file. It can use any encoding.
   // If it's not UTF-8, the file itself must contain information about which
@@ -233,7 +233,7 @@ void DomParser::parse_stream(std::istream& in)
 
   auto error_str = format_xml_parser_error(context_);
   if (error_str.empty() && firstParseError != XML_ERR_OK)
-    error_str = "Error code from xmlParseChunk(): " + Glib::ustring::format(firstParseError);
+    error_str = "Error code from xmlParseChunk(): " + std::to_string(firstParseError);
 
   if(!error_str.empty())
   {

@@ -2,7 +2,7 @@
 
 namespace xmlpp {
 
-validity_error::validity_error(const Glib::ustring& message)
+validity_error::validity_error(const ustring& message)
 : parse_error(message)
 {
 }

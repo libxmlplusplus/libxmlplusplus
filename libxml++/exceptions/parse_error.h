@@ -30,7 +30,7 @@ namespace xmlpp
 class parse_error : public exception
 {
 public:
-  explicit parse_error(const Glib::ustring& message);
+  explicit parse_error(const ustring& message);
   ~parse_error() noexcept override;
 
   void raise() const override;

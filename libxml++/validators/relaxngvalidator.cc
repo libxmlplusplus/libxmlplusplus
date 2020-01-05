@@ -70,7 +70,7 @@ void RelaxNGValidator::parse_file(const std::string& filename)
   set_schema(new RelaxNGSchema(filename), true);
 }
 
-void RelaxNGValidator::parse_memory(const Glib::ustring& contents)
+void RelaxNGValidator::parse_memory(const ustring& contents)
 {
   std::unique_ptr<RelaxNGSchema> schema(new RelaxNGSchema());
   schema->parse_memory(contents);
@@ -154,7 +154,7 @@ void RelaxNGValidator::validate(const Document* document)
 
     auto error_str = format_xml_error();
     if (error_str.empty())
-      error_str = "Error code from xmlRelaxNGValidateDoc(): " + Glib::ustring::format(res);
+      error_str = "Error code from xmlRelaxNGValidateDoc(): " + std::to_string(res);
     throw validity_error("Document failed RelaxNG schema validation.\n" + error_str);
   }
 }

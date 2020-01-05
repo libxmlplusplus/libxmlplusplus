@@ -84,7 +84,7 @@ public:
    * @param contents The schema definition as a string.
    * @throws xmlpp::parse_error
    */
-  void parse_memory(const Glib::ustring& contents) override;
+  void parse_memory(const ustring& contents) override;
 
   /** Parse a schema definition from a document.
    * If another schema has been parsed before, that schema is replaced by the new one.
