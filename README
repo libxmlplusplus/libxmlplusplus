@@ -17,5 +17,5 @@ See the examples directory for example code.
 
 Use pkg-config to discover the necessary include and linker arguments. For
 instance,
-  pkg-config libxml++-4.0 --cflags --libs
+  pkg-config libxml++-5.0 --cflags --libs
 Ideally you would use PKG_CHECK_MODULES in your configure.ac file.
