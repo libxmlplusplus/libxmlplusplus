@@ -1,0 +1,25 @@
+name: "CI: autotools: clang 8"
+
+on: [push]
+
+jobs:
+  build:
+
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v1
+    - name: Build
+      run: |
+        sudo apt update
+        sudo apt install libxml2-dev libglibmm-2.4-dev mm-common clang-8
+        export CXX=clang++-8
+        ./autogen.sh --enable-warnings=fatal
+        make
+    - name: Test
+      run: make check
+    - name: Distcheck
+      run: |
+        # distcheck runs configure again so we need to specify CXX again.
+        export CXX=clang++-8
+        make distcheck
