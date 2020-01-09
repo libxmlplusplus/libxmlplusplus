@@ -27,9 +27,9 @@ The short [manual](http://library.gnome.org/devel/libxml++-tutorial/stable/) giv
 
 ## Development
 
-Libxml++ uses the GNOME [git repository](https://gitlab.gnome.org/GNOME/libxmlplusplus/).
+Libxml++ uses the GitHub [git repository](https://github.com/libxmlplusplus/libxmlplusplus).
 
-Bugs and patches are tracked in GNOME's GitLab issue tracker. Here is a list of [open issues](https://gitlab.gnome.org/GNOME/libxmlplusplus/issues). Add new issues [here](https://gitlab.gnome.org/GNOME/libxmlplusplus/issues/new).
+Bugs and patches are tracked in GitHub's [issue tracker](https://github.com/libxmlplusplus/libxmlplusplus/issues).
 
 ## Contact
 
