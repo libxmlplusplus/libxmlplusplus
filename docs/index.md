@@ -2,6 +2,8 @@
 layout: default
 title: libxml++
 ---
+# libxml++
+
 ## Introduction
 
 libxml++ is a C++ wrapper for the [libxml](http://www.xmlsoft.org) XML parser library.
