@@ -2,7 +2,7 @@
 <!DOCTYPE book PUBLIC "-//OASIS//DTD DocBook XML V4.1.2//EN"
   "http://www.oasis-open.org/docbook/xml/4.1.2/docbookx.dtd" [
   <!ENTITY date "February 2002">
-  <!ENTITY url_examples_base "https://gitlab.gnome.org/GNOME/libxmlplusplus/tree/master/examples/">
+  <!ENTITY url_examples_base "https://github.com/libxmlplusplus/libxmlplusplus/tree/master/examples/">
 ]>
 
 <book id="index" lang="en">

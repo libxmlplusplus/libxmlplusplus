@@ -12,7 +12,7 @@ the DOM specification. Its API is simpler than the underlying libxml2 C API.</de
   <homepage rdf:resource="http://libxmlplusplus.sourceforge.net/" />
   <mailing-list rdf:resource="mailto:libxmlplusplus-list@gnome.org" />
   <download-page rdf:resource="https://download.gnome.org/sources/libxml++/" />
-  <bug-database rdf:resource="https://gitlab.gnome.org/GNOME/libxmlplusplus/issues" />
+  <bug-database rdf:resource="https://github.com/libxmlplusplus/libxmlplusplus/issues" />
   <!-- Don't know which category to use. See https://mail.gnome.org/archives/desktop-devel-list/2014-August/msg00106.html
   <category rdf:resource="http://api.gnome.org/doap-extensions#bindings" />
   -->
