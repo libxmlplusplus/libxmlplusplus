@@ -1,3 +1,19 @@
+3.2.0 (stable):
+
+* Document, DomParser: Improve XInclude processing:
+  Document:
+    Add process_xinclude() overload that takes a fixup_base_uris parameter.
+  DomParser:
+    Add set/get_xinclude_options() and add optional XInclude processing to the
+    parse methods.
+  (Kjell Ahlstedt) Bug 781566
+* Add explicit keyword to some single-parameter constructors.
+  (Murray Cumming)
+* tests: Don't require C++17
+  (Kjell Ahlstedt)
+* Build: Fix srcdir != buildir build.
+  (Kjell Ahlstedt, Murray Cumming)
+
 3.0.1 (stable):
 
 * Element::remove_attribute(): Delete the C++ wrapper
