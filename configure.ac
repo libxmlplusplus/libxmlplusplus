@@ -1,8 +1,8 @@
 ## This file is part of libxml++.
 
 AC_INIT([libxml++], [3.0.1],
-        [https://gitlab.gnome.org/GNOME/libxmlplusplus/issues/],
-        [libxml++], [http://libxmlplusplus.sourceforge.net/])
+        [https://github.com/libxmlplusplus/libxmlplusplus/issues],
+        [libxml++], [https://libxmlplusplus.github.io/libxmlplusplus/])
 AC_PREREQ([2.59])
 
 AC_CONFIG_SRCDIR([libxml++/libxml++.h])
