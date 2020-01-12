@@ -15,7 +15,7 @@
   There is also a libxml++-3-2 branch for the libxml++-3.0 ABI,
   which still uses glibmm-2.4.
 * Build:
-  - Use glibmm-2.62 instead of glibmm-2.42.
+  - Use glibmm-2.64 instead of glibmm-2.4.
   - Require C++17.
 * Parser: Make some methods const
 
