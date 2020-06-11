@@ -16,13 +16,13 @@ nodist_library_config_HEADERS = libxml++config.h
 pkgconfigdir = $(libdir)/pkgconfig
 nodist_pkgconfig_DATA = $(LIBXMLXX_MODULE_NAME).pc
 
-include $(srcdir)/MSVC_Net2010/filelist.am
+include $(srcdir)/MSVC_NMake/filelist.am
 
-dist_noinst_DATA = $(addprefix MSVC_Net2010/,$(msvc_net2010_data))
+dist_noinst_DATA = $(addprefix MSVC_NMake/,$(msvc_net2010_data))
 
 dist_noinst_SCRIPTS = autogen.sh
 
-DISTCLEANFILES = MSVC_Net2010/libxml++/libxml++config.h
+DISTCLEANFILES = MSVC_NMake/libxml++/libxml++config.h
 
 # Optional: auto-generate the ChangeLog file from the git log on make dist
 include $(top_srcdir)/build/dist-changelog.am
