@@ -4,7 +4,7 @@ Building libxml++ with Visual Studio 2010
 * Install the latest Win32 GTK+ Development files from ftp://ftp.gnome.org/pub/GNOME/binaries/win32/gtk+/
 * Build libsigc++ 2.0.6 and glibmm from source
 * Add GTK+, libsigc++ and glibmm to the include and lib paths in Visual Studio. 
-* Load the MSVC_Net2010/libxml++.sln solution. 
+* Load the MSVC_NMake/libxml++.sln solution. 
 * Build the entire solution.  Run the tests.
 
 Cedric Gustin
