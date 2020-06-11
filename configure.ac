@@ -66,11 +66,11 @@ AC_CONFIG_FILES([Makefile
         tests/Makefile
         docs/Makefile
         docs/reference/Doxyfile
-        MSVC_Net2010/libxml++/libxml++.rc
+        MSVC_NMake/libxml++/libxml++.rc
         ${LIBXMLXX_MODULE_NAME}.pc:libxml++.pc.in])
 
 # Copy the generated configuration headers into the MSVC project directories.
-AC_CONFIG_COMMANDS([MSVC_Net2010/libxml++/libxml++config.h],
-        [cp -f libxml++config.h MSVC_Net2010/libxml++/libxml++config.h])
+AC_CONFIG_COMMANDS([MSVC_NMake/libxml++/libxml++config.h],
+        [cp -f libxml++config.h MSVC_NMake/libxml++/libxml++config.h])
 
 AC_OUTPUT
