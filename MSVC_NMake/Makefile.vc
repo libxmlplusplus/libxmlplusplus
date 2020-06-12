@@ -1,0 +1,61 @@
+# NMake Makefile for building libxml++ on Windows using Visual Studio
+
+# The items below this line should not be changed, unless one is maintaining
+# the NMake Makefiles.  Customizations can be done in the following NMake Makefile
+# portions (please see comments in the these files to see what can be customized):
+#
+# detectenv-msvc.mak
+# config-msvc.mak
+
+!include detectenv-msvc.mak
+
+# Include the Makefile portions with the source listings
+!include ..\libxml++\filelist.am
+
+# Include the Makefile portion that enables features based on user input
+!include config-msvc.mak
+
+!if "$(VALID_CFGSET)" == "TRUE"
+
+# We need Visual Studio 2015 or later
+!if $(VSVER) < 14
+VALID_MSC = FALSE
+!else
+VALID_MSC = TRUE
+!endif
+
+!if "$(VALID_MSC)" == "TRUE"
+
+all: $(LIBXMLXX_LIB) libxmlxx_examples all-build-info
+
+# Include the Makefile portion to convert the source and header lists
+# into the lists we need for compilation
+!include create-lists-msvc.mak
+
+!ifdef GENERATE_VERSIONED_FILES
+!include pkg-ver.mak
+!endif
+
+tests: $(libxmlxx_tests) all-build-info
+
+libxmlxx_examples: $(libxmlxx_examples)
+
+# Include the build rules for sources, DLLs and executables
+!include generate-msvc.mak
+!include build-rules-msvc.mak
+
+!include install.mak
+
+!else # "$(VALID_MSC)" == "TRUE"
+all:
+	@echo You need Visual Studio 2015 or later.
+
+!endif # "$(VALID_MSC)" == "TRUE"
+
+!else # "$(VALID_CFGSET)" == "TRUE"
+all: help
+	@echo You need to specify a valid configuration, via
+	@echo CFG=release or CFG=debug
+!endif # "$(VALID_CFGSET)" == "TRUE"
+
+!include info-msvc.mak
