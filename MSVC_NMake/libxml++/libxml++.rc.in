@@ -53,7 +53,7 @@ BEGIN
             VALUE "FileDescription", "The official C++ wrapper for libxml2"
             VALUE "FileVersion", "@PACKAGE_VERSION@"
             VALUE "LegalCopyright", "Distribution is under the LGPL (see COPYING)"
-            VALUE "OriginalFilename", "libxml++-2.6"
+            VALUE "OriginalFilename", "libxml++-5.0"
             VALUE "ProductName", "@PACKAGE_NAME@"
             VALUE "ProductVersion", "@PACKAGE_VERSION@"
         END
