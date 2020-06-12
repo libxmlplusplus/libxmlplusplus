@@ -18,7 +18,7 @@ nodist_pkgconfig_DATA = $(LIBXMLXX_MODULE_NAME).pc
 
 include $(srcdir)/MSVC_NMake/filelist.am
 
-dist_noinst_DATA = $(addprefix MSVC_NMake/,$(msvc_net2010_data))
+dist_noinst_DATA = $(addprefix MSVC_NMake/,$(msvc_nmake_data))
 
 dist_noinst_SCRIPTS = autogen.sh
 
