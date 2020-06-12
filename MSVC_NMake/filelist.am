@@ -37,4 +37,13 @@ msvc_net2010_data = \
   examples/schemavalidation/schemavalidation.vcxproj \
   examples/schemavalidation/schemavalidation.vcxproj.filters \
   examples/textreader/textreader.vcxproj \
-  examples/textreader/textreader.vcxproj.filters
+  examples/textreader/textreader.vcxproj.filters \
+  build-rules-msvc.mak \
+  config-msvc.mak \
+  create-lists-msvc.mak \
+  create-lists.bat \
+  detectenv-msvc.mak \
+  generate-msvc.mak \
+  info-msvc.mak \
+  install.mak \
+  Makefile.vc
