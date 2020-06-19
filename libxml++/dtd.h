@@ -23,7 +23,7 @@ namespace xmlpp
 /** Represents XML DTDs.
  *
  */
-class Dtd //TODO: Derive from Node?
+class LIBXMLPP_API Dtd //TODO: Derive from Node?
 {
 public:
   Dtd(_xmlDtd* dtd);

@@ -29,7 +29,7 @@ namespace xmlpp
  *
  * @deprecated Use XsdSchema instead.
  */
-class Schema : NonCopyable
+class LIBXMLPP_API Schema : NonCopyable
 {
 public:
   /** Create a schema from the underlying libxml schema element.

@@ -23,11 +23,11 @@ extern "C" {
 namespace xmlpp
 {
 
-class TextNode;
-class Element;
-class Attribute;
+class LIBXMLPP_API TextNode;
+class LIBXMLPP_API Element;
+class LIBXMLPP_API Attribute;
 
-class Node;
+class LIBXMLPP_API Node;
 typedef std::vector<Node*> NodeSet;
 
 // xmlpp::XPathResultType is similar to xmlXPathObjectType in libxml2.
@@ -50,7 +50,7 @@ enum XPathResultType
 /** Represents XML Nodes.
  * You should never new or delete Nodes. The Parser will create and manage them for you.
  */
-class Node : public NonCopyable
+class LIBXMLPP_API Node : public NonCopyable
 {
 public:
   typedef std::list<Node*> NodeList;

@@ -14,7 +14,7 @@ namespace xmlpp
 
 /** Comment Node. This will be instantiated by the parser.
  */
-class CommentNode : public ContentNode
+class LIBXMLPP_API CommentNode : public ContentNode
 {
 public:
   explicit CommentNode(_xmlNode* node);

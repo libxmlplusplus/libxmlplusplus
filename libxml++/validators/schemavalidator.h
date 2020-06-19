@@ -29,7 +29,7 @@ namespace xmlpp {
  *
  * @deprecated Use XsdValidator instead.
  */
-class SchemaValidator : public Validator
+class LIBXMLPP_API SchemaValidator : public Validator
 {
 public:
   SchemaValidator();

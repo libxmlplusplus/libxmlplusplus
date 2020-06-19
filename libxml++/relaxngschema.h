@@ -40,7 +40,7 @@ namespace xmlpp
  *
  * @newin{2,38}
  */
-class RelaxNGSchema : public SchemaBase
+class LIBXMLPP_API RelaxNGSchema : public SchemaBase
 {
 public:
   RelaxNGSchema();

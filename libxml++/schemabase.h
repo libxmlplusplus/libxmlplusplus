@@ -23,18 +23,18 @@
 
 namespace Glib
 {
-class ustring;
+class LIBXMLPP_API ustring;
 }
 
 namespace xmlpp
 {
-class Document;
+class LIBXMLPP_API Document;
 
 /** Base class for schemas, used for validation of XML files.
  *
  * @newin{2,38}
  */
-class SchemaBase : NonCopyable
+class LIBXMLPP_API SchemaBase : NonCopyable
 {
 public:
   SchemaBase();

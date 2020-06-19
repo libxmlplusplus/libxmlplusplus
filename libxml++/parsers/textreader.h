@@ -26,7 +26,7 @@ namespace xmlpp
  * A reader that provides fast, non-cached, forward-only access to XML data,
  * in the style of .Net's <a href="http://msdn.microsoft.com/en-us/library/system.xml.xmltextreader.aspx">XmlTextReader</a> class.
  */
-class TextReader: NonCopyable
+class LIBXMLPP_API TextReader: NonCopyable
 {
   public:
     enum xmlNodeType {
