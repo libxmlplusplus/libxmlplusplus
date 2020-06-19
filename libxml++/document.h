@@ -62,7 +62,7 @@ enum class XmlEntityType
 /**
  * Represents an XML document in the DOM model.
  */
-class Document : public NonCopyable
+class LIBXMLPP_API Document : public NonCopyable
 {
   //Ensure that libxml is properly initialised:
   class Init

@@ -27,7 +27,7 @@ namespace xmlpp
 /** Represents an XML DTD for validating XML files.
  * DTD = %Document Type Definition
  */
-class Dtd : public NonCopyable
+class LIBXMLPP_API Dtd : public NonCopyable
 {
 public:
   Dtd();
