@@ -38,7 +38,7 @@ namespace xmlpp
  *
  * @newin{2,38}
  */
-class XsdSchema : public SchemaBase
+class LIBXMLPP_API XsdSchema : public SchemaBase
 {
 public:
   XsdSchema();

@@ -29,7 +29,7 @@ namespace xmlpp
  *
  * @newin{2,36}
  */
-class XIncludeEnd : public Node
+class LIBXMLPP_API XIncludeEnd : public Node
 {
 public:
   explicit XIncludeEnd(_xmlNode* node);

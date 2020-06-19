@@ -15,7 +15,7 @@ namespace xmlpp {
 /** DOM XML parser.
  * DOM = %Document Object Model
  */
-class DomParser : public Parser
+class LIBXMLPP_API DomParser : public Parser
 {
 public:
   /** Create a parser with an empty document.

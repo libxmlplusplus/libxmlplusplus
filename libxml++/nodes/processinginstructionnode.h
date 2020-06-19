@@ -12,7 +12,7 @@
 namespace xmlpp
 {
 
-class ProcessingInstructionNode : public ContentNode
+class LIBXMLPP_API ProcessingInstructionNode : public ContentNode
 {
 public:
   explicit ProcessingInstructionNode(_xmlNode* node);

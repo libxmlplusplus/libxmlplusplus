@@ -25,13 +25,13 @@
 
 namespace xmlpp
 {
-class Document;
+class LIBXMLPP_API Document;
 
 /** Base class for schemas, used for validation of XML files.
  *
  * @newin{2,38}
  */
-class SchemaBase : public NonCopyable
+class LIBXMLPP_API SchemaBase : public NonCopyable
 {
 public:
   SchemaBase() noexcept;

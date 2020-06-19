@@ -24,15 +24,15 @@
 
 namespace xmlpp
 {
-class Document;
-class XsdSchema;
+class LIBXMLPP_API Document;
+class LIBXMLPP_API XsdSchema;
 
 /** XSD schema validator.
  * XSD = XML %Schema Definition, a.k.a. XML %Schema or W3C XML %Schema
  *
  * @newin{2,38}
  */
-class XsdValidator : public SchemaValidatorBase
+class LIBXMLPP_API XsdValidator : public SchemaValidatorBase
 {
 public:
   XsdValidator();

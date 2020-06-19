@@ -14,7 +14,7 @@ namespace xmlpp
 
 /** Entity references refer to previously declared entities. This will be instantiated by the parser.
  */
-class EntityReference : public Node
+class LIBXMLPP_API EntityReference : public Node
 {
 public:
   explicit EntityReference(_xmlNode* node);

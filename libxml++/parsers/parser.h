@@ -28,7 +28,7 @@ namespace xmlpp {
  *
  * Abstract base class for DOM parser and SAX parser.
  */
-class Parser : public NonCopyable
+class LIBXMLPP_API Parser : public NonCopyable
 {
 public:
   Parser();
