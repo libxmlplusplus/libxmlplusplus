@@ -7,10 +7,6 @@
 #ifndef __LIBXMLPP_PARSER_H
 #define __LIBXMLPP_PARSER_H
 
-#ifdef _MSC_VER //Ignore warnings about the Visual C++ Bug, where we can not do anything
-#pragma warning (disable : 4786)
-#endif
-
 #include <libxml++/nodes/element.h>
 #include <libxml++/exceptions/validity_error.h>
 #include <libxml++/exceptions/internal_error.h>
