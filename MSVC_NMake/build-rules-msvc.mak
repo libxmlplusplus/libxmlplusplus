@@ -64,8 +64,8 @@ $(LIBXMLXX_LIB): $(LIBXMLXX_DLL)
 # $(dependent_objects)
 # <<
 # 	@-if exist $@.manifest mt /manifest $@.manifest /outputresource:$@;2
-$(LIBXMLXX_DLL): $(libxmlxx_OBJS) vs$(VSVER)\$(CFG)\$(PLAT)\libxmlxx\libxml++.def
-	link /DLL $(LDFLAGS_NOLTCG) $(LIBXML2_LIBS) /implib:$(LIBXMLXX_LIB) /def:vs$(VSVER)\$(CFG)\$(PLAT)\libxmlxx\libxml++.def -out:$@ @<<
+$(LIBXMLXX_DLL): $(libxmlxx_OBJS)
+	link /DLL $(LDFLAGS_NOLTCG) $(LIBXML2_LIBS) /implib:$(LIBXMLXX_LIB) -out:$@ @<<
 $(libxmlxx_OBJS)
 <<
 	@-if exist $@.manifest mt /manifest $@.manifest /outputresource:$@;2
@@ -77,10 +77,6 @@ $(libxmlxx_OBJS)
 # $(dependent_objects)
 # <<
 # 	@-if exist $@.manifest mt /manifest $@.manifest /outputresource:$@;1
-$(GENDEF): gendef\gendef.cc
-	@if not exist $(@D)\gendef\ md $(@D)\gendef
-	$(CXX) $(CFLAGS) /Fo$(@D)\gendef\ /Fd$(@D)\gendef\ $** /Fe:$@ /link $(LDFLAGS) -out:$@ 
-	@-if exist $@.manifest mt /manifest $@.manifest /outputresource:$@;1
 
 clean:
 	@-del /f /q vs$(VSVER)\$(CFG)\$(PLAT)\*.exe
@@ -93,13 +89,9 @@ clean:
 	@-del /f /q vs$(VSVER)\$(CFG)\$(PLAT)\libxmlxx-tests\*.pdb
 	@-del /f /q vs$(VSVER)\$(CFG)\$(PLAT)\libxmlxx-examples\*.obj
 	@-del /f /q vs$(VSVER)\$(CFG)\$(PLAT)\libxmlxx-examples\*.pdb
-	@-del /f /q vs$(VSVER)\$(CFG)\$(PLAT)\libxmlxx\*.def
 	@-del /f /q vs$(VSVER)\$(CFG)\$(PLAT)\libxmlxx\*.res
 	@-del /f /q vs$(VSVER)\$(CFG)\$(PLAT)\libxmlxx\*.obj
 	@-del /f /q vs$(VSVER)\$(CFG)\$(PLAT)\libxmlxx\*.pdb
-	@-del /f /q vs$(VSVER)\$(CFG)\$(PLAT)\gendef\*.obj
-	@-del /f /q vs$(VSVER)\$(CFG)\$(PLAT)\gendef\*.pdb
 	@-rd vs$(VSVER)\$(CFG)\$(PLAT)\libxmlxx-tests
 	@-rd vs$(VSVER)\$(CFG)\$(PLAT)\libxmlxx-examples
 	@-rd vs$(VSVER)\$(CFG)\$(PLAT)\libxmlxx
-	@-rd vs$(VSVER)\$(CFG)\$(PLAT)\gendef
