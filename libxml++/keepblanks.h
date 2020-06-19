@@ -16,11 +16,7 @@ namespace xmlpp
    */
   class KeepBlanks {
     public:
-#if _MSC_VER == 1200 // detect MSVC 6.0
-      static const bool Default;
-#else
       static const bool Default = true;
-#endif
 
     public:
       KeepBlanks(bool value) noexcept;
