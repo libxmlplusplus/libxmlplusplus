@@ -17,7 +17,7 @@ namespace xmlpp {
 /** XML DTD validator.
  * DTD = %Document Type Definition
  */
-class DtdValidator : public Validator
+class LIBXMLPP_API DtdValidator : public Validator
 {
 public:
   DtdValidator();

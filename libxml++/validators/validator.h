@@ -20,11 +20,11 @@ extern "C" {
 
 namespace xmlpp {
 
-class Document;
+class LIBXMLPP_API Document;
 
 /** Base class for XML validators.
  */
-class Validator : public NonCopyable
+class LIBXMLPP_API Validator : public NonCopyable
 {
 public:
   Validator() noexcept;

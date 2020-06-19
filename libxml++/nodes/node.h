@@ -23,7 +23,7 @@ extern "C" {
 namespace xmlpp
 {
 
-class Element;
+class LIBXMLPP_API Element;
 
 // xmlpp::XPathResultType is similar to xmlXPathObjectType in libxml2.
 /** An XPath expression is evaluated to yield a result, which
@@ -48,7 +48,7 @@ enum class XPathResultType
  * manage them for you. Furthermore, Document and Element have methods for
  * adding Nodes to a Document.
  */
-class Node : public NonCopyable
+class LIBXMLPP_API Node : public NonCopyable
 {
 public:
   using NodeList = std::list<Node*>;
