@@ -3,14 +3,6 @@
 # Items in here should not need to be edited unless
 # one is maintaining the NMake build files.
 
-# Create the build directories
-vs$(VSVER)\$(CFG)\$(PLAT)\libxmlxx:
-	@-md $@
-
-# Generate .def file using gendef
-vs$(VSVER)\$(CFG)\$(PLAT)\libxmlxx\libxml++.def: $(libxmlxx_OBJS) $(GENDEF)
-	$(GENDEF) $@ xml++-vc$(VSVER_LIB)$(DEBUG_SUFFIX)-$(LIBXMLXX_MAJOR_VERSION)_$(LIBXMLXX_MINOR_VERSION).dll $(libxmlxx_OBJS)
-
 # Generate pre-generated resources and configuration headers (builds from GIT)
 prep-git-build: pkg-ver.mak
 
