@@ -14,7 +14,7 @@ namespace xmlpp
 
 /** Text node. This will be instantiated by the parser.
 */
-class TextNode : public ContentNode
+class LIBXMLPP_API TextNode : public ContentNode
 {
 public:
   explicit TextNode(_xmlNode* node);

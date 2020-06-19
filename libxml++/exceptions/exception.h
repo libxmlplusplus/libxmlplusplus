@@ -60,6 +60,7 @@ private:
  * @returns A formatted text string. If the error struct does not contain an
  *          error (error->code == XML_ERR_OK), an empty string is returned.
  */
+LIBXMLPP_API
 Glib::ustring format_xml_error(const _xmlError* error = nullptr);
 
 /** Format a parser error into a text string, suitable for printing.
@@ -71,6 +72,7 @@ Glib::ustring format_xml_error(const _xmlError* error = nullptr);
  *          error (parser_context->lastError.code == XML_ERR_OK), an empty
  *          string is returned.
  */
+LIBXMLPP_API
 Glib::ustring format_xml_parser_error(const _xmlParserCtxt* parser_context);
 
 /** Format a message from a function with C-style variadic parameters.
@@ -92,6 +94,7 @@ Glib::ustring format_xml_parser_error(const _xmlParserCtxt* parser_context);
  *
  * @newin{3,0}
  */
+LIBXMLPP_API
 Glib::ustring format_printf_message(const char* fmt, va_list args);
 
 } // namespace xmlpp

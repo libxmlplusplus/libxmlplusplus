@@ -16,7 +16,7 @@
 
 namespace xmlpp
 {
-  class IStreamParserInputBuffer: public ParserInputBuffer
+  class LIBXMLPP_API IStreamParserInputBuffer: public ParserInputBuffer
   {
     public:
       /**

@@ -24,7 +24,7 @@
 
 namespace xmlpp {
 
-class internal_error : public exception
+class LIBXMLPP_API internal_error : public exception
 {
 public:
   explicit internal_error(const Glib::ustring& message);

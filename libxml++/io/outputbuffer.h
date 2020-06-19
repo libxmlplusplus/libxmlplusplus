@@ -22,7 +22,7 @@ extern "C"
 
 namespace xmlpp
 {
-  struct OutputBufferCallback;
+  struct LIBXMLPP_API OutputBufferCallback;
 
   /** Base class for xmlOutputBuffer wrapper
    *
@@ -30,7 +30,7 @@ namespace xmlpp
    * A child class has to override do_write(), and possibly
    * do_close() if some actions are required before buffer closing.
    */
-  class OutputBuffer: public NonCopyable
+  class LIBXMLPP_API OutputBuffer: public NonCopyable
   {
     public:
       /**
