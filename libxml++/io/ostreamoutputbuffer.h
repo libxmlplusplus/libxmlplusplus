@@ -18,7 +18,7 @@ namespace xmlpp
 {
   /** An OutputBuffer implementation that send datas to a std::ostream.
    */
-  class OStreamOutputBuffer: public OutputBuffer
+  class LIBXMLPP_API OStreamOutputBuffer: public OutputBuffer
   {
     public:
       /**

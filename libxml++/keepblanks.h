@@ -8,13 +8,15 @@
 #ifndef __LIBXMLPP_KEEPBLANKS_H
 #define __LIBXMLPP_KEEPBLANKS_H
 
+#include <libxml++config.h>
+
 namespace xmlpp
 {
   /** This class sets KeepBlanksDefault and IndentTreeOutput of libxmlpp
    * and restores their initial values in its destructor. As a consequence
    * the wanted setting is kept during instance lifetime.
    */
-  class KeepBlanks {
+  class LIBXMLPP_API KeepBlanks {
     public:
       static const bool Default = true;
 

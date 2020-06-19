@@ -23,13 +23,13 @@
 
 namespace xmlpp
 {
-class Document;
+class LIBXMLPP_API Document;
 
 /** Base class for schema validators.
  *
  * @newin{2,38}
  */
-class SchemaValidatorBase : public Validator
+class LIBXMLPP_API SchemaValidatorBase : public Validator
 {
 public:
   SchemaValidatorBase() noexcept;
