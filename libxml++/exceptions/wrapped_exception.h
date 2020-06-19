@@ -35,7 +35,7 @@ namespace xmlpp
  *
  * @newin{2,40}
  */
-class wrapped_exception : public exception
+class LIBXMLPP_API wrapped_exception : public exception
 {
 public:
   explicit wrapped_exception(std::exception_ptr exception_ptr);

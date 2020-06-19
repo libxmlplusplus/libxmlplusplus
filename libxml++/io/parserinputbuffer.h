@@ -20,7 +20,7 @@ extern "C"
 
 namespace xmlpp
 {
-  struct ParserInputBufferCallback;
+  struct LIBXMLPP_API ParserInputBufferCallback;
 
   /** Base class for xmlParserInputBuffer wrapper
    *
@@ -28,7 +28,7 @@ namespace xmlpp
    * A child class has to override do_write(), and possibly
    * do_close() if some actions are required before buffer closing.
    */
-  class ParserInputBuffer: public NonCopyable
+  class LIBXMLPP_API ParserInputBuffer: public NonCopyable
   {
     public:
       ParserInputBuffer();

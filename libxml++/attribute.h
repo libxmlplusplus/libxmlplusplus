@@ -24,7 +24,7 @@ namespace xmlpp
 /** Represents an XML Node attribute.
  * This will be instantiated by the parser.
  */
-class Attribute : public Node
+class LIBXMLPP_API Attribute : public Node
 {
 public:
   explicit Attribute(_xmlNode* node);

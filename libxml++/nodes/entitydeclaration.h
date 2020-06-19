@@ -23,7 +23,7 @@ namespace xmlpp
  * @newin{2,36}
  *
  */
-class EntityDeclaration : public ContentNode
+class LIBXMLPP_API EntityDeclaration : public ContentNode
 {
 public:
   explicit EntityDeclaration(_xmlNode* node);

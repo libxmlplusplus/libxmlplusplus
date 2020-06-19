@@ -27,7 +27,7 @@ class SaxParserCallback; // Remove, when handle_exception() is made protected.
 /** XML parser.
  *
  */
-class Parser : NonCopyable
+class LIBXMLPP_API Parser : NonCopyable
 {
 public:
   Parser();

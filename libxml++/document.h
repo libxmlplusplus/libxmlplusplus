@@ -46,7 +46,7 @@ class Document;
 /**
  * Represents an XML document in the DOM model.
  */
-class Document : NonCopyable
+class LIBXMLPP_API Document : NonCopyable
 {
   //Ensure that libxml is properly initialised:
   class Init

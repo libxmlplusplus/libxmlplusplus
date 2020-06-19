@@ -20,7 +20,7 @@ namespace xmlpp {
 
 /** Base class for XML validators.
  */
-class Validator : NonCopyable
+class LIBXMLPP_API Validator : NonCopyable
 {
 public:
   Validator();

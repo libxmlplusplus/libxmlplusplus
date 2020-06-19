@@ -20,7 +20,7 @@ namespace xmlpp
  *
  * @newin{2,36}
  */
-class AttributeNode : public Attribute
+class LIBXMLPP_API AttributeNode : public Attribute
 {
 public:
   explicit AttributeNode(_xmlNode* node);

@@ -31,7 +31,7 @@ namespace xmlpp {
  * that exception is replaced by a xmlpp::exception before it is propagated
  * out of the parse method, such as parse_file().
  */
-class SaxParser : public Parser
+class LIBXMLPP_API SaxParser : public Parser
 {
 public:
   /**

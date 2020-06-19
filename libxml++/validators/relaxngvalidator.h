@@ -26,20 +26,20 @@
 
 namespace Glib
 {
-class ustring;
+class LIBXMLPP_API ustring;
 }
 
 namespace xmlpp
 {
-class Document;
-class RelaxNGSchema;
+class LIBXMLPP_API Document;
+class LIBXMLPP_API RelaxNGSchema;
 
 /** RelaxNG schema validator.
  * RelaxNG = REgular LAnguage for XML Next Generation
  *
  * @newin{2,38}
  */
-class RelaxNGValidator : public SchemaValidatorBase
+class LIBXMLPP_API RelaxNGValidator : public SchemaValidatorBase
 {
 public:
   RelaxNGValidator();
