@@ -2,7 +2,6 @@
 
 msvc_nmake_data = \
   README \
-  gendef/gendef.cc \
   libxml++/libxml++.rc \
   libxml++/libxml++config.h \
   build-rules-msvc.mak \
