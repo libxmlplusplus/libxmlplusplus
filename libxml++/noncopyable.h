@@ -8,12 +8,14 @@
 #ifndef __LIBXMLPP_NONCOPYABLE_H
 #define __LIBXMLPP_NONCOPYABLE_H
 
+#include <libxml++config.h>
+
 namespace xmlpp
 {
 
 /** A base for classes which cannot be copied or moved.
  */
-class NonCopyable
+class LIBXMLPP_API NonCopyable
 {
 protected:
   NonCopyable() noexcept;
