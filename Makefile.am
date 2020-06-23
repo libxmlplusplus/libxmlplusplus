@@ -24,5 +24,20 @@ dist_noinst_SCRIPTS = autogen.sh
 
 DISTCLEANFILES = MSVC_NMake/libxml++/libxml++config.h
 
+# Distribute files needed when building libxml++ with Meson.
+EXTRA_DIST = \
+  meson.build \
+  meson_options.txt \
+  libxml++config.h.meson \
+  MSVC_NMake/libxml++/meson.build \
+  docs/manual/meson.build \
+  docs/reference/meson.build \
+  examples/meson.build \
+  libxml++/meson.build \
+  tests/meson.build \
+  tools/build_scripts/tutorial-custom-cmd.py \
+  tools/conf_tests/have_exception_ptr.cc \
+  untracked/README
+
 # Optional: auto-generate the ChangeLog file from the git log on make dist
 include $(top_srcdir)/build/dist-changelog.am

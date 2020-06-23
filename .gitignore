@@ -26,7 +26,7 @@ stamp-h?
 /libtool
 
 # MSVC
-/MSVC_Net201?/libxml++/libxml++.rc
+/MSVC_NMake/libxml++/libxml++.rc
 
 # docs
 /docs/doc-install.pl
@@ -70,3 +70,7 @@ stamp-h?
 /tests/*/test.log
 /tests/*/test.trs
 /tests/test-suite.log
+
+# untracked/
+untracked/build_scripts/
+untracked/docs/
