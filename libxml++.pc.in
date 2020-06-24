@@ -15,5 +15,5 @@ Description: C++ wrapper for libxml
 Version: @PACKAGE_VERSION@
 URL: http://libxmlplusplus.sourceforge.net/
 Requires: @LIBXMLXX_MODULES@
-Libs: -L${libdir} -lxml++-@LIBXMLXX_API_VERSION@
+Libs: -L${libdir} -lxml++-@LIBXMLXX_API_VERSION@ @LIBXML2_LIB_NO_PKGCONFIG@
 Cflags: -I${includedir}/@LIBXMLXX_MODULE_NAME@ -I${libdir}/@LIBXMLXX_MODULE_NAME@/include
