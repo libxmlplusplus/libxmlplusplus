@@ -84,7 +84,7 @@ foreach dir_files : xmlxx_subdir_h_cc_files
   install_headers(subdir_h_files, subdir: xmlxx_pcname / 'libxml++' / dir)
 endforeach
 
-xmlxx_cpp_args = [ '-LIBXMLPP_BUILD=1' ]
+xmlxx_cpp_args = [ '-DLIBXMLPP_BUILD=1' ]
 
 # Make sure we are exporting the symbols from the DLL
 if is_msvc
