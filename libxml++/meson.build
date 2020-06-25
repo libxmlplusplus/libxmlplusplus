@@ -1,7 +1,7 @@
 # libxml++
 
 # Input: xmlxx_build_dep, xmlxx_pcname, xmlxx_libversion, xmlxx_api_version,
-#        install_includedir, xmlxx_rc
+#        install_includedir, xmlxx_rc, xmlxx_libname
 # Output: source_h_files, xmlxx_dep
 
 # There are no built source files in libxml++-3.0.
@@ -101,7 +101,7 @@ if host_machine.system() == 'windows'
 endif
 
 extra_include_dirs = ['..']
-xmlxx_library = library('xml++-' + xmlxx_api_version,
+xmlxx_library = library(xmlxx_libname,
   source_cc_files,
   extra_xmlxx_objects,
   version: xmlxx_libversion,

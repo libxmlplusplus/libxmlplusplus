@@ -16,3 +16,5 @@ option('build-examples', type: 'boolean', value: true,
   description: 'Build example programs')
 option('build-tests', type: 'boolean', value: true,
   description: 'Build test programs')
+option('msvc14x-parallel-installable', type: 'boolean', value: true,
+  description: 'Use separate DLL and LIB filenames for Visual Studio 2017 and 2019')
