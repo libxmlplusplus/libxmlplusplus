@@ -87,8 +87,8 @@ install_pkgconfigdir = install_libdir / 'pkgconfig'
 
 # Dependencies.
 # xmlxx_build_dep: Dependencies when building the libxml++ library.
-# xmlxx_dep (created in atk/atkmm/meson.build):
-#   Dependencies when using the atkmm library.
+# xmlxx_dep (created in libxml++/meson.build):
+#   Dependencies when using the libxml++ library.
 
 # glibmm recently gained Meson build support, so we can try looking
 # for its pkg-config files on Visual Studio as well
@@ -132,25 +132,24 @@ if not xml2_dep.found()
     endif
 endif
 
-# The -mm libraries do not yet have pkg-config files for MSVC builds,
-# so check for them manually
 glibmm_req_minor_ver = '4'
-
 glibmm_dep = dependency('glibmm-2.@0@'.format(glibmm_req_minor_ver), version: glibmm_req)
 
-xmlxx_requires = ''
+xmlxx_requires = []
 libxml2_lib_pkgconfig = ''
 
 # Put libxml-2.0 in the 'Requires:' section in the generated pkg-config file if
 # we found it by pkg-config
 if xml2_dep.type_name() == 'pkgconfig'
-  xmlxx_requires += ' '.join(['libxml-2.0', xml2_req]) + ' '
+  xmlxx_requires += ['libxml-2.0', xml2_req]
 else
   libxml2_lib_pkgconfig = '-l@0@'.format(libxml2_lib)
 endif
 
 # ...Then put glibmm-2.x in the 'Requires:' section in the generated pkg-config file
-xmlxx_requires += ' '.join(['glibmm-2.@0@'.format(glibmm_req_minor_ver), glibmm_req])
+xmlxx_requires += ['glibmm-2.@0@'.format(glibmm_req_minor_ver), glibmm_req]
+
+xmlxx_requires = ' '.join(xmlxx_requires)
 
 # Make sure we link to libxml-2.0 and glibmm
 xmlxx_build_dep = [xml2_dep, glibmm_dep]
@@ -346,12 +345,12 @@ summary = [
   'Build HTML documentation: @0@@1@'.format(build_documentation_opt, real_build_documentation),
   '          XML validation: @0@@1@'.format(validate, explain_val),
   '               Build PDF: @0@@1@'.format(build_pdf, explain_pdf),
-#  '  Build example programs: @0@'.format(build_examples),
+  '  Build example programs: @0@'.format(build_examples),
   '     Build test programs: @0@'.format(build_tests),
   'Directories:',
   '                  prefix: @0@'.format(install_prefix),
   '              includedir: @0@'.format(install_prefix / install_includedir),
-  '         includeatkmmdir: @0@'.format(install_prefix / install_includedir / xmlxx_pcname),
+  '         includexmlxxdir: @0@'.format(install_prefix / install_includedir / xmlxx_pcname),
   '                  libdir: @0@'.format(install_prefix / install_libdir),
   '        includeconfigdir: @0@'.format(install_prefix / install_includeconfigdir),
   '            pkgconfigdir: @0@'.format(install_prefix / install_pkgconfigdir),

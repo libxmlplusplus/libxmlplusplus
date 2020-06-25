@@ -40,15 +40,18 @@ def html():
   input_xml_file = sys.argv[3]
   output_html_dir = sys.argv[4]
 
+  # For a list of available parameters, see http://docbook.sourceforge.net/release/xsl/current/doc/html/
+  xslt_params = []
+
   # Remove old files and create the destination directory.
   shutil.rmtree(output_html_dir, ignore_errors=True)
   os.makedirs(output_html_dir, exist_ok=True)
 
   cmd = [
     'xsltproc',
+  ] + xslt_params + [
     '-o', output_html_dir + '/',
     '--xinclude',
-    '--catalogs',
     xslt_stylesheet,
     input_xml_file,
   ]
