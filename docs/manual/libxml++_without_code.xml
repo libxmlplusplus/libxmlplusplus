@@ -32,8 +32,8 @@
       Unlike some other C++ parsers, it does not try to avoid the advantages of standard C++ features
       such as namespaces, STL containers or runtime type identification, and it does not try
       to conform to standard API specifications meant for Java. Therefore libxml++ requires
-      a fairly modern C++ compiler such as g++ 4.9 or g++ 5. libxml++ 2.39.1 and later require
-      a C++11-compliant compiler.
+      a fairly modern C++ compiler such as g++ 8 or g++ 9. libxml++ 3.9.1 and later require
+      a C++17-compliant compiler.
     </para>
 
     <para>But libxml++ was created mainly to fill the need for an API-stable and ABI-stable C++ XML parser which could be used as a shared library dependency by C++ applications that are distributed widely in binary form. That means that installed applications will not break when new versions of libxml++ are installed on a user's computer. Gradual improvement of the libxml++ API is still possible via non-breaking API additions, and new independent versions of the ABI that can be installed in parallel with older versions. These are the general techniques and principles followed by the <ulink
@@ -41,10 +41,10 @@ url="http://www.gnome.org">GNOME</ulink> project, of which libxml++ is a part.</
 
     <sect1>
     <title>Installation</title>
-    <para>libxml++ is packaged by major Linux and *BSD distributions and can be installed from source on Linux and Windows, using any modern compiler, such as g++, SUN Forte, or MSVC++.</para>
-    <para>For instance, to install libxml++ and its documentation on debian, use apt-get or synaptic like so:
+    <para>libxml++ is packaged by major Linux and *BSD distributions and can be installed from source on Linux and Windows, using any modern compiler, such as g++ or MSVC++.</para>
+    <para>For instance, to install libxml++ and its documentation on Debian, use apt-get or synaptic like so:
     <programlisting>
-    # apt-get install libxml++3.0-dev libxml++3.0-doc
+    # apt-get install libxml++4.0-dev libxml++4.0-doc
     </programlisting>
     </para>
     <para>To check that you have the libxml++ development packages installed, and that your environment is working properly, try <command>pkg-config libxml++-4.0 --modversion</command>.</para>
@@ -140,7 +140,7 @@ url="http://libxmlplusplus.sourceforge.net">libxmlplusplus.sourceforge.net</ulin
       <title>SAX Parser</title>
       <para>The SAX (Simple API for XML) parser presents each node of the XML document in sequence. So when you process one node, you must have already stored information about any relevant previous nodes, and you have no information at that time about subsequent nodes. The SAX parser uses less memory than the DOM parser and it is a suitable abstraction for documents that can be processed sequentially rather than as a whole.</para>
 
-      <para>By using the <literal>parse_chunk()</literal> method instead of <literal>parse()</literal>, you can even parse parts of the XML document before you have received the whole document.</para>
+      <para>By using the <literal>parse_chunk()</literal> method instead of for instance <literal>parse_file()</literal>, you can even parse parts of the XML document before you have received the whole document.</para>
 
       <para>As shown in the example, you should derive your own class from SaxParser and override some of the virtual methods. These &quot;handler&quot; methods will be called while the document is parsed.</para>
  

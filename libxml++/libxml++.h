@@ -35,8 +35,8 @@
  * @code
  * g++ program.cc -o program `pkg-config --cflags --libs libxml++-4.0`
  * @endcode
- * If your version of g++ is not C++11-compliant be default,
- * add the @c -std=c++11 or @c -std=c++0x option.
+ * If your version of g++ is not C++17-compliant be default,
+ * add the @c -std=c++17 option.
  *
  * Alternatively, if using autoconf, use the following in @c configure.ac:
  * @code
