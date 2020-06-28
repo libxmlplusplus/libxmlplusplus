@@ -36,6 +36,8 @@ LT_PREREQ([2.2.6])
 LT_INIT([dlopen win32-dll disable-static])
 
 AC_SUBST([LIBXMLXX_MODULES], ['libxml-2.0 >= 2.7.7 glibmm-2.66 >= 2.65.2'])
+AC_SUBST([LIBXML2_LIB_NO_PKGCONFIG], [''])
+AC_SUBST([MSVC_TOOLSET_VER], [''])
 PKG_CHECK_MODULES([LIBXMLXX], [$LIBXMLXX_MODULES])
 
 AC_LANG([C++])
