@@ -1,0 +1,35 @@
+#ifndef _LIBXMLPP_CONFIG_H
+#define _LIBXMLPP_CONFIG_H
+
+#include <glibmmconfig.h>
+
+/* Define to omit deprecated API from the library. */
+#mesondefine LIBXMLXX_DISABLE_DEPRECATED
+
+/* Defined if the C++ library supports std::exception_ptr. */
+#mesondefine LIBXMLXX_HAVE_EXCEPTION_PTR
+
+/* This is always set. This is only for backwards compatibility. */
+#mesondefine LIBXMLCPP_EXCEPTIONS_ENABLED
+
+/* Major version number of libxml++. */
+#mesondefine LIBXMLXX_MAJOR_VERSION
+
+/* Minor version number of libxml++. */
+#mesondefine LIBXMLXX_MINOR_VERSION
+
+/* Micro version number of libxml++. */
+#mesondefine LIBXMLXX_MICRO_VERSION
+
+#if defined (GLIBMM_DLL) && !defined (LIBXMLXX_STATIC)
+  #ifdef LIBXMLPP_BUILD
+    #define LIBXMLPP_API __declspec(dllexport)
+  #else
+    #define LIBXMLPP_API __declspec(dllimport)
+  #endif /* LIBXMLPP_BUILD - DLL */
+#else
+  /* Build a static library or a non-Windows library*/
+  #define LIBXMLPP_API
+#endif /* GLIBMM_DLL */
+
+#endif /* _LIBXMLPP_CONFIG_H */
