@@ -2,7 +2,10 @@ Building libxml++ with Visual Studio 2015 or later
 
 * You will need Visual Studio 2015 (MSVC 14.0) or later.
 * Install the latest Win32 GTK+ Development files from ftp://ftp.gnome.org/pub/GNOME/binaries/win32/gtk+/
-* Build libsigc++ 2.0.6 and glibmm from source, with the same compiler version.
+* Install libxml2 from http://xmlsoft.org/.  If building libxml2 from source, using Visual Studio 2015 or
+  later is strongly recommended.
+* Build libsigc++ 2.0.6 and glibmm from source, with the same compiler version.  If
+  there are strange linker errors, they are likely caused by mising different compiler versions.
 * Add GTK+, libsigc++ and glibmm to the include and lib paths in Visual Studio.
 * Run `nmake /f Makefile.vc CFG=[debug|release]` to buiild libxml++.  Run `nmake /f Makefile.vc` without the
   `CFG=[debug|release] flag to see which options are supported by the NMake Makefiles
