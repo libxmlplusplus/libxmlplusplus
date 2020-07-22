@@ -34,6 +34,7 @@ all: $(LIBXMLXX_LIB) libxmlxx_examples all-build-info
 
 !ifdef GENERATE_VERSIONED_FILES
 !include pkg-ver.mak
+DO_REAL_GEN = 1
 !endif
 
 tests: $(libxmlxx_tests) all-build-info
