@@ -1,3 +1,39 @@
+2.42.0 (stable):
+
+The tarball for 2.42.0 has been created with 'meson dist'.
+If you build with Autotools from the tarball, please read the relevant
+part of the README file.
+
+* Element: Remove redundant null check
+  (Renu Tyagi) Bug #757515
+* Element::remove_attribute(): Fix a memory leak
+  (Harald Schmalzl, Kjell Ahlstedt) Bug #768404
+* Document, DomParser: Improve XInclude processing:
+  Document:
+    Add process_xinclude() overload that takes a fixup_base_uris parameter.
+  DomParser:
+    Add set/get_xinclude_options() and add optional XInclude processing to the
+    parse methods.
+  (Kjell Ahlstedt) Bug #781566 (rakhimov)
+* Parser: Replace deprecated Glib::Threads::Mutex with std::mutex
+  (Murray Cumming)
+
+Build:
+* Fix silent builds
+  (Kjell Ahlstedt) Bug #768797 (Sebastian)
+* Require mm-common >= 0.9.10 (for Autotools build)
+  Require mm-common >= 1.0.0 (for Meson build)
+  (Kjell Ahlstedt)
+* Add NMake Makefiles
+  Remove Visual Studio 2010 projects
+  (Chun-wei Fan) Pull request #9
+* Add support for building with Meson
+  (Kjell Ahlstedt, Chun-wei Fan) Pull request #16, #17
+* Use __declspec(dllexport) when building on Visual Studio
+  Stop using gendef.exe
+  (Chun-wei Fan) Pull request #13
+
+
 2.40.1 (stable):
 
 * Add a config-time test for support of std::exception_ptr. Don't try to
