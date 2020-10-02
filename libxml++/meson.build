@@ -1,7 +1,7 @@
 # libxml++
 
 # Input: xmlxx_build_dep, xmlxx_pcname, xmlxx_libversion, xmlxx_api_version,
-#        install_includedir, xmlxx_rc, xmlxx_libname
+#        install_includedir, xmlxx_rc, xmlxx_libname, macos_darwin_versions
 # Output: source_h_files, xmlxx_dep
 
 # There are no built source files in libxml++-5.0.
@@ -106,6 +106,7 @@ xmlxx_library = library(xmlxx_libname,
   source_cc_files,
   extra_xmlxx_objects,
   version: xmlxx_libversion,
+  darwin_versions: macos_darwin_versions,
   include_directories: extra_include_dirs,
   cpp_args: xmlxx_cpp_args,
   dependencies: xmlxx_build_dep,
