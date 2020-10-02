@@ -1,3 +1,20 @@
+3.2.2 (stable):
+
+The tarball for 3.2.2 has been created with 'meson dist'.
+If you build with Autotools from the tarball, please read the relevant
+part of the README file.
+
+Build:
+* Add NMake Makefiles
+  Remove Visual Studio 2010 projects
+  (Chun-wei Fan) Pull request #8
+* Add support for building with Meson
+  (Kjell Ahlstedt, Chun-wei Fan) Pull request #16, #17, #18
+* Use __declspec(dllexport) when building on Visual Studio
+  Stop using gendef.exe
+  (Chun-wei Fan) Pull request #12
+
+
 3.2.0 (stable):
 
 * Document, DomParser: Improve XInclude processing:
