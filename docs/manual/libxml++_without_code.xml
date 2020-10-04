@@ -48,8 +48,8 @@ url="http://www.gnome.org">GNOME</ulink> project, of which libxml++ is a part.</
     </programlisting>
     </para>
     <para>To check that you have the libxml++ development packages installed, and that your environment is working properly, try <command>pkg-config libxml++-3.0 --modversion</command>.</para>
-    <para>Links for downloading and more documentation can be found at <ulink
-url="http://libxmlplusplus.sourceforge.net">libxmlplusplus.sourceforge.net</ulink>.
+    <para>Links for downloading and more documentation can be found at
+    <ulink url="https://libxmlplusplus.github.io/libxmlplusplus">libxmlplusplus.github.io/libxmlplusplus</ulink>.
     libxml++ is licensed under the LGPL, which allows its use via dynamic linking in both open source and closed-source software. The underlying libxml2 library uses the even more generous MIT licence.</para>
     </sect1>
 

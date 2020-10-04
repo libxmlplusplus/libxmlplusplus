@@ -6,7 +6,7 @@ libxml2 to access the XML files, and in order to configure libxml++ you must
 have both libxml2 and pkg-config installed.
 
 To get the latest version of libxml++, see
-http://libxmlplusplus.sourceforge.net/
+https://libxmlplusplus.github.io/libxmlplusplus/
 To contact the developers, send e-mail to the mailing list at
 http://mail.gnome.org/mailman/listinfo/libxmlplusplus-list
 We welcome patches, but it helps to discuss them first.

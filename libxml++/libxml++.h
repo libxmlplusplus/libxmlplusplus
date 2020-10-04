@@ -14,7 +14,8 @@
  * libxml++ is a C++ wrapper for the <a href="http://xmlsoft.org/">libxml2</a> XML parser and builder library. It presents a
  * simple C++-like API that can achieve common tasks with less code.
  *
- * See also the <a href="http://developer.gnome.org/libxml++-tutorial/stable/">libxml++ Tutorial</a> and the <a href="http://libxmlplusplus.sourceforge.net/">libxml++ website</a>.
+ * See also the <a href="https://developer.gnome.org/libxml++-tutorial/stable/">libxml++ Tutorial</a>
+ * and the <a href="https://libxmlplusplus.github.io/libxmlplusplus/">libxml++ website</a>.
  *
  * @section features Features
  *
@@ -35,8 +36,7 @@
  * @code
  * g++ program.cc -o program `pkg-config --cflags --libs libxml++-3.0`
  * @endcode
- * If your version of g++ is not C++11-compliant be default,
- * add the @c -std=c++11 or @c -std=c++0x option.
+ * If your version of g++ is not C++11-compliant be default, add the @c -std=c++11 option.
  *
  * Alternatively, if using autoconf, use the following in @c configure.ac:
  * @code
