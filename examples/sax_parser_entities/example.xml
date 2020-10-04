@@ -1,6 +1,6 @@
 <?xml version="1.0"?>
 <!DOCTYPE example PUBLIC "" "example.dtd" [
-<!ENTITY wwwlibxmlplusplus "http://libxmlplusplus.sourceforge.net">
+<!ENTITY wwwlibxmlplusplus "https://libxmlplusplus.github.io/libxmlplusplus">
 ]>
 
 <gjob:Helping xmlns:gjob="&wwwlibxmlplusplus;">

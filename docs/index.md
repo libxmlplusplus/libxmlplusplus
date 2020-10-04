@@ -19,11 +19,8 @@ You can download libxml++ from [here](http://ftp.gnome.org/pub/GNOME/sources/lib
 ## Required Libraries
 
 * [libxml2](http://www.xmlsoft.org/)
-* [glibmm-2.4](http://www.gtkmm.org/) (or a subset of it containing at least Glib::ustring)
 
 ## Documentation
-
-The short [reference documentation](http://library.gnome.org/devel/libxml++-tutorial/stable/)
 
 The short [manual](http://library.gnome.org/devel/libxml++-tutorial/stable/) gives an overview of the libxml++ API. You can also browse online the [reference documentation](http://library.gnome.org/devel/libxml++/stable/).
 
@@ -35,4 +32,4 @@ Bugs and patches are tracked in GitHub's [issue tracker](https://github.com/libx
 
 ## Contact
 
-Please use the [libxmlplusplus-list mailing list](http://mail.gnome.org/mailman/listinfo/libxmlplusplus-list) or GitLab. Please do not just email the developers directly.
+Please use the [libxmlplusplus-list mailing list](http://mail.gnome.org/mailman/listinfo/libxmlplusplus-list) or GitHub. Please do not just email the developers directly.
