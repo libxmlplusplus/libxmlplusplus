@@ -9,10 +9,10 @@
   <description>libxml++ is a C++ wrapper for the libxml2 XML parser library.
 It has SAX and DOM-like APIs, but does not attempt to conform exactly to
 the DOM specification. Its API is simpler than the underlying libxml2 C API.</description>
-  <homepage rdf:resource="http://libxmlplusplus.sourceforge.net/" />
+  <homepage rdf:resource="https://libxmlplusplus.github.io/libxmlplusplus/" />
   <mailing-list rdf:resource="mailto:libxmlplusplus-list@gnome.org" />
   <download-page rdf:resource="https://download.gnome.org/sources/libxml++/" />
-  <bug-database rdf:resource="https://bugzilla.gnome.org/enter_bug.cgi?product=libxml%2B%2B" />
+  <bug-database rdf:resource="https://github.com/libxmlplusplus/libxmlplusplus/issues" />
   <!-- Don't know which category to use. See https://mail.gnome.org/archives/desktop-devel-list/2014-August/msg00106.html
   <category rdf:resource="http://api.gnome.org/doap-extensions#bindings" />
   -->

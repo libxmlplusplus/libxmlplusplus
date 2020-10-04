@@ -1,7 +1,7 @@
 <?xml version="1.0"?>
 <!DOCTYPE example PUBLIC "" "example.dtd" [
 <!ENTITY wwwmurrayc "http://www.murrayc.com">
-<!ENTITY wwwlibxmlplusplus "http://libxmlplusplus.sourceforge.net">
+<!ENTITY wwwlibxmlplusplus "https://libxmlplusplus.github.io/libxmlplusplus">
 <!ENTITY mercury "&#x263f;">
 <!ENTITY venus "&#x2640;">
 <!ENTITY earth "&#x2641;">
