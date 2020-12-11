@@ -19,7 +19,7 @@ You can download libxml++ from [here](http://ftp.gnome.org/pub/GNOME/sources/lib
 ## Required Libraries
 
 * [libxml2](http://www.xmlsoft.org/)
-* [glibmm-2.66](http://www.gtkmm.org/) (or a subset of it containing at least Glib::ustring)
+* [glibmm-2.68](http://www.gtkmm.org/) (or a subset of it containing at least Glib::ustring)
 
 ## Documentation
 

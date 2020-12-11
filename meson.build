@@ -98,8 +98,8 @@ install_pkgconfigdir = install_libdir / 'pkgconfig'
 
 # glibmm recently gained Meson build support, so we can try looking
 # for its pkg-config files on Visual Studio as well
-glibmm_req = '>= 2.65.2'
-glibmm_req_minor_ver = '66'
+glibmm_req = '>= 2.67.1'
+glibmm_req_minor_ver = '68'
 
 # libxml2's Windows-specific Makefiles don't create pkg-config files for us, so
 # we may need to look for it manually on Windows
