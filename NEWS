@@ -1,3 +1,24 @@
+5.0.0 (stable):
+
+This is the first stable release in the libxml++-5.0 ABI series.
+It is parallel-installable with the libxml++-2.6, libxml++-3.0
+and libxml++-4.0 ABIs.
+
+The tarball for 5.0.0 has been created with 'meson dist'.
+If you build with Autotools from the tarball, please read
+the relevant part of the README file.
+
+Build:
+* Add NMake Makefiles
+  Remove Visual Studio 2010 projects
+  (Chun-wei Fan) Pull request #10
+* Use __declspec(dllexport) when building on Visual Studio
+  Stop using gendef.exe
+  (Chun-wei Fan) Pull request #15
+* Add support for building with Meson
+  (Kjell Ahlstedt, Chun-wei Fan) Pull request #16, #17, issue #19
+
+
 4.9.1 (unstable):
 
 * Change ABI name from libxml++-4.0 to libxml++-5.0
