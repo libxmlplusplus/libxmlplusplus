@@ -1,7 +1,7 @@
 # This file is part of libxml++.
 
 project('libxml++', 'cpp',
-  version: '3.9.1',
+  version: '4.0.0',
   license: 'LGPLv2.1+',
   default_options: [
     'cpp_std=c++17'
@@ -98,7 +98,7 @@ install_pkgconfigdir = install_libdir / 'pkgconfig'
 
 # glibmm recently gained Meson build support, so we can try looking
 # for its pkg-config files on Visual Studio as well
-glibmm_req = '>= 2.67.1'
+glibmm_req = '>= 2.68.0'
 glibmm_req_minor_ver = '68'
 
 # libxml2's Windows-specific Makefiles don't create pkg-config files for us, so

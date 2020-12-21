@@ -1,6 +1,6 @@
 ## This file is part of libxml++.
 
-AC_INIT([libxml++], [3.9.1],
+AC_INIT([libxml++], [4.0.0],
         [https://github.com/libxmlplusplus/libxmlplusplus/issues],
         [libxml++], [https://libxmlplusplus.github.io/libxmlplusplus/])
 AC_PREREQ([2.59])
@@ -35,7 +35,7 @@ MM_AX_CXX_COMPILE_STDCXX([17], [noext], [mandatory])
 LT_PREREQ([2.2.6])
 LT_INIT([dlopen win32-dll disable-static])
 
-AC_SUBST([LIBXMLXX_MODULES], ['libxml-2.0 >= 2.7.7 glibmm-2.68 >= 2.67.1'])
+AC_SUBST([LIBXMLXX_MODULES], ['libxml-2.0 >= 2.7.7 glibmm-2.68 >= 2.68.0'])
 AC_SUBST([LIBXML2_LIB_NO_PKGCONFIG], [''])
 AC_SUBST([MSVC_TOOLSET_VER], [''])
 PKG_CHECK_MODULES([LIBXMLXX], [$LIBXMLXX_MODULES])
