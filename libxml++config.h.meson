@@ -21,8 +21,10 @@
 #if defined (GLIBMM_DLL) && !defined (LIBXMLXX_STATIC)
   #ifdef LIBXMLPP_BUILD
     #define LIBXMLPP_API __declspec(dllexport)
-  #else
+  #elif !defined (__GNUC__)
     #define LIBXMLPP_API __declspec(dllimport)
+  #else /* don't dllimport classes/methods on GCC/MinGW */
+    #define LIBXMLPP_API
   #endif /* LIBXMLPP_BUILD - DLL */
 #else
   /* Build a static library or a non-Windows library*/
