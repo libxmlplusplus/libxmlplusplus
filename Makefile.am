@@ -34,6 +34,7 @@ EXTRA_DIST = \
   docs/reference/meson.build \
   examples/meson.build \
   libxml++/meson.build \
+  subprojects/glibmm-2.68.wrap \
   tests/meson.build \
   tools/build_scripts/tutorial-custom-cmd.py \
   tools/conf_tests/have_exception_ptr.cc \
