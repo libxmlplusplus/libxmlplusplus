@@ -1,6 +1,6 @@
 # examples
 
-# Input: xmlxx_dep, build_examples
+# Input: xmlxx_own_dep, build_examples
 # Output: -
 
 example_programs = [
@@ -37,7 +37,7 @@ foreach ex : example_programs
   endforeach
 
   exe_file = executable(ex_name, ex_sources,
-    dependencies: xmlxx_dep,
+    dependencies: xmlxx_own_dep,
     gui_app: false,
     build_by_default: build_examples
   )

@@ -6,7 +6,8 @@ project('libxml++', 'cpp',
   default_options: [
     'cpp_std=c++17'
   ],
-  meson_version: '>= 0.50.0', # required for python3.path()
+  meson_version: '>= 0.54.0', # required for meson.override_dependency()
+                              # and dep.get_variable(internal:)
 )
 
 xmlxx_api_version = '5.0'
@@ -315,6 +316,19 @@ if not meson.is_subproject()
     project_source_root,
     'untracked' / 'build_scripts',
   )
+else
+  # This is a subproject.
+  xmlxx_dep = declare_dependency(
+    dependencies: xmlxx_own_dep,
+    variables: {
+      'doxytagfile': tag_file.full_path(),
+      'htmlrefdir': install_prefix / install_docdir / 'reference' / 'html',
+      'htmlrefpub': 'http://library.gnome.org/devel/libxml++/unstable/'
+    }
+  )
+
+  # A main project that looks for xmlxx_pcname.pc shall find xmlxx_dep.
+  meson.override_dependency(xmlxx_pcname, xmlxx_dep)
 endif
 
 # Print a summary.
