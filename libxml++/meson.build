@@ -2,7 +2,7 @@
 
 # Input: xmlxx_build_dep, xmlxx_pcname, xmlxx_libversion, xmlxx_api_version,
 #        install_includedir, xmlxx_rc, xmlxx_libname, macos_darwin_versions
-# Output: source_h_files, xmlxx_dep
+# Output: source_h_files, xmlxx_own_dep
 
 # There are no built source files in libxml++-3.0.
 
@@ -106,15 +106,16 @@ xmlxx_library = library(xmlxx_libname,
   extra_xmlxx_objects,
   version: xmlxx_libversion,
   darwin_versions: macos_darwin_versions,
+  implicit_include_directories: false,
   include_directories: extra_include_dirs,
   cpp_args: xmlxx_cpp_args,
   dependencies: xmlxx_build_dep,
   install: true,
 )
 
-# This is useful in the main project when libxml++ is used as a subproject.
-# It's also used when building example programs and test programs.
-xmlxx_dep = declare_dependency(
+# This is used when building example programs and test programs.
+# It's also a part of xmlxx_dep, when libxml++ is a subproject.
+xmlxx_own_dep = declare_dependency(
   link_with: xmlxx_library,
   include_directories: extra_include_dirs,
   dependencies: xmlxx_build_dep
