@@ -17,15 +17,16 @@ namespace xmlpp {
 /** XML DTD validator.
  * DTD = %Document Type Definition
  */
-class LIBXMLPP_API DtdValidator : public Validator
+class DtdValidator : public Validator
 {
 public:
-  DtdValidator();
+  LIBXMLPP_API DtdValidator();
 
   /** Create a validator and parse an external subset (DTD file) immediately.
    * @param filename The URL of the DTD.
    * @throws xmlpp::parse_error
    */
+  LIBXMLPP_API
   explicit DtdValidator(const std::string& filename);
 
   /** Create a validator and parse an external subset (DTD file) immediately.
@@ -33,6 +34,7 @@ public:
    * @param system The URL of the DTD.
    * @throws xmlpp::parse_error
    */
+  LIBXMLPP_API
   explicit DtdValidator(const Glib::ustring& external, const Glib::ustring& system);
 
   /** Create a validator.
@@ -47,15 +49,17 @@ public:
    *        validator keeps a pointer to it. The caller is responsible for
    *        deleting the DTD when it's no longer needed.
    */
+  LIBXMLPP_API
   explicit DtdValidator(Dtd* dtd, bool take_ownership);
 
-  ~DtdValidator() override;
+  LIBXMLPP_API ~DtdValidator() override;
 
   /** Parse an external subset (DTD file).
    * If the validator already contains a DTD, that DTD is deleted.
    * @param filename The URL of the DTD.
    * @throws xmlpp::parse_error
    */
+  LIBXMLPP_API
   void parse_file(const std::string& filename) override;
 
   /** Parse an external subset (DTD file).
@@ -64,6 +68,7 @@ public:
    * @param system The URL of the DTD.
    * @throws xmlpp::parse_error
    */
+  LIBXMLPP_API
   void parse_subset(const Glib::ustring& external, const Glib::ustring& system);
 
   /** Parse a DTD from a string.
@@ -71,6 +76,7 @@ public:
    * @param contents The DTD as a string.
    * @throws xmlpp::parse_error
    */
+  LIBXMLPP_API
   void parse_memory(const Glib::ustring& contents) override;
 
   /** Parse a DTD from a stream.
@@ -78,6 +84,7 @@ public:
    * @param in The stream.
    * @throws xmlpp::parse_error
    */
+  LIBXMLPP_API
   void parse_stream(std::istream& in);
 
   /** Set a DTD.
@@ -91,6 +98,7 @@ public:
    *        validator keeps a pointer to it. The caller is responsible for
    *        deleting the DTD when it's no longer needed.
    */
+  LIBXMLPP_API
   void set_dtd(Dtd* dtd, bool take_ownership);
 
   /** Test whether a DTD has been parsed.
@@ -100,16 +108,19 @@ public:
    *   do_something();
    * @endcode
    */
+  LIBXMLPP_API
   explicit operator bool() const noexcept override;
 
   /** Get the parsed DTD.
    * @returns A pointer to the parsed DTD, or <tt>nullptr</tt>.
    */
+  LIBXMLPP_API
   Dtd* get_dtd() noexcept;
 
   /** Get the parsed DTD.
    * @returns A pointer to the parsed DTD, or <tt>nullptr</tt>.
    */
+  LIBXMLPP_API
   const Dtd* get_dtd() const noexcept;
 
   /** Validate a document, using a previously parsed DTD.
@@ -119,10 +130,13 @@ public:
    * @throws xmlpp::internal_error
    * @throws xmlpp::validity_error
    */
+  LIBXMLPP_API
   void validate(const Document* document) override;
 
 protected:
+  LIBXMLPP_API
   void initialize_context() override;
+  LIBXMLPP_API
   void release_underlying() override;
 
 private:

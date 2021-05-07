@@ -27,14 +27,15 @@ namespace xmlpp
 
 /** This exception will be thrown when the parser encounters a validity error in the XML document.
  */
-class LIBXMLPP_API validity_error : public parse_error
+class validity_error : public parse_error
 {
 public:
+  LIBXMLPP_API
   explicit validity_error(const Glib::ustring& message);
-  ~validity_error() noexcept override;
+  LIBXMLPP_API ~validity_error() noexcept override;
 
-  void raise() const override;
-  exception* clone() const override;
+  LIBXMLPP_API void raise() const override;
+  LIBXMLPP_API exception* clone() const override;
 };
 
 } // namespace xmlpp

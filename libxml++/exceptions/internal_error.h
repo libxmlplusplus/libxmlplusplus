@@ -24,14 +24,15 @@
 
 namespace xmlpp {
 
-class LIBXMLPP_API internal_error : public exception
+class internal_error : public exception
 {
 public:
+  LIBXMLPP_API
   explicit internal_error(const Glib::ustring& message);
-  ~internal_error() noexcept override;
+  LIBXMLPP_API ~internal_error() noexcept override;
 
-  void raise() const override;
-  exception* clone() const override;
+  LIBXMLPP_API void raise() const override;
+  LIBXMLPP_API exception* clone() const override;
 };
 
 } // namespace xmlpp

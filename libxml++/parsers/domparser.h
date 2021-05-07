@@ -15,13 +15,13 @@ namespace xmlpp {
 /** DOM XML parser.
  * DOM = %Document Object Model
  */
-class LIBXMLPP_API DomParser : public Parser
+class DomParser : public Parser
 {
 public:
   /** Create a parser with an empty document.
    * @throws xmlpp::internal_error If an empty document can't be created.
    */
-  DomParser();
+  LIBXMLPP_API DomParser();
 
   /** Instantiate the parser and parse a document immediately.
    * @param filename The path to the file.
@@ -30,8 +30,9 @@ public:
    * @throws xmlpp::parse_error
    * @throws xmlpp::validity_error
    */
+  LIBXMLPP_API
   explicit DomParser(const std::string& filename, bool validate = false);
-  ~DomParser() override;
+  LIBXMLPP_API ~DomParser() override;
 
   /** Set whether and how the parser will perform XInclude substitution.
    *
@@ -43,6 +44,7 @@ public:
    * @param fixup_base_uris Add or replace xml:base attributes in included element
    *        nodes, if necessary to preserve the target of relative URIs.
    */
+  LIBXMLPP_API
   void set_xinclude_options(bool process_xinclude = true,
     bool generate_xinclude_nodes = true, bool fixup_base_uris = true) noexcept;
 
@@ -55,6 +57,7 @@ public:
    * @param[out] fixup_base_uris Add or replace xml:base attributes in included element
    *        nodes, if necessary to preserve the target of relative URIs.
    */
+  LIBXMLPP_API
   void get_xinclude_options(bool& process_xinclude,
     bool& generate_xinclude_nodes, bool& fixup_base_uris) const noexcept;
 
@@ -66,6 +69,7 @@ public:
    * @throws xmlpp::parse_error
    * @throws xmlpp::validity_error
    */
+  LIBXMLPP_API
   void parse_file(const std::string& filename) override;
 
   /** Parse an XML document from a string.
@@ -76,6 +80,7 @@ public:
    * @throws xmlpp::parse_error
    * @throws xmlpp::validity_error
    */
+  LIBXMLPP_API
   void parse_memory(const Glib::ustring& contents) override;
 
   /** Parse an XML document from raw memory.
@@ -87,6 +92,7 @@ public:
    * @throws xmlpp::parse_error
    * @throws xmlpp::validity_error
    */
+  LIBXMLPP_API
   void parse_memory_raw(const unsigned char* contents, size_type bytes_count) override;
 
   /** Parse an XML document from a stream.
@@ -97,26 +103,33 @@ public:
    * @throws xmlpp::parse_error
    * @throws xmlpp::validity_error
    */
+  LIBXMLPP_API
   void parse_stream(std::istream& in) override;
 
   /** Test whether a document has been parsed.
    */
+  LIBXMLPP_API
   explicit operator bool() const noexcept;
 
   /** Get the parsed document.
    * @returns A pointer to the parsed document, or <tt>nullptr</tt>.
    */
+  LIBXMLPP_API
   Document* get_document() noexcept;
 
   /** Get the parsed document.
    * @returns A pointer to the parsed document, or <tt>nullptr</tt>.
    */
+  LIBXMLPP_API
   const Document* get_document() const noexcept;
 
 protected:
+  LIBXMLPP_API
   void parse_context();
+  LIBXMLPP_API
   void check_xinclude_and_finish_parsing();
 
+  LIBXMLPP_API
   void release_underlying() override;
 
   int xinclude_options_ = 0;
