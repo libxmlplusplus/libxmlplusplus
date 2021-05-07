@@ -38,36 +38,40 @@ namespace xmlpp
  *
  * @newin{2,38}
  */
-class LIBXMLPP_API XsdSchema : public SchemaBase
+class XsdSchema : public SchemaBase
 {
 public:
-  XsdSchema();
+  LIBXMLPP_API XsdSchema();
 
   /** Create a schema from the underlying libxml schema element.
    * @param schema A pointer to the libxml schema element. The XsdSchema takes
    *               ownership of the _xmlSchema. The caller must not deallocate it.
    */
+  LIBXMLPP_API
   explicit XsdSchema(_xmlSchema* schema);
 
   /** Create a schema from a schema definition file.
    * @param filename The URL of the schema.
    * @throws xmlpp::parse_error
    */
+  LIBXMLPP_API
   explicit XsdSchema(const std::string& filename);
 
   /** Create a schema from an XML document.
    * @param document A preparsed document tree, containing the schema definition.
    * @throws xmlpp::parse_error
    */
+  LIBXMLPP_API
   explicit XsdSchema(const Document* document);
 
-  ~XsdSchema() override;
+  LIBXMLPP_API ~XsdSchema() override;
 
   /** Parse a schema definition file.
    * If another schema has been parsed before, that schema is replaced by the new one.
    * @param filename The URL of the schema.
    * @throws xmlpp::parse_error
    */
+  LIBXMLPP_API
   void parse_file(const std::string& filename) override;
 
   /** Parse a schema definition from a string.
@@ -75,6 +79,7 @@ public:
    * @param contents The schema definition as a string.
    * @throws xmlpp::parse_error
    */
+  LIBXMLPP_API
   void parse_memory(const ustring& contents) override;
 
   /** Parse a schema definition from a document.
@@ -82,16 +87,19 @@ public:
    * @param document A preparsed document tree, containing the schema definition.
    * @throws xmlpp::parse_error
    */
+  LIBXMLPP_API
   void parse_document(const Document* document) override;
 
   /** Access the underlying libxml implementation. */
-  _xmlSchema* cobj() noexcept;
+  LIBXMLPP_API _xmlSchema* cobj() noexcept;
 
   /** Access the underlying libxml implementation. */
-  const _xmlSchema* cobj() const noexcept;
+  LIBXMLPP_API const _xmlSchema* cobj() const noexcept;
 
 protected:
+  LIBXMLPP_API
   void release_underlying();
+  LIBXMLPP_API
   void parse_context(_xmlSchemaParserCtxt* context);
 
 private:

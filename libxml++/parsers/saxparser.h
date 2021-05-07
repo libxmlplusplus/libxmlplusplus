@@ -31,7 +31,7 @@ namespace xmlpp {
  * that exception is replaced by a xmlpp::exception before it is propagated
  * out of the parse method, such as parse_file().
  */
-class LIBXMLPP_API SaxParser : public Parser
+class SaxParser : public Parser
 {
 public:
   /**
@@ -82,7 +82,9 @@ public:
    * if you override on_get_entity() might not have the same behaviour as the underlying default
    * behaviour of libxml, so the libxml implementation is the default here.
    */
+  LIBXMLPP_API
   SaxParser(bool use_get_entity = false);
+  LIBXMLPP_API
   ~SaxParser() override;
 
   /** Parse an XML document from a file.
@@ -91,6 +93,7 @@ public:
    * @throws xmlpp::parse_error
    * @throws xmlpp::validity_error
    */
+  LIBXMLPP_API
   void parse_file(const std::string& filename) override;
 
   /** Parse an XML document from a string.
@@ -99,6 +102,7 @@ public:
    * @throws xmlpp::parse_error
    * @throws xmlpp::validity_error
    */
+  LIBXMLPP_API
   void parse_memory(const ustring& contents) override;
 
   /** Parse an XML document from raw memory.
@@ -108,6 +112,7 @@ public:
    * @throws xmlpp::parse_error
    * @throws xmlpp::validity_error
    */
+  LIBXMLPP_API
   void parse_memory_raw(const unsigned char* contents, size_type bytes_count) override;
 
   /** Parse an XML document from a stream.
@@ -116,6 +121,7 @@ public:
    * @throws xmlpp::parse_error
    * @throws xmlpp::validity_error
    */
+  LIBXMLPP_API
   void parse_stream(std::istream& in) override;
 
   /** Parse a chunk of data.
@@ -132,6 +138,7 @@ public:
    * @throws xmlpp::parse_error
    * @throws xmlpp::validity_error
    */
+  LIBXMLPP_API
   void parse_chunk(const ustring& chunk);
 
   /** Parse a chunk of data.
@@ -151,6 +158,7 @@ public:
    * @throws xmlpp::parse_error
    * @throws xmlpp::validity_error
    */
+  LIBXMLPP_API
   void parse_chunk_raw(const unsigned char* contents, size_type bytes_count);
 
   /** Finish a chunk-wise parse.
@@ -161,26 +169,38 @@ public:
    * @throws xmlpp::parse_error
    * @throws xmlpp::validity_error
    */
+  LIBXMLPP_API
   void finish_chunk_parsing();
 
 protected:
 
+  LIBXMLPP_API
   virtual void on_start_document();
+  LIBXMLPP_API
   virtual void on_end_document();
+  LIBXMLPP_API
   virtual void on_start_element(const ustring& name, const AttributeList& attributes);
+  LIBXMLPP_API
   virtual void on_end_element(const ustring& name);
+  LIBXMLPP_API
   virtual void on_characters(const ustring& characters);
+  LIBXMLPP_API
   virtual void on_comment(const ustring& text);
+  LIBXMLPP_API
   virtual void on_warning(const ustring& text);
+  LIBXMLPP_API
   virtual void on_error(const ustring& text);
 
   /** @throws xmlpp::parse_error
    */
+  LIBXMLPP_API
   virtual void on_fatal_error(const ustring& text);
+  LIBXMLPP_API
   virtual void on_cdata_block(const ustring& text);
 
   /** Override this to receive information about the document's DTD and any entity declarations.
    */
+  LIBXMLPP_API
   virtual void on_internal_subset(const ustring& name, const ustring& publicId, const ustring& systemId);
 
   /** Override this method to resolve entities references in your derived parser, instead of using the default entity resolution,
@@ -203,6 +223,7 @@ protected:
    *          You must include libxml/parser.h in order to use this C struct.
    * This instance will not be freed by the caller.
    */
+  LIBXMLPP_API
   virtual _xmlEntity* on_get_entity(const ustring& name);
 
   /** Override this to receive information about every entity declaration.
@@ -211,12 +232,16 @@ protected:
    * This would be useful when overriding on_get_entity().
    * @throws xmlpp::internal_error
    */
+  LIBXMLPP_API
   virtual void on_entity_declaration(const ustring& name, XmlEntityType type, const ustring& publicId, const ustring& systemId, const ustring& content);
 
+  LIBXMLPP_API
   void release_underlying() override;
+  LIBXMLPP_API
   void initialize_context() override;
 
 private:
+  LIBXMLPP_API
   void parse();
 
   std::unique_ptr<_xmlSAXHandler> sax_handler_;
@@ -225,7 +250,7 @@ private:
   // and never seen in the API:
   std::unique_ptr<Document> entity_resolver_doc_;
 
-  friend struct SaxParserCallback;
+  friend LIBXMLPP_API struct SaxParserCallback;
 };
 
 } // namespace xmlpp

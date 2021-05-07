@@ -25,7 +25,7 @@
 
 namespace xmlpp
 {
-class LIBXMLPP_API Document;
+class Document;
 
 /** Base class for schemas, used for validation of XML files.
  *

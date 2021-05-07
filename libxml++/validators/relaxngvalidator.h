@@ -26,18 +26,18 @@
 
 namespace xmlpp
 {
-class LIBXMLPP_API Document;
-class LIBXMLPP_API RelaxNGSchema;
+class Document;
+class RelaxNGSchema;
 
 /** RelaxNG schema validator.
  * RelaxNG = REgular LAnguage for XML Next Generation
  *
  * @newin{2,38}
  */
-class LIBXMLPP_API RelaxNGValidator : public SchemaValidatorBase
+class RelaxNGValidator : public SchemaValidatorBase
 {
 public:
-  RelaxNGValidator();
+  LIBXMLPP_API RelaxNGValidator();
 
   /** Create a validator and parse a schema definition file.
    * The schema must be defined with XML syntax (.rng file). The compact syntax
@@ -45,12 +45,14 @@ public:
    * @param filename The URL of the schema.
    * @throws xmlpp::parse_error
    */
+  LIBXMLPP_API
   explicit RelaxNGValidator(const std::string& filename);
 
   /** Create a validator and parse a schema definition document.
    * @param document A preparsed document tree, containing the schema definition.
    * @throws xmlpp::parse_error
    */
+  LIBXMLPP_API
   explicit RelaxNGValidator(const Document* document);
 
   /** Create a validator.
@@ -62,9 +64,10 @@ public:
    *        validator keeps a pointer to it. The caller is responsible for
    *        deleting the schema when it's no longer needed.
    */
+  LIBXMLPP_API
   explicit RelaxNGValidator(RelaxNGSchema* schema, bool take_ownership);
 
-  ~RelaxNGValidator() override;
+  LIBXMLPP_API ~RelaxNGValidator() override;
 
   /** Parse a schema definition file.
    * The schema must be defined with XML syntax (.rng file). The compact syntax
@@ -75,6 +78,7 @@ public:
    * @param filename The URL of the schema.
    * @throws xmlpp::parse_error
    */
+  LIBXMLPP_API
   void parse_file(const std::string& filename) override;
 
   /** Parse a schema definition from a string.
@@ -85,6 +89,7 @@ public:
    * @param contents The schema definition as a string.
    * @throws xmlpp::parse_error
    */
+  LIBXMLPP_API
   void parse_memory(const ustring& contents) override;
 
   /** Parse a schema definition from a document.
@@ -93,6 +98,7 @@ public:
    * @param document A preparsed document tree, containing the schema definition.
    * @throws xmlpp::parse_error
    */
+  LIBXMLPP_API
   void parse_document(const Document* document) override;
 
   /** Set a schema.
@@ -106,6 +112,7 @@ public:
    *        validator keeps a pointer to it. The caller is responsible for
    *        deleting the schema when it's no longer needed.
    */
+  LIBXMLPP_API
   void set_schema(RelaxNGSchema* schema, bool take_ownership);
 
   /** Test whether a schema has been parsed.
@@ -115,16 +122,19 @@ public:
    *   do_something();
    * @endcode
    */
+  LIBXMLPP_API
   explicit operator bool() const noexcept override;
 
   /** Get the schema.
    * @returns A pointer to the schema, or <tt>nullptr</tt>.
    */
+  LIBXMLPP_API
   RelaxNGSchema* get_schema() noexcept;
 
   /** Get the schema.
    * @returns A pointer to the schema, or <tt>nullptr</tt>.
    */
+  LIBXMLPP_API
   const RelaxNGSchema* get_schema() const noexcept;
 
   /** Validate a document, using a previously parsed schema.
@@ -132,6 +142,7 @@ public:
    * @throws xmlpp::internal_error
    * @throws xmlpp::validity_error
    */
+  LIBXMLPP_API
   void validate(const Document* document) override;
 
   /** Validate an XML file, using a previously parsed schema.
@@ -140,10 +151,13 @@ public:
    * @throws xmlpp::parse_error
    * @throws xmlpp::validity_error
    */
+  LIBXMLPP_API
   void validate(const std::string& filename) override;
 
 protected:
+  LIBXMLPP_API
   void initialize_context() override;
+  LIBXMLPP_API
   void release_underlying() override;
 
 private:

@@ -27,14 +27,15 @@ namespace xmlpp
 
 /** This exception will be thrown when the parser encounters an error in the XML document.
  */
-class LIBXMLPP_API parse_error : public exception
+class parse_error : public exception
 {
 public:
+  LIBXMLPP_API
   explicit parse_error(const ustring& message);
-  ~parse_error() noexcept override;
+  LIBXMLPP_API ~parse_error() noexcept override;
 
-  void raise() const override;
-  exception* clone() const override;
+  LIBXMLPP_API void raise() const override;
+  LIBXMLPP_API exception* clone() const override;
 };
 
 } // namespace xmlpp

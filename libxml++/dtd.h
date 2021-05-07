@@ -27,10 +27,10 @@ namespace xmlpp
 /** Represents an XML DTD for validating XML files.
  * DTD = %Document Type Definition
  */
-class LIBXMLPP_API Dtd : public NonCopyable
+class Dtd : public NonCopyable
 {
 public:
-  Dtd();
+  LIBXMLPP_API Dtd();
 
   /** Create a Dtd from the underlying libxml DTD element.
    * @param dtd A pointer to the libxml DTD element.
@@ -43,6 +43,7 @@ public:
    *        needed, unless it belongs to a Document, in which case it's deleted
    *        when the Document is deleted.
    */
+  LIBXMLPP_API
   explicit Dtd(_xmlDtd* dtd, bool take_ownership = false);
 
   /** Create a Dtd and parse an external subset (DTD file) immediately.
@@ -52,6 +53,7 @@ public:
    * @param filename The URL of the DTD.
    * @throws xmlpp::parse_error
    */
+  LIBXMLPP_API
   explicit Dtd(const std::string& filename);
 
   /** Create a Dtd and parse an external subset (DTD file) immediately.
@@ -62,9 +64,10 @@ public:
    * @param system The URL of the DTD.
    * @throws xmlpp::parse_error
    */
+  LIBXMLPP_API
   Dtd(const ustring& external, const ustring& system);
 
-  ~Dtd() override;
+  LIBXMLPP_API ~Dtd() override;
 
   /** Parse an external subset (DTD file).
    * If another DTD has been parsed before, that DTD is replaced by the new one
@@ -75,6 +78,7 @@ public:
    * @param filename The URL of the DTD.
    * @throws xmlpp::parse_error
    */
+  LIBXMLPP_API
   void parse_file(const std::string& filename);
 
   /** Parse an external subset (DTD file).
@@ -87,6 +91,7 @@ public:
    * @param system The URL of the DTD.
    * @throws xmlpp::parse_error
    */
+  LIBXMLPP_API
   void parse_subset(const ustring& external, const ustring& system);
 
   /** Parse a DTD from a string.
@@ -98,6 +103,7 @@ public:
    * @param contents The DTD as a string.
    * @throws xmlpp::parse_error
    */
+  LIBXMLPP_API
   void parse_memory(const ustring& contents);
 
   /** Parse a DTD from a stream.
@@ -109,22 +115,22 @@ public:
    * @param in The stream.
    * @throws xmlpp::parse_error
    */
-  void parse_stream(std::istream& in);
+  LIBXMLPP_API void parse_stream(std::istream& in);
 
-  ustring get_name() const;
-  ustring get_external_id() const;
-  ustring get_system_id() const;
-
-  /** Access the underlying libxml implementation.
-   */
-  _xmlDtd* cobj() noexcept;
+  LIBXMLPP_API ustring get_name() const;
+  LIBXMLPP_API ustring get_external_id() const;
+  LIBXMLPP_API ustring get_system_id() const;
 
   /** Access the underlying libxml implementation.
    */
-  const _xmlDtd* cobj() const noexcept;
+  LIBXMLPP_API _xmlDtd* cobj() noexcept;
+
+  /** Access the underlying libxml implementation.
+   */
+  LIBXMLPP_API const _xmlDtd* cobj() const noexcept;
 
 protected:
-  void release_underlying();
+  LIBXMLPP_API void release_underlying();
 
 private:
   struct Impl;

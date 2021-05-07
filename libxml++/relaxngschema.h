@@ -40,15 +40,16 @@ namespace xmlpp
  *
  * @newin{2,38}
  */
-class LIBXMLPP_API RelaxNGSchema : public SchemaBase
+class RelaxNGSchema : public SchemaBase
 {
 public:
-  RelaxNGSchema();
+  LIBXMLPP_API RelaxNGSchema();
 
   /** Create a schema from the underlying libxml schema element.
    * @param schema A pointer to the libxml schema element. The RelaxNGSchema takes
    *               ownership of the _xmlRelaxNG. The caller must not deallocate it.
    */
+  LIBXMLPP_API
   explicit RelaxNGSchema(_xmlRelaxNG* schema);
 
   /** Create a schema from a schema definition file.
@@ -57,15 +58,17 @@ public:
    * @param filename The URL of the schema.
    * @throws xmlpp::parse_error
    */
+  LIBXMLPP_API
   explicit RelaxNGSchema(const std::string& filename);
 
   /** Create a schema from an XML document.
    * @param document A preparsed document tree, containing the schema definition.
    * @throws xmlpp::parse_error
    */
+  LIBXMLPP_API
   explicit RelaxNGSchema(const Document* document);
 
-  ~RelaxNGSchema() override;
+  LIBXMLPP_API ~RelaxNGSchema() override;
 
   /** Parse a schema definition file.
    * The schema must be defined with XML syntax (.rng file). The compact syntax
@@ -75,6 +78,7 @@ public:
    * @param filename The URL of the schema.
    * @throws xmlpp::parse_error
    */
+  LIBXMLPP_API
   void parse_file(const std::string& filename) override;
 
   /** Parse a schema definition from a string.
@@ -84,6 +88,7 @@ public:
    * @param contents The schema definition as a string.
    * @throws xmlpp::parse_error
    */
+  LIBXMLPP_API
   void parse_memory(const ustring& contents) override;
 
   /** Parse a schema definition from a document.
@@ -91,16 +96,21 @@ public:
    * @param document A preparsed document tree, containing the schema definition.
    * @throws xmlpp::parse_error
    */
+  LIBXMLPP_API
   void parse_document(const Document* document) override;
 
   /** Access the underlying libxml implementation. */
+  LIBXMLPP_API
   _xmlRelaxNG* cobj() noexcept;
 
   /** Access the underlying libxml implementation. */
+  LIBXMLPP_API
   const _xmlRelaxNG* cobj() const noexcept;
 
 protected:
+  LIBXMLPP_API
   void release_underlying();
+  LIBXMLPP_API
   void parse_context(_xmlRelaxNGParserCtxt* context);
 
 private:
