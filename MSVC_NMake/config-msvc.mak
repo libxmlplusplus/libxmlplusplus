@@ -22,8 +22,7 @@ DEBUG_SUFFIX =
 !endif
 
 LIBXMLXX_BASE_CFLAGS =			\
-	/I.\libxml++ /I..		\
-	/wd4530 /wd4251 /wd4275 /EHsc	\
+	/I.\libxml++ /I.. /EHsc	\
 	/FImsvc_recommended_pragmas.h	\
 	/std:c++17
 
