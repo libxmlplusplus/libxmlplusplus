@@ -20,7 +20,7 @@ extern "C"
 
 namespace xmlpp
 {
-  struct LIBXMLPP_API ParserInputBufferCallback;
+  struct ParserInputBufferCallback;
 
   /** Base class for xmlParserInputBuffer wrapper
    *
@@ -28,23 +28,27 @@ namespace xmlpp
    * A child class has to override do_write(), and possibly
    * do_close() if some actions are required before buffer closing.
    */
-  class LIBXMLPP_API ParserInputBuffer: public NonCopyable
+  class ParserInputBuffer: public NonCopyable
   {
     public:
-      ParserInputBuffer();
-      ~ParserInputBuffer() override;
+      LIBXMLPP_API ParserInputBuffer();
+      LIBXMLPP_API ~ParserInputBuffer() override;
 
     public:
       /** gives an access to the underlying libxml structure to the children
        */
+      LIBXMLPP_API
       _xmlParserInputBuffer* cobj();
 
       /** gives an access to the underlying libxml structure to the children
        */
+      LIBXMLPP_API
       const _xmlParserInputBuffer* cobj() const;
 
     private:
+      LIBXMLPP_API
       int on_read(char * buffer, int len);
+      LIBXMLPP_API
       bool on_close();
 
       /** Function called when some data are read from the buffer.
@@ -54,12 +58,14 @@ namespace xmlpp
        *
        * This function MUST be overriden in derived classes.
        */
+      LIBXMLPP_API
       virtual int do_read(char * buffer, int len) = 0;
 
       /** Function called before closing the buffer.
        * Derived classes should override it if some actions are required before
        * closing the buffer, instead of doing them in the destructor.
        */
+      LIBXMLPP_API
       virtual bool do_close();
 
       /**
@@ -67,7 +73,7 @@ namespace xmlpp
        */
       _xmlParserInputBuffer* impl_;
 
-      friend struct ParserInputBufferCallback;
+      friend LIBXMLPP_API struct ParserInputBufferCallback;
   };
 
 }

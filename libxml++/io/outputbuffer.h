@@ -22,7 +22,7 @@ extern "C"
 
 namespace xmlpp
 {
-  struct LIBXMLPP_API OutputBufferCallback;
+  struct OutputBufferCallback;
 
   /** Base class for xmlOutputBuffer wrapper
    *
@@ -30,7 +30,7 @@ namespace xmlpp
    * A child class has to override do_write(), and possibly
    * do_close() if some actions are required before buffer closing.
    */
-  class LIBXMLPP_API OutputBuffer: public NonCopyable
+  class OutputBuffer: public NonCopyable
   {
     public:
       /**
@@ -40,21 +40,22 @@ namespace xmlpp
        * @warning The encoding is done by libxml. As a consequence, libxml must
        * have a translator to the target encoding.
        */
+      LIBXMLPP_API
       OutputBuffer(const Glib::ustring& encoding = Glib::ustring());
-      ~OutputBuffer() override;
+      LIBXMLPP_API ~OutputBuffer() override;
 
     public:
       /** gives an access to the underlying libxml structure to the children
        */
-      _xmlOutputBuffer* cobj();
+      LIBXMLPP_API _xmlOutputBuffer* cobj();
 
       /** gives an access to the underlying libxml structure to the children
        */
-      const _xmlOutputBuffer* cobj() const;
+      LIBXMLPP_API const _xmlOutputBuffer* cobj() const;
 
     private:
-      bool on_write(const char * buffer, int len);
-      bool on_close();
+      LIBXMLPP_API bool on_write(const char * buffer, int len);
+      LIBXMLPP_API bool on_close();
 
       /** Function called when some data are sent to the buffer.
        * @param buffer The datas encoded in the charset given to the constructor
@@ -62,20 +63,21 @@ namespace xmlpp
        *
        * This function MUST be overriden in derived classes.
        */
+      LIBXMLPP_API
       virtual bool do_write(const char * buffer, int len) = 0;
 
       /** Function called before closing the buffer.
        * Derived classes should override it if some actions are required before
        * closing the buffer, instead of doing them in the destructor.
        */
-      virtual bool do_close();
+      LIBXMLPP_API virtual bool do_close();
 
       /**
        * Underlying libxml2 structure.
        */
       _xmlOutputBuffer* impl_;
 
-      friend struct OutputBufferCallback;
+      friend struct LIBXMLPP_API OutputBufferCallback;
   };
 
 }

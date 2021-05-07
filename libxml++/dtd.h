@@ -23,23 +23,23 @@ namespace xmlpp
 /** Represents XML DTDs.
  *
  */
-class LIBXMLPP_API Dtd //TODO: Derive from Node?
+class Dtd //TODO: Derive from Node?
 {
 public:
-  Dtd(_xmlDtd* dtd);
-  ~Dtd();
+  LIBXMLPP_API Dtd(_xmlDtd* dtd);
+  LIBXMLPP_API ~Dtd();
 
-  Glib::ustring get_name() const;
-  Glib::ustring get_external_id() const;
-  Glib::ustring get_system_id() const;
+  LIBXMLPP_API Glib::ustring get_name() const;
+  LIBXMLPP_API Glib::ustring get_external_id() const;
+  LIBXMLPP_API Glib::ustring get_system_id() const;
   
   /** Access the underlying libxml implementation.
    */
-  _xmlDtd* cobj();
+  LIBXMLPP_API _xmlDtd* cobj();
 
   /** Access the underlying libxml implementation.
    */
-  const _xmlDtd* cobj() const;
+  LIBXMLPP_API const _xmlDtd* cobj() const;
 private:
   _xmlDtd* impl_;
 };

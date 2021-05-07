@@ -16,18 +16,19 @@
 
 namespace xmlpp
 {
-  class LIBXMLPP_API IStreamParserInputBuffer: public ParserInputBuffer
+  class IStreamParserInputBuffer: public ParserInputBuffer
   {
     public:
       /**
        * @param input The istream datas will be read from
        */
+      LIBXMLPP_API
       IStreamParserInputBuffer(std::istream& input);
-      ~IStreamParserInputBuffer() override;
+      LIBXMLPP_API ~IStreamParserInputBuffer() override;
 
     private:
-      int  do_read(char * buffer, int len) override;
-      bool do_close() override;
+      LIBXMLPP_API int  do_read(char * buffer, int len) override;
+      LIBXMLPP_API bool do_close() override;
 
       std::istream& input_;
   };

@@ -29,12 +29,13 @@ namespace xmlpp
  *
  * @deprecated Use XsdSchema instead.
  */
-class LIBXMLPP_API Schema : NonCopyable
+class Schema : NonCopyable
 {
 public:
   /** Create a schema from the underlying libxml schema element.
    * @deprecated Use XsdSchema instead.
    */
+  LIBXMLPP_API
   explicit Schema(_xmlSchema* schema);
 
   /** Create a schema from an XML document.
@@ -45,6 +46,7 @@ public:
    * @throws xmlpp::internal_error If an empty schema document can't be created.
    * @deprecated Use XsdSchema instead.
    */
+  LIBXMLPP_API
   explicit Schema(Document* document = nullptr, bool embed = false);
   ~Schema();
 
@@ -59,43 +61,50 @@ public:
    * @throws xmlpp::internal_error If an empty schema document can't be created.
    * @deprecated Use XsdSchema::parse_document() instead.
    */
+  LIBXMLPP_API
   virtual void set_document(Document* document = nullptr, bool embed = false);
 
   /** @deprecated There is no replacement.
    */
+  LIBXMLPP_API
   Glib::ustring get_name() const;
 
   /** @deprecated There is no replacement.
    */
+  LIBXMLPP_API
   Glib::ustring get_target_namespace() const;
 
   /** @deprecated There is no replacement.
    */
+  LIBXMLPP_API
   Glib::ustring get_version() const;
 
   /** Get the schema document.
    * @returns A pointer to the schema document, or <tt>nullptr</tt> if none exists.
    * @deprecated There is no replacement.
    */
+  LIBXMLPP_API
   Document* get_document();
 
   /** Get the schema document.
    * @returns A pointer to the schema document, or <tt>nullptr</tt> if none exists.
    * @deprecated There is no replacement.
    */
+  LIBXMLPP_API
   const Document* get_document() const;
   
   /** Access the underlying libxml implementation.
    * @deprecated Use XsdSchema::cobj() instead.
    */
-  _xmlSchema* cobj();
+  LIBXMLPP_API _xmlSchema* cobj();
 
   /** Access the underlying libxml implementation.
    * @deprecated Use XsdSchema::cobj() instead.
    */
-  const _xmlSchema* cobj() const;
+  LIBXMLPP_API const _xmlSchema* cobj() const;
 
 protected:
+  LIBXMLPP_API
   virtual void release_underlying();
 
 private:

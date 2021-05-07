@@ -27,11 +27,11 @@ struct SaxParserCallback; // Remove, when handle_exception() is made protected.
 /** XML parser.
  *
  */
-class LIBXMLPP_API Parser : NonCopyable
+class Parser : NonCopyable
 {
 public:
-  Parser();
-  ~Parser() override;
+  LIBXMLPP_API Parser();
+  LIBXMLPP_API ~Parser() override;
 
   typedef unsigned int size_type;
 
@@ -40,11 +40,13 @@ public:
   /** By default, the parser will not validate the XML file.
    * @param val Whether the document should be validated.
    */
+  LIBXMLPP_API
   virtual void set_validate(bool val = true);
 
   /** See set_validate().
    * @returns Whether the parser will validate the XML file.
    */
+  LIBXMLPP_API
   virtual bool get_validate() const;
 
   /** Set whether the parser will automatically substitute entity references with the text of the entities' definitions.
@@ -52,11 +54,13 @@ public:
    * By default, the parser will not substitute entities, so that you do not lose the entity reference information.
    * @param val Whether entities will be substitued.
    */
+  LIBXMLPP_API
   virtual void set_substitute_entities(bool val = true);
 
   /** See set_substitute_entities().
    * @returns Whether entities will be substituted during parsing.
    */
+  LIBXMLPP_API
   virtual bool get_substitute_entities() const;
 
   /** Set whether the parser will collect and throw error and warning messages.
@@ -73,6 +77,7 @@ public:
    *
    * @param val Whether messages will be collected and thrown in an exception.
    */
+  LIBXMLPP_API
   void set_throw_messages(bool val = true);
 
   /** See set_throw_messages().
@@ -82,6 +87,7 @@ public:
    * @returns Whether messages will be collected and thrown in an exception.
    *          The default with only validation messages thrown is returned as false.
    */
+  LIBXMLPP_API
   bool get_throw_messages() const;
 
   /** Set whether default attribute values from the DTD shall be included in the node tree.
@@ -94,6 +100,7 @@ public:
    *
    * @param val Whether attributes with default values will be included in the node tree.
    */
+  LIBXMLPP_API
   void set_include_default_attributes(bool val = true);
 
   /** See set_include_default_attributes().
@@ -102,6 +109,7 @@ public:
    *
    * @returns Whether attributes with default values will be included in the node tree.
    */
+  LIBXMLPP_API
   bool get_include_default_attributes();
 
   /** Set and/or clear parser option flags.
@@ -116,6 +124,7 @@ public:
    * @param clear_options Set bits correspond to flags that shall be cleared during parsing.
    *        Bits that are set in neither @a set_options nor @a clear_options are not affected.
    */
+  LIBXMLPP_API
   void set_parser_options(int set_options = 0, int clear_options = 0);
 
   /** See set_parser_options().
@@ -126,12 +135,14 @@ public:
    * @param [out] clear_options Set bits correspond to flags that shall be cleared during parsing.
    *        Bits that are set in neither @a set_options nor @a clear_options are not affected.
    */
+  LIBXMLPP_API
   void get_parser_options(int& set_options, int& clear_options);
 
   /** Parse an XML document from a file.
    * @throw exception
    * @param filename The path to the file.
    */
+  LIBXMLPP_API
   virtual void parse_file(const Glib::ustring& filename) = 0;
 
   //TODO: In a future ABI-break, add a virtual void parse_memory_raw(const unsigned char* contents, size_type bytes_count);
@@ -140,38 +151,50 @@ public:
    * @throw exception
    * @param contents The XML document as a string.
    */
+  LIBXMLPP_API
   virtual void parse_memory(const Glib::ustring& contents) = 0;
 
   /** Parse an XML document from a stream.
    * @throw exception
    * @param in The stream.
    */
+  LIBXMLPP_API
   virtual void parse_stream(std::istream& in) = 0;
 
   //TODO: Add stop_parser()/stop_parsing(), wrapping xmlStopParser()?
 
 protected:
+  LIBXMLPP_API
   virtual void initialize_context();
+  LIBXMLPP_API
   virtual void release_underlying();
 
   //TODO: In a future ABI-break, add these virtual functions.
   //virtual void on_parser_error(const Glib::ustring& message);
   //virtual void on_parser_warning(const Glib::ustring& message);
+  LIBXMLPP_API
   virtual void on_validity_error(const Glib::ustring& message);
+  LIBXMLPP_API
   virtual void on_validity_warning(const Glib::ustring& message);
 
   //TODO: When we can break ABI/API, remove handleException() and make
   // handle_exception() protected virtual.
+  LIBXMLPP_API
   virtual void handleException(const exception& e);
+  LIBXMLPP_API
   virtual void check_for_exception();
 
   //TODO: In a future API/ABI-break, change the name of this function to
   // something more appropriate, such as check_for_error_and_warning_messages.
+  LIBXMLPP_API
   virtual void check_for_validity_messages();
-  
+  LIBXMLPP_API
   static void callback_parser_error(void* ctx, const char* msg, ...);
+  LIBXMLPP_API
   static void callback_parser_warning(void* ctx, const char* msg, ...);
+  LIBXMLPP_API
   static void callback_validity_error(void* ctx, const char* msg, ...);
+  LIBXMLPP_API
   static void callback_validity_warning(void* ctx, const char* msg, ...);
 
   enum MsgType
@@ -182,12 +205,15 @@ protected:
     MsgValidityWarning
   };
 
+  LIBXMLPP_API
   static void callback_error_or_warning(MsgType msg_type, void* ctx,
                                         const char* msg, va_list var_args);
 
   //TODO: When we can break ABI, remove set/get_xinclude_options_internal()
   // and move all XInclude stuff to DomParser.
+  LIBXMLPP_API
   void set_xinclude_options_internal(int xinclude_options) noexcept;
+  LIBXMLPP_API
   int get_xinclude_options_internal() const noexcept;
 
   _xmlParserCtxt* context_;
@@ -207,8 +233,9 @@ protected:
   //int clear_options_;
 
 private:
-  friend SaxParserCallback; // Remove, when handle_exception() is made protected.
+  friend LIBXMLPP_API SaxParserCallback; // Remove, when handle_exception() is made protected.
   /// To be called in an exception handler.
+  LIBXMLPP_API
   void handle_exception();
 };
 

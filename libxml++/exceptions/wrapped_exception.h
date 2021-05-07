@@ -35,14 +35,15 @@ namespace xmlpp
  *
  * @newin{2,40}
  */
-class LIBXMLPP_API wrapped_exception : public exception
+class wrapped_exception : public exception
 {
 public:
+  LIBXMLPP_API
   explicit wrapped_exception(std::exception_ptr exception_ptr);
-  ~wrapped_exception() noexcept override;
+  LIBXMLPP_API ~wrapped_exception() noexcept override;
 
-  void Raise() const override;
-  exception* Clone() const override;
+  LIBXMLPP_API void Raise() const override;
+  LIBXMLPP_API exception* Clone() const override;
 
 private:
   std::exception_ptr exception_ptr_;

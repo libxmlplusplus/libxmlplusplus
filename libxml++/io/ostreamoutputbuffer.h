@@ -18,7 +18,7 @@ namespace xmlpp
 {
   /** An OutputBuffer implementation that send datas to a std::ostream.
    */
-  class LIBXMLPP_API OStreamOutputBuffer: public OutputBuffer
+  class OStreamOutputBuffer: public OutputBuffer
   {
     public:
       /**
@@ -26,12 +26,13 @@ namespace xmlpp
        * @param encoding Charset in which data will be encoded before being
        * sent to the stream
        */
+      LIBXMLPP_API
       OStreamOutputBuffer(std::ostream& output, const Glib::ustring& encoding = Glib::ustring());
-      ~OStreamOutputBuffer() override;
+      LIBXMLPP_API ~OStreamOutputBuffer() override;
 
     private:
-      bool do_write(const char * buffer, int len) override;
-      bool do_close() override;
+      LIBXMLPP_API bool do_write(const char * buffer, int len) override;
+      LIBXMLPP_API bool do_close() override;
 
       std::ostream& output_;
   };

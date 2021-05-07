@@ -35,17 +35,18 @@ namespace xmlpp
 
 /** Base class for all xmlpp exceptions.
  */
-class LIBXMLPP_API exception: public std::exception
+class exception: public std::exception
 {
 public:
+  LIBXMLPP_API
   explicit exception(const Glib::ustring& message);
-  ~exception() noexcept override;
+  LIBXMLPP_API ~exception() noexcept override;
 
-  const char* what() const noexcept override;
+  LIBXMLPP_API const char* what() const noexcept override;
 
   //TODO: Use lower-case names when we can break ABI?
-  virtual void Raise() const;
-  virtual exception * Clone() const;
+  LIBXMLPP_API virtual void Raise() const;
+  LIBXMLPP_API virtual exception * Clone() const;
 
 private:
   Glib::ustring message_;

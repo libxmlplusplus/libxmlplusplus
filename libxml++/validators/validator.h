@@ -20,26 +20,35 @@ namespace xmlpp {
 
 /** Base class for XML validators.
  */
-class LIBXMLPP_API Validator : NonCopyable
+class Validator : NonCopyable
 {
 public:
-  Validator();
-  ~Validator() override;
+  LIBXMLPP_API Validator();
+  LIBXMLPP_API ~Validator() override;
 
 protected:
+  LIBXMLPP_API
   virtual void initialize_valid();
+  LIBXMLPP_API
   virtual void release_underlying();
 
+  LIBXMLPP_API
   virtual void on_validity_error(const Glib::ustring& message);
+  LIBXMLPP_API
   virtual void on_validity_warning(const Glib::ustring& message);
 
   //TODO: When we can break ABI/API, remove handleException() and make
   // handle_exception() protected virtual.
+  LIBXMLPP_API
   virtual void handleException(const exception& e);
+  LIBXMLPP_API
   virtual void check_for_exception();
+  LIBXMLPP_API
   virtual void check_for_validity_messages();
 
+  LIBXMLPP_API
   static void callback_validity_error(void* ctx, const char* msg, ...);
+  LIBXMLPP_API
   static void callback_validity_warning(void* ctx, const char* msg, ...);
 
   _xmlValidCtxt* valid_;
@@ -49,6 +58,7 @@ protected:
 
 private:
   /// To be called in an exception handler.
+  LIBXMLPP_API
   void handle_exception();
 };
 

@@ -29,16 +29,17 @@ namespace xmlpp {
  *
  * @deprecated Use XsdValidator instead.
  */
-class LIBXMLPP_API SchemaValidator : public Validator
+class SchemaValidator : public Validator
 {
 public:
-  SchemaValidator();
+  LIBXMLPP_API SchemaValidator();
 
   /** Create a validator and parse a schema definition file immediately.
    * @param file The URL of the schema.
    * @throws xmlpp::parse_error
    * @deprecated Use XsdValidator instead.
    */
+  LIBXMLPP_API
   explicit SchemaValidator(const Glib::ustring& file);
 
   /** Create a validator and parse a schema definition document immediately.
@@ -47,6 +48,7 @@ public:
    * @throws xmlpp::parse_error
    * @deprecated Use XsdValidator instead.
    */
+  LIBXMLPP_API
   explicit SchemaValidator(Document& document);
 
   /** Create a schema validator.
@@ -57,9 +59,10 @@ public:
    *        when it's no longer needed.
    * @deprecated Use XsdValidator instead.
    */
+  LIBXMLPP_API
   explicit SchemaValidator(Schema* schema);
 
-  ~SchemaValidator() override;
+  LIBXMLPP_API ~SchemaValidator() override;
 
   //TODO: Remove virtuals when we can break ABI,
   //or really put these in the base class.
@@ -71,6 +74,7 @@ public:
    * @throws xmlpp::parse_error
    * @deprecated Use XsdValidator::parse_file() instead.
    */
+  LIBXMLPP_API
   virtual void parse_file(const Glib::ustring& filename);
 
   /** Parse a schema definition from a string.
@@ -80,6 +84,7 @@ public:
    * @throws xmlpp::parse_error
    * @deprecated Use XsdValidator::parse_memory() instead.
    */
+  LIBXMLPP_API
   virtual void parse_memory(const Glib::ustring& contents);
 
   /** Parse a schema definition from a document.
@@ -90,6 +95,7 @@ public:
    * @throws xmlpp::parse_error
    * @deprecated Use XsdValidator::parse_document() instead.
    */
+  LIBXMLPP_API
   virtual void parse_document(Document& document);
 
   /** Set a schema.
@@ -102,24 +108,25 @@ public:
    *        when it's no longer needed.
    * @deprecated Use XsdValidator::set_schema() instead.
    */
+  LIBXMLPP_API
   virtual void set_schema(Schema* schema);
 
   /** Test whether a schema has been parsed.
    * @deprecated Use XsdValidator::operator BoolExpr() instead.
    */
-  operator bool() const;
+  LIBXMLPP_API operator bool() const;
 
   /** Get the parsed schema.
    * @returns A pointer to the parsed schema, or <tt>0</tt>.
    * @deprecated Use XsdValidator::get_schema() instead.
    */
-  Schema* get_schema();
+  LIBXMLPP_API Schema* get_schema();
 
   /** Get the parsed schema.
    * @returns A pointer to the parsed schema, or <tt>0</tt>.
    * @deprecated Use XsdValidator::get_schema() instead.
    */
-  const Schema* get_schema() const;
+  LIBXMLPP_API const Schema* get_schema() const;
 
   /** Validate a document, using a previously parsed schema.
    * @param doc Pointer to the document.
@@ -128,7 +135,7 @@ public:
    * @throws xmlpp::validity_error
    * @deprecated Use XsdValidator::validate(const Document*) instead.
    */
-  bool validate(const Document* doc);
+  LIBXMLPP_API bool validate(const Document* doc);
 
   /** Validate an XML file, using a previously parsed schema.
    * @param file The URI of the XML file.
@@ -137,11 +144,15 @@ public:
    * @throws xmlpp::validity_error
    * @deprecated Use XsdValidator::validate(const Glib::ustring&) instead.
    */
+  LIBXMLPP_API
   bool validate(const Glib::ustring& file);
 
 protected:
+  LIBXMLPP_API
   void initialize_valid() override;
+  LIBXMLPP_API
   void parse_context(_xmlSchemaParserCtxt* context);
+  LIBXMLPP_API
   void release_underlying() override;
 
   Schema* schema_;

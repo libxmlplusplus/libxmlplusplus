@@ -23,11 +23,11 @@ extern "C" {
 namespace xmlpp
 {
 
-class LIBXMLPP_API TextNode;
-class LIBXMLPP_API Element;
-class LIBXMLPP_API Attribute;
+class TextNode;
+class Element;
+class Attribute;
 
-class LIBXMLPP_API Node;
+class Node;
 typedef std::vector<Node*> NodeSet;
 
 // xmlpp::XPathResultType is similar to xmlXPathObjectType in libxml2.
