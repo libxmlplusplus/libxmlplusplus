@@ -24,7 +24,7 @@
 
 namespace Glib
 {
-class LIBXMLPP_API ustring;
+class ustring;
 }
 
 namespace xmlpp
