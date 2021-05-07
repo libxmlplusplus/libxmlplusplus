@@ -26,7 +26,7 @@ namespace xmlpp
  * A reader that provides fast, non-cached, forward-only access to XML data,
  * in the style of .Net's <a href="http://msdn.microsoft.com/en-us/library/system.xml.xmltextreader.aspx">XmlTextReader</a> class.
  */
-class LIBXMLPP_API TextReader: public NonCopyable
+class TextReader: public NonCopyable
 {
   public:
     // xmlpp::TextReader::NodeType is similar to xmlReaderTypes in libxml2.
@@ -85,6 +85,7 @@ class LIBXMLPP_API TextReader: public NonCopyable
      * takes ownership of cobj.
      * @param cobj The underlying libxml xmlTextReader object.
      */
+    LIBXMLPP_API
     TextReader(struct _xmlTextReader* cobj);
 
     /**
@@ -92,6 +93,7 @@ class LIBXMLPP_API TextReader: public NonCopyable
      * @param URI The URI to read.
      * @throws xmlpp::internal_error If an xmlTextReader object cannot be created.
      */
+    LIBXMLPP_API
     TextReader(const Glib::ustring& URI);
 
     /**
@@ -101,36 +103,38 @@ class LIBXMLPP_API TextReader: public NonCopyable
      * @param uri The base URI to use for the document.
      * @throws xmlpp::internal_error If an xmlTextReader object cannot be created.
      */
+    LIBXMLPP_API
     TextReader(const unsigned char* data, size_type size, const Glib::ustring& uri = Glib::ustring());
 
-    ~TextReader() override;
+    LIBXMLPP_API ~TextReader() override;
 
     /** Moves the position of the current instance to the next node in the stream, exposing its properties.
      * @return true if the node was read successfully, false if there are no more nodes to read.
      * @throws xmlpp::parse_error
      * @throws xmlpp::validity_error
      */
-    bool read();
+    LIBXMLPP_API bool read();
 
     /** Reads the contents of the current node, including child nodes and markup.
      * @return A Glib::ustring containing the XML content, or an empty Glib::ustring if the current node is neither an element nor attribute, or has no child nodes.
      * @throws xmlpp::parse_error
      * @throws xmlpp::validity_error
      */
-    Glib::ustring read_inner_xml();
+    LIBXMLPP_API Glib::ustring read_inner_xml();
 
     /** Reads the current node and its contents, including child nodes and markup.
      * @return A Glib::ustring containing the XML content, or an empty Glib::ustring if the current node is neither an element nor attribute.
      * @throws xmlpp::parse_error
      * @throws xmlpp::validity_error
      */
-    Glib::ustring read_outer_xml();
+    LIBXMLPP_API Glib::ustring read_outer_xml();
 
     /** Reads the contents of an element or a text node as a string.
      * @return A Glib::ustring containing the contents of the Element or Text node, or an empty Glib::ustring if the reader is positioned on any other type of node.
      * @throws xmlpp::parse_error
      * @throws xmlpp::validity_error
      */
+    LIBXMLPP_API
     Glib::ustring read_string();
 
     /** Parses an attribute value into one or more Text and EntityReference nodes.
@@ -138,6 +142,7 @@ class LIBXMLPP_API TextReader: public NonCopyable
      * @throws xmlpp::parse_error
      * @throws xmlpp::validity_error
      */
+    LIBXMLPP_API
     bool read_attribute_value();
 
     /** Gets the number of attributes on the current node.
@@ -146,40 +151,50 @@ class LIBXMLPP_API TextReader: public NonCopyable
      * @throws xmlpp::parse_error
      * @throws xmlpp::validity_error
      */
+    LIBXMLPP_API
     int get_attribute_count() const;
 
     /** Gets the base Uniform Resource Identifier (URI) of the current node.
      * @return The base URI of the current node or an empty Glib::ustring if not available.
      */
+    LIBXMLPP_API
     Glib::ustring get_base_uri() const;
 
     /** Gets the depth of the current node in the XML document.
      * @return The depth of the current node in the XML document, or -1 in case of error.
      */
+    LIBXMLPP_API
     int get_depth() const;
 
     /** Gets a value indicating whether the current node has any attributes.
      * @return true if the current has attributes, false otherwise.
      */
+    LIBXMLPP_API
     bool has_attributes() const;
 
     /** Whether the node can have a text value.
      * @return true if the current node can have an associated text value, false otherwise.
      */
+    LIBXMLPP_API
     bool has_value() const;
 
     /** Whether an Attribute node was generated from the default value defined in the DTD or schema.
      * @return true if defaulted, false otherwise.
      */
+    LIBXMLPP_API
     bool is_default() const;
 
     /** Check if the current node is empty
      * @return true if empty, false otherwise.
      */
+    LIBXMLPP_API
     bool is_empty_element() const;
 
+    LIBXMLPP_API
     Glib::ustring get_local_name() const;
+    LIBXMLPP_API
     Glib::ustring get_name() const;
+    LIBXMLPP_API
     Glib::ustring get_namespace_uri() const;
 
     /** Get the node type of the current node.
@@ -189,44 +204,64 @@ class LIBXMLPP_API TextReader: public NonCopyable
      * @throws xmlpp::parse_error
      * @throws xmlpp::validity_error
      */
+    LIBXMLPP_API
     NodeType get_node_type() const;
 
     /** Get the namespace prefix associated with the current node.
      * @returns The namespace prefix, or an empty string if not available.
      */
+    LIBXMLPP_API
     Glib::ustring get_prefix() const;
 
     /** Get the quotation mark character used to enclose the value of an attribute.
      * @returns Returns " or ' and -1 in case of error.
      */
+    LIBXMLPP_API
     char get_quote_char() const;
 
+    LIBXMLPP_API
     Glib::ustring get_value() const;
+    LIBXMLPP_API
     Glib::ustring get_xml_lang() const;
 
+    LIBXMLPP_API
     ReadState get_read_state() const;
 
-    void close();
+    LIBXMLPP_API void close();
 
+    LIBXMLPP_API
     Glib::ustring get_attribute(int number) const;
+    LIBXMLPP_API
     Glib::ustring get_attribute(const Glib::ustring& name) const;
+    LIBXMLPP_API
     Glib::ustring get_attribute(const Glib::ustring& local_name, const Glib::ustring& ns_uri) const;
 
     // TODO InputBuffer GetRemainder;
 
+    LIBXMLPP_API
     Glib::ustring lookup_namespace(const Glib::ustring& prefix) const;
 
+    LIBXMLPP_API
     bool move_to_attribute(int number);
+    LIBXMLPP_API
     bool move_to_attribute(const Glib::ustring& name);
+    LIBXMLPP_API
     bool move_to_attribute(const Glib::ustring& local_name, const Glib::ustring& ns_uri);
+    LIBXMLPP_API
     bool move_to_first_attribute();
+    LIBXMLPP_API
     bool move_to_next_attribute();
+    LIBXMLPP_API
     bool move_to_element();
 
+    LIBXMLPP_API
     bool get_normalization() const;
+    LIBXMLPP_API
     void set_normalization(bool value);
 
+    LIBXMLPP_API
     bool get_parser_property(ParserProperties property) const;
+    LIBXMLPP_API
     void set_parser_property(ParserProperties property, bool value);
 
     /** Get a pointer to the current node.
@@ -236,12 +271,14 @@ class LIBXMLPP_API TextReader: public NonCopyable
      * called by the application.
      * @returns A pointer to the current node, or <tt>nullptr</tt> in case of error.
      */
+    LIBXMLPP_API
     Node* get_current_node();
 
     /** Get a pointer to the current node.
      * @warning See the non-const get_current_node().
      * @returns A pointer to the current node, or <tt>nullptr</tt> in case of error.
      */
+    LIBXMLPP_API
     const Node* get_current_node() const;
 
 //    Document* CurrentDocument();
@@ -256,18 +293,21 @@ class LIBXMLPP_API TextReader: public NonCopyable
      * @throws xmlpp::parse_error
      * @throws xmlpp::validity_error
      */
-    Node* expand();
+    LIBXMLPP_API Node* expand();
 
-    bool next();
-    bool is_valid() const;
+    LIBXMLPP_API bool next();
+    LIBXMLPP_API bool is_valid() const;
 
   private:
     class PropertyReader;
-    friend class PropertyReader;
+    friend LIBXMLPP_API class PropertyReader;
 
+    LIBXMLPP_API
     void setup_exceptions();
+    LIBXMLPP_API
     static void on_libxml_error(void * arg, const char *msg, int severity,
                               void * locator);
+    LIBXMLPP_API
     void check_for_exceptions() const;
 
     std::unique_ptr<PropertyReader> propertyreader;

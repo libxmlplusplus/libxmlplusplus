@@ -28,17 +28,17 @@ class ustring;
 
 namespace xmlpp
 {
-class LIBXMLPP_API Document;
+class Document;
 
 /** Base class for schema validators.
  *
  * @newin{2,38}
  */
-class LIBXMLPP_API SchemaValidatorBase : public Validator
+class SchemaValidatorBase : public Validator
 {
 public:
-  SchemaValidatorBase() noexcept;
-  ~SchemaValidatorBase() override;
+  LIBXMLPP_API SchemaValidatorBase() noexcept;
+  LIBXMLPP_API ~SchemaValidatorBase() override;
 
   /** Parse a schema definition file.
    * If the validator already contains a schema, that schema is released
@@ -46,6 +46,7 @@ public:
    * @param filename The URL of the schema.
    * @throws xmlpp::parse_error
    */
+  LIBXMLPP_API
   void parse_file(const std::string& filename) override = 0;
 
   /** Parse a schema definition from a string.
@@ -54,6 +55,7 @@ public:
    * @param contents The schema definition as a string.
    * @throws xmlpp::parse_error
    */
+  LIBXMLPP_API
   void parse_memory(const Glib::ustring& contents) override = 0;
 
   /** Parse a schema definition from a document.
@@ -62,6 +64,7 @@ public:
    * @param document A preparsed document tree, containing the schema definition.
    * @throws xmlpp::parse_error
    */
+  LIBXMLPP_API
   virtual void parse_document(const Document* document) = 0;
 
   /** Test whether a schema has been parsed.
@@ -71,6 +74,7 @@ public:
    *   do_something();
    * @endcode
    */
+  LIBXMLPP_API
   explicit virtual operator bool() const noexcept override = 0;
 
   /** Validate a document, using a previously parsed schema.
@@ -78,6 +82,7 @@ public:
    * @throws xmlpp::internal_error
    * @throws xmlpp::validity_error
    */
+  LIBXMLPP_API
   void validate(const Document* document) override = 0;
 
   /** Validate an XML file, using a previously parsed schema.
@@ -86,10 +91,13 @@ public:
    * @throws xmlpp::parse_error
    * @throws xmlpp::validity_error
    */
+  LIBXMLPP_API
   virtual void validate(const std::string& filename) = 0;
 
 protected:
+  LIBXMLPP_API
   void initialize_context() override;
+  LIBXMLPP_API
   void release_underlying() override;
 };
 

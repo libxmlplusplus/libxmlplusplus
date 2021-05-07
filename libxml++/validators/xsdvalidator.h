@@ -29,29 +29,31 @@ class ustring;
 
 namespace xmlpp
 {
-class LIBXMLPP_API Document;
-class LIBXMLPP_API XsdSchema;
+class Document;
+class XsdSchema;
 
 /** XSD schema validator.
  * XSD = XML %Schema Definition, a.k.a. XML %Schema or W3C XML %Schema
  *
  * @newin{2,38}
  */
-class LIBXMLPP_API XsdValidator : public SchemaValidatorBase
+class XsdValidator : public SchemaValidatorBase
 {
 public:
-  XsdValidator();
+  LIBXMLPP_API XsdValidator();
 
   /** Create a validator and parse a schema definition file.
    * @param filename The URL of the schema.
    * @throws xmlpp::parse_error
    */
+  LIBXMLPP_API
   explicit XsdValidator(const std::string& filename);
 
   /** Create a validator and parse a schema definition document.
    * @param document A preparsed document tree, containing the schema definition.
    * @throws xmlpp::parse_error
    */
+  LIBXMLPP_API
   explicit XsdValidator(const Document* document);
 
   /** Create a validator.
@@ -63,8 +65,10 @@ public:
    *        validator keeps a pointer to it. The caller is responsible for
    *        deleting the schema when it's no longer needed.
    */
+  LIBXMLPP_API
   explicit XsdValidator(XsdSchema* schema, bool take_ownership);
 
+  LIBXMLPP_API
   ~XsdValidator() override;
 
   /** Parse a schema definition file.
@@ -73,6 +77,7 @@ public:
    * @param filename The URL of the schema.
    * @throws xmlpp::parse_error
    */
+  LIBXMLPP_API
   void parse_file(const std::string& filename) override;
 
   /** Parse a schema definition from a string.
@@ -81,6 +86,7 @@ public:
    * @param contents The schema definition as a string.
    * @throws xmlpp::parse_error
    */
+  LIBXMLPP_API
   void parse_memory(const Glib::ustring& contents) override;
 
   /** Parse a schema definition from a document.
@@ -89,6 +95,7 @@ public:
    * @param document A preparsed document tree, containing the schema definition.
    * @throws xmlpp::parse_error
    */
+  LIBXMLPP_API
   void parse_document(const Document* document) override;
 
   /** Set a schema.
@@ -102,6 +109,7 @@ public:
    *        validator keeps a pointer to it. The caller is responsible for
    *        deleting the schema when it's no longer needed.
    */
+  LIBXMLPP_API
   void set_schema(XsdSchema* schema, bool take_ownership);
 
   /** Test whether a schema has been parsed.
@@ -111,16 +119,19 @@ public:
    *   do_something();
    * @endcode
    */
+  LIBXMLPP_API
   explicit operator bool() const noexcept override;
 
   /** Get the schema.
    * @returns A pointer to the schema, or <tt>nullptr</tt>.
    */
+  LIBXMLPP_API
   XsdSchema* get_schema() noexcept;
 
   /** Get the schema.
    * @returns A pointer to the schema, or <tt>nullptr</tt>.
    */
+  LIBXMLPP_API
   const XsdSchema* get_schema() const noexcept;
 
   /** Validate a document, using a previously parsed schema.
@@ -128,6 +139,7 @@ public:
    * @throws xmlpp::internal_error
    * @throws xmlpp::validity_error
    */
+  LIBXMLPP_API
   void validate(const Document* document) override;
 
   /** Validate an XML file, using a previously parsed schema.
@@ -135,10 +147,13 @@ public:
    * @throws xmlpp::internal_error
    * @throws xmlpp::validity_error
    */
+  LIBXMLPP_API
   void validate(const std::string& filename) override;
 
 protected:
+  LIBXMLPP_API
   void initialize_context() override;
+  LIBXMLPP_API
   void release_underlying() override;
 
 private:

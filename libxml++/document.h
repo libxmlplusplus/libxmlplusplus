@@ -62,23 +62,24 @@ enum class XmlEntityType
 /**
  * Represents an XML document in the DOM model.
  */
-class LIBXMLPP_API Document : public NonCopyable
+class Document : public NonCopyable
 {
   //Ensure that libxml is properly initialised:
-  class Init
+  class LIBXMLPP_API Init
   {
   public:
     Init();
     ~Init() noexcept;
   };
 
-  friend class SaxParser;
+  friend LIBXMLPP_API class SaxParser;
 
 public:
   /** Create a new document.
    * @param version XML version.
    * @throws xmlpp::internal_error If memory allocation fails.
    */
+  LIBXMLPP_API
   explicit Document(const Glib::ustring& version = "1.0");
 
   /** Create a new C++ wrapper for an xmlDoc struct.
@@ -87,17 +88,19 @@ public:
    * @param doc A pointer to an xmlDoc struct. Must not be <tt>nullptr</tt>.
    * @throws xmlpp::internal_error If @a doc is <tt>nullptr</tt>.
    */
-  explicit Document(_xmlDoc* doc);
+  LIBXMLPP_API explicit Document(_xmlDoc* doc);
 
-  ~Document() override;
+  LIBXMLPP_API ~Document() override;
 
   /** @return The encoding used in the source from which the document has been loaded.
    */
+  LIBXMLPP_API
   Glib::ustring get_encoding() const;
 
   /** Get the internal subset of this document.
    * @returns A pointer to the DTD, or <tt>nullptr</tt> if not found.
    */
+  LIBXMLPP_API
   Dtd* get_internal_subset() const;
 
   /** Create the internal subset of this document.
@@ -106,6 +109,7 @@ public:
    * @param external_id The external (PUBLIC) ID, or an empty string.
    * @param system_id The system ID, or an empty string.
    */
+  LIBXMLPP_API
   void set_internal_subset(const Glib::ustring& name,
                            const Glib::ustring& external_id,
                            const Glib::ustring& system_id);
@@ -114,12 +118,14 @@ public:
    * This function does @b not create a default root node if it doesn't exist.
    * @return A pointer to the root node if it exists, <tt>nullptr</tt> otherwise.
    */
+  LIBXMLPP_API
   Element* get_root_node();
 
   /** Return the root node.
    * This function does @b not create a default root node if it doesn't exist.
    * @return A pointer to the root node if it exists, <tt>nullptr</tt> otherwise.
    */
+  LIBXMLPP_API
   const Element* get_root_node() const;
 
   /** Create the root element node.
@@ -134,6 +140,7 @@ public:
    * @throws xmlpp::internal_error If memory allocation fails.
    * @throws xmlpp::exception If a new namespace node cannot be created.
    */
+  LIBXMLPP_API
   Element* create_root_node(const Glib::ustring& name,
                             const Glib::ustring& ns_uri = Glib::ustring(),
                             const Glib::ustring& ns_prefix = Glib::ustring() );
@@ -148,6 +155,7 @@ public:
    * @return A pointer to the new root node
    * @throws xmlpp::exception If the node can't be copied.
    */
+  LIBXMLPP_API
   Element* create_root_node_by_import(const Node* node,
 				      bool recursive = true);
 
@@ -156,6 +164,7 @@ public:
    * @returns The new comment node.
    * @throws xmlpp::internal_error
    */
+  LIBXMLPP_API
   CommentNode* add_comment(const Glib::ustring& content);
 
   /** Append a new processing instruction node.
@@ -167,6 +176,7 @@ public:
    * @returns The new processing instruction node.
    * @throws xmlpp::internal_error
    */
+  LIBXMLPP_API
   ProcessingInstructionNode* add_processing_instruction(
     const Glib::ustring& name, const Glib::ustring& content);
 
@@ -175,6 +185,7 @@ public:
    * @param encoding If not provided, UTF-8 is used
    * @throws xmlpp::exception
    */
+  LIBXMLPP_API
   void write_to_file(const std::string& filename, const Glib::ustring& encoding = Glib::ustring());
 
   /** Write the document to a file.
@@ -184,6 +195,7 @@ public:
    * @param encoding If not provided, UTF-8 is used
    * @throws xmlpp::exception
    */
+  LIBXMLPP_API
   void write_to_file_formatted(const std::string& filename, const Glib::ustring& encoding = Glib::ustring());
 
   /** Write the document to the memory.
@@ -191,6 +203,7 @@ public:
    * @returns The written document.
    * @throws xmlpp::exception
    */
+  LIBXMLPP_API
   Glib::ustring write_to_string(const Glib::ustring& encoding = Glib::ustring());
 
   /** Write the document to the memory.
@@ -200,6 +213,7 @@ public:
    * @returns The written document.
    * @throws xmlpp::exception
    */
+  LIBXMLPP_API
   Glib::ustring write_to_string_formatted(const Glib::ustring& encoding = Glib::ustring());
 
   /** Write the document to a std::ostream.
@@ -210,6 +224,7 @@ public:
    * @warning This method is much less efficient than write_to_string if you want to dump the
    * document to a buffer or the standard output. Writing to a fstream is almost as fast as write_to_file
    */
+  LIBXMLPP_API
   void write_to_stream(std::ostream& output, const Glib::ustring& encoding = Glib::ustring());
 
   /** Write the document to a std::ostream.
@@ -221,6 +236,7 @@ public:
    * @throws xmlpp::internal_error
    * @warning See write_to_stream
    */
+  LIBXMLPP_API
   void write_to_stream_formatted(std::ostream & output, const Glib::ustring& encoding = Glib::ustring());
 
   /** Add an Entity declaration to the document.
@@ -232,8 +248,11 @@ public:
    * is the replacement value.
    * @throws xmlpp::internal_error
    */
-  virtual void set_entity_declaration(const Glib::ustring& name, XmlEntityType type,
-                                      const Glib::ustring& publicId, const Glib::ustring& systemId,
+  LIBXMLPP_API
+  virtual void set_entity_declaration(const Glib::ustring& name, 
+                                      XmlEntityType type,
+                                      const Glib::ustring& publicId,
+                                      const Glib::ustring& systemId,
                                       const Glib::ustring& content);
 
   //TODO: When we can break ABI, remove the process_xinclude() with one parameter,
@@ -276,13 +295,14 @@ public:
    * @returns The number of substitutions.
    * @throws xmlpp::exception
    */
+  LIBXMLPP_API
   int process_xinclude(bool generate_xinclude_nodes, bool fixup_base_uris);
 
   ///Access the underlying libxml implementation.
-  _xmlDoc* cobj() noexcept;
+  LIBXMLPP_API _xmlDoc* cobj() noexcept;
 
   ///Access the underlying libxml implementation.
-  const _xmlDoc* cobj() const noexcept;
+  LIBXMLPP_API const _xmlDoc* cobj() const noexcept;
 
 protected:
   /** Retrieve an Entity.
@@ -290,11 +310,14 @@ protected:
    * @param name The name of the entity to get.
    * @returns A pointer to the libxml2 entity structure, or <tt>nullptr</tt> if not found.
    */
+  LIBXMLPP_API
   _xmlEntity* get_entity(const Glib::ustring& name);
 
 private:
+  LIBXMLPP_API
   void do_write_to_file(const std::string& filename, const Glib::ustring& encoding, bool format);
   Glib::ustring do_write_to_string(const Glib::ustring& encoding, bool format);
+  LIBXMLPP_API
   void do_write_to_stream(std::ostream& output, const Glib::ustring& encoding, bool format);
 
   static Init init_;
