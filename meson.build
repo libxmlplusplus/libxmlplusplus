@@ -166,8 +166,11 @@ xmlxx_build_dep = [xml2_dep, glibmm_dep]
 # reference documentation shall be built.
 mm_common_get = find_program('mm-common-get', required: false)
 if maintainer_mode and not mm_common_get.found()
-  error('Maintainer mode requires the \'mm-common-get\' command.\n' +
-    'Use \'-Dmaintainer-mode=false\' or install the \'mm-common\' package, version 1.0.0 or higher')
+  message('Maintainer mode requires the \'mm-common-get\' command. If it is not found,\n' +
+          'use \'-Dmaintainer-mode=false\' or install the \'mm-common\' package, version 1.0.0 or higher.')
+  # If meson --wrap-mode != forcefallback, Meson falls back to the mm-common
+  # subproject only if mm-common-get is required.
+  mm_common_get = find_program('mm-common-get', required: true)
 endif
 perl = find_program('perl', required: build_documentation)
 doxygen = find_program('doxygen', required: build_documentation)
@@ -339,13 +342,16 @@ if can_add_dist_script
 endif
 
 if meson.is_subproject()
+  pkgconfig_vars = {
+    'htmlrefdir': install_prefix / install_docdir / 'reference' / 'html',
+    'htmlrefpub': 'http://library.gnome.org/devel/libxml++/unstable/'
+  }
+  if build_documentation
+    pkgconfig_vars += {'doxytagfile': tag_file.full_path()}
+  endif
   xmlxx_dep = declare_dependency(
     dependencies: xmlxx_own_dep,
-    variables: {
-      'doxytagfile': tag_file.full_path(),
-      'htmlrefdir': install_prefix / install_docdir / 'reference' / 'html',
-      'htmlrefpub': 'http://library.gnome.org/devel/libxml++/unstable/'
-    }
+    variables: pkgconfig_vars,
   )
 
   # A main project that looks for xmlxx_pcname.pc shall find xmlxx_dep.
