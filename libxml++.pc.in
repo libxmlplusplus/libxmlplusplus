@@ -8,7 +8,7 @@ includedir=@includedir@
 docdir=${datarootdir}/doc/@LIBXMLXX_MODULE_NAME@
 doxytagfile=${docdir}/reference/@LIBXMLXX_MODULE_NAME@.tag
 htmlrefdir=${docdir}/reference/html
-htmlrefpub=http://library.gnome.org/devel/@PACKAGE_TARNAME@/unstable/
+htmlrefpub=http://library.gnome.org/devel/@PACKAGE_TARNAME@/4.0/
 
 Name: libxml++
 Description: C++ wrapper for libxml
