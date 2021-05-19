@@ -37,7 +37,7 @@ You can download libxml++ from [here](http://ftp.gnome.org/pub/GNOME/sources/lib
 
 ## Documentation
 
-The short [manual](http://library.gnome.org/devel/libxml++-tutorial/stable/) gives an overview of the libxml++ API. You can also browse online the [reference documentation](http://library.gnome.org/devel/libxml++/stable/).
+The short [manual](http://library.gnome.org/devel/libxml++-tutorial/) gives an overview of the libxml++ API. You can also browse online the [reference documentation](http://library.gnome.org/devel/libxml++/).
 
 ## Development
 
