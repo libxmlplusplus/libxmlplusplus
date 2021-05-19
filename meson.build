@@ -344,7 +344,7 @@ endif
 if meson.is_subproject()
   pkgconfig_vars = {
     'htmlrefdir': install_prefix / install_docdir / 'reference' / 'html',
-    'htmlrefpub': 'http://library.gnome.org/devel/libxml++/unstable/'
+    'htmlrefpub': 'http://library.gnome.org/devel/libxml++/2.42/'
   }
   if build_documentation
     pkgconfig_vars += {'doxytagfile': tag_file.full_path()}
