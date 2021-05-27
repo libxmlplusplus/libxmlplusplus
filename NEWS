@@ -1,3 +1,20 @@
+5.0.1 (stable):
+
+Build:
+* libxml++config.h.*: Don't dllimport on MinGW
+  (Chun-wei Fan) Issue gtkmm#90 (Lukas K.)
+* Meson build: Make it possible to use libxml++ as a subproject
+  (Kjell Ahlstedt)
+* Meson build: No implicit_include_directories
+  (Kjell Ahlstedt)
+* MSVC build: Export classes selectively
+  (Chun-wei Fan)
+
+Documentation:
+* docs/index.md: Describe the different libxml++ ABIs
+  (Kjell Ahlstedt) Issue #20 (Tom Schoonjans)
+
+
 5.0.0 (stable):
 
 This is the first stable release in the libxml++-5.0 ABI series.
