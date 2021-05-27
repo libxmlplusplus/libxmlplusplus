@@ -1,3 +1,20 @@
+2.42.1 (stable):
+
+Build:
+* libxml++config.h.*: Don't dllimport on MinGW
+  (Chun-wei Fan) Issue gtkmm#90 (Lukas K.)
+* Meson build: Make it possible to use libxml++ as a subproject
+  (Kjell Ahlstedt)
+* Meson build: No implicit_include_directories
+  (Kjell Ahlstedt)
+* MSVC build: Export classes selectively
+  (Chun-wei Fan)
+
+Documentation:
+* Let links point to libxml++-2.6 versions instead of latest versions
+  (Kjell Ahlstedt)
+
+
 2.42.0 (stable):
 
 The tarball for 2.42.0 has been created with 'meson dist'.
