@@ -56,6 +56,7 @@ void find_wrappers(xmlNode* node, NodeMap& node_map)
     case XML_ATTRIBUTE_DECL:
     case XML_ENTITY_DECL:
     case XML_DOCUMENT_NODE:
+    case XML_HTML_DOCUMENT_NODE:
       has_attributes = false;
       break;
     default:
@@ -102,6 +103,7 @@ void remove_found_wrappers(xmlNode* node, NodeMap& node_map)
     case XML_ATTRIBUTE_DECL:
     case XML_ENTITY_DECL:
     case XML_DOCUMENT_NODE:
+    case XML_HTML_DOCUMENT_NODE:
       has_attributes = false;
       break;
     default:
@@ -462,6 +464,7 @@ int Document::process_xinclude(bool generate_xinclude_nodes, bool fixup_base_uri
       delete reinterpret_cast<Dtd*>(node);
       break;
     case XML_DOCUMENT_NODE:
+    case XML_HTML_DOCUMENT_NODE:
       delete reinterpret_cast<Document*>(node);
       break;
     default:
