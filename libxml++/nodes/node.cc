@@ -449,7 +449,9 @@ ustring Node::eval_to_string(const ustring& xpath, const PrefixNsMap& namespaces
 
 ustring Node::get_namespace_prefix() const
 {
-  if(impl_->type == XML_DOCUMENT_NODE || impl_->type == XML_ENTITY_DECL)
+  if(impl_->type == XML_DOCUMENT_NODE ||
+     impl_->type == XML_HTML_DOCUMENT_NODE ||
+     impl_->type == XML_ENTITY_DECL)
   {
     //impl_ is actually of type xmlDoc or xmlEntity, instead of just xmlNode.
     //libxml does not always use GObject-style inheritance, so xmlDoc and
@@ -475,6 +477,7 @@ ustring Node::get_namespace_prefix() const
 ustring Node::get_namespace_uri() const
 {
   if(impl_->type == XML_DOCUMENT_NODE ||
+     impl_->type == XML_HTML_DOCUMENT_NODE ||
      impl_->type == XML_ENTITY_DECL ||
      impl_->type == XML_ATTRIBUTE_DECL)
   {
@@ -591,6 +594,7 @@ void Node::create_wrapper(xmlNode* node)
       break;
     }
     case XML_DOCUMENT_NODE:
+    case XML_HTML_DOCUMENT_NODE:
     {
       // do nothing. For Documents it's the wrapper that is the owner.
       break;
@@ -639,6 +643,7 @@ void Node::free_wrappers(xmlNode* node)
       node->_private = nullptr;
       return;
     case XML_DOCUMENT_NODE:
+    case XML_HTML_DOCUMENT_NODE:
       //Do not free now. The Document is usually the one who owns the caller.
       return;
     default:
