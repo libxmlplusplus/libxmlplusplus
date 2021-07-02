@@ -1,7 +1,6 @@
 # wildcard patterns
 *.[ao]
 *.l[ao]
-*~
 Makefile
 Makefile.in
 .deps/
@@ -34,6 +33,7 @@ stamp-h?
 /docs/doxygen.css
 /docs/doxygen-extra.css
 /docs/tagfile-to-devhelp2.xsl
+/docs/manual/__pycache__/
 /docs/manual/html/
 /docs/manual/libxml++.xml
 /docs/reference/Doxyfile
