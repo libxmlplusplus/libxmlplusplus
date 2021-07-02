@@ -35,7 +35,7 @@ xml_manual_docbook = custom_target('libxml++.xml',
   output: 'libxml++.xml',
   command: [
     python3, tutorial_custom_cmd_py, 'insert_example_code',
-    meson.current_source_dir() / 'insert_example_code.pl',
+    meson.current_source_dir(),
     project_source_root / 'examples',
     '@INPUT@',
     '@OUTPUT@',

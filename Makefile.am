@@ -30,6 +30,7 @@ EXTRA_DIST = \
   meson_options.txt \
   libxml++config.h.meson \
   MSVC_NMake/libxml++/meson.build \
+  docs/manual/insert_example_code.py \
   docs/manual/meson.build \
   docs/reference/meson.build \
   examples/meson.build \
