@@ -13,8 +13,8 @@ import shutil
 subcommand = sys.argv[1]
 
 def insert_ex_code():
-  #      argv[2]        argv[3]         argv[4]         argv[5]
-  # <py_script_file> <examples_dir> <input_xml_file> <output_xml_file>
+  #      argv[2]       argv[3]         argv[4]         argv[5]
+  # <py_script_dir> <examples_dir> <input_xml_file> <output_xml_file>
 
   # Search for insert_example_code.py first in <py_script_dir>.
   sys.path.insert(0, sys.argv[2])
