@@ -16,9 +16,9 @@
 
       #Beginning of comment:
       # Look for
-      # <para><ulink url="&url_examples_base;helloworld">Source Code</ulink></para>
+      # <para><link xlink:href="&url_examples_base;helloworld">Source Code</link></para>
 
-      if(/<para><ulink url=\"&url_examples_base;([\/\w]+)\">Source Code<\/ulink><\/para>/)
+      if(/<para><link xlink:href=\"&url_examples_base;([\/\w]+)\">Source Code<\/link><\/para>/)
       {
         #List all the source files in that directory:
         my $directory = $examples_base . $1;
