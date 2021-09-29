@@ -11,7 +11,7 @@ import shutil
 
 # Where to insert example code.
 source_include_pattern = re.compile(
-  r'\s*<para><ulink url="&url_examples_base;([/\w]+)">Source Code</ulink></para>')
+  r'\s*<para><link xlink:href="&url_examples_base;([/\w]+)">Source Code</link></para>')
 
 # First line not part of leading comment in a source code file.
 # The comment typically consists of copyright and license text.
@@ -50,7 +50,7 @@ def insert_example_code(examples_base_dir, input_xml_files, output_xml_file):
           outfile.write(line)
 
           # Look for
-          # <para><ulink url="&url_examples_base;helloworld">Source Code</ulink></para>
+          # <para><link xlink:href="&url_examples_base;helloworld">Source Code</link></para>
           source_include_match = source_include_pattern.match(line)
           if source_include_match:
             # List all the source files in the examples directory.
