@@ -1,16 +1,18 @@
-<?xml version="1.0"?>
-<!DOCTYPE book PUBLIC "-//OASIS//DTD DocBook XML V4.1.2//EN"
-  "http://www.oasis-open.org/docbook/xml/4.1.2/docbookx.dtd" [
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE book [
   <!ENTITY date "February 2002">
   <!ENTITY url_examples_base "https://github.com/libxmlplusplus/libxmlplusplus/tree/libxml++-4-0/examples/">
 ]>
-
-<book id="index" lang="en">
-  <bookinfo>
+<book xmlns="http://docbook.org/ns/docbook"
+      xmlns:xlink="http://www.w3.org/1999/xlink"
+      version="5.0" xml:id="index" xml:lang="en">
+  <info>
     <title>libxml++ - An XML Parser for C++</title>
     <author>
-      <firstname>Murray</firstname>
-      <surname>Cumming</surname>
+      <personname>
+        <firstname>Murray</firstname>
+        <surname>Cumming</surname>
+      </personname>
       <affiliation>
 	      <address><email>murrayc@murrayc.com</email></address>
       </affiliation>
@@ -19,11 +21,13 @@
     <abstract>
       <para>This is an introduction to libxml2's C++ binding, with simple examples.</para>
     </abstract>
-  </bookinfo>
-  <chapter id="chapter-introduction">
-    <title>libxml++</title>
+  </info>
+
+  <chapter xml:id="chapter-introduction">
+  <info><title>libxml++</title></info>
+
     <para>
-      libxml++ is a C++ API for the popular <ulink url="http://www.xmlsoft.org">libxml2</ulink> XML parser, written in C.
+      libxml++ is a C++ API for the popular <link xlink:href="http://www.xmlsoft.org">libxml2</link> XML parser, written in C.
       libxml2 is famous for its high performance and compliance to standard specifications, but its C API is quite difficult even for common tasks.
     </para>
 
@@ -36,11 +40,12 @@
       a C++17-compliant compiler.
     </para>
 
-    <para>But libxml++ was created mainly to fill the need for an API-stable and ABI-stable C++ XML parser which could be used as a shared library dependency by C++ applications that are distributed widely in binary form. That means that installed applications will not break when new versions of libxml++ are installed on a user's computer. Gradual improvement of the libxml++ API is still possible via non-breaking API additions, and new independent versions of the ABI that can be installed in parallel with older versions. These are the general techniques and principles followed by the <ulink
-url="http://www.gnome.org">GNOME</ulink> project, of which libxml++ is a part.</para>
+    <para>But libxml++ was created mainly to fill the need for an API-stable and ABI-stable C++ XML parser which could be used as a shared library dependency by C++ applications that are distributed widely in binary form. That means that installed applications will not break when new versions of libxml++ are installed on a user's computer. Gradual improvement of the libxml++ API is still possible via non-breaking API additions, and new independent versions of the ABI that can be installed in parallel with older versions. These are the general techniques and principles followed by the
+    <link xlink:href="http://www.gnome.org">GNOME</link> project, of which libxml++ is a part.</para>
 
-    <sect1 id="sect-installation">
-    <title>Installation</title>
+    <section xml:id="sect-installation">
+    <info><title>Installation</title></info>
+
     <para>libxml++ is packaged by major Linux and *BSD distributions and can be installed from source on Linux and Windows, using any modern compiler, such as g++ or MSVC++.</para>
     <para>For instance, to install libxml++ and its documentation on Debian, use apt-get or synaptic like so:
     <programlisting>
@@ -49,42 +54,45 @@ url="http://www.gnome.org">GNOME</ulink> project, of which libxml++ is a part.</
     </para>
     <para>To check that you have the libxml++ development packages installed, and that your environment is working properly, try <command>pkg-config libxml++-4.0 --modversion</command>.</para>
     <para>Links for downloading and more documentation can be found at
-    <ulink url="https://libxmlplusplus.github.io/libxmlplusplus">libxmlplusplus.github.io/libxmlplusplus</ulink>.
+    <link xlink:href="https://libxmlplusplus.github.io/libxmlplusplus">libxmlplusplus.github.io/libxmlplusplus</link>.
     libxml++ is licensed under the LGPL, which allows its use via dynamic linking in both open source and closed-source software. The underlying libxml2 library uses the even more generous MIT licence.</para>
-    </sect1>
+    </section>
 
-    <sect1 id="sect-utf8">
-    <title>UTF-8 and Glib::ustring</title>
+    <section xml:id="sect-utf8">
+    <info><title>UTF-8 and Glib::ustring</title></info>
+
     <para>The libxml++ API takes, and gives, strings in the UTF-8 Unicode encoding, which can support all known languages and locales. This choice was made because, of the encodings that have this capability, UTF-8 is the most commonly accepted choice. UTF-8 is a multi-byte encoding, meaning that some characters use more than 1 byte. But for compatibility, old-fashioned 7-bit ASCII strings are unchanged when encoded as UTF-8, and UTF-8 strings do not contain null bytes which would cause old code to misjudge the number of bytes. For these reasons, you can store a UTF-8 string in a std::string object. However, the std::string API will operate on that string in terms of bytes, instead of characters.</para>
     <para>Because Standard C++ has no string class that can fully handle UTF-8, libxml++ uses the Glib::ustring class from the glibmm library. Glib::ustring has almost exactly the same API as std::string, but methods such as length() and operator[] deal with whole UTF-8 characters rather than raw bytes.</para>
     <para>There are implicit conversions between std::string and Glib::ustring, so you can use std::string wherever you see a Glib::ustring in the API, if you really don't care about any locale other than English. However, that is unlikely in today's connected world.</para>
     <para>glibmm also provides useful API to convert between encodings and locales.</para>
-    </sect1>
+    </section>
 
-    <sect1 id="sect-comp-link">
-    <title>Compilation and Linking</title>
+    <section xml:id="sect-comp-link">
+    <info><title>Compilation and Linking</title></info>
+
     <para>To use libxml++ in your application, you must tell the compiler where to find the include headers and where to find the libxml++ library. libxml++ provides a pkg-config .pc file to make this easy. For instance, the following command will provide the necessary compiler options:
     <command>pkg-config libxml++-4.0 --cflags --libs</command>
     </para>
     <para>When using autoconf and automake, this is even easier with the PKG_CHECK_MODULES macro in your configure.ac file. For instance:
     <programlisting>
-    PKG_CHECK_MODULES(SOMEAPP, libxml++-4.0 >= 4.0.0)
+    PKG_CHECK_MODULES(SOMEAPP, libxml++-4.0 &gt;= 4.0.0)
     AC_SUBST(SOMEAPP_CFLAGS)
     AC_SUBST(SOMEAPP_LIBS)
     </programlisting>
     </para>
-    </sect1>
+    </section>
+  </chapter>
 
-    </chapter>
+  <chapter xml:id="chapter-parsers">
+  <info><title>Parsers</title></info>
 
-  <chapter id="chapter-parsers">
-    <title>Parsers</title>
     <para>Like the underlying libxml2 library, libxml++ allows the use of 3 parsers, depending on your needs - the DOM, SAX, and TextReader parsers. The relative advantages and behaviour of these parsers will be explained here.</para>
     <para>All of the parsers may parse XML documents directly from disk, a string, or a C++ std::istream. Although the libxml++ API uses only Glib::ustring, and therefore the UTF-8 encoding, libxml++ can parse documents in any encoding, converting to UTF-8 automatically. This conversion will not lose any information because UTF-8 can represent any locale.</para>
-    <para>Remember that white space is usually significant in XML documents, so the parsers might provide unexpected text nodes that contain only spaces and new lines. The parser does not know whether you care about these text nodes, but your application may choose to ignore them.</para> 
-  
-    <sect1 id="sect-dom-parser">
-      <title>DOM Parser</title>
+    <para>Remember that white space is usually significant in XML documents, so the parsers might provide unexpected text nodes that contain only spaces and new lines. The parser does not know whether you care about these text nodes, but your application may choose to ignore them.</para>
+
+    <section xml:id="sect-dom-parser">
+    <info><title>DOM Parser</title></info>
+
       <para>The DOM (Document Object Model) parser parses the whole document at once and stores the structure in memory, available via <methodname>DomParser::get_document()</methodname>. With methods such as <methodname>Document::get_root_node()</methodname> and <methodname>Node::get_children()</methodname>, you may then navigate into the hierarchy of XML nodes without restriction, jumping forwards or backwards in the document based on the information that you encounter. Therefore the DOM parser uses a relatively large amount of memory.</para>
       <para>You should use C++ RTTI (via <literal>dynamic_cast&lt;&gt;</literal>) to identify the specific node type and to perform actions which are not possible with all node types. For instance, only <classname>Element</classname>s have attributes. Here is the inheritance hierarchy of node types:</para>
 
@@ -113,7 +121,7 @@ url="http://www.gnome.org">GNOME</ulink> project, of which libxml++ is a part.</
           <listitem><para>xmlpp::XIncludeStart</para></listitem>
         </itemizedlist>
         </para></listitem>
- 
+
       </itemizedlist>
     </para>
 
@@ -126,40 +134,45 @@ url="http://www.gnome.org">GNOME</ulink> project, of which libxml++ is a part.</
     <para>Although you may obtain pointers to the <classname>Node</classname>s, these <classname>Node</classname>s are always owned by their parent <classname>Node</classname>. In most cases that means that the <classname>Node</classname> will exist, and your pointer will be valid, as long as the <classname>Document</classname> instance exists.</para>
     <para>There are also several methods which can create new child <classname>Node</classname>s. By using these, and one of the <methodname>Document::write_*()</methodname> methods, you can use libxml++ to build a new XML document.</para>
 
-<sect2 id="sect-dom-example">
-<title>Example</title>
-<para>This example looks in the document for expected elements and then examines them. All these examples are included in the libxml++ source distribution.</para>
-<para><ulink url="&url_examples_base;dom_parser">Source Code</ulink></para>
-</sect2>
-    </sect1>
+<section xml:id="sect-dom-example">
+<info><title>Example</title></info>
 
-    <sect1 id="sect-sax-parser">
-      <title>SAX Parser</title>
+<para>This example looks in the document for expected elements and then examines them. All these examples are included in the libxml++ source distribution.</para>
+<para><link xlink:href="&url_examples_base;dom_parser">Source Code</link></para>
+</section>
+    </section>
+
+    <section xml:id="sect-sax-parser">
+    <info><title>SAX Parser</title></info>
+
       <para>The SAX (Simple API for XML) parser presents each node of the XML document in sequence. So when you process one node, you must have already stored information about any relevant previous nodes, and you have no information at that time about subsequent nodes. The SAX parser uses less memory than the DOM parser and it is a suitable abstraction for documents that can be processed sequentially rather than as a whole.</para>
 
       <para>By using the <literal>parse_chunk()</literal> method instead of for instance <literal>parse_file()</literal>, you can even parse parts of the XML document before you have received the whole document.</para>
 
-      <para>As shown in the example, you should derive your own class from SaxParser and override some of the virtual methods. These &quot;handler&quot; methods will be called while the document is parsed.</para>
- 
-<sect2 id="sect-sax-example">
-<title>Example</title>
+      <para>As shown in the example, you should derive your own class from SaxParser and override some of the virtual methods. These "handler" methods will be called while the document is parsed.</para>
+
+<section xml:id="sect-sax-example">
+<info><title>Example</title></info>
+
 <para>This example shows how the handler methods are called during parsing.</para>
-<para><ulink url="&url_examples_base;sax_parser">Source Code</ulink></para>
-</sect2>
-    </sect1>
+<para><link xlink:href="&url_examples_base;sax_parser">Source Code</link></para>
+</section>
+    </section>
 
-    <sect1 id="sect-reader-parser">
-      <title>TextReader Parser</title>
+    <section xml:id="sect-reader-parser">
+    <info><title>TextReader Parser</title></info>
+
       <para>Like the SAX parser, the TextReader parser is suitable for sequential parsing, but instead of implementing handlers for specific parts of the document, it allows you to detect the current node type, process the node accordingly, and skip forward in the document as much as necessary. Unlike the DOM parser, you may not move backwards in the XML document. And unlike the SAX parser, you must not waste time processing nodes that do not interest you. </para>
-      <para>All methods are on the single parser instance, but their result depends on the current context. For instance, use <literal>read()</literal> to move to the next node, and <literal>move_to_element()</literal> to navigate to child nodes. These methods will return false when no more nodes are available. Then use methods such as <literal>get_name()</literal> and <literal>get_value()</literal> to examine the elements and their attributes.</para> 
+      <para>All methods are on the single parser instance, but their result depends on the current context. For instance, use <literal>read()</literal> to move to the next node, and <literal>move_to_element()</literal> to navigate to child nodes. These methods will return false when no more nodes are available. Then use methods such as <literal>get_name()</literal> and <literal>get_value()</literal> to examine the elements and their attributes.</para>
 
-<sect2 id="sect-reader-example">
-<title>Example</title>
+<section xml:id="sect-reader-example">
+<info><title>Example</title></info>
+
 <para>This example examines each node in turn, then moves to the next node.</para>
-<para><ulink url="&url_examples_base;textreader">Source Code</ulink></para>
-</sect2>
-    </sect1>
-  
+<para><link xlink:href="&url_examples_base;textreader">Source Code</link></para>
+</section>
+    </section>
+
   </chapter>
 
 </book>
