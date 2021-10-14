@@ -6,7 +6,7 @@ title: libxml++
 
 ## Introduction
 
-libxml++ is a C++ wrapper for the [libxml](http://www.xmlsoft.org) XML parser library.
+libxml++ is a C++ wrapper for the [libxml2](http://www.xmlsoft.org) XML parser library.
 
 ## License
 
@@ -27,7 +27,7 @@ libxml++-5.0: Does not depend on glibmm, is not as good at handling UTF-8 string
 
 ## Download
 
-You can download libxml++ from [here](http://ftp.gnome.org/pub/GNOME/sources/libxml++/).
+You can download libxml++ from [here](https://download.gnome.org/sources/libxml++/).
 
 ## Required Libraries
 
@@ -37,7 +37,8 @@ You can download libxml++ from [here](http://ftp.gnome.org/pub/GNOME/sources/lib
 
 ## Documentation
 
-The short [manual](http://library.gnome.org/devel/libxml++-tutorial/) gives an overview of the libxml++ API. You can also browse online the [reference documentation](http://library.gnome.org/devel/libxml++/).
+The short [manual](https://developer-old.gnome.org/libxml++-tutorial/) gives an overview of the libxml++ API.
+You can also browse online the [reference documentation](https://developer-old.gnome.org/libxml++/).
 
 ## Development
 
