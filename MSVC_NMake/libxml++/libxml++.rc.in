@@ -1,7 +1,7 @@
 
 #define APSTUDIO_READONLY_SYMBOLS
 
-#include "afxres.h"
+#include "winresrc.h"
 
 #undef APSTUDIO_READONLY_SYMBOLS
 
@@ -20,7 +20,7 @@ END
 
 2 TEXTINCLUDE 
 BEGIN
-    "#include ""afxres.h""\r\n"
+    "#include ""winresrc.h""\r\n"
     "\0"
 END
 
