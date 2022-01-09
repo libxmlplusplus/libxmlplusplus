@@ -12,7 +12,7 @@ jobs:
     - name: Build
       run: |
         sudo apt update
-        sudo apt install libxml2-dev libglibmm-2.4-dev mm-common clang-9
+        sudo apt install libxml2-dev libglibmm-2.4-dev mm-common clang-9 docbook-xsl
         export CXX=clang++-9
         ./autogen.sh --enable-warnings=fatal
         make
