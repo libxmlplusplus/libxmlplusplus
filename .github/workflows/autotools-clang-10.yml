@@ -12,7 +12,7 @@ jobs:
     - name: Build
       run: |
         sudo apt update
-        sudo apt install libxml2-dev mm-common clang-10
+        sudo apt install libxml2-dev mm-common clang-10 docbook-xsl
         export CXX=clang++-10
         ./autogen.sh --enable-warnings=fatal
         make
