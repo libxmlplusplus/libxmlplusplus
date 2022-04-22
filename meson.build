@@ -4,6 +4,7 @@ project('libxml++', 'cpp',
   version: '5.0.1',
   license: 'LGPLv2.1+',
   default_options: [
+    'warning_level=1'
     'cpp_std=c++17'
   ],
   meson_version: '>= 0.55.0', # required for meson.add_dist_script(python3, ...)
@@ -227,13 +228,7 @@ xmlxx_libname = 'xml++' + msvc14x_toolset_ver + '-' + xmlxx_api_version
 
 # Set compiler warnings.
 warning_flags = []
-if warning_level == 'min'
-  if is_msvc
-    warning_flags = ['/W3']
-  else
-    warning_flags = ['-Wall']
-  endif
-elif warning_level == 'max' or warning_level == 'fatal'
+if warning_level == 'max' or warning_level == 'fatal'
   if is_msvc
     warning_flags = ['/W4']
   else
