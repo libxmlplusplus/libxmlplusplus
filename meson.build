@@ -6,7 +6,7 @@ project('libxml++', 'cpp',
   default_options: [
     'cpp_std=c++17'
   ],
-  meson_version: '>= 0.55.0', # required for meson.add_dist_script(python3, ...)
+  meson_version: '>= 0.58.0', # required for meson.add_dist_script(python3, ...)
                               # and meson.add_install_script(python3, ...)
 )
 
