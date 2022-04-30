@@ -4,8 +4,8 @@ project('libxml++', 'cpp',
   version: '5.0.1',
   license: 'LGPLv2.1+',
   default_options: [
-    'warning_level=1'
-    'cpp_std=c++17'
+    'warning_level=1',
+    'cpp_std=c++17',
   ],
   meson_version: '>= 0.55.0', # required for meson.add_dist_script(python3, ...)
                               # and meson.add_install_script(python3, ...)
