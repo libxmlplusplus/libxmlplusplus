@@ -56,8 +56,8 @@ def insert_example_code(examples_base_dir, input_xml_files, output_xml_file):
             # List all the source files in the examples directory.
             source_directory = os.path.join(examples_base_dir, source_include_match.group(1))
             outfile.write('<!-- start inserted example code -->\n')
-            for source_filename in glob.glob(os.path.join(source_directory, '*.h')) + \
-                                   glob.glob(os.path.join(source_directory, '*.cc')):
+            for source_filename in sorted(glob.glob(os.path.join(source_directory, '*.h'))) + \
+                                   sorted(glob.glob(os.path.join(source_directory, '*.cc'))):
               source_basename = os.path.basename(source_filename)
               process_source_file(source_directory, source_basename, outfile)
             outfile.write('<!-- end inserted example code -->\n')
