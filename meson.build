@@ -282,10 +282,20 @@ add_project_arguments(warning_flags, language: 'cpp')
 # MSVC: Ignore warnings that aren't really harmful, but make those
 #       that should not be overlooked stand out.
 if is_msvc
-  foreach wd : ['/FImsvc_recommended_pragmas.h', '/utf-8', '/wd4267', '/EHsc' ]
-    disabled_warning = cpp_compiler.get_supported_arguments(wd)
-    add_project_arguments(disabled_warning, language: 'cpp')
-  endforeach
+  disable_warnings_list = [
+    '/FImsvc_recommended_pragmas.h', # Turn off harmless warnings but make potentially
+                                     # dangerous ones glaring, distributed with GLib
+    '/EHsc',  # avoid warnings caused by exception handling model used
+    '/utf-8', # Avoid C4819 unicode conversion warnings when building on CJK locales
+  ]
+  if host_machine.cpu_family() == 'x86_64' or host_machine.cpu_family() == 'aarch64'
+    # 'var' : conversion from 'size_t' to 'type', possible loss of data (applies on 64-bit builds)
+    disable_warnings_list += '/wd4267'
+  endif
+  add_project_arguments(
+    cpp_compiler.get_supported_arguments(disable_warnings_list),
+    language: 'cpp'
+  )
 endif
 
 # Configure files
