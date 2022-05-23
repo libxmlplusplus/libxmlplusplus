@@ -267,12 +267,23 @@ add_project_arguments(warning_flags, language: 'cpp')
 #       that should not be overlooked stand out.
 if is_msvc
   disable_warnings_list = [
-    '/FImsvc_recommended_pragmas.h', # Turn off harmless warnings but make potentially
-                                     # dangerous ones glaring, distributed with GLib
     '/EHsc',  # avoid warnings caused by exception handling model used
     '/utf-8', # Avoid C4819 unicode conversion warnings when building on CJK locales
     '/wd4706', # assignment within conditional expression
   ]
+
+  # Turn off harmless warnings but make potentially dangerous ones glaring,
+  # distributed with GLib, if available
+  use_recommended_pragmas =  cpp_compiler.get_supported_arguments('/FImsvc_recommended_pragmas.h')
+  if use_recommended_pragmas.length() > 0
+    add_project_arguments(use_recommended_pragmas, language: 'cpp')
+  else
+    disable_warnings_list += [
+      '/wd4244', # 'conversion' conversion from 'type1' to 'type2', possible loss of data
+      '/wd4101', # unreferenced local variable
+    ]
+  endif
+
   if host_machine.cpu_family() == 'x86_64' or host_machine.cpu_family() == 'aarch64'
     # 'var' : conversion from 'size_t' to 'type', possible loss of data (applies on 64-bit builds)
     disable_warnings_list += '/wd4267'
