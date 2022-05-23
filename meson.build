@@ -288,6 +288,7 @@ if is_msvc
                                      # dangerous ones glaring, distributed with GLib
     '/EHsc',  # avoid warnings caused by exception handling model used
     '/utf-8', # Avoid C4819 unicode conversion warnings when building on CJK locales
+    '/wd4706', # assignment within conditional expression
   ]
   if host_machine.cpu_family() == 'x86_64' or host_machine.cpu_family() == 'aarch64'
     # 'var' : conversion from 'size_t' to 'type', possible loss of data (applies on 64-bit builds)
