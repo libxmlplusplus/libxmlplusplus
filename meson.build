@@ -224,8 +224,6 @@ endif
 msvc14x_toolset_ver = ''
 
 if is_msvc
-  add_project_arguments(cpp_compiler.get_supported_arguments([ '/utf-8', '/wd4828']), language: 'cpp')
-
   if use_msvc14x_toolset_ver
     if cpp_compiler.version().version_compare('>=19.30')
       msvc14x_toolset_ver = '-vc143'
@@ -285,7 +283,7 @@ add_project_arguments(warning_flags, language: 'cpp')
 # MSVC: Ignore warnings that aren't really harmful, but make those
 #       that should not be overlooked stand out.
 if is_msvc
-  foreach wd : ['/FImsvc_recommended_pragmas.h', '/wd4267', '/EHsc' ]
+  foreach wd : ['/FImsvc_recommended_pragmas.h', '/utf-8', '/wd4267', '/EHsc' ]
     disabled_warning = cpp_compiler.get_supported_arguments(wd)
     add_project_arguments(disabled_warning, language: 'cpp')
   endforeach
