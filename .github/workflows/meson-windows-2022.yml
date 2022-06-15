@@ -1,0 +1,38 @@
+name: "meson: windows 2022"
+
+on: [push, workflow_dispatch]
+
+jobs:
+  build:
+
+    runs-on: windows-2022
+
+    steps:
+      - uses: actions/checkout@v3
+      - uses: actions/setup-python@v4
+        with:
+          python-version: '3.x'
+      - run: pip install meson ninja
+
+      - name: Prepare MSVC
+        uses: bus1/cabuild/action/msdevshell@v1
+        with:
+          architecture: x64
+
+      - name: Configure
+        run: meson setup --warnlevel 3 --werror -Dlibxml2_cmake:werror=false -Dmaintainer-mode=false _build
+
+      - name: Compile
+        run: ninja -C _build
+
+      - name: Test
+        run: meson test -C _build
+
+      - name: Configure static
+        run: meson setup --warnlevel 3 --werror -Dlibxml2_cmake:werror=false --default-library static -Dmaintainer-mode=false _build_static
+
+      - name: Compile static
+        run: ninja -C _build_static
+
+      - name: Test static
+        run: meson test -C _build_static
