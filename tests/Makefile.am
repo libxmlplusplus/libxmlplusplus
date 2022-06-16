@@ -21,10 +21,12 @@ LDADD = $(top_builddir)/libxml++/libxml++-$(LIBXMLXX_API_VERSION).la $(LIBXMLXX_
 check_PROGRAMS = \
 	saxparser_chunk_parsing_inconsistent_state/test \
 	saxparser_parse_double_free/test \
-	saxparser_parse_stream_inconsistent_state/test
+	saxparser_parse_stream_inconsistent_state/test \
+	istream_ioparser/test
 
 TESTS = $(check_PROGRAMS)
 
 saxparser_chunk_parsing_inconsistent_state_test_SOURCES = saxparser_chunk_parsing_inconsistent_state/main.cc
 saxparser_parse_double_free_test_SOURCES = saxparser_parse_double_free/main.cc
 saxparser_parse_stream_inconsistent_state_test_SOURCES = saxparser_parse_stream_inconsistent_state/main.cc
+istream_ioparser_test_SOURCES = istream_ioparser/main.cc

@@ -17,6 +17,19 @@
 #include <cstdarg> //For va_list.
 #include <iostream>
 
+namespace {
+  extern "C" {
+    static int _io_read_callback(void * context,
+                                 char * buffer,
+                                 int len)
+    {
+      std::istream *in = static_cast<std::istream*>(context);
+      in->read(buffer, len);
+      return in->gcount();
+    }
+  }
+}
+
 namespace xmlpp {
 
 struct SaxParserCallback
@@ -217,66 +230,16 @@ void SaxParser::parse_stream(std::istream& in)
   }
 
   KeepBlanks k(KeepBlanks::Default);
-  xmlResetLastError();
 
-  context_ = xmlCreatePushParserCtxt(
+  context_ = xmlCreateIOParserCtxt(
       sax_handler_.get(),
-      nullptr,  // user_data
-      nullptr,  // chunk
-      0,        // size
-      nullptr); // no filename for fetching external entities
+      nullptr, // user_data
+      _io_read_callback,
+      nullptr, // inputCloseCallback
+      &in,
+      XML_CHAR_ENCODING_NONE);
 
-  if(!context_)
-  {
-    throw internal_error("Could not create parser context\n" + format_xml_error());
-  }
-
-  initialize_context();
-
-  // std::string or Glib::ustring?
-  // Output from the XML parser is UTF-8 encoded.
-  // But the istream "in" is input, i.e. an XML file. It can use any encoding.
-  // If it's not UTF-8, the file itself must contain information about which
-  // encoding it uses. See the XML specification. Thus use std::string.
-  int firstParseError = XML_ERR_OK;
-  std::string line;
-  while (!exception_ && std::getline(in, line))
-  {
-    // since getline does not get the line separator, we have to add it since the parser care
-    // about layout in certain cases.
-    line += '\n';
-
-    const int parseError = xmlParseChunk(context_, line.c_str(),
-      line.size() /* This is a std::string, not a ustring, so this is the number of bytes. */,
-      0 /* don't terminate */);
-
-    // Save the first error code if any, but read on.
-    // More errors might be reported and then thrown by check_for_exception().
-    if (parseError != XML_ERR_OK && firstParseError == XML_ERR_OK)
-      firstParseError = parseError;
-  }
-
-  if (!exception_)
-  {
-     //This is called just to terminate parsing.
-    const int parseError = xmlParseChunk(context_, nullptr /* chunk */, 0 /* size */, 1 /* terminate (1 or 0) */);
-
-    if (parseError != XML_ERR_OK && firstParseError == XML_ERR_OK)
-      firstParseError = parseError;
-  }
-
-  auto error_str = format_xml_parser_error(context_);
-  if (error_str.empty() && firstParseError != XML_ERR_OK)
-    error_str = "Error code from xmlParseChunk(): " + Glib::ustring::format(firstParseError);
-
-  release_underlying(); // Free context_
-
-  check_for_exception();
-
-  if(!error_str.empty())
-  {
-    throw parse_error(error_str);
-  }
+  parse();
 }
 
 void SaxParser::parse_chunk(const Glib::ustring& chunk)

@@ -5,6 +5,7 @@
 
 test_programs = [
 # [[dir-name], exe-name, [sources]]
+  [['istream_ioparser'], 'test', ['main.cc']],
   [['saxparser_chunk_parsing_inconsistent_state'], 'test', ['main.cc']],
   [['saxparser_parse_double_free'], 'test', ['main.cc']],
   [['saxparser_parse_stream_inconsistent_state'], 'test', ['main.cc']],
