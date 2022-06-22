@@ -325,10 +325,12 @@ endif
 
 # Static library?
 library_build_type = get_option('default_library')
+pkg_conf_data.set('LIBXMLXX_STATIC', library_build_type == 'static')
+
 
 if cpp_compiler.get_argument_syntax() == 'msvc'
-  if library_build_type == 'static' or library_build_type == 'both'
-    error('Static builds are not supported by MSVC-style builds')
+  if library_build_type == 'both'
+    error('Dynamic+Static builds are not supported by MSVC-style builds')
   endif
 endif
 

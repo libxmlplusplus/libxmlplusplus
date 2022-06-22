@@ -16,6 +16,8 @@
 /* Micro version number of libxml++. */
 #mesondefine LIBXMLXX_MICRO_VERSION
 
+#mesondefine LIBXMLXX_STATIC
+
 // Enable DLL-specific stuff only when not building a static library
 #if !defined(__CYGWIN__) && (defined(__MINGW32__) || defined(_MSC_VER)) && !defined(LIBXMLXX_STATIC)
 # define LIBXMLPP_DLL 1
