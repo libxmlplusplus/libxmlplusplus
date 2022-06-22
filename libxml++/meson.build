@@ -88,7 +88,7 @@ endforeach
 xmlxx_cpp_args = [ '-DLIBXMLPP_BUILD=1' ]
 
 # Make sure we are exporting the symbols from the DLL
-if is_msvc
+if is_msvc and get_option('default_library') != 'static'
   xmlxx_cpp_args += ['-D_WINDLL']
 endif
 
