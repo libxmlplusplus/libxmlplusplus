@@ -7,8 +7,7 @@ project('libxml++', 'cpp',
     'warning_level=1',
     'cpp_std=c++17',
   ],
-  meson_version: '>= 0.55.0', # required for meson.add_dist_script(python3, ...)
-                              # and meson.add_install_script(python3, ...)
+  meson_version: '>= 0.60.0', # required for dependency('iconv')
 )
 
 xmlxx_api_version = '5.0'
@@ -105,9 +104,12 @@ install_pkgconfigdir = install_libdir / 'pkgconfig'
 xml2_min_ver = '2.7.7'
 xml2_req = '>= @0@'.format(xml2_min_ver)
 xml2_dep = dependency('libxml-2.0', version: xml2_req, required: host_machine.system() != 'windows')
+xml2_is_subproject = false
 
+libxml2_lib_set = false
 if not xml2_dep.found()
   libxml2_lib = 'libxml2'
+  libxml2_lib_set = true
   xml2_dep =  cpp_compiler.find_library(libxml2_lib,
                                         has_headers: [
                                           'libxml/globals.h',
@@ -122,19 +124,51 @@ if not xml2_dep.found()
                                           'libxml/xmlIO.h',
                                           'libxml/xmlreader.h',
                                           'libxml/xmlschemas.h',
-                                        ])
+                                        ],
+                                       required: false)
+  if xml2_dep.found()
+    xml_min_ver_split = xml2_min_ver.split('.')
+    xml_min_ver_int = xml_min_ver_split[0].to_int() * 10000 + \
+                      xml_min_ver_split[1].to_int() * 100 + \
+                      xml_min_ver_split[2].to_int()
 
-  xml_min_ver_split = xml2_min_ver.split('.')
-  xml_min_ver_int = xml_min_ver_split[0].to_int() * 10000 + \
-                    xml_min_ver_split[1].to_int() * 100 + \
-                    xml_min_ver_split[2].to_int()
+    if not cpp_compiler.compiles('''#include <libxml/tree.h>
+                                 #if LIBXML_VERSION < @0@
+                                 # error libxml2 versions must be @1@ or later
+                                 #endif'''.format(xml_min_ver_int.to_string(), xml2_min_ver),
+                                 name : 'libxml2 is @0@ or later'.format(xml2_min_ver))
+      error('Your libxml2 installation must be @0@ or later'.format(xml2_min_ver))
+    endif
+  else
+    cmake = import('cmake')
+    opt_var = cmake.subproject_options()
+    build_shared = get_option('default_library') != 'static'
+    iconv_dep = dependency('iconv', required: false)
+    icu_i18n_dep = dependency('icu-i18n', required: false)
+    icu_uc_dep = dependency('icu-uc', required: false)
+    lzma_dep = dependency('liblzma', required: false)
+    thread_dep = dependency('threads', required: false)
+    zlib_dep = dependency('zlib', required: false)
+    winsock_dep = cpp_compiler.find_library('ws2_32', required: false)
+    opt_var.add_cmake_defines({'BUILD_SHARED_LIBS': build_shared,
+                               'LIBXML2_WITH_HTTP': host_machine.system() != 'windows' or winsock_dep.found(),
+                               'LIBXML2_WITH_ICONV': iconv_dep.found(),
+                               'LIBXML2_WITH_ICU': icu_i18n_dep.found() and icu_uc_dep.found(),
+                               'LIBXML2_WITH_LZMA': lzma_dep.found(),
+                               'LIBXML2_WITH_PYTHON': false,
+                               'LIBXML2_WITH_TESTS': build_tests,
+                               'LIBXML2_WITH_THREADS': thread_dep.found(),
+                               'LIBXML2_WITH_ZLIB': zlib_dep.found(),
+                              })
 
-  if not cpp_compiler.compiles('''#include <libxml/tree.h>
-                                  #if LIBXML_VERSION < @0@
-                                  # error libxml2 versions must be @1@ or later
-                                  #endif'''.format(xml_min_ver_int.to_string(), xml2_min_ver),
-                                  name : 'libxml2 is @0@ or later'.format(xml2_min_ver))
-    error('Your libxml2 installation must be @0@ or later'.format(xml2_min_ver))
+    xml2_sp = cmake.subproject('libxml2_cmake', options: opt_var)
+    xml2_dep = xml2_sp.dependency('LibXml2')
+    xml2_is_subproject = true
+
+    if build_tests
+      test('testchar', xml2_sp.target('testchar'))
+      test('testdict', xml2_sp.target('testdict'))
+    endif
   endif
 endif
 
@@ -146,7 +180,9 @@ libxml2_lib_pkgconfig = ''
 if xml2_dep.type_name() == 'pkgconfig'
   xmlxx_requires += ['libxml-2.0', xml2_req]
 else
-  libxml2_lib_pkgconfig = '-l@0@'.format(libxml2_lib)
+  if libxml2_lib_set
+    libxml2_lib_pkgconfig = '-l@0@'.format(libxml2_lib)
+  endif
 endif
 
 xmlxx_requires = ' '.join(xmlxx_requires)

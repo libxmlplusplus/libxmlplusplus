@@ -92,6 +92,8 @@ if is_msvc and get_option('default_library') != 'static'
   xmlxx_cpp_args += ['-D_WINDLL']
 endif
 
+xmlxx_all_deps = [xmlxx_build_dep]
+
 extra_xmlxx_objects = []
 
 # Build the .rc file for Windows builds and link to it
@@ -99,6 +101,10 @@ if host_machine.system() == 'windows'
   windows = import('windows')
   xmlxx_res = windows.compile_resources(xmlxx_rc)
   extra_xmlxx_objects += xmlxx_res
+
+  if xml2_is_subproject
+    xmlxx_all_deps += [winsock_dep]
+  endif
 endif
 
 extra_include_dirs = ['..']
@@ -119,5 +125,5 @@ xmlxx_library = library(xmlxx_libname,
 xmlxx_own_dep = declare_dependency(
   link_with: xmlxx_library,
   include_directories: extra_include_dirs,
-  dependencies: xmlxx_build_dep
+  dependencies: xmlxx_all_deps
 )
