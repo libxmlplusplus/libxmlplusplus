@@ -303,7 +303,6 @@ add_project_arguments(warning_flags, language: 'cpp')
 #       that should not be overlooked stand out.
 if is_msvc
   disable_warnings_list = [
-    '/EHsc',  # avoid warnings caused by exception handling model used
     '/utf-8', # Avoid C4819 unicode conversion warnings when building on CJK locales
     '/wd4706', # assignment within conditional expression
   ]
