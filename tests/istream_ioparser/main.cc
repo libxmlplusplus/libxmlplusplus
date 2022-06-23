@@ -17,6 +17,7 @@
 
 #include <libxml++/libxml++.h>
 
+#include <algorithm>
 #include <cassert>
 #include <cstdlib>
 #include <cstring>
