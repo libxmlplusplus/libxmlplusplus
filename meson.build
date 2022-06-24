@@ -150,7 +150,22 @@ if not xml2_dep.found()
     thread_dep = dependency('threads', required: false)
     zlib_dep = dependency('zlib', required: false)
     winsock_dep = cpp_compiler.find_library('ws2_32', required: false)
+    cmake_build_type = get_option('buildtype')
+    if get_option('buildtype') == 'debugoptimized'
+      cmake_build_type = 'RelWithDebInfo'
+    elif get_option('buildtype') == 'minsize'
+      cmake_build_type = 'MinSizeRel'
+    elif get_option('buildtype') == 'plain'
+      cmake_build_type = ''
+    endif
     opt_var.add_cmake_defines({'BUILD_SHARED_LIBS': build_shared,
+                               'CMAKE_BUILD_TYPE': cmake_build_type,
+                               'CMAKE_MSVC_RUNTIME_LIBRARY': '',
+                               'CMAKE_C_FLAGS_INIT': '',
+                               'CMAKE_C_FLAGS_DEBUG': '',
+                               'CMAKE_C_FLAGS_RELEASE': '',
+                               'CMAKE_C_FLAGS_RELWITHDEBINFO': '',
+                               'CMAKE_C_FLAGS_MINSIZEREL': '',
                                'LIBXML2_WITH_HTTP': host_machine.system() != 'windows' or winsock_dep.found(),
                                'LIBXML2_WITH_ICONV': iconv_dep.found(),
                                'LIBXML2_WITH_ICU': icu_i18n_dep.found() and icu_uc_dep.found(),
