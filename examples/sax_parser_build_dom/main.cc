@@ -23,9 +23,9 @@
 #include <config.h>
 #endif
 
+#include <cstdlib>
 #include <fstream>
 #include <iostream>
-#include <stdlib.h>
 
 #include "svgparser.h"
 #include "svgdocument.h"
