@@ -28,7 +28,7 @@ ustring AttributeNode::get_value() const
   else
     value = xmlGetNoNsProp(cobj()->parent, cobj()->name);
 
-  const ustring retn = value ? (const char*)value : "";
+  ustring retn = value ? (const char*)value : "";
   if (value)
     xmlFree(value);
   return retn;

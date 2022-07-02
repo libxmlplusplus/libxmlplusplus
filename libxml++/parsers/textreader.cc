@@ -410,7 +410,7 @@ ustring TextReader::PropertyReader::String(xmlChar* value, bool free)
   if (!value)
     return ustring();
 
-  const ustring result = (char *)value;
+  ustring result = (char *)value;
 
   if(free)
     xmlFree(value);
