@@ -333,7 +333,7 @@ void SaxParser::initialize_context()
 {
   Parser::initialize_context();
   // Start with an empty Document for entity resolution.
-  entity_resolver_doc_.reset(new Document);
+  entity_resolver_doc_ = std::make_unique<Document>();
 }
 
 
