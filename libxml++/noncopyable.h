@@ -17,14 +17,15 @@ namespace xmlpp
  */
 class LIBXMLPP_API NonCopyable
 {
-protected:
-  NonCopyable() noexcept;
-  virtual ~NonCopyable();
-
+public:
   NonCopyable(const NonCopyable&) = delete;
   NonCopyable& operator=(const NonCopyable&) = delete;
   NonCopyable(NonCopyable&&) = delete;
   NonCopyable& operator=(NonCopyable&&) = delete;
+
+protected:
+  NonCopyable() noexcept;
+  virtual ~NonCopyable();
 };
 
 } // namespace xmlpp
