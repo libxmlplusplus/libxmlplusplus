@@ -65,11 +65,10 @@ Tvector find_common(const xmlpp::ustring& xpath,
 
   if (namespaces)
   {
-    for (xmlpp::Node::PrefixNsMap::const_iterator it = namespaces->begin();
-         it != namespaces->end(); ++it)
+    for (const auto& [prefix, ns_uri] : *namespaces)
       xmlXPathRegisterNs(ctxt,
-        reinterpret_cast<const xmlChar*>(it->first.c_str()),
-        reinterpret_cast<const xmlChar*>(it->second.c_str()));
+        reinterpret_cast<const xmlChar*>(prefix.c_str()),
+        reinterpret_cast<const xmlChar*>(ns_uri.c_str()));
   }
 
   auto result = xmlXPathEval((const xmlChar*)xpath.c_str(), ctxt);
@@ -140,11 +139,10 @@ xmlXPathObject* eval_common(const xmlpp::ustring& xpath,
 
   if (namespaces)
   {
-    for (xmlpp::Node::PrefixNsMap::const_iterator it = namespaces->begin();
-         it != namespaces->end(); ++it)
+    for (const auto& [prefix, ns_uri] : *namespaces)
       xmlXPathRegisterNs(ctxt,
-        reinterpret_cast<const xmlChar*>(it->first.c_str()),
-        reinterpret_cast<const xmlChar*>(it->second.c_str()));
+        reinterpret_cast<const xmlChar*>(prefix.c_str()),
+        reinterpret_cast<const xmlChar*>(ns_uri.c_str()));
   }
 
   auto xpath_value = xmlXPathEvalExpression(
