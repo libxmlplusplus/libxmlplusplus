@@ -68,7 +68,7 @@ void Validator::check_for_validity_messages()
   }
 
   if (validity_msg)
-    exception_.reset(new validity_error(msg));
+    exception_ = std::make_unique<validity_error>(msg);
 }
 
 void Validator::callback_validity_error(void* valid_, const char* msg, ...)
@@ -130,17 +130,17 @@ void Validator::handle_exception()
 #ifdef LIBXMLXX_HAVE_EXCEPTION_PTR
   catch (...)
   {
-    exception_.reset(new wrapped_exception(std::current_exception()));
+    exception_ = std::make_unique<wrapped_exception>(std::current_exception());
   }
 #else
   catch (const std::exception& e)
   {
-    exception_.reset(new exception(e.what()));
+    exception_ = std::make_unique<exception>(e.what());
   }
   catch (...)
   {
-    exception_.reset(new exception("An exception was thrown that is not derived from std::exception or xmlpp::exception.\n"
-      "It could not be caught and rethrown because this platform does not support std::exception_ptr."));
+    exception_ = std::make_unique<exception>("An exception was thrown that is not derived from std::exception or xmlpp::exception.\n"
+      "It could not be caught and rethrown because this platform does not support std::exception_ptr.");
   }
 #endif
 

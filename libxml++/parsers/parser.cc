@@ -227,9 +227,9 @@ void Parser::check_for_error_and_warning_messages()
   }
 
   if (validity_msg)
-    exception_.reset(new validity_error(msg));
+    exception_ = std::make_unique<validity_error>(msg);
   else if (parser_msg)
-    exception_.reset(new parse_error(msg));
+    exception_ = std::make_unique<parse_error>(msg);
 }
 
 //static
@@ -331,7 +331,7 @@ void Parser::handle_exception()
 #ifdef LIBXMLXX_HAVE_EXCEPTION_PTR
   catch (...)
   {
-    exception_.reset(new wrapped_exception(std::current_exception()));
+    exception_ = std::make_unique<wrapped_exception>(std::current_exception());
   }
 #else
   catch (const std::exception& e)
