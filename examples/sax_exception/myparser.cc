@@ -30,9 +30,7 @@ MyException::MyException()
 {
 }
 
-MyException::~MyException() throw ()
-{
-}
+MyException::~MyException() noexcept = default;
 
 void MyException::raise() const
 {
