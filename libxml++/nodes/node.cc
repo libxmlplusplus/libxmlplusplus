@@ -463,7 +463,7 @@ ustring Node::get_namespace_prefix() const
   else if (impl_->type == XML_ATTRIBUTE_DECL)
   {
     //impl_ is actually of type xmlAttribute, instead of just xmlNode.
-    const xmlAttribute* const attr = reinterpret_cast<const xmlAttribute*>(impl_);
+    const auto attr = reinterpret_cast<const xmlAttribute *>(impl_);
     return attr->prefix ? (const char*)attr->prefix : "";
   }
   else if(impl_->ns && impl_->ns->prefix)

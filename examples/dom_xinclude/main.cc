@@ -64,9 +64,8 @@ void print_node(const xmlpp::Node* node, unsigned int indentation = 0)
   else if (nodeContent)
   {
     std::cout << indent << "content = " << nodeContent->get_content() << std::endl;
-  }
-  else if (const xmlpp::Element* nodeElement = dynamic_cast<const xmlpp::Element*>(node))
-  {
+  } else if (const auto nodeElement =
+                 dynamic_cast<const xmlpp::Element *>(node)) {
     //A normal Element node:
     std::cout << indent << "     Element line = " << node->get_line() << std::endl;
 
@@ -86,13 +85,9 @@ void print_node(const xmlpp::Node* node, unsigned int indentation = 0)
     {
       std::cout << indent << "title = " << attribute->get_value() << std::endl;
     }
-  }
-  else if (dynamic_cast<const xmlpp::XIncludeStart*>(node))
-  {
+  } else if (dynamic_cast<const xmlpp::XIncludeStart *>(node)) {
     std::cout << indent << "     " << "XIncludeStart line = " << node->get_line() << std::endl;
-  }
-  else if (dynamic_cast<const xmlpp::XIncludeEnd*>(node))
-  {
+  } else if (dynamic_cast<const xmlpp::XIncludeEnd *>(node)) {
     std::cout << indent << "     " << "XIncludeEnd" << std::endl;
   }
 
