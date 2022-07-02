@@ -206,7 +206,7 @@ xmlpp::ustring eval_common_to_string(const xmlpp::ustring& xpath,
   xmlXPathFreeObject(xpath_value);
   if (result)
   {
-    const xmlpp::ustring uresult(reinterpret_cast<const char*>(result));
+    xmlpp::ustring uresult(reinterpret_cast<const char*>(result));
     xmlFree(result);
     return uresult;
   }
