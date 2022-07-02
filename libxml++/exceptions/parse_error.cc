@@ -7,8 +7,7 @@ parse_error::parse_error(const ustring& message)
 {
 }
 
-parse_error::~parse_error() noexcept
-{}
+parse_error::~parse_error() noexcept = default;
 
 void parse_error::raise() const
 {

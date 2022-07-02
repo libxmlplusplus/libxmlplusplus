@@ -225,8 +225,7 @@ Node::Node(xmlNode* node)
   impl_->_private = this;
 }
 
-Node::~Node()
-{}
+Node::~Node() = default;
 
 const Element* Node::get_parent() const
 {

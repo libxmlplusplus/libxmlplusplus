@@ -220,7 +220,7 @@ protected:
   static void callback_error_or_warning(MsgType msg_type, void* ctx,
                                         const char* msg, va_list var_args);
 
-  _xmlParserCtxt* context_;
+  _xmlParserCtxt *context_{nullptr};
   std::unique_ptr<exception> exception_;
 
 private:

@@ -45,9 +45,7 @@ namespace xmlpp
     }
   }
 
-  ParserInputBuffer::~ParserInputBuffer()
-  {
-  }
+  ParserInputBuffer::~ParserInputBuffer() = default;
 
   bool ParserInputBuffer::on_close()
   {

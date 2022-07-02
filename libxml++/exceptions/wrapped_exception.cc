@@ -27,9 +27,7 @@ wrapped_exception::wrapped_exception(std::exception_ptr exception_ptr)
 {
 }
 
-wrapped_exception::~wrapped_exception() noexcept
-{
-}
+wrapped_exception::~wrapped_exception() noexcept = default;
 
 void wrapped_exception::raise() const
 {

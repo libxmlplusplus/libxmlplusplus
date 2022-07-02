@@ -15,7 +15,6 @@ TextNode::TextNode(xmlNode* node)
 : ContentNode(node)
 {}
 
-TextNode::~TextNode()
-{}
+TextNode::~TextNode() = default;
 
 } //namespace xmlpp

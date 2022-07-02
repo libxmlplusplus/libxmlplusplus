@@ -29,11 +29,11 @@ namespace xmlpp
 
 struct RelaxNGValidator::Impl
 {
-  Impl() noexcept : schema(nullptr), is_schema_owner(false), context(nullptr) {}
+  Impl() noexcept = default;
 
-  RelaxNGSchema* schema;
-  bool is_schema_owner;
-  _xmlRelaxNGValidCtxt* context;
+  RelaxNGSchema *schema{nullptr};
+  bool is_schema_owner{false};
+  _xmlRelaxNGValidCtxt *context{nullptr};
 };
 
 

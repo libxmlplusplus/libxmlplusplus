@@ -7,8 +7,7 @@ validity_error::validity_error(const ustring& message)
 {
 }
 
-validity_error::~validity_error() noexcept
-{}
+validity_error::~validity_error() noexcept = default;
 
 void validity_error::raise() const
 {

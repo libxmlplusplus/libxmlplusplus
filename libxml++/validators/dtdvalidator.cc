@@ -23,11 +23,11 @@ namespace xmlpp
 
 struct DtdValidator::Impl
 {
-  Impl() noexcept : dtd(nullptr), is_dtd_owner(false), context(nullptr) {}
+  Impl() noexcept = default;
 
-  Dtd* dtd;
-  bool is_dtd_owner;
-  _xmlValidCtxt* context;
+  Dtd *dtd{nullptr};
+  bool is_dtd_owner{false};
+  _xmlValidCtxt *context{nullptr};
 };
 
 

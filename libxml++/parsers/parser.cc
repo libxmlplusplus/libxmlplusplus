@@ -14,11 +14,7 @@ namespace xmlpp
 
 struct Parser::Impl
 {
-  Impl()
-  :
-  throw_messages_(true), validate_(false), substitute_entities_(false),
-  include_default_attributes_(false), set_options_(0), clear_options_(0)
-  {}
+  Impl() = default;
 
   // Built gradually - used in an exception at the end of parsing.
   ustring parser_error_;
@@ -26,18 +22,15 @@ struct Parser::Impl
   ustring validate_error_;
   ustring validate_warning_;
 
-  bool throw_messages_;
-  bool validate_;
-  bool substitute_entities_;
-  bool include_default_attributes_;
-  int set_options_;
-  int clear_options_;
+  bool throw_messages_{true};
+  bool validate_{false};
+  bool substitute_entities_{false};
+  bool include_default_attributes_{false};
+  int set_options_{0};
+  int clear_options_{0};
 };
 
-Parser::Parser()
-: context_(nullptr), exception_(nullptr), pimpl_(new Impl)
-{
-}
+Parser::Parser() : exception_(nullptr), pimpl_(new Impl) {}
 
 Parser::~Parser()
 {

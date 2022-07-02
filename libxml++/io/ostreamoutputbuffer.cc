@@ -18,9 +18,7 @@ namespace xmlpp
   {
   }
 
-  OStreamOutputBuffer::~OStreamOutputBuffer()
-  {
-  }
+  OStreamOutputBuffer::~OStreamOutputBuffer() = default;
 
   bool OStreamOutputBuffer::do_write(
       const char * buffer,
