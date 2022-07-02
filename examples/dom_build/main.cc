@@ -21,9 +21,9 @@
 #include <config.h>
 #endif
 
-#include <libxml++/libxml++.h>
+#include <cstdlib>
 #include <iostream>
-#include <stdlib.h>
+#include <libxml++/libxml++.h>
 
 int
 main(int /* argc */, char** /* argv */)

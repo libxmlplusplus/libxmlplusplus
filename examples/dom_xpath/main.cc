@@ -21,9 +21,9 @@
 #include <config.h>
 #endif
 
-#include <libxml++/libxml++.h>
-#include <stdlib.h>
+#include <cstdlib>
 #include <iostream>
+#include <libxml++/libxml++.h>
 
 std::string result_type_to_ustring(xmlpp::XPathResultType result_type)
 {

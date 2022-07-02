@@ -21,9 +21,9 @@
 #include <config.h>
 #endif
 
+#include <cstdlib>
 #include <fstream>
 #include <iostream>
-#include <stdlib.h>
 
 #include "myparser.h"
 

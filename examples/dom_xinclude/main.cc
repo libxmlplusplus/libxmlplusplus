@@ -20,9 +20,9 @@
 #include <config.h>
 #endif
 
-#include <libxml++/libxml++.h>
+#include <cstdlib>
 #include <iostream>
-#include <stdlib.h>
+#include <libxml++/libxml++.h>
 
 void print_node(const xmlpp::Node* node, unsigned int indentation = 0)
 {

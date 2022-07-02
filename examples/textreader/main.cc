@@ -26,8 +26,8 @@
 #include <libxml++/libxml++.h>
 #include <libxml++/parsers/textreader.h>
 
+#include <cstdlib>
 #include <iostream>
-#include <stdlib.h>
 
 struct indent {
   int depth_;

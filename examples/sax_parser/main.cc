@@ -21,10 +21,10 @@
 #include <config.h>
 #endif
 
+#include <cstdlib>
+#include <cstring> // std::memset()
 #include <fstream>
 #include <iostream>
-#include <stdlib.h>
-#include <cstring> // std::memset()
 
 #include "myparser.h"
 
