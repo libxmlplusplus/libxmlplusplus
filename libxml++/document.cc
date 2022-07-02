@@ -164,7 +164,6 @@ Document::Init::Init()
 //plugins.
 //See http://xmlsoft.org/html/libxml-parser.html#xmlCleanupParser
 //xmlCleanupParser(); //As per xmlInitParser(), or memory leak will happen.
-Document::Init::~Init() noexcept = default;
 
 Document::Init Document::init_;
 

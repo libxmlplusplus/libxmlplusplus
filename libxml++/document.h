@@ -69,7 +69,7 @@ class Document : public NonCopyable
   {
   public:
     Init();
-    ~Init() noexcept;
+    ~Init() noexcept = default;
   };
 
   friend LIBXMLPP_API class SaxParser;
