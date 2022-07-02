@@ -36,7 +36,7 @@ public:
 
 protected:
   /* Simulate some kind of streambuf impl that doesn't setg() */
-  virtual int_type underflow() override final
+  int_type underflow() final
   {
     ++underflow_calls;
     if (ofs >= (sizeof(buf)-1))
@@ -44,7 +44,7 @@ protected:
     return traits_type::to_int_type(buf[ofs]);
   }
 
-  virtual int_type uflow() override final
+  int_type uflow() final
   {
     ++uflow_calls;
     if (ofs >= (sizeof(buf)-1))
@@ -52,14 +52,14 @@ protected:
     return traits_type::to_int_type(buf[ofs++]);
   }
 
-  virtual std::streamsize showmanyc() override final
+  std::streamsize showmanyc() final
   {
     if (ofs >= (sizeof(buf)-1))
       return traits_type::eof();
     return sizeof(buf)-1-ofs;
   }
 
-  virtual std::streamsize xsgetn(char_type* s, std::streamsize count) override final
+  std::streamsize xsgetn(char_type* s, std::streamsize count) final
   {
     auto n = std::min(count, static_cast<std::streamsize>(sizeof(buf)-1-ofs));
     memcpy(s, buf + ofs, n);
@@ -80,11 +80,11 @@ class MySaxParser : public xmlpp::SaxParser {
 public:
   bool saw_root = false;
 protected:
-  virtual void on_start_document() override final
+  void on_start_document() final
   {
       saw_root = false;
   }
-  virtual void on_end_element(const xmlpp::ustring &name) override final
+  void on_end_element(const xmlpp::ustring &name) final
   {
     if (name == "root")
       saw_root = true;

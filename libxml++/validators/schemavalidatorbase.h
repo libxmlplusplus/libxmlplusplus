@@ -70,7 +70,7 @@ public:
    * @endcode
    */
   LIBXMLPP_API
-  explicit virtual operator bool() const noexcept override = 0;
+  explicit operator bool() const noexcept override = 0;
 
   /** Validate a document, using a previously parsed schema.
    * @param document Pointer to the document.
