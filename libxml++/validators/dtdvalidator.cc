@@ -164,7 +164,7 @@ void DtdValidator::validate(const Document* document)
   xmlResetLastError();
   initialize_context();
 
-  const bool res = (bool)xmlValidateDtd(pimpl_->context, (xmlDoc*)document->cobj(),
+  const auto res = (bool)xmlValidateDtd(pimpl_->context, (xmlDoc*)document->cobj(),
                    pimpl_->dtd->cobj());
 
   if (!res)

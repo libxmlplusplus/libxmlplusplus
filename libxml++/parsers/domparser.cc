@@ -180,7 +180,7 @@ namespace {
                                  char * buffer,
                                  int len)
     {
-      std::istream *in = static_cast<std::istream*>(context);
+      auto in = static_cast<std::istream*>(context);
       in->read(buffer, len);
       return in->gcount();
     }

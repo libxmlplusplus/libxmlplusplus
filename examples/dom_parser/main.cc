@@ -66,7 +66,7 @@ void print_node(const xmlpp::Node* node, unsigned int indentation = 0)
   {
     std::cout << indent << "content = " << nodeContent->get_content() << std::endl;
   }
-  else if(const xmlpp::Element* nodeElement = dynamic_cast<const xmlpp::Element*>(node))
+  else if(auto nodeElement = dynamic_cast<const xmlpp::Element*>(node))
   {
     //A normal Element node:
 
