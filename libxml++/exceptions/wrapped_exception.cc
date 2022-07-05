@@ -23,7 +23,7 @@ namespace xmlpp
 #ifdef LIBXMLXX_HAVE_EXCEPTION_PTR
 
 wrapped_exception::wrapped_exception(std::exception_ptr exception_ptr)
-  : exception("Wrapped exception"), exception_ptr_(exception_ptr)
+  : exception("Wrapped exception"), exception_ptr_(std::move(exception_ptr))
 {
 }
 
