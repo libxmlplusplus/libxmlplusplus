@@ -15,9 +15,8 @@ DEBUG_SUFFIX =
 
 LIBXMLXX_BASE_CFLAGS =			\
 	/I.\libxml++ /I.. /EHsc	\
-	/FImsvc_recommended_pragmas.h	\
+	/wd4244 /wd4101	\
 	/std:c++17
-
 
 LIBXMLXX_EXTRA_INCLUDES =	\
 	/I$(PREFIX)\include\libxml2	\
