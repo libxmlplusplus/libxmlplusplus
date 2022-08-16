@@ -154,7 +154,7 @@ LDFLAGS_ARCH = /machine:x86
 CFLAGS_NOGL = $(CFLAGS_ADD_NO_GL) /W3 /Zi
 CFLAGS = $(CFLAGS_ADD) /W3 /Zi
 
-LDFLAGS_BASE = $(LDFLAGS_ARCH) /libpath:$(PREFIX)\lib /DEBUG
+LDFLAGS_BASE = $(LDFLAGS_ARCH) /libpath:$(LIBDIR) /DEBUG
 
 !if "$(CFG)" == "debug" || "$(CFG)" == "Debug"
 ARFLAGS_NOLTCG = $(LDFLAGS_ARCH)
