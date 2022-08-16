@@ -32,6 +32,19 @@ help:
 	@echo.
 	@echo USE_MESON_LIBS: Use DLLs and LIBs of C++ dependencies that are built with Meson,
 	@echo as applicable.
+	@echo.
+	@echo PERL: Full path to PERL interpreter, if not already in PATH, needed to generate
+	@echo libxml++config.h and libxml++.rc if not already present in .\libxml++.
+	@echo.
+	@echo PREFIX: Base directory to look for dependencies and location for where the
+	@echo build results are copied, default is in ..\..\^$(short_vs_ver)\^$(platform)
+	@echo.
+	@echo INCLUDEDIR: Base include directory to look for dependenct headers,
+	@echo such as libxml2, default is in ^$(PREFIX)\include.
+	@echo.
+	@echo LIBDIR: Base directory to look for dependent libraries, such as libxml2,
+	@echo default is in ^$(PREFIX)\lib.
+	@echo.
 	@echo ======
 	@echo A 'clean' target is supported to remove all generated files, intermediate
 	@echo object files and binaries for the specified configuration.

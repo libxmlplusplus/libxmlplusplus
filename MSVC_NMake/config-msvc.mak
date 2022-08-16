@@ -1,7 +1,14 @@
 # NMake Makefile portion for enabling features for Windows builds
 
 # These are the base minimum libraries required for building glibmm.
-BASE_INCLUDES =	/I$(PREFIX)\include
+!ifndef INCLUDEDIR
+INCLUDEDIR = $(PREFIX)\include
+!endif
+!ifndef LIBDIR
+LIBDIR = $(PREFIX)\lib
+!endif
+
+BASE_INCLUDES = /I$(INCLUDEDIR)
 
 # Please do not change anything beneath this line unless maintaining the NMake Makefiles
 LIBXMLXX_MAJOR_VERSION = 5
@@ -19,8 +26,8 @@ LIBXMLXX_BASE_CFLAGS =			\
 	/std:c++17
 
 LIBXMLXX_EXTRA_INCLUDES =	\
-	/I$(PREFIX)\include\libxml2	\
-	/I$(PREFIX)\include
+	/I$(INCLUDEDIR)\libxml2	\
+	/I$(INCLUDEDIR)
 
 LIBXMLXX_CFLAGS = /DLIBXMLPP_BUILD $(LIBXMLXX_BASE_CFLAGS) $(LIBXMLXX_EXTRA_INCLUDES)
 LIBXMLXX_EX_CFLAGS = $(LIBXMLXX_BASE_CFLAGS) $(LIBXMLXX_EXTRA_INCLUDES)
