@@ -12,6 +12,62 @@ Building libxml++ with Visual Studio 2017 or later
 * Run `nmake /f Makefile.vc CFG=[debug|release]` to buiild libxml++.  Run `nmake /f Makefile.vc` without the
   `CFG=[debug|release] flag to see which options are supported by the NMake Makefiles
 
+* It is recommended that the dependent items is to be placed like the following, or be placed in paths
+  indicated by %INCLUDE% and %LIB% respectively for the headers and .lib's:
+
+<some_dir_1>\include
+ |
+ -libxml2 (and items in its subdir(s))
+ |
+ -giomm-2.4 (and items in its subdir(s))
+ |
+ -glibmm-2.4 (and items in its subdir(s))
+ |
+ -gio-win32-2.0 (and items in its subdir(s))
+ |
+ -glib-2.0 (and items in its subdir(s))
+ |
+ -sigc++-2.0 (and items in its subdir(s))
+ |
+ -(any dependent headers of libraries enabled by libxml2 and glibmm and glib)
+
+<some_dir_2>\lib
+   |
+   -giomm-2.4
+      |
+      -include
+        |
+        -giommconfig.h
+   |
+   -glibmm-2.4
+      |
+      -include
+        |
+        -glibmmconfig.h
+   -sigc++-2.0
+      |
+      -include
+        |
+        -sigc++config.h
+ -libxml2.lib
+ |
+ -giomm-vcXXX-2_4.lib
+ |
+ -glibmm-vcXXX-2_4.lib
+ |
+ -sigc-vcXXX-2_0.lib
+ |
+ -gobject-2.0.lib
+ |
+ -gmodule-2.0.lib
+ |
+ -glib-2.0.lib
+
+  Fine-tune by passing in PREFIX=..., INCLUDEDIR=... (default:$(PREFIX)\include, example would be
+  INCLUDEDIR=<some_dir_1>\include) and LIBDIR=... (default: $(PREFIX)\lib, example would be
+  LIBDIR=<some_dir_2>\lib) as needed.  Note that vcXXX denote the Visual Studio version being used,
+  where XXX is 141 for VS2017, 142 for VS2019 and 143 for VS2022.
+
 Cedric Gustin
 01/26/2005
 
