@@ -53,7 +53,7 @@ Building libxml++ with Visual Studio 2015 or later
  |
  -glibmm-vcXXX-2_4.lib
  |
- -sigc-vcXXX-2_0.lib
+ -sigc-vc140-2_0.lib
  |
  -gobject-2.0.lib
  |
