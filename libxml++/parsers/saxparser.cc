@@ -17,6 +17,19 @@
 #include <cstdarg> //For va_list.
 #include <iostream>
 
+namespace {
+  extern "C" {
+    static int _io_read_callback(void * context,
+                                 char * buffer,
+                                 int len)
+    {
+      auto in = static_cast<std::istream*>(context);
+      in->read(buffer, len);
+      return in->gcount();
+    }
+  }
+}
+
 namespace xmlpp {
 
 struct SaxParserCallback
@@ -207,19 +220,6 @@ void SaxParser::parse_memory_raw(const unsigned char* contents, size_type bytes_
 void SaxParser::parse_memory(const ustring& contents)
 {
   parse_memory_raw((const unsigned char*)contents.c_str(), contents.size());
-}
-
-namespace {
-  extern "C" {
-    static int _io_read_callback(void * context,
-                                 char * buffer,
-                                 int len)
-    {
-      auto in = static_cast<std::istream*>(context);
-      in->read(buffer, len);
-      return in->gcount();
-    }
-  }
 }
 
 void SaxParser::parse_stream(std::istream& in)

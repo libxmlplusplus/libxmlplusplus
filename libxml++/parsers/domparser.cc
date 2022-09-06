@@ -17,6 +17,19 @@
 #include <sstream>
 #include <iostream>
 
+namespace {
+  extern "C" {
+    static int _io_read_callback(void * context,
+                                 char * buffer,
+                                 int len)
+    {
+      auto in = static_cast<std::istream*>(context);
+      in->read(buffer, len);
+      return in->gcount();
+    }
+  }
+}
+
 namespace xmlpp
 {
 
@@ -172,19 +185,6 @@ void DomParser::check_xinclude_and_finish_parsing()
   // Free the parser context because it's not needed anymore,
   // but keep the document alive so people can navigate the DOM tree:
   Parser::release_underlying();
-}
-
-namespace {
-  extern "C" {
-    static int _io_read_callback(void * context,
-                                 char * buffer,
-                                 int len)
-    {
-      auto in = static_cast<std::istream*>(context);
-      in->read(buffer, len);
-      return in->gcount();
-    }
-  }
 }
 
 void DomParser::parse_stream(std::istream& in)
