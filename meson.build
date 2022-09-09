@@ -1,7 +1,7 @@
 # This file is part of libxml++.
 
 project('libxml++', 'cpp',
-  version: '5.0.1',
+  version: '5.0.2',
   license: 'LGPLv2.1+',
   default_options: [
     'warning_level=1',
