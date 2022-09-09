@@ -1,3 +1,34 @@
+3.2.4 (stable):
+
+* Document, Node: Recognize HTML documents
+  (Kjell Ahlstedt) Issue #23 (rkd77)
+* Parsers: Avoid std::getline for istream inputs
+  (Andrew Potter) Pull request #28
+
+Build:
+* Meson build: When mm-common >= 1.0.4 is used, Perl is not required
+  (Kjell Ahlstedt)
+* Win32: Don't include afxres.h in resources
+* Support Visual Studio 2022
+  (Chun-wei Fan)
+* Meson build: Require meson >= 0.55.0
+* Meson build: Specify 'check' option in run_command()
+  Will be necessary with future versions of Meson.
+* Meson build: Avoid configuration warnings
+* docs/manual: Sort example file lists
+  See https://gitlab.gnome.org/GNOME/gtkmm-documentation/-/merge_requests/15
+  by Bernhard M. Wiedemann
+  (Kjell Ahlstedt)
+* NMake Makefiles: Make things more configurable
+  (Chun-wei Fan) Issue #44 (lxxxd)
+
+Documentation:
+* docs/manual: Upgrade from DocBook 4.1 to DocBook 5.0
+  (Kjell Ahlstedt)
+* MSVC_NMake/README: Document dependency placement
+  (Chun-wei Fan) Issue #44 (lxxxd)
+
+
 3.2.3 (stable):
 
 Build:
