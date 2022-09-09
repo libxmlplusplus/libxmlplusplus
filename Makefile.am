@@ -36,6 +36,7 @@ EXTRA_DIST = \
   docs/reference/meson.build \
   examples/meson.build \
   libxml++/meson.build \
+  subprojects/libxml2_cmake.wrap \
   subprojects/mm-common.wrap \
   tests/meson.build \
   tools/build_scripts/tutorial-custom-cmd.py \
