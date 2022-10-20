@@ -36,17 +36,17 @@ namespace xmlpp
 
 /** Base class for all xmlpp exceptions.
  */
-class exception : public std::exception
+class LIBXMLPP_VISIBILITY_DEFAULT exception : public std::exception
 {
 public:
-  LIBXMLPP_API
+  LIBXMLPP_MEMBER_METHOD
   explicit exception(const ustring& message);
-  LIBXMLPP_API ~exception() noexcept override;
+  LIBXMLPP_MEMBER_METHOD ~exception() noexcept override;
 
-  LIBXMLPP_API const char* what() const noexcept override;
+  LIBXMLPP_MEMBER_METHOD const char* what() const noexcept override;
 
-  LIBXMLPP_API virtual void raise() const;
-  LIBXMLPP_API virtual exception* clone() const;
+  LIBXMLPP_MEMBER_METHOD virtual void raise() const;
+  LIBXMLPP_MEMBER_METHOD virtual exception* clone() const;
 
 private:
   ustring message_;

@@ -24,6 +24,10 @@
 #ifdef LIBXMLPP_DLL
   #ifdef LIBXMLPP_BUILD
     #define LIBXMLPP_API __declspec(dllexport)
+    #ifdef __GNUC__
+      #define LIBXMLPP_VISIBILITY_DEFAULT __attribute__((visibility("default")))
+      #define LIBXMLPP_MEMBER_METHOD
+    #endif
   #elif !defined (__GNUC__)
     #define LIBXMLPP_API __declspec(dllimport)
   #else /* don't dllimport classes/methods on GCC/MinGW */
@@ -33,6 +37,13 @@
   /* Build a static library or a non-Windows library*/
   #define LIBXMLPP_API
 #endif /* GLIBMM_DLL */
+
+#ifndef LIBXMLPP_VISIBILITY_DEFAULT
+  #define LIBXMLPP_VISIBILITY_DEFAULT
+#endif
+#ifndef LIBXMLPP_MEMBER_METHOD
+  #define LIBXMLPP_MEMBER_METHOD LIBXMLPP_API
+#endif
 
 #endif /* _LIBXMLPP_CONFIG_H */
 
