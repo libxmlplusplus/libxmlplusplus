@@ -292,7 +292,7 @@ class TextReader: public NonCopyable
 
   private:
     class PropertyReader;
-    friend LIBXMLPP_API class PropertyReader;
+    friend class PropertyReader;
 
     LIBXMLPP_API
     void setup_exceptions();

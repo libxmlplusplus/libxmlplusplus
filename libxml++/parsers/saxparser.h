@@ -250,7 +250,7 @@ private:
   // and never seen in the API:
   std::unique_ptr<Document> entity_resolver_doc_;
 
-  friend LIBXMLPP_API struct SaxParserCallback;
+  friend struct SaxParserCallback;
 };
 
 } // namespace xmlpp
