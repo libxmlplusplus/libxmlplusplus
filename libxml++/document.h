@@ -72,7 +72,7 @@ class Document : public NonCopyable
     ~Init() noexcept;
   };
 
-  friend LIBXMLPP_API class SaxParser;
+  friend class SaxParser;
 
 public:
   /** Create a new document.
