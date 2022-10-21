@@ -27,7 +27,7 @@
   #ifdef LIBXMLPP_BUILD
     #define LIBXMLPP_API __declspec(dllexport)
     #ifdef __GNUC__
-      #define LIBXMLPP_VISIBILITY_DEFAULT __attribute__((visibility("default")))
+      #define LIBXMLPP_VISIBILITY_DEFAULT LIBXMLPP_API __attribute__((visibility("default")))
       #define LIBXMLPP_MEMBER_METHOD
     #endif
   #elif !defined (__GNUC__)
