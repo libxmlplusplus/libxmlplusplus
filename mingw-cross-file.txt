@@ -1,0 +1,23 @@
+# Cross compiling with MinGW, Linux -> Windows
+# meson --cross-file mingw-cross-file.txt .....
+
+[constants]
+prefix = 'x86_64-w64-mingw32-'
+
+[binaries]
+c = prefix + 'gcc'
+cpp = prefix + 'g++'
+ar = prefix + 'ar'
+strip = prefix + 'strip'
+windres = prefix + 'windres'
+exe_wrapper = 'wine64'
+
+[host_machine]
+system = 'windows'
+cpu_family = 'x86_64'
+cpu = 'x86_64'
+endian = 'little'
+
+[cmake]
+CMAKE_C_COMPILER = prefix + 'gcc'
+CMAKE_CXX_COMPILER = prefix + 'g++'
