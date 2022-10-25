@@ -44,8 +44,15 @@ You can also browse online the [reference documentation](https://developer-old.g
 
 Libxml++ uses the GitHub [git repository](https://github.com/libxmlplusplus/libxmlplusplus).
 
-Bugs and patches are tracked in GitHub's [issue tracker](https://github.com/libxmlplusplus/libxmlplusplus/issues).
+Bugs and patches are tracked in GitHub's [issue tracker](https://github.com/libxmlplusplus/libxmlplusplus/issues)
+and [pull request tracker](https://github.com/libxmlplusplus/libxmlplusplus/pulls).
 
-## Contact
+## Discussion
 
-Please use the [libxmlplusplus-list mailing list](http://mail.gnome.org/mailman/listinfo/libxmlplusplus-list) or GitHub. Please do not just email the developers directly.
+You can discuss libxml++ questions on GNOME's [Discourse](https://discourse.gnome.org)
+instance, under the [Platform/Language bindings](https://discourse.gnome.org/c/platform/language-bindings)
+category with a _cplusplus_ tag.
+
+There is an old mailing list, which is now closed for new posts.
+There is an archive of messages [here](http://mail.gnome.org/archives/libxmlplusplus-list/).
+Please do not email the developers directly.
