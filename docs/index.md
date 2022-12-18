@@ -2,8 +2,6 @@
 layout: default
 title: libxml++
 ---
-# libxml++
-
 ## Introduction
 
 libxml++ is a C++ wrapper for the [libxml2](http://www.xmlsoft.org) XML parser library.
@@ -27,18 +25,37 @@ libxml++-5.0: Does not depend on glibmm, is not as good at handling UTF-8 string
 
 ## Download
 
-You can download libxml++ from [here](https://download.gnome.org/sources/libxml++/).
+You can download libxml++ from the [GNOME download site](https://download.gnome.org/sources/libxml++/).
 
 ## Required Libraries
 
 * [libxml2](http://www.xmlsoft.org/)
-* libxml++-2.6 and libxml++-3.0: [glibmm-2.4](https://developer.gnome.org/glibmm/2.64/)
-* libxml++-4.0: [glibmm-2.68](https://developer.gnome.org/glibmm/2.68/)
+* libxml++-2.6 and libxml++-3.0: [glibmm-2.4](https://developer-old.gnome.org/glibmm/2.64/)
+* libxml++-4.0: [glibmm-2.68](https://gnome.pages.gitlab.gnome.org/glibmm/)
 
 ## Documentation
 
-The short [manual](https://developer-old.gnome.org/libxml++-tutorial/) gives an overview of the libxml++ API.
-You can also browse online the [reference documentation](https://developer-old.gnome.org/libxml++/).
+### libxml++-5.0
+
+The short [manual](manual/html/index.html) gives an overview of the libxml++ API.
+You can also browse online the [reference documentation](reference/html/index.html).
+
+### Other ABI Versions
+
+libxml++-2.6: [manual](https://developer-old.gnome.org/libxml++-tutorial/2.42/)
+and [reference documentation](https://developer-old.gnome.org/libxml++/2.42/)
+
+libxml++-3.0: [manual](https://developer-old.gnome.org/libxml++-tutorial/3.2/)
+and [reference documentation](https://developer-old.gnome.org/libxml++/3.2/)
+
+libxml++-4.0: [manual](https://developer-old.gnome.org/libxml++-tutorial/4.0/)
+and [reference documentation](https://developer-old.gnome.org/libxml++/4.0)
+
+This documentation is frozen on the web. It does not document the latest releases.
+If you want newer documentation, you can download a tarball from
+[GitHub releases](https://github.com/libxmlplusplus/libxmlplusplus/releases/)
+or the [GNOME download site](https://download.gnome.org/sources/libxml++/),
+extract it, and view the documentation at *untracked/docs/*.
 
 ## Development
 
