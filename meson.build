@@ -393,9 +393,10 @@ configure_file(
   install_dir: install_pkgconfigdir,
 )
 
+xmlxxconfig_h_meson = files('libxml++config.h.meson')
 install_includeconfigdir = install_libdir / xmlxx_pcname / 'include'
-xmlxxconfig_h = configure_file(
-  input: 'libxml++config.h.meson',
+configure_file(
+  input: xmlxxconfig_h_meson,
   output: 'libxml++config.h',
   configuration: pkg_conf_data,
   install_dir: install_includeconfigdir,
