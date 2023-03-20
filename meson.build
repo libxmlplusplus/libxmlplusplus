@@ -196,17 +196,9 @@ if maintainer_mode
     project_source_root / 'untracked' / 'docs',
     check: true,
   )
-else
-  cmd_py = '''
-import os
-import sys
-sys.exit(os.path.isfile("@0@"))
-'''.format(doc_reference_py)
-  file_exists = run_command(python3, '-c', cmd_py, check: false).returncode() != 0
-  if not file_exists
-    warning('Missing files in untracked/. ' + \
-      'Enable maintainer-mode if you want to build documentation or create a dist tarball.')
-  endif
+elif not import('fs').is_file(doc_reference_py)
+  warning('Missing files in untracked/.\n  ' + \
+  'Enable maintainer-mode if you want to build documentation or create a dist tarball.')
 endif
 
 # Check if perl is required and available.
