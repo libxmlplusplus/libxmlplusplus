@@ -20,7 +20,7 @@ jobs:
         sudo pip3 install "meson>=0.55.0"
         export CC=clang-10
         export CXX=clang++-10
-        meson -Dwarnings=fatal -Dwarning_level=3 -Dwerror=true _build
+        meson setup -Dwarnings=fatal -Dwarning_level=3 -Dwerror=true _build
         cd _build
         meson compile
     - name: Test

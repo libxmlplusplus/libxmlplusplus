@@ -6,9 +6,6 @@ have both libxml2 and pkg-config installed.
 To get the latest version of libxml++, see the
 [libxml++ web site](https://libxmlplusplus.github.io/libxmlplusplus/)
 
-To contact the developers, send e-mail to the
-[libxml++ mailing list](https://mail.gnome.org/mailman/listinfo/libxmlplusplus-list)
-
 See the examples directory for example code.
 
 Use pkg-config to discover the necessary include and linker arguments. For instance,
@@ -48,7 +45,7 @@ of untracked/.
 Don't call the builddir 'build'. There is a directory called 'build' with
 files used by Autotools.
 ```
-  $ meson --prefix /some_directory --libdir lib your_builddir .
+  $ meson setup --prefix /some_directory --libdir lib your_builddir .
   $ cd your_builddir
 ```
 If the tarball was made with Autotools, you must enable maintainer-mode:
@@ -102,7 +99,7 @@ Maintainer-mode is enabled by default when you build from a git clone.
 Don't call the builddir 'build'. There is a directory called 'build' with
 files used by Autotools.
 ```
-  $ meson --prefix /some_directory --libdir lib your_builddir .
+  $ meson setup --prefix /some_directory --libdir lib your_builddir .
   $ cd your_builddir
   $ ninja
   $ ninja install
