@@ -291,7 +291,7 @@ PREDEFINED             = __cplusplus \
                          "G_GNUC_PURE=" \
                          "G_GNUC_WARN_UNUSED_RESULT=" \
                          "G_MODULE_EXPORT=" \
-                         "LIBXMLXX_API="
+                         "LIBXMLPP_API="
 EXPAND_AS_DEFINED      = LIBXMLXX_MAJOR_VERSION \
                          LIBXMLXX_MINOR_VERSION \
                          LIBXMLXX_MICRO_VERSION
