@@ -19,13 +19,17 @@
 #ifndef DOXYGEN_SHOULD_SKIP_THIS
 extern "C" {
   struct _xmlParserCtxt;
-
-  /** @newin{5,2} */
-  using ParserCallbackCFuncType = void (*)(void* ctx, const char* msg, ...);
 }
 #endif //DOXYGEN_SHOULD_SKIP_THIS
 
 namespace xmlpp {
+
+extern "C" {
+  /** Type of function pointer to callback function with C linkage.
+   * @newin{5,2}
+   */
+  using ParserCallbackCFuncType = void (*)(void* ctx, const char* msg, ...);
+}
 
 /** XML parser.
  *
