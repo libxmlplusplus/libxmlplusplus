@@ -1,3 +1,20 @@
+5.0.3 (stable):
+
+* exception: Fix linking on MinGW
+  (Chun-wei Fan) Issue #45 (Rosen Penev)
+  (Chun-wei Fan) Pull request #46
+* headers: Drop LIBXMLPP_API from 'friend' members
+  (Chun-wei Fan) Pull request #47
+
+Meson build:
+* Detect if we build from a git subtree
+  (William Roy) Merge request gtkmm!72
+* Don't copy files with configure_file()
+  (Kjell Ahlstedt)
+* Fix the evaluation of is_git_build on Windows
+  (Kjell Ahlstedt) Issue gtkmm#131 (William Roy)
+
+
 5.0.2 (stable):
 
 * Document, Node: Recognize HTML documents
