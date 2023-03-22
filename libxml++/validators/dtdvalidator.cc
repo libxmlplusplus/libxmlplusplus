@@ -97,8 +97,8 @@ void DtdValidator::initialize_context()
   if (pimpl_->context)
   {
     //Tell the validation context about the callbacks:
-    pimpl_->context->error = &callback_validity_error;
-    pimpl_->context->warning = &callback_validity_warning;
+    pimpl_->context->error = get_callback_validity_error_cfunc();
+    pimpl_->context->warning = get_callback_validity_warning_cfunc();
 
     //Allow the callback_validity_*() methods to retrieve the C++ instance:
     pimpl_->context->userData = this;
