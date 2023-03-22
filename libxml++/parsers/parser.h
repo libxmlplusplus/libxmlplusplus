@@ -19,6 +19,9 @@
 #ifndef DOXYGEN_SHOULD_SKIP_THIS
 extern "C" {
   struct _xmlParserCtxt;
+
+  /** @newin{5,2} */
+  using ParserCallbackCFuncType = void (*)(void* ctx, const char* msg, ...);
 }
 #endif //DOXYGEN_SHOULD_SKIP_THIS
 
@@ -199,15 +202,21 @@ protected:
   LIBXMLPP_API
   virtual void check_for_error_and_warning_messages();
 
+#ifndef LIBXMLXX_DISABLE_DEPRECATED
+  /** @deprecated Use get_callback_parser_error_cfunc() instead. */
   LIBXMLPP_API
   static void callback_parser_error(void* ctx, const char* msg, ...);
+  /** @deprecated Use get_callback_parser_warning_cfunc() instead. */
   LIBXMLPP_API
   static void callback_parser_warning(void* ctx, const char* msg, ...);
+  /** @deprecated Use get_callback_validity_error_cfunc() instead. */
   LIBXMLPP_API
   static void callback_validity_error(void* ctx, const char* msg, ...);
+  /** @deprecated Use get_callback_validity_warning_cfunc() instead. */
   LIBXMLPP_API
   static void callback_validity_warning(void* ctx, const char* msg, ...);
 
+  /** @deprecated */
   enum class MsgType
   {
     ParserError,
@@ -216,8 +225,28 @@ protected:
     ValidityWarning
   };
 
+  /** @deprecated Use the other callback_error_or_warning() overload instead. */
   LIBXMLPP_API
   static void callback_error_or_warning(MsgType msg_type, void* ctx,
+                                        const char* msg, va_list var_args);
+#endif // LIBXMLXX_DISABLE_DEPRECATED
+
+  /** @newin{5,2} */
+  LIBXMLPP_API
+  static ParserCallbackCFuncType get_callback_parser_error_cfunc();
+  /** @newin{5,2} */
+  LIBXMLPP_API
+  static ParserCallbackCFuncType get_callback_parser_warning_cfunc();
+  /** @newin{5,2} */
+  LIBXMLPP_API
+  static ParserCallbackCFuncType get_callback_validity_error_cfunc();
+  /** @newin{5,2} */
+  LIBXMLPP_API
+  static ParserCallbackCFuncType get_callback_validity_warning_cfunc();
+
+  /** @newin{5,2} */
+  LIBXMLPP_API
+  static void callback_error_or_warning(bool is_parser, bool is_error, void* ctx,
                                         const char* msg, va_list var_args);
 
   _xmlParserCtxt* context_;

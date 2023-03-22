@@ -125,7 +125,8 @@ RelaxNGValidator::operator bool() const noexcept
 
 void RelaxNGValidator::initialize_context()
 {
-  xmlRelaxNGSetValidErrors(pimpl_->context, &callback_validity_error, &callback_validity_warning, this);
+  xmlRelaxNGSetValidErrors(pimpl_->context, get_callback_validity_error_cfunc(),
+                           get_callback_validity_warning_cfunc(), this);
   SchemaValidatorBase::initialize_context();
 }
 

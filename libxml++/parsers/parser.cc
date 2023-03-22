@@ -9,6 +9,48 @@
 
 #include <libxml/parser.h>
 
+namespace
+{
+// C++ linkage
+using ErrorOrWarningFuncType = void (*)(bool parser, bool error, void* ctx,
+                                        const char* msg, va_list var_args);
+ErrorOrWarningFuncType p_callback_error_or_warning;
+
+extern "C"
+{
+static void c_callback_parser_error(void* ctx, const char* msg, ...)
+{
+  va_list var_args;
+  va_start(var_args, msg);
+  p_callback_error_or_warning(true, true, ctx, msg, var_args);
+  va_end(var_args);
+}
+
+static void c_callback_parser_warning(void* ctx, const char* msg, ...)
+{
+  va_list var_args;
+  va_start(var_args, msg);
+  p_callback_error_or_warning(true, false, ctx, msg, var_args);
+  va_end(var_args);
+}
+static void c_callback_validity_error(void* ctx, const char* msg, ...)
+{
+  va_list var_args;
+  va_start(var_args, msg);
+  p_callback_error_or_warning(false, true, ctx, msg, var_args);
+  va_end(var_args);
+}
+
+static void c_callback_validity_warning(void* ctx, const char* msg, ...)
+{
+  va_list var_args;
+  va_start(var_args, msg);
+  p_callback_error_or_warning(false, false, ctx, msg, var_args);
+  va_end(var_args);
+}
+} // extern "C"
+} // anonymous namespace
+
 namespace xmlpp
 {
 
@@ -136,17 +178,17 @@ void Parser::initialize_context()
   if (context_->sax && pimpl_->throw_messages_)
   {
     //Tell the parser context about the callbacks.
-    context_->sax->fatalError = &callback_parser_error;
-    context_->sax->error = &callback_parser_error;
-    context_->sax->warning = &callback_parser_warning;
+    context_->sax->fatalError = get_callback_parser_error_cfunc();
+    context_->sax->error = get_callback_parser_error_cfunc();
+    context_->sax->warning = get_callback_parser_warning_cfunc();
   }
 
   if (pimpl_->throw_messages_)
   {
     //Tell the validity context about the callbacks:
     //(These are only called if validation is on - see above)
-    context_->vctxt.error = &callback_validity_error;
-    context_->vctxt.warning = &callback_validity_warning;
+    context_->vctxt.error = get_callback_validity_error_cfunc();
+    context_->vctxt.warning = get_callback_validity_warning_cfunc();
   }
 
   //Allow callback_error_or_warning() to retrieve the C++ instance:
@@ -232,6 +274,7 @@ void Parser::check_for_error_and_warning_messages()
     exception_ = std::make_unique<parse_error>(msg);
 }
 
+#ifndef LIBXMLXX_DISABLE_DEPRECATED
 //static
 void Parser::callback_parser_error(void* ctx, const char* msg, ...)
 {
@@ -272,6 +315,44 @@ void Parser::callback_validity_warning(void* ctx, const char* msg, ...)
 void Parser::callback_error_or_warning(MsgType msg_type, void* ctx,
                                        const char* msg, va_list var_args)
 {
+  const bool is_parser = (msg_type == MsgType::ParserError) || (msg_type == MsgType::ParserWarning);
+  const bool is_error = (msg_type == MsgType::ParserError) || (msg_type == MsgType::ValidityError);
+  callback_error_or_warning(is_parser, is_error, ctx, msg, var_args);
+}
+#endif // LIBXMLXX_DISABLE_DEPRECATED
+
+//static
+ParserCallbackCFuncType Parser::get_callback_parser_error_cfunc()
+{
+  p_callback_error_or_warning = &callback_error_or_warning;
+  return &c_callback_parser_error;
+}
+
+//static
+ParserCallbackCFuncType Parser::get_callback_parser_warning_cfunc()
+{
+  p_callback_error_or_warning = &callback_error_or_warning;
+  return &c_callback_parser_warning;
+}
+
+//static
+ParserCallbackCFuncType Parser::get_callback_validity_error_cfunc()
+{
+  p_callback_error_or_warning = &callback_error_or_warning;
+  return &c_callback_validity_error;
+}
+
+//static
+ParserCallbackCFuncType Parser::get_callback_validity_warning_cfunc()
+{
+  p_callback_error_or_warning = &callback_error_or_warning;
+  return &c_callback_validity_warning;
+}
+
+//static
+void Parser::callback_error_or_warning(bool is_parser, bool is_error, void* ctx,
+                                       const char* msg, va_list var_args)
+{
   //See xmlHTMLValidityError() in xmllint.c in libxml for more about this:
 
   auto context = (xmlParserCtxtPtr)ctx;
@@ -294,20 +375,19 @@ void Parser::callback_error_or_warning(MsgType msg_type, void* ctx,
 
       try
       {
-        switch (msg_type)
+        if (is_parser)
         {
-          case MsgType::ParserError:
+          if (is_error)
             parser->on_parser_error(ubuff);
-            break;
-          case MsgType::ParserWarning:
+          else
             parser->on_parser_warning(ubuff);
-            break;
-          case MsgType::ValidityError:
+        }
+        else // validator
+        {
+          if (is_error)
             parser->on_validity_error(ubuff);
-            break;
-          case MsgType::ValidityWarning:
+          else
             parser->on_validity_warning(ubuff);
-            break;
         }
       }
       catch (...)

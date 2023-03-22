@@ -122,7 +122,8 @@ XsdValidator::operator bool() const noexcept
 
 void XsdValidator::initialize_context()
 {
-  xmlSchemaSetValidErrors(pimpl_->context, &callback_validity_error, &callback_validity_warning, this);
+  xmlSchemaSetValidErrors(pimpl_->context, get_callback_validity_error_cfunc(),
+                          get_callback_validity_warning_cfunc(), this);
   SchemaValidatorBase::initialize_context();
 }
 
