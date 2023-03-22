@@ -17,12 +17,16 @@
 
 extern "C" {
   struct _xmlValidCtxt;
-
-  /** @newin{5,2} */
-  using ValidatorCallbackCFuncType = void (*)(void* ctx, const char* msg, ...);
 }
 
 namespace xmlpp {
+
+extern "C" {
+  /** Type of function pointer to callback function with C linkage.
+   * @newin{5,2}
+   */
+  using ValidatorCallbackCFuncType = void (*)(void* ctx, const char* msg, ...);
+}
 
 class Document;
 
