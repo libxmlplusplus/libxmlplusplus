@@ -1,7 +1,7 @@
 ## This file is part of libxml++.
 
 msvc_nmake_data = \
-  README \
+  MSVC-Builds.md \
   libxml++/libxml++.rc \
   libxml++/libxml++config.h \
   build-rules-msvc.mak \
