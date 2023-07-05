@@ -107,42 +107,81 @@ install_pkgconfigdir = install_libdir / 'pkgconfig'
 glibmm_req = '>= 2.68.0'
 glibmm_req_minor_ver = '68'
 
-# libxml2's Windows-specific Makefiles don't create pkg-config files for us, so
-# we may need to look for it manually on Windows
 xml2_min_ver = '2.7.7'
 xml2_req = '>= @0@'.format(xml2_min_ver)
-xml2_dep = dependency('libxml-2.0', version: xml2_req, required: host_machine.system() != 'windows')
+
+# Sadly, this is not Meson 0.60.x or later...
+xml2_dep = dependency(
+  'libxml-2.0',
+  version: xml2_req,
+  required: host_machine.system() != 'windows'
+)
 
 if not xml2_dep.found()
-  libxml2_lib = 'libxml2'
-  xml2_dep =  cpp_compiler.find_library(libxml2_lib,
-                                        has_headers: [
-                                          'libxml/globals.h',
-                                          'libxml/parser.h',
-                                          'libxml/parserInternals.h',
-                                          'libxml/relaxng.h',
-                                          'libxml/tree.h',
-                                          'libxml/xinclude.h',
-                                          'libxml/xpath.h',
-                                          'libxml/xpathInternals.h',
-                                          'libxml/xmlerror.h',
-                                          'libxml/xmlIO.h',
-                                          'libxml/xmlreader.h',
-                                          'libxml/xmlschemas.h',
-                                        ])
+  xml2_dep = dependency(
+    'LibXml2',
+    version: xml2_req,
+    required: host_machine.system() != 'windows'
+  )
+endif
 
-    xml_min_ver_split = xml2_min_ver.split('.')
-    xml_min_ver_int = xml_min_ver_split[0].to_int() * 10000 + \
-                      xml_min_ver_split[1].to_int() * 100 + \
-                      xml_min_ver_split[2].to_int()
+# Setup CMake subproject for use, if needed
+if not xml2_dep.found()
+  cmake = import('cmake')
+  opt_var = cmake.subproject_options()
+  build_shared = get_option('default_library') != 'static'
+  iconv_dep = dependency('iconv', required: false)
+  icu_i18n_dep = dependency('icu-i18n', required: false)
+  if not icu_i18n_dep.found()
+    icu_i18n_dep = dependency('ICU',
+                              components: 'in',
+                              required: false)
+  endif
+  icu_uc_dep = dependency('icu-uc', required: false)
+  if not icu_uc_dep.found()
+    icu_uc_dep = dependency('ICU',
+                            components: 'uc',
+                            required: false)
+  endif
+  lzma_dep = dependency('liblzma', required: false)
+  thread_dep = dependency('threads', required: false)
+  zlib_dep = dependency('zlib', required: false)
+  winsock_dep = cpp_compiler.find_library('ws2_32', required: false)
+  cmake_build_type = get_option('buildtype')
+  if get_option('buildtype') == 'debugoptimized'
+    cmake_build_type = 'RelWithDebInfo'
+  elif get_option('buildtype') == 'minsize'
+    cmake_build_type = 'MinSizeRel'
+  elif get_option('buildtype') == 'plain'
+    cmake_build_type = ''
+  endif
+  opt_var.add_cmake_defines({
+    'BUILD_SHARED_LIBS': build_shared,
+    'CMAKE_BUILD_TYPE': cmake_build_type,
+    'CMAKE_MSVC_RUNTIME_LIBRARY': '',
+    'CMAKE_C_FLAGS_INIT': '',
+    'CMAKE_C_FLAGS_DEBUG': '',
+    'CMAKE_C_FLAGS_RELEASE': '',
+    'CMAKE_C_FLAGS_RELWITHDEBINFO': '',
+    'CMAKE_C_FLAGS_MINSIZEREL': '',
+    'LIBXML2_WITH_HTTP': host_machine.system() != 'windows' or winsock_dep.found(),
+    'LIBXML2_WITH_ICONV': iconv_dep.found(),
+    'LIBXML2_WITH_ICU': icu_i18n_dep.found() and icu_uc_dep.found(),
+    'LIBXML2_WITH_LZMA': lzma_dep.found(),
+    'LIBXML2_WITH_PYTHON': false,
+    'LIBXML2_WITH_TESTS': build_tests,
+    'LIBXML2_WITH_THREADS': thread_dep.found(),
+    'LIBXML2_WITH_ZLIB': zlib_dep.found(),
+  })
+  xml2_sp = cmake.subproject('libxml2_cmake', options: opt_var)
+  xml2_dep = xml2_sp.dependency('LibXml2')
+endif
 
-    if not cpp_compiler.compiles('''#include <libxml/tree.h>
-                                    #if LIBXML_VERSION < @0@
-                                    # error libxml2 versions must be @1@ or later
-                                    #endif'''.format(xml_min_ver_int.to_string(), xml2_min_ver),
-                                    name : 'libxml2 is @0@ or later'.format(xml2_min_ver))
-      error('Your libxml2 installation must be @0@ or later'.format(xml2_min_ver))
-    endif
+xml2_is_subproject = xml2_dep.type_name() == 'internal'
+
+if xml2_is_subproject and build_tests
+  test('testchar', xml2_sp.target('testchar'))
+  test('testdict', xml2_sp.target('testdict'))
 endif
 
 glibmm_dep = dependency('glibmm-2.@0@'.format(glibmm_req_minor_ver), version: glibmm_req)
@@ -155,7 +194,10 @@ libxml2_lib_pkgconfig = ''
 if xml2_dep.type_name() == 'pkgconfig'
   xmlxx_requires += ['libxml-2.0', xml2_req]
 else
-  libxml2_lib_pkgconfig = '-l@0@'.format(libxml2_lib)
+  libxml2_lib_pkgconfig = xml2_dep.get_variable(
+    cmake:         'LIBXML2_LIBRARIES',
+    default_value: 'LibXml2.lib',
+  )
 endif
 
 # ...Then put glibmm-2.x in the 'Requires:' section in the generated pkg-config file
