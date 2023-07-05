@@ -1,7 +1,8 @@
 # libxml++
 
 # Input: xmlxx_build_dep, xmlxx_pcname, xmlxx_libversion, xmlxx_api_version,
-#        install_includedir, xmlxx_rc, xmlxx_libname, macos_darwin_versions
+#        install_includedir, xmlxx_rc, xmlxx_libname, macos_darwin_versions,
+#        xml2_is_subproject
 # Output: source_h_files, xmlxx_own_dep
 
 # There are no built source files in libxml++-2.6.
@@ -100,6 +101,10 @@ if host_machine.system() == 'windows'
   windows = import('windows')
   xmlxx_res = windows.compile_resources(xmlxx_rc)
   extra_xmlxx_objects += xmlxx_res
+endif
+
+if xml2_is_subproject
+  xmlxx_build_dep += winsock_dep
 endif
 
 extra_include_dirs = ['..']
