@@ -22,7 +22,7 @@ supplier of your operating system, such as your Linux distribution.
 
 ## Building on Windows
 
-See MSVC_NMake/README
+See [MSVC-Builds](MSVC_NMake/MSVC-Builds.md)
 
 ## Building from a release tarball
 
