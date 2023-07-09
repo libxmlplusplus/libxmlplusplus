@@ -1,19 +1,53 @@
 # libxml++
+C++ interface to libxml2 and XML files.
+
+# Introduction
+
 libxml++ (a.k.a. libxmlplusplus) provides a C++ interface to XML files. It uses
 libxml2 to access the XML files, and in order to configure libxml++ you must
 have both libxml2 and pkg-config installed.
 
-To get the latest version of libxml++, see the
-[libxml++ web site](https://libxmlplusplus.github.io/libxmlplusplus/)
+libxml++-2.6, libxml++-3.0, libxml++-4.0 and libxml++-5.0 are different
+parallel-installable ABIs. This file describes libxml++-2.6.
 
 See the examples directory for example code.
 
-Use pkg-config to discover the necessary include and linker arguments. For instance,
+Use pkg-config to discover the necessary include and linker arguments.
+For instance,
 ```
   pkg-config libxml++-2.6 --cflags --libs
 ```
 If you build with Autotools, ideally you would use PKG_CHECK_MODULES in your
 configure.ac file.
+
+# General information
+
+Web site
+ - https://libxmlplusplus.github.io/libxmlplusplus/
+
+Download location
+ - https://download.gnome.org/sources/libxml++/
+ - https://github.com/libxmlplusplus/libxmlplusplus/releases/
+
+Reference documentation
+ - https://developer-old.gnome.org/libxml++/2.42/
+
+This reference documentation does not document the latest release. If you want
+newer documentation, download a tarball. Tarballs contain reference documentation.
+In tarballs generated with Meson, see the untracked/docs/reference/html directory.
+
+Discussion on GNOME's discourse forum
+ - https://discourse.gnome.org/tag/cplusplus
+ - https://discourse.gnome.org/c/platform
+
+Git repository
+ - https://github.com/libxmlplusplus/libxmlplusplus
+
+Bugs can be reported to
+ - https://github.com/libxmlplusplus/libxmlplusplus/issues
+
+Patches can be submitted to
+ - https://github.com/libxmlplusplus/libxmlplusplus/pulls
 
 # Building
 
