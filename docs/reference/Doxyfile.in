@@ -225,7 +225,6 @@ PDF_HYPERLINKS         = YES
 USE_PDFLATEX           = YES
 LATEX_BATCHMODE        = NO
 LATEX_HIDE_INDICES     = NO
-LATEX_SOURCE_CODE      = NO
 LATEX_BIB_STYLE        = plain
 #---------------------------------------------------------------------------
 # Configuration options related to the RTF output
@@ -236,7 +235,6 @@ COMPACT_RTF            = NO
 RTF_HYPERLINKS         = NO
 RTF_STYLESHEET_FILE    =
 RTF_EXTENSIONS_FILE    =
-RTF_SOURCE_CODE        = NO
 #---------------------------------------------------------------------------
 # Configuration options related to the man page output
 #---------------------------------------------------------------------------
@@ -256,7 +254,6 @@ XML_PROGRAMLISTING     = NO
 #---------------------------------------------------------------------------
 GENERATE_DOCBOOK       = NO
 DOCBOOK_OUTPUT         = docbook
-DOCBOOK_PROGRAMLISTING = NO
 #---------------------------------------------------------------------------
 # Configuration options for the AutoGen Definitions output
 #---------------------------------------------------------------------------
@@ -291,7 +288,7 @@ PREDEFINED             = __cplusplus \
                          "G_GNUC_PURE=" \
                          "G_GNUC_WARN_UNUSED_RESULT=" \
                          "G_MODULE_EXPORT=" \
-                         "LIBXMLXX_API="
+                         "LIBXMLPP_API="
 EXPAND_AS_DEFINED      = LIBXMLXX_MAJOR_VERSION \
                          LIBXMLXX_MINOR_VERSION \
                          LIBXMLXX_MICRO_VERSION
@@ -307,7 +304,6 @@ EXTERNAL_PAGES         = YES
 #---------------------------------------------------------------------------
 # Configuration options related to the dot tool
 #---------------------------------------------------------------------------
-CLASS_DIAGRAMS         = YES
 DIA_PATH               =
 HIDE_UNDOC_RELATIONS   = NO
 HAVE_DOT               = YES
