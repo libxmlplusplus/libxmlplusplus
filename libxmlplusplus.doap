@@ -1,21 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
 <Project xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
          xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema#"
          xmlns:foaf="http://xmlns.com/foaf/0.1/"
          xmlns:gnome="http://api.gnome.org/doap-extensions#"
          xmlns="http://usefulinc.com/ns/doap#">
 
+  <!-- A .doap file (Description of a Project) is not necessary on GitHub.
+       It's retained in case libxml++ is ever moved back to gnome.org.
+  -->
   <name xml:lang="en">libxmlplusplus</name>
   <shortdesc xml:lang="en">C++ bindings for libxml2</shortdesc>
-  <description>libxmlplusplus (aka libxml++) is a C++ wrapper for the libxml2 XML parser library.
+  <description xml:lang="en">
+libxmlplusplus (aka libxml++) is a C++ wrapper for the libxml2 XML parser library.
 It has SAX and DOM-like APIs, but does not attempt to conform exactly to
-the DOM specification. Its API is simpler than the underlying libxml2 C API.</description>
+the DOM specification. Its API is simpler than the underlying libxml2 C API.
+  </description>
   <homepage rdf:resource="https://libxmlplusplus.github.io/libxmlplusplus/" />
-  <mailing-list rdf:resource="mailto:libxmlplusplus-list@gnome.org" />
+  <developer-forum rdf:resource="https://discourse.gnome.org/tag/cplusplus/" />
   <download-page rdf:resource="https://download.gnome.org/sources/libxml++/" />
+  <download-page rdf:resource="https://github.com/libxmlplusplus/libxmlplusplus/releases/" />
   <bug-database rdf:resource="https://github.com/libxmlplusplus/libxmlplusplus/issues" />
-  <!-- Don't know which category to use. See https://mail.gnome.org/archives/desktop-devel-list/2014-August/msg00106.html
   <category rdf:resource="http://api.gnome.org/doap-extensions#bindings" />
-  -->
   <programming-language>C++</programming-language>
 
   <maintainer>
@@ -27,9 +32,9 @@ the DOM specification. Its API is simpler than the underlying libxml2 C API.</de
   </maintainer>
   <maintainer>
     <foaf:Person>
-      <foaf:name>Christophe de Vienne</foaf:name>
-      <foaf:mbox rdf:resource="mailto:cdevienn@src.gnome.org" />
-      <gnome:userid>cdevienn</gnome:userid>
+      <foaf:name>Kjell Ahlstedt</foaf:name>
+      <foaf:mbox rdf:resource="mailto:kjellahlstedt@gmail.com" />
+      <gnome:userid>kjellahl</gnome:userid>
     </foaf:Person>
   </maintainer>
 </Project>
