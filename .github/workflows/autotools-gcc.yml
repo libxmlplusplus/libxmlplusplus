@@ -1,19 +1,19 @@
-name: "CI: autotools: clang 10"
+name: "Autotools: gcc"
 
 on: [push]
 
 jobs:
   build:
 
-    runs-on: ubuntu-20.04
+    runs-on: ubuntu-latest
 
     steps:
     - uses: actions/checkout@v1
     - name: Build
       run: |
         sudo apt update
-        sudo apt install libxml2-dev mm-common clang-10 docbook-xsl
-        export CXX=clang++-10
+        sudo apt install libxml2-dev mm-common g++ docbook-xsl
+        export CXX=g++
         ./autogen.sh --enable-warnings=fatal
         make
     - name: Test
@@ -21,5 +21,5 @@ jobs:
     - name: Distcheck
       run: |
         # distcheck runs configure again so we need to specify CXX again.
-        export CXX=clang++-10
+        export CXX=g++
         make distcheck
