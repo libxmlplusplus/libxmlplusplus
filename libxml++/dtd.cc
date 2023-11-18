@@ -8,7 +8,7 @@
 #include <libxml++/exceptions/parse_error.h>
 #include <libxml++/io/istreamparserinputbuffer.h>
 
-#include <libxml/tree.h>
+#include <libxml/parser.h>
 
 #include <sstream>
 

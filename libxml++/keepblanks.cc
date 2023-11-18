@@ -5,8 +5,11 @@
  * included with libxml++ as the file COPYING.
  */
 
-#include <libxml++/keepblanks.h>
+// xmlKeepBlanksDefault() is deprecated since libxml2 2.12.0.
+// Ignore deprecations here.
+#define XML_DEPRECATED
 
+#include <libxml++/keepblanks.h>
 #include <libxml/globals.h>
 
 namespace xmlpp
