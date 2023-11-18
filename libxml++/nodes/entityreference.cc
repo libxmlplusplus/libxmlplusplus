@@ -7,7 +7,7 @@
 #include <libxml++/nodes/entityreference.h>
 #include <libxml++/exceptions/internal_error.h>
 
-#include <libxml/tree.h>
+#include <libxml/entities.h>
 
 namespace xmlpp
 {

@@ -24,10 +24,14 @@
 
 class MySaxParser : public xmlpp::SaxParser
 {
+public:
+  bool throw_on_start_doc = true;
+
 protected:
   void on_start_document() override
   {
-    throw std::runtime_error("some custom runtime exception");
+    if (throw_on_start_doc)
+      throw std::runtime_error("some custom runtime exception");
   }
   void on_error(const Glib::ustring& /* text */) override
   {
@@ -45,6 +49,9 @@ int main()
     bool exceptionThrown = false;
     try
     {
+      // Depending on the libxml2 version, MySaxParser::on_start_document()
+      // may or may not be called before MySaxParser::on_error().
+      parser.throw_on_start_doc = false;
       parser.parse_chunk("<?");
       parser.finish_chunk_parsing();
     }
@@ -63,6 +70,7 @@ int main()
     exceptionThrown = false;
     try
     {
+      parser.throw_on_start_doc = true;
       std::stringstream ss("<root></root>");
       parser.parse_stream(ss);
     }
