@@ -22,6 +22,7 @@
 #include "libxml++/parsers/domparser.h"
 #include "libxml++/relaxngschema.h"
 
+#include <libxml/tree.h>
 #include <libxml/relaxng.h>
 
 namespace xmlpp

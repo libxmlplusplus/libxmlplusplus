@@ -6,7 +6,7 @@
 
 #include <libxml++/nodes/entityreference.h>
 
-#include <libxml/tree.h>
+#include <libxml/entities.h>
 
 namespace xmlpp
 {

@@ -16,6 +16,7 @@
 
 #include <libxml/tree.h>
 #include <libxml/xinclude.h>
+#include <libxml/xmlsave.h>
 #include <libxml/parser.h> // XML_PARSE_NOXINCNODE, XML_PARSE_NOBASEFIX
 
 #include <iostream>
