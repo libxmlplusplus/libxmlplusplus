@@ -53,6 +53,21 @@ Patches can be submitted to
 Whenever possible, you should use the official binary packages approved by the
 supplier of your operating system, such as your Linux distribution.
 
+## Building the documentation
+
+The reference documentaion is built with Doxygen.
+
+The manual is a DocBook 5.0 document. These packages are recommended when building
+the manual (can have other names in other distros):
+ - docbook5-xml (Ubuntu and Debian) or docbook5-schemas (Fedora)
+ - docbook-xsl (Ubuntu and Debian) or docbook-style-xsl (Fedora)
+
+It may be possible to build without these packages, but it will be slow and error prone.
+The `xmllint` command is told to read files from http://docbook.org.
+The `xsltproc` command is told to read files from http://docbook.sourceforge.net.
+The commands first search for local copies of those files. If local copies exist
+and are installed at expected locations, the commands make no network accesses.
+
 ## Building on Windows
 
 See [MSVC-Builds](MSVC_NMake/MSVC-Builds.md)
