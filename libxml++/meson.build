@@ -103,7 +103,7 @@ if host_machine.system() == 'windows'
   extra_xmlxx_objects += xmlxx_res
 
   if xml2_is_subproject
-    xmlxx_all_deps += [winsock_dep]
+    xmlxx_all_deps += [winsock_dep, bcrypt_dep]
   endif
 endif
 
