@@ -2,7 +2,7 @@
 
 # Input: project_build_root, project_source_root, xmlxx_pcname,
 #        xmlxx_api_version, build_documentation, source_h_files,
-#        install_datadir, python3, doc_reference_py, can_add_dist_script
+#        install_datadir, python3, doc_reference_py, can_add_dist_script, dot
 # Output: install_docdir, install_devhelpdir, book_name,
 #         if build_documentation: tag_file
 
@@ -59,6 +59,7 @@ doc_conf_data.set('abs_top_builddir', project_build_root)
 doc_conf_data.set('abs_top_srcdir', project_source_root)
 doc_conf_data.set('LIBXMLXX_MODULE_NAME', book_name)
 doc_conf_data.set('DOXYGEN_TAGFILES', doxygen_tagfiles)
+doc_conf_data.set('DOXYGEN_HAVE_DOT', dot.found() ? 'YES' : 'NO')
 
 doxyfile = configure_file(
   input: 'Doxyfile.in',
