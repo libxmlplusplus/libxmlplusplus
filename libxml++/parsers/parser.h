@@ -119,7 +119,9 @@ public:
   bool get_include_default_attributes() const noexcept;
 
   /** Set and/or clear parser option flags.
-   * See the libxml2 documentation, enum xmlParserOption, for a list of parser options.
+   * See the libxml2 documentation,
+   * [enum xmlParserOption](https://gnome.pages.gitlab.gnome.org/libxml2/devhelp/libxml2-parser.html#xmlParserOption),
+   * for a list of parser options.
    * This method overrides other methods that set parser options, such as set_validate(),
    * set_substitute_entities() and set_include_default_attributes(). Use set_parser_options()
    * only if no other method can set the parser options you want.
