@@ -152,6 +152,7 @@ if not xml2_dep.found()
   thread_dep = dependency('threads', required: false)
   zlib_dep = dependency('zlib', required: false)
   winsock_dep = cpp_compiler.find_library('ws2_32', required: false)
+  bcrypt_dep = cpp_compiler.find_library('bcrypt', required: false)
   cmake_build_type = get_option('buildtype')
   if get_option('buildtype') == 'debugoptimized'
     cmake_build_type = 'RelWithDebInfo'
