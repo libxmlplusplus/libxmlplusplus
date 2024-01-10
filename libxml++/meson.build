@@ -2,7 +2,7 @@
 
 # Input: xmlxx_build_dep, xmlxx_pcname, xmlxx_libversion, xmlxx_api_version,
 #        install_includedir, xmlxx_rc, xmlxx_libname, macos_darwin_versions,
-#        xml2_is_subproject
+#        xml2_is_subproject, winsock_dep, bcrypt_dep
 # Output: source_h_files, xmlxx_own_dep
 
 # There are no built source files in libxml++-3.0.
@@ -92,6 +92,8 @@ if is_msvc
   xmlxx_cpp_args += ['-D_WINDLL']
 endif
 
+xmlxx_all_deps = [xmlxx_build_dep]
+
 extra_xmlxx_objects = []
 
 # Build the .rc file for Windows builds and link to it
@@ -99,10 +101,10 @@ if host_machine.system() == 'windows'
   windows = import('windows')
   xmlxx_res = windows.compile_resources(xmlxx_rc)
   extra_xmlxx_objects += xmlxx_res
-endif
 
-if xml2_is_subproject
-  xmlxx_build_dep += winsock_dep
+  if xml2_is_subproject
+    xmlxx_all_deps += [winsock_dep, bcrypt_dep]
+  endif
 endif
 
 extra_include_dirs = ['..']
@@ -123,5 +125,5 @@ xmlxx_library = library(xmlxx_libname,
 xmlxx_own_dep = declare_dependency(
   link_with: xmlxx_library,
   include_directories: extra_include_dirs,
-  dependencies: xmlxx_build_dep
+  dependencies: xmlxx_all_deps
 )
