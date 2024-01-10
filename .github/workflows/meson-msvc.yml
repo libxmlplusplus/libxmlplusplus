@@ -1,0 +1,35 @@
+name: "Meson: MSVC"
+
+# Fails:
+#   subprojects\libsigcplusplus-2.0\meson.build:116:5:
+#   ERROR: Program 'm4' not found or not executable
+
+# Triggered manually
+on: [workflow_dispatch]
+
+jobs:
+  build:
+
+    runs-on: windows-latest
+
+    steps:
+      - uses: actions/checkout@v3
+      - uses: actions/setup-python@v4
+        with:
+          python-version: '3.x'
+      - run: pip install meson ninja
+
+      - name: Prepare MSVC
+        uses: bus1/cabuild/action/msdevshell@v1
+        with:
+          architecture: x64
+
+      - name: Configure
+        # Don't use warning_level or werror. They are applied also to subprojects.
+        run: meson setup -Dwarnings=fatal -Dmaintainer-mode=false -Dbuild-documentation=false _build
+
+      - name: Compile
+        run: meson compile -C _build
+
+      - name: Test
+        run: meson test -C _build
