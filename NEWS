@@ -1,3 +1,30 @@
+5.0.4 (stable):
+
+Documentation:
+* Update Visual Studio build docs
+  (Chun-wei Fan) Pull request #54
+* Parser docs: Add a link to parser options
+  (Kjell Ahlstedt)
+
+Meson build:
+* Cleanup and fix libxml2 dep search
+  (Chun-wei Fan) Pull request #53
+* Don't fail if warning_level=everything
+  (Daniel Boles, Kjell Ahlstedt) Merge request gtkmm!87
+* Add bcrypt dependency when libxml2 is a subproject
+  Issue #64 (Kjell Ahlstedt)
+  (Andrew Potter) Pull request #65
+* Don't require the 'dot' command to build the documentation
+  (Kjell Ahlstedt) Issue libsigcplusplus#98
+* Add the build-manual option
+  (Kjell Ahlstedt)
+
+Build:
+* Make it compatible with libxml2 >= 2.12.0
+  by modifying #include directives
+  (Kjell Ahlstedt)
+
+
 5.0.3 (stable):
 
 * exception: Fix linking on MinGW
