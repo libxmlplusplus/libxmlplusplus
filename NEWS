@@ -1,3 +1,36 @@
+5.2.0 (stable):
+
+* Use callback functions with C linkage
+  (Kjell Ahlstedt) Issue glibmm#1 (Murray Cumming)
+
+Documentation:
+* Update Visual Studio build docs
+  (Chun-wei Fan) Pull request #52
+* Remove AUTHORS and add general information to README.md
+  (Kjell Ahlstedt) Issue gtkmm#140
+* Parser docs: Add a link to parser options
+* README.md: Add info about building the documentation
+  (Kjell Ahlstedt)
+
+Meson build:
+* Cleanup and fix libxml2 dep search
+  (Chun-wei Fan) Pull request #51
+* Don't fail if warning_level=everything
+  (Daniel Boles, Kjell Ahlstedt) Merge request gtkmm!87
+* Add bcrypt dependency when libxml2 is a subproject
+  Issue #64 (Kjell Ahlstedt)
+  (Andrew Potter) Pull request #65
+* Don't require the 'dot' command to build the documentation
+  (Kjell Ahlstedt) Issue libsigcplusplus#98
+* Add the build-manual option
+  (Kjell Ahlstedt)
+
+Build:
+* Make it compatible with libxml2 >= 2.12.0
+  by modifying #include directives
+  (Kjell Ahlstedt)
+
+
 5.0.3 (stable):
 
 * exception: Fix linking on MinGW
