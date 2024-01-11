@@ -1,3 +1,36 @@
+3.2.5 (stable):
+
+Documentation:
+* Update Visual Studio build docs
+  (Chun-wei Fan) Pull request #58
+* Parser docs: Add a link to parser options
+  (Kjell Ahlstedt)
+
+Meson build:
+* Detect if we build from a git subtree
+  (William Roy) Merge request gtkmm!72
+* Don't copy files with configure_file()
+  (Kjell Ahlstedt)
+* Fix the evaluation of is_git_build on Windows
+  (Kjell Ahlstedt) Issue gtkmm#131 (William Roy)
+* Backport libxml2 CMake support from libxml++-5.0
+  (Chun-wei Fan) Pull request #57
+* Don't fail if warning_level=everything
+  (Daniel Boles, Kjell Ahlstedt) Merge request gtkmm!87
+* Don't require the 'dot' command to build the documentation
+  (Kjell Ahlstedt) Issue libsigcplusplus#98
+* Add the build-manual option
+  (Kjell Ahlstedt)
+* Add bcrypt dependency when libxml2 is a subproject
+  Issue #64 (Kjell Ahlstedt)
+  (Andrew Potter) Pull request #65
+
+Build:
+* Make it compatible with libxml2 >= 2.12.0
+  by modifying #include directives
+  (Kjell Ahlstedt)
+
+
 3.2.4 (stable):
 
 * Document, Node: Recognize HTML documents
