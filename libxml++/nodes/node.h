@@ -13,6 +13,7 @@
 #include <list>
 #include <map>
 #include <vector>
+#include <variant>
 
 #ifndef DOXYGEN_SHOULD_SKIP_THIS
 extern "C" {
@@ -229,6 +230,32 @@ public:
    * @throws xmlpp::internal_error If the result type is not nodeset.
    */
   const_NodeSet find(const Glib::ustring& xpath, const PrefixNsMap& namespaces) const;
+
+  /** Evaluate an XPath expression.
+   * @param xpath The XPath expression.
+   * @param namespaces A map of namespace prefixes to namespace URIs to be used while evaluating.
+   * @returns The resulting NodeSet (XPathResultType::NODESET), bool (XPathResultType::BOOLEAN),
+   *          double (XPathResultType::NUMBER) or Glib::ustring (XPathResultType::STRING).
+   * @throws xmlpp::exception If the XPath expression cannot be evaluated.
+   * @throws xmlpp::internal_error If the result type is not nodeset, boolean, number or string.
+   *
+   * @newin{4,2}
+   */
+  std::variant<NodeSet, bool, double, Glib::ustring>
+  eval_xpath(const Glib::ustring& xpath, const PrefixNsMap& namespaces = {});
+
+  /** Evaluate an XPath expression.
+   * @param xpath The XPath expression.
+   * @param namespaces A map of namespace prefixes to namespace URIs to be used while evaluating.
+   * @returns The resulting const_NodeSet (XPathResultType::NODESET), bool (XPathResultType::BOOLEAN),
+   *          double (XPathResultType::NUMBER) or Glib::ustring (XPathResultType::STRING).
+   * @throws xmlpp::exception If the XPath expression cannot be evaluated.
+   * @throws xmlpp::internal_error If the result type is not nodeset, boolean, number or string.
+   *
+   * @newin{4,2}
+   */
+  std::variant<const_NodeSet, bool, double, Glib::ustring>
+  eval_xpath(const Glib::ustring& xpath, const PrefixNsMap& namespaces = {}) const;
 
   /** Evaluate an XPath expression.
    * @param xpath The XPath expression.

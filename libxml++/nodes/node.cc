@@ -53,9 +53,8 @@ Tlist get_children_common(const Glib::ustring& name, xmlNode* child)
   return children;
 }
 
-// Common part of all overloaded xmlpp::Node::find() methods.
-template <typename Tvector>
-Tvector find_common(const Glib::ustring& xpath,
+// A common part of all overloaded xmlpp::Node::find() and eval_xpath() methods.
+xmlXPathObject* find_common1(const Glib::ustring& xpath,
   const xmlpp::Node::PrefixNsMap* namespaces, xmlNode* node)
 {
   auto ctxt = xmlXPathNewContext(node->doc);
@@ -65,30 +64,27 @@ Tvector find_common(const Glib::ustring& xpath,
 
   if (namespaces)
   {
-    for (xmlpp::Node::PrefixNsMap::const_iterator it = namespaces->begin();
-         it != namespaces->end(); ++it)
+    for (const auto& [prefix, ns_uri] : *namespaces)
       xmlXPathRegisterNs(ctxt,
-        reinterpret_cast<const xmlChar*>(it->first.c_str()),
-        reinterpret_cast<const xmlChar*>(it->second.c_str()));
+        reinterpret_cast<const xmlChar*>(prefix.c_str()),
+        reinterpret_cast<const xmlChar*>(ns_uri.c_str()));
   }
 
   auto result = xmlXPathEval((const xmlChar*)xpath.c_str(), ctxt);
+  xmlXPathFreeContext(ctxt);
 
   if (!result)
-  {
-    xmlXPathFreeContext(ctxt);
-
     throw xmlpp::exception("Invalid XPath: " + xpath);
-  }
 
-  if (result->type != XPATH_NODESET)
-  {
-    xmlXPathFreeObject(result);
-    xmlXPathFreeContext(ctxt);
+  return result;
+}
 
-    throw xmlpp::internal_error("Only nodeset result types are supported.");
-  }
-
+// A common part of all overloaded xmlpp::Node::find() and eval_xpath() methods.
+// Tvector == NodeSet or const_NodeSet
+// result->type == XPATH_NODESET
+template <typename Tvector>
+Tvector find_common2(xmlXPathObject* result, const char* method_name)
+{
   auto nodeset = result->nodesetval;
   Tvector nodes;
   if (nodeset && !xmlXPathNodeSetIsEmpty(nodeset))
@@ -100,15 +96,15 @@ Tvector find_common(const Glib::ustring& xpath,
       auto cnode = xmlXPathNodeSetItem(nodeset, i);
       if (!cnode)
       {
-        std::cerr << "Node::find(): The xmlNode was null." << std::endl;
+        std::cerr << "Node::" << method_name << "(): The xmlNode was null." << std::endl;
         continue;
       }
 
       if (cnode->type == XML_NAMESPACE_DECL)
       {
-        //In this case we would cast it to a xmlNs*,
-        //but this C++ method only returns Nodes.
-        std::cerr << "Node::find(): Ignoring an xmlNs object." << std::endl;
+        // In this case we would cast it to a xmlNs*,
+        // but this C++ method only returns Nodes.
+        std::cerr << "Node::" << method_name << "(): Ignoring an xmlNs object." << std::endl;
         continue;
       }
 
@@ -123,9 +119,60 @@ Tvector find_common(const Glib::ustring& xpath,
   }
 
   xmlXPathFreeObject(result);
-  xmlXPathFreeContext(ctxt);
 
   return nodes;
+}
+
+// Common part of all overloaded xmlpp::Node::find() methods.
+template <typename Tvector>
+Tvector find_common(const Glib::ustring& xpath,
+  const xmlpp::Node::PrefixNsMap* namespaces, xmlNode* node)
+{
+  auto result = find_common1(xpath, namespaces, node);
+
+  if (result->type != XPATH_NODESET)
+  {
+    xmlXPathFreeObject(result);
+    throw xmlpp::internal_error("Only nodeset result types are supported.");
+  }
+  return find_common2<Tvector>(result, "find");
+}
+
+// Common part of all overloaded xmlpp::Node::eval_xpath() methods.
+template <typename Tvector>
+std::variant<Tvector, bool, double, Glib::ustring>
+eval_xpath_common(const Glib::ustring& xpath,
+  const xmlpp::Node::PrefixNsMap* namespaces, xmlNode* node)
+{
+  auto result = find_common1(xpath, namespaces, node);
+
+  switch (result->type)
+  {
+  case XPATH_NODESET:
+    return find_common2<Tvector>(result, "eval_xpath");
+
+  case XPATH_BOOLEAN:
+  {
+    auto val = static_cast<bool>(result->boolval);
+    xmlXPathFreeObject(result);
+    return val;
+  }
+  case XPATH_NUMBER:
+  {
+    double val = result->floatval;
+    xmlXPathFreeObject(result);
+    return val;
+  }
+  case XPATH_STRING:
+  {
+    Glib::ustring val = reinterpret_cast<const char*>(result->stringval);
+    xmlXPathFreeObject(result);
+    return val;
+  }
+  default:
+    xmlXPathFreeObject(result);
+    throw xmlpp::internal_error("Unsupported result type.");
+  }
 }
 
 // Common part of xmlpp::Node::eval_to_[boolean|number|string]
@@ -140,14 +187,13 @@ xmlXPathObject* eval_common(const Glib::ustring& xpath,
 
   if (namespaces)
   {
-    for (xmlpp::Node::PrefixNsMap::const_iterator it = namespaces->begin();
-         it != namespaces->end(); ++it)
+    for (const auto& [prefix, ns_uri] : *namespaces)
       xmlXPathRegisterNs(ctxt,
-        reinterpret_cast<const xmlChar*>(it->first.c_str()),
-        reinterpret_cast<const xmlChar*>(it->second.c_str()));
+        reinterpret_cast<const xmlChar*>(prefix.c_str()),
+        reinterpret_cast<const xmlChar*>(ns_uri.c_str()));
   }
 
-  auto xpath_value = xmlXPathEvalExpression(
+  auto xpath_value = xmlXPathEval(
     reinterpret_cast<const xmlChar*>(xpath.c_str()), ctxt);
 
   xmlXPathFreeContext(ctxt);
@@ -412,6 +458,18 @@ Node::NodeSet Node::find(const Glib::ustring& xpath, const PrefixNsMap& namespac
 Node::const_NodeSet Node::find(const Glib::ustring& xpath, const PrefixNsMap& namespaces) const
 {
   return find_common<const_NodeSet>(xpath, &namespaces, impl_);
+}
+
+std::variant<Node::NodeSet, bool, double, Glib::ustring>
+Node::eval_xpath(const Glib::ustring& xpath, const PrefixNsMap& namespaces)
+{
+  return eval_xpath_common<NodeSet>(xpath, &namespaces, impl_);
+}
+
+std::variant<Node::const_NodeSet, bool, double, Glib::ustring>
+Node::eval_xpath(const Glib::ustring& xpath, const PrefixNsMap& namespaces) const
+{
+  return eval_xpath_common<const_NodeSet>(xpath, &namespaces, impl_);
 }
 
 bool Node::eval_to_boolean(const Glib::ustring& xpath, XPathResultType* result_type) const
