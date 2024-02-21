@@ -40,6 +40,36 @@ std::string result_type_to_ustring(xmlpp::XPathResultType result_type)
   }
 }
 
+void print_nodeset(const xmlpp::Node::const_NodeSet& set)
+{
+  // Print the structural paths and the values:
+  for(const auto& child : set)
+  {
+    std::cout << " " << child->get_path();
+
+    auto attribute = dynamic_cast<const xmlpp::Attribute*>(child);
+    if (attribute)
+      std::cout << ", value=\"" << attribute->get_value() << "\"";
+
+    auto content_node = dynamic_cast<const xmlpp::ContentNode*>(child);
+    if (content_node)
+      std::cout << ", content=\"" << content_node->get_content() << "\"";
+
+    auto entity_reference = dynamic_cast<const xmlpp::EntityReference*>(child);
+    if (entity_reference)
+      std::cout << ", text=\"" << entity_reference->get_original_text() << "\"";
+
+    auto element = dynamic_cast<const xmlpp::Element*>(child);
+    if (element)
+    {
+      auto text_node = element->get_first_child_text();
+      if (text_node)
+        std::cout << ", first_child_text=\"" << text_node->get_content() << "\"";
+    }
+    std::cout << std::endl;
+  }
+}
+
 bool xpath_test(const xmlpp::Node* node, const std::string& xpath)
 {
   bool result = true;
@@ -49,39 +79,46 @@ bool xpath_test(const xmlpp::Node* node, const std::string& xpath)
   try
   {
     auto set = node->find(xpath);
-
-    std::cout << set.size() << " nodes have been found:" << std::endl;
-
-    //Print the structural paths and the values:
-    for(const auto& child : set)
-    {
-      std::cout << " " << child->get_path();
-
-      auto attribute = dynamic_cast<const xmlpp::Attribute*>(child);
-      if (attribute)
-        std::cout << ", value=\"" << attribute->get_value() << "\"";
-
-      auto content_node = dynamic_cast<const xmlpp::ContentNode*>(child);
-      if (content_node)
-        std::cout << ", content=\"" << content_node->get_content() << "\"";
-
-      auto entity_reference = dynamic_cast<const xmlpp::EntityReference*>(child);
-      if (entity_reference)
-        std::cout << ", text=\"" << entity_reference->get_original_text() << "\"";
-
-      auto element = dynamic_cast<const xmlpp::Element*>(child);
-      if (element)
-      {
-        auto text_node = element->get_first_child_text();
-        if (text_node)
-          std::cout << ", first_child_text=\"" << text_node->get_content() << "\"";
-      }
-      std::cout << std::endl;
-    }
+    std::cout << "find(): " << set.size() << " nodes have been found:" << std::endl;
+    print_nodeset(set);
   }
   catch (const xmlpp::exception& ex)
   {
     std::cerr << "Exception caught from find: " << ex.what() << std::endl;
+    result = false;
+  }
+
+  try
+  {
+    auto var = node->eval_xpath(xpath);
+    std::cout << "eval_xpath(): ";
+    switch (var.index())
+    {
+    case 0: // nodeset
+    {
+      auto set = std::get<0>(var);
+      std::cout << set.size() << " nodes have been found:" << std::endl;
+      print_nodeset(set);
+      break;
+    }
+    case 1: // boolean
+      std::cout << "Boolean: " << (std::get<1>(var) ? "true" : "false") << std::endl;
+      break;
+    case 2: // number
+      std::cout << "Number: " << std::get<2>(var) << std::endl;
+      break;
+    case 3: // string
+      std::cout << "String: " << std::get<3>(var) << std::endl;
+      break;
+    default:
+      std::cerr << "Unsupported result type." << std::endl;
+      result = false;
+      break;
+    }
+  }
+  catch (const xmlpp::exception& ex)
+  {
+    std::cerr << "Exception caught from eval_xpath: " << ex.what() << std::endl;
     result = false;
   }
 
@@ -121,6 +158,9 @@ int main(int argc, char* argv[])
       {
         // Find all sections, no matter where:
         result &= xpath_test(root, "//section");
+
+        // Count the number of sections:
+        result &= !xpath_test(root, "count(//section)");
 
         // Find the title node (if there is one):
         result &= xpath_test(root, "title");
