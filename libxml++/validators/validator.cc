@@ -13,6 +13,33 @@
 #include <cstdarg> //For va_list.
 #include <memory> //For unique_ptr.
 
+namespace
+{
+// C++ linkage
+using ErrorOrWarningFuncType = void (*)(bool error, void* ctx,
+                                        const char* msg, va_list var_args);
+ErrorOrWarningFuncType p_callback_error_or_warning;
+
+extern "C"
+{
+static void c_callback_validity_error(void* ctx, const char* msg, ...)
+{
+  va_list var_args;
+  va_start(var_args, msg);
+  p_callback_error_or_warning(true, ctx, msg, var_args);
+  va_end(var_args);
+}
+
+static void c_callback_validity_warning(void* ctx, const char* msg, ...)
+{
+  va_list var_args;
+  va_start(var_args, msg);
+  p_callback_error_or_warning(false, ctx, msg, var_args);
+  va_end(var_args);
+}
+} // extern "C"
+} // anonymous namespace
+
 namespace xmlpp {
 
 Validator::Validator() noexcept
@@ -71,6 +98,7 @@ void Validator::check_for_validity_messages()
     exception_.reset(new validity_error(msg));
 }
 
+#ifndef LIBXMLXX_DISABLE_DEPRECATED
 void Validator::callback_validity_error(void* valid_, const char* msg, ...)
 {
   auto validator = static_cast<Validator*>(valid_);
@@ -109,6 +137,48 @@ void Validator::callback_validity_warning(void* valid_, const char* msg, ...)
     try
     {
       validator->on_validity_warning(buff);
+    }
+    catch (...)
+    {
+      validator->handle_exception();
+    }
+  }
+}
+#endif // LIBXMLXX_DISABLE_DEPRECATED
+
+//static
+ValidatorCallbackCFuncType Validator::get_callback_validity_error_cfunc()
+{
+  p_callback_error_or_warning = &callback_error_or_warning;
+  return &c_callback_validity_error;
+}
+
+//static
+ValidatorCallbackCFuncType Validator::get_callback_validity_warning_cfunc()
+{
+  p_callback_error_or_warning = &callback_error_or_warning;
+  return &c_callback_validity_warning;
+}
+
+//static
+void Validator::callback_error_or_warning(bool error, void* ctx,
+                                          const char* msg, va_list var_args)
+{
+  // The caller of a libxml2 function with a callback is assumed to have
+  // specified that the validation context is a xmlpp::Validator instance.
+  auto validator = static_cast<Validator*>(ctx);
+
+  if (validator)
+  {
+    // Convert msg and var_args to a string:
+    const Glib::ustring buff = format_printf_message(msg, var_args);
+
+    try
+    {
+      if (error)
+        validator->on_validity_error(buff);
+      else
+        validator->on_validity_warning(buff);
     }
     catch (...)
     {

@@ -11,6 +11,7 @@
 #include <libxml++/noncopyable.h>
 #include <libxml++/exceptions/validity_error.h>
 #include <libxml++/exceptions/internal_error.h>
+#include <cstdarg> // va_list
 #include <memory> // std::unique_ptr
 #include <string>
 
@@ -19,6 +20,13 @@ extern "C" {
 }
 
 namespace xmlpp {
+
+extern "C" {
+  /** Type of function pointer to callback function with C linkage.
+   * @newin{4,2}
+   */
+  using ValidatorCallbackCFuncType = void (*)(void* ctx, const char* msg, ...);
+}
 
 class Document;
 
@@ -81,10 +89,26 @@ protected:
   LIBXMLPP_API
   virtual void check_for_validity_messages();
 
+#ifndef LIBXMLXX_DISABLE_DEPRECATED
+  /** @deprecated Use get_callback_validity_error_cfunc() instead. */
   LIBXMLPP_API
   static void callback_validity_error(void* ctx, const char* msg, ...);
+  /** @deprecated Use get_callback_validity_warning_cfunc() instead. */
   LIBXMLPP_API
   static void callback_validity_warning(void* ctx, const char* msg, ...);
+#endif // LIBXMLXX_DISABLE_DEPRECATED
+
+  /** @newin{4,2} */
+  LIBXMLPP_API
+  static ValidatorCallbackCFuncType get_callback_validity_error_cfunc();
+  /** @newin{4,2} */
+  LIBXMLPP_API
+  static ValidatorCallbackCFuncType get_callback_validity_warning_cfunc();
+
+  /** @newin{4,2} */
+  LIBXMLPP_API
+  static void callback_error_or_warning(bool error, void* ctx,
+                                        const char* msg, va_list var_args);
 
   std::unique_ptr<exception> exception_;
   // Built gradually - used in an exception at the end of validation.
