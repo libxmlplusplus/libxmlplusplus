@@ -16,8 +16,6 @@ Attribute::Attribute(xmlNode* node)
 {
 }
 
-Attribute::~Attribute()
-{
-}
+Attribute::~Attribute() = default;
 
 } //namespace xmlpp

@@ -42,10 +42,10 @@ namespace xmlpp
 
 struct XsdSchema::Impl
 {
-  Impl() noexcept : schema(nullptr), document(nullptr) {}
+  Impl() noexcept = default;
 
-  _xmlSchema* schema;
-  _xmlDoc* document;
+  _xmlSchema *schema{nullptr};
+  _xmlDoc *document{nullptr};
 };
 
 
