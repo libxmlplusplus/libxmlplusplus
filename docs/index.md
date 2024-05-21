@@ -43,7 +43,7 @@ or the [GNOME download site](https://download.gnome.org/sources/libxml++/).
 ## Required Libraries
 
 * [libxml2](http://www.xmlsoft.org/)
-* libxml++-2.6 and libxml++-3.0: [glibmm-2.4](https://developer-old.gnome.org/glibmm/2.66/)
+* libxml++-2.6 and libxml++-3.0: glibmm-2.4
 * libxml++-4.0: [glibmm-2.68](https://gnome.pages.gitlab.gnome.org/glibmm/)
 
 ## Documentation
@@ -55,17 +55,8 @@ You can also browse online the [reference documentation](reference/html/index.ht
 
 ### Other ABI Versions
 
-libxml++-2.6: [manual](https://developer-old.gnome.org/libxml++-tutorial/2.42/)
-and [reference documentation](https://developer-old.gnome.org/libxml++/2.42/)
-
-libxml++-3.0: [manual](https://developer-old.gnome.org/libxml++-tutorial/3.2/)
-and [reference documentation](https://developer-old.gnome.org/libxml++/3.2/)
-
-libxml++-4.0: [manual](https://developer-old.gnome.org/libxml++-tutorial/4.0/)
-and [reference documentation](https://developer-old.gnome.org/libxml++/4.0)
-
-This documentation is frozen on the web. It does not document the latest releases.
-If you want newer documentation, you can download a tarball from
+The documentation of libxml++-2.6, libxml++-3.0 and libxml++-4.0 is not
+available online. You can download a tarball from
 [GitHub releases](https://github.com/libxmlplusplus/libxmlplusplus/releases/)
 or the [GNOME download site](https://download.gnome.org/sources/libxml++/),
 extract it, and view the documentation at *untracked/docs/*.
