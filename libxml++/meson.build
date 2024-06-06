@@ -101,10 +101,6 @@ if host_machine.system() == 'windows'
   windows = import('windows')
   xmlxx_res = windows.compile_resources(xmlxx_rc)
   extra_xmlxx_objects += xmlxx_res
-
-  if xml2_is_subproject
-    xmlxx_all_deps += [winsock_dep, bcrypt_dep]
-  endif
 endif
 
 extra_include_dirs = ['..']
