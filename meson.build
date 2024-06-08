@@ -118,8 +118,13 @@ libxml2_lib_pkgconfig = ''
 
 # Put libxml-2.0 in the 'Requires:' section in the generated pkg-config file if
 # we found it by pkg-config
-if xml2_dep.type_name() == 'pkgconfig'
+if xml2_dep.type_name() == 'pkgconfig' or xml2_dep.type_name() == 'internal'
   xmlxx_requires += ['libxml-2.0', xml2_req]
+else
+  libxml2_lib_pkgconfig = xml2_dep.get_variable(
+    cmake:         'LIBXML2_LIBRARIES',
+    default_value: 'LibXml2.lib',
+  )
 endif
 
 xmlxx_requires = ' '.join(xmlxx_requires)
