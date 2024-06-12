@@ -26,13 +26,7 @@
 class test_streambuf : public std::streambuf
 {
 public:
-  test_streambuf() :
-    uflow_calls(0),
-    underflow_calls(0),
-    ofs(0),
-    buf("<root>\n</root>")
-    {
-    }
+  test_streambuf() = default;
 
 protected:
   /* Simulate some kind of streambuf impl that doesn't setg() */
@@ -68,12 +62,12 @@ protected:
   }
 
 public:
-  int uflow_calls;
-  int underflow_calls;
+  int uflow_calls{0};
+  int underflow_calls{0};
 
 private:
-  size_t ofs;
-  char buf[15];
+  size_t ofs{0};
+  char buf[15]{"<root>\n</root>"};
 };
 
 class MySaxParser : public xmlpp::SaxParser {
