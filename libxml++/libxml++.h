@@ -14,8 +14,9 @@
  * libxml++ is a C++ wrapper for the <a href="http://xmlsoft.org/">libxml2</a> XML parser and builder library. It presents a
  * simple C++-like API that can achieve common tasks with less code.
  *
- * See also the <a href="https://developer-old.gnome.org/libxml++-tutorial/2.42/">libxml++ Tutorial</a>
+ * See also the <a href="https://libxmlplusplus.github.io/libxmlplusplus/manual/html/index.html">libxml++ Tutorial</a>
  * and the <a href="https://libxmlplusplus.github.io/libxmlplusplus/">libxml++ website</a>.
+ * The online version of the tutorial describes libxml++-5.0.
  *
  * @section features Features
  *
