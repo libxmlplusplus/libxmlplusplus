@@ -30,11 +30,12 @@ Download location
  - https://github.com/libxmlplusplus/libxmlplusplus/releases/
 
 Reference documentation
- - https://developer-old.gnome.org/libxml++/3.2/
+ - https://libxmlplusplus.github.io/libxmlplusplus/reference/html/
 
-This reference documentation does not document the latest release. If you want
-newer documentation, download a tarball. Tarballs contain reference documentation.
-In tarballs generated with Meson, see the untracked/docs/reference/html directory.
+The documentation on the web describes libxml++-5.0.
+If you want documentation of libxml++-3.0, download a tarball.
+Tarballs contain reference documentation. In tarballs generated with Meson,
+see the untracked/docs/reference/html directory.
 
 Discussion on GNOME's discourse forum
  - https://discourse.gnome.org/tag/cplusplus
