@@ -20,7 +20,7 @@ jobs:
           architecture: x64
 
       - name: Configure
-        run: meson setup --warnlevel 3 -Dlibxml2:warning_level=0 --werror -Dlibxml2:werror=false -Dlibxml2:python=disabled -Dmaintainer-mode=false _build
+        run: meson setup --warnlevel 3 -Dlibxml2:warning_level=0 --werror -Dlibxml2:werror=false -Dlibxml2:python=disabled -Dlibxml2:iconv=disabled -Dmaintainer-mode=false _build
 
       - name: Compile
         run: ninja -C _build
@@ -29,7 +29,7 @@ jobs:
         run: meson test -C _build
 
       - name: Configure static
-        run: meson setup --warnlevel 3 -Dlibxml2:warning_level=0 --werror -Dlibxml2:werror=false -Dlibxml2:python=disabled --default-library static -Dmaintainer-mode=false _build_static
+        run: meson setup --warnlevel 3 -Dlibxml2:warning_level=0 --werror -Dlibxml2:werror=false -Dlibxml2:python=disabled -Dlibxml2:iconv=disabled --default-library static -Dmaintainer-mode=false _build_static
 
       - name: Compile static
         run: ninja -C _build_static
