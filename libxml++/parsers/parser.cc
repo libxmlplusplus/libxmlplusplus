@@ -4,6 +4,12 @@
  * included with libxml++ as the file COPYING.
  */
 
+// Direct access to xmlParserCtxt::options and xmlParserCtxt::linenumbers
+// is deprecated since libxml2 2.14.0.
+// xmlCtxtGetOptions() is new in libxml2 2.14.0.
+// Ignore deprecations here.
+#define XML_DEPRECATED_MEMBER
+
 #include "libxml++/exceptions/wrapped_exception.h"
 #include "libxml++/parsers/parser.h"
 
@@ -294,7 +300,7 @@ void Parser::callback_error_or_warning(MsgType msg_type, void* ctx,
     auto parser = static_cast<Parser*>(context->_private);
     if(parser)
     {
-      auto ubuff = format_xml_error(&context->lastError);
+      auto ubuff = format_xml_error(xmlCtxtGetLastError(context));
       if (ubuff.empty())
       {
         // Usually the result of formatting var_args with the format string msg
