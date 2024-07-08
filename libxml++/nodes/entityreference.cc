@@ -15,8 +15,7 @@ EntityReference::EntityReference(xmlNode* node)
 : Node(node)
 {}
 
-EntityReference::~EntityReference()
-{}
+EntityReference::~EntityReference() = default;
 
 ustring EntityReference::get_resolved_text() const
 {

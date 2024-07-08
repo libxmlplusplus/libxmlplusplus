@@ -28,9 +28,7 @@ MySaxParser::MySaxParser()
 {
 }
 
-MySaxParser::~MySaxParser()
-{
-}
+MySaxParser::~MySaxParser() = default;
 
 void MySaxParser::on_start_document()
 {

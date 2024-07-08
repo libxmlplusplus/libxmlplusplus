@@ -27,8 +27,7 @@ Element::Element(xmlNode* node)
   : xmlpp::Element(node)
 {}
 
-Element::~Element()
-{}
+Element::~Element() = default;
 
 // example custom methods
 void Element::set_style(const xmlpp::ustring& style)

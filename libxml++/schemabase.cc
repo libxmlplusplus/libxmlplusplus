@@ -21,12 +21,8 @@
 namespace xmlpp
 {
 
-SchemaBase::SchemaBase() noexcept
-{
-}
+SchemaBase::SchemaBase() noexcept = default;
 
-SchemaBase::~SchemaBase()
-{
-}
+SchemaBase::~SchemaBase() = default;
 
 } //namespace xmlpp

@@ -29,7 +29,7 @@
 class Tests
 {
   public:
-    virtual ~Tests() {}
+    virtual ~Tests() = default;
 
   protected:
     template<typename RefType, typename ValueType>
@@ -45,7 +45,7 @@ class fail_exception : public std::exception
 {
   public:
     explicit fail_exception(const std::string& msg) : msg_(msg) {}
-    ~fail_exception() noexcept override {}
+    ~fail_exception() noexcept override = default;
     const char* what() const noexcept override { return msg_.c_str(); }
 
   private:
@@ -67,13 +67,11 @@ class TestNamespace : public Tests
 
     xmlpp::Node::PrefixNsMap nsmap_;
     xmlpp::DomParser parser_;
-    xmlpp::Element* root_;
+    xmlpp::Element *root_{nullptr};
 };
 
-
 TestNamespace::TestNamespace()
-:
-root_(nullptr)
+
 {
   nsmap_["ns0"] = "http://default.namespace/root";
   nsmap_["ns1"] = "http://default.namespace/child";
