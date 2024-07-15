@@ -7,8 +7,7 @@ project('libxml++', 'cpp',
     'cpp_std=c++17',
     'warning_level=1',
   ],
-  meson_version: '>= 0.55.0', # required for meson.add_dist_script(python3, ...)
-                              # and meson.add_install_script(python3, ...)
+  meson_version: '>= 0.62.0', # required for variables in pkgconfig.generate()
 )
 
 xmlxx_api_version = '4.0'
@@ -38,10 +37,9 @@ macos_darwin_versions = [
   '@0@.@1@'.format(libtool_soversion[0] + 1, libtool_soversion[1])
 ]
 
-# Use these instead of meson.source_root() and meson.build_root() in subdirectories.
-# source_root() and build_root() are not useful, if this is a subproject.
-project_source_root = meson.current_source_dir()
-project_build_root = meson.current_build_dir()
+# Source and build root directories of the current (sub)project.
+project_source_root = meson.project_source_root()
+project_build_root = meson.project_build_root()
 
 cpp_compiler = meson.get_compiler('cpp')
 is_msvc = cpp_compiler.get_id() == 'msvc'
@@ -114,21 +112,11 @@ glibmm_req_minor_ver = '68'
 
 xml2_min_ver = '2.7.7'
 xml2_req = '>= @0@'.format(xml2_min_ver)
-
-# Sadly, this is not Meson 0.60.x or later...
 xml2_dep = dependency(
-  'libxml-2.0',
+  ['libxml-2.0', 'LibXml2'],
   version: xml2_req,
   required: host_machine.system() != 'windows'
 )
-
-if not xml2_dep.found()
-  xml2_dep = dependency(
-    'LibXml2',
-    version: xml2_req,
-    required: host_machine.system() != 'windows'
-  )
-endif
 
 # Setup CMake subproject for use, if needed
 if not xml2_dep.found()
@@ -192,24 +180,22 @@ endif
 
 glibmm_dep = dependency('glibmm-2.@0@'.format(glibmm_req_minor_ver), version: glibmm_req)
 
-xmlxx_requires = []
-libxml2_lib_pkgconfig = ''
+xmlxx_pc_requires = []
+libxml2_lib_pkgconfig = []
 
 # Put libxml-2.0 in the 'Requires:' section in the generated pkg-config file if
 # we found it by pkg-config
 if xml2_dep.type_name() == 'pkgconfig'
-  xmlxx_requires += ['libxml-2.0', xml2_req]
+  xmlxx_pc_requires += ['libxml-2.0' + xml2_req]
 else
-  libxml2_lib_pkgconfig = xml2_dep.get_variable(
+  libxml2_lib_pkgconfig += [xml2_dep.get_variable(
     cmake:         'LIBXML2_LIBRARIES',
     default_value: 'LibXml2.lib',
-  )
+  )]
 endif
 
 # ...Then put glibmm-2.x in the 'Requires:' section in the generated pkg-config file
-xmlxx_requires += ['glibmm-2.@0@'.format(glibmm_req_minor_ver), glibmm_req]
-
-xmlxx_requires = ' '.join(xmlxx_requires)
+xmlxx_pc_requires += ['glibmm-2.@0@'.format(glibmm_req_minor_ver) + glibmm_req]
 
 # Make sure we link to libxml-2.0 and glibmm
 xmlxx_build_dep = [xml2_dep, glibmm_dep]
@@ -348,20 +334,8 @@ endif
 
 # Configure files
 pkg_conf_data = configuration_data()
-pkg_conf_data.set('prefix', install_prefix)
-pkg_conf_data.set('exec_prefix', '${prefix}')
-pkg_conf_data.set('libdir', '${exec_prefix}' / install_libdir)
-pkg_conf_data.set('datarootdir', '${prefix}' / install_datadir)
-pkg_conf_data.set('datadir', '${datarootdir}')
-pkg_conf_data.set('includedir', '${prefix}' / install_includedir)
 pkg_conf_data.set('PACKAGE_NAME', meson.project_name()) # MSVC_NMake/libxml++/libxml++.rc
-pkg_conf_data.set('PACKAGE_TARNAME', meson.project_name())
 pkg_conf_data.set('PACKAGE_VERSION', meson.project_version())
-pkg_conf_data.set('LIBXMLXX_MODULE_NAME', xmlxx_pcname)
-pkg_conf_data.set('LIBXMLXX_API_VERSION', xmlxx_api_version)
-pkg_conf_data.set('LIBXMLXX_MODULES', xmlxx_requires)
-pkg_conf_data.set('LIBXML2_LIB_NO_PKGCONFIG', libxml2_lib_pkgconfig)
-pkg_conf_data.set('MSVC_TOOLSET_VER', msvc14x_toolset_ver)
 
 if not build_deprecated_api
   pkg_conf_data.set('LIBXMLXX_DISABLE_DEPRECATED', 1)
@@ -384,13 +358,6 @@ if cpp_compiler.get_argument_syntax() == 'msvc'
   endif
 endif
 
-configure_file(
-  input: 'libxml++.pc.in',
-  output: xmlxx_pcname + '.pc',
-  configuration: pkg_conf_data,
-  install_dir: install_pkgconfigdir,
-)
-
 xmlxxconfig_h_meson = files('libxml++config.h.meson')
 install_includeconfigdir = install_libdir / xmlxx_pcname / 'include'
 configure_file(
@@ -400,9 +367,6 @@ configure_file(
   install_dir: install_includeconfigdir,
 )
 
-# add_dist_script() is not allowed in a subproject if meson.version() < 0.58.0.
-can_add_dist_script = not meson.is_subproject() or meson.version().version_compare('>= 0.58.0')
-
 subdir('MSVC_NMake/libxml++')
 subdir('libxml++')
 subdir('examples')
@@ -410,20 +374,18 @@ subdir('tests')
 subdir('docs/reference')
 subdir('docs/manual')
 
-if can_add_dist_script
-  # Add a ChangeLog file to the distribution directory.
-  meson.add_dist_script(
-    python3, dist_changelog_py,
-    project_source_root,
-  )
-  # Add build scripts to the distribution directory, and delete .gitignore
-  # files and an empty $MESON_PROJECT_DIST_ROOT/build/ directory.
-  meson.add_dist_script(
-    python3, dist_build_scripts_py,
-    project_source_root,
-    'untracked' / 'build_scripts',
-  )
-endif
+# Add a ChangeLog file to the distribution directory.
+meson.add_dist_script(
+  python3, dist_changelog_py,
+  project_source_root,
+)
+# Add build scripts to the distribution directory, and delete .gitignore
+# files and an empty $MESON_PROJECT_DIST_ROOT/build/ directory.
+meson.add_dist_script(
+  python3, dist_build_scripts_py,
+  project_source_root,
+  'untracked' / 'build_scripts',
+)
 
 if meson.is_subproject()
   pkgconfig_vars = {

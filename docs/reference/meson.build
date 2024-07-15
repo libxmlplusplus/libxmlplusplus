@@ -2,7 +2,7 @@
 
 # Input: project_build_root, project_source_root, xmlxx_pcname,
 #        xmlxx_api_version, build_documentation, source_h_files,
-#        install_datadir, python3, doc_reference_py, can_add_dist_script, dot
+#        install_datadir, python3, doc_reference_py, dot
 # Output: install_docdir, install_devhelpdir, book_name,
 #         if build_documentation: tag_file
 
@@ -130,14 +130,12 @@ meson.add_install_script(
   docinstall_flags
 )
 
-if can_add_dist_script
-  # Distribute built files and files copied by mm-common-get.
-  meson.add_dist_script(
-    python3, doc_reference_py, 'dist_doc',
-    doctool_dir,
-    doctool_dist_dir,
-    meson.current_build_dir(),
-    tag_file.full_path(),
-    devhelp_file.full_path(),
-  )
-endif
+# Distribute built files and files copied by mm-common-get.
+meson.add_dist_script(
+  python3, doc_reference_py, 'dist_doc',
+  doctool_dir,
+  doctool_dist_dir,
+  meson.current_build_dir(),
+  tag_file.full_path(),
+  devhelp_file.full_path(),
+)
