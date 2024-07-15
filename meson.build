@@ -7,7 +7,7 @@ project('libxml++', 'cpp',
     'warning_level=1',
     'cpp_std=c++17',
   ],
-  meson_version: '>= 0.60.0', # required for dependency('iconv')
+  meson_version: '>= 0.62.0', # required for variables in pkgconfig.generate()
 )
 
 xmlxx_api_version = '5.0'
@@ -113,21 +113,19 @@ xml2_dep = dependency(
   fallback: ['libxml2']
 )
 
-xmlxx_requires = []
-libxml2_lib_pkgconfig = ''
+xmlxx_pc_requires = []
+libxml2_lib_pkgconfig = []
 
 # Put libxml-2.0 in the 'Requires:' section in the generated pkg-config file if
 # we found it by pkg-config
 if xml2_dep.type_name() == 'pkgconfig' or xml2_dep.type_name() == 'internal'
-  xmlxx_requires += ['libxml-2.0', xml2_req]
+  xmlxx_pc_requires += ['libxml-2.0' + xml2_req]
 else
-  libxml2_lib_pkgconfig = xml2_dep.get_variable(
+  libxml2_lib_pkgconfig += [xml2_dep.get_variable(
     cmake:         'LIBXML2_LIBRARIES',
     default_value: 'LibXml2.lib',
-  )
+  )]
 endif
-
-xmlxx_requires = ' '.join(xmlxx_requires)
 
 # Make sure we link to libxml-2.0
 xmlxx_build_dep = [xml2_dep]
@@ -270,20 +268,8 @@ endif
 
 # Configure files
 pkg_conf_data = configuration_data()
-pkg_conf_data.set('prefix', install_prefix)
-pkg_conf_data.set('exec_prefix', '${prefix}')
-pkg_conf_data.set('libdir', '${exec_prefix}' / install_libdir)
-pkg_conf_data.set('datarootdir', '${prefix}' / install_datadir)
-pkg_conf_data.set('datadir', '${datarootdir}')
-pkg_conf_data.set('includedir', '${prefix}' / install_includedir)
 pkg_conf_data.set('PACKAGE_NAME', meson.project_name()) # MSVC_NMake/libxml++/libxml++.rc
-pkg_conf_data.set('PACKAGE_TARNAME', meson.project_name())
 pkg_conf_data.set('PACKAGE_VERSION', meson.project_version())
-pkg_conf_data.set('LIBXMLXX_MODULE_NAME', xmlxx_pcname)
-pkg_conf_data.set('LIBXMLXX_API_VERSION', xmlxx_api_version)
-pkg_conf_data.set('LIBXMLXX_MODULES', xmlxx_requires)
-pkg_conf_data.set('LIBXML2_LIB_NO_PKGCONFIG', libxml2_lib_pkgconfig)
-pkg_conf_data.set('MSVC_TOOLSET_VER', msvc14x_toolset_ver)
 
 if not build_deprecated_api
   pkg_conf_data.set('LIBXMLXX_DISABLE_DEPRECATED', 1)
@@ -308,13 +294,6 @@ if cpp_compiler.get_argument_syntax() == 'msvc'
   endif
 endif
 
-configure_file(
-  input: 'libxml++.pc.in',
-  output: xmlxx_pcname + '.pc',
-  configuration: pkg_conf_data,
-  install_dir: install_pkgconfigdir,
-)
-
 xmlxxconfig_h_meson = files('libxml++config.h.meson')
 install_includeconfigdir = install_libdir / xmlxx_pcname / 'include'
 configure_file(
@@ -324,9 +303,6 @@ configure_file(
   install_dir: install_includeconfigdir,
 )
 
-# add_dist_script() is not allowed in a subproject if meson.version() < 0.58.0.
-can_add_dist_script = not meson.is_subproject() or meson.version().version_compare('>= 0.58.0')
-
 subdir('MSVC_NMake/libxml++')
 subdir('libxml++')
 subdir('examples')
@@ -334,26 +310,24 @@ subdir('tests')
 subdir('docs/reference')
 subdir('docs/manual')
 
-if can_add_dist_script
-  # Add a ChangeLog file to the distribution directory.
-  meson.add_dist_script(
-    python3, dist_changelog_py,
-    project_source_root,
-  )
+# Add a ChangeLog file to the distribution directory.
+meson.add_dist_script(
+  python3, dist_changelog_py,
+  project_source_root,
+)
 
-  # Don't distribute these files and directories.
-  dont_distribute = [
-    '.github',
-  ]
-  # Add build scripts to the distribution directory, and delete .gitignore
-  # files and an empty $MESON_PROJECT_DIST_ROOT/build/ directory.
-  meson.add_dist_script(
-    python3, dist_build_scripts_py,
-    project_source_root,
-    'untracked' / 'build_scripts',
-    dont_distribute,
-  )
-endif
+# Don't distribute these files and directories.
+dont_distribute = [
+  '.github',
+]
+# Add build scripts to the distribution directory, and delete .gitignore
+# files and an empty $MESON_PROJECT_DIST_ROOT/build/ directory.
+meson.add_dist_script(
+  python3, dist_build_scripts_py,
+  project_source_root,
+  'untracked' / 'build_scripts',
+  dont_distribute,
+)
 
 if meson.is_subproject()
   pkgconfig_vars = {

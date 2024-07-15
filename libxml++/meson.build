@@ -1,7 +1,8 @@
 # libxml++
 
 # Input: xmlxx_build_dep, xmlxx_pcname, xmlxx_libversion, xmlxx_api_version,
-#        install_includedir, xmlxx_rc, xmlxx_libname, macos_darwin_versions
+#        install_includedir, xmlxx_rc, xmlxx_libname, macos_darwin_versions,
+#        xmlxx_pc_requires, libxml2_lib_pkgconfig
 # Output: source_h_files, xmlxx_own_dep
 
 # There are no built source files in libxml++-5.0.
@@ -114,6 +115,35 @@ xmlxx_library = library(xmlxx_libname,
   cpp_args: xmlxx_cpp_args,
   dependencies: xmlxx_build_dep,
   install: true,
+)
+
+# Generate .pc files, used by pkg-config.
+pkg_config = import('pkgconfig')
+pc_common_variables = [
+  'doxytagfile=${docdir}/reference/' + xmlxx_pcname + '.tag',
+  'htmlrefdir=${docdir}/reference/html',
+  'htmlrefpub=https://libxmlplusplus.github.io/libxmlplusplus/reference/html',
+]
+pc_variables = [
+  'exec_prefix=${prefix}',
+  'datarootdir=${datadir}',
+  'docdir=${datadir}/doc/' + xmlxx_pcname,
+] + pc_common_variables
+pc_uninstalled_variables = [
+  'docdir=${prefix}/docs',
+] + pc_common_variables
+
+pkg_config.generate(xmlxx_library,
+  filebase: xmlxx_pcname,
+  variables: pc_variables,
+  uninstalled_variables: pc_uninstalled_variables,
+  name: meson.project_name(),
+  description: 'C++ wrapper for libxml2',
+  url: 'https://libxmlplusplus.github.io/libxmlplusplus/',
+  requires: xmlxx_pc_requires,
+  libraries: libxml2_lib_pkgconfig,
+  subdirs: [xmlxx_pcname],
+  extra_cflags: ['-I${libdir}/' + xmlxx_pcname + '/include'],
 )
 
 # This is used when building example programs and test programs.
