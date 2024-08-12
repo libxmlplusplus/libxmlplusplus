@@ -1,3 +1,18 @@
+5.2.1 (stable):
+
+* Parser: Ignore deprecation of xmlParserCtxt members.
+  (Kjell Ahlstedt)
+
+Documentation:
+* Don't link to removed developer-old.gnome.org.
+  (Kjell Ahlstedt)
+
+Meson build:
+* Use libxml2 meson build when libxml2 is built as a subproject.
+  (Andrew Potter) Issue #67, Pull request #68
+* Require python3 >= 3.7. That's what Meson requires.
+  (Kjell Ahlstedt)
+
 5.2.0 (stable):
 
 * Use callback functions with C linkage
