@@ -1,3 +1,24 @@
+4.2.0 (stable):
+
+* Node: Add eval_xpath().
+  (Kjell Ahlstedt) Issue #66 (Marie Preusse)
+* Use callback functions with C linkage
+  (Kjell Ahlstedt) Issue glibmm#1 (Murray Cumming)
+* Parser: Ignore deprecation of xmlParserCtxt members.
+  (Kjell Ahlstedt)
+
+Documentation:
+* Don't link to removed developer-old.gnome.org or removed parts
+  of library.gnome.org.
+  (Kjell Ahlstedt)
+
+Meson build:
+* Require python3 >= 3.7. That's what Meson requires.
+* Require meson >= 0.62.
+* Use Meson's pkgconfig module instead of the libxml++.pc.in template.
+  (Kjell Ahlstedt)
+
+
 4.0.3 (stable):
 
 Documentation:
