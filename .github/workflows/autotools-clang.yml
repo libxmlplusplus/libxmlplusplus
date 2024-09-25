@@ -1,0 +1,27 @@
+# 2024-09-25: ubuntu-latest = ubuntu-22.04
+# See https://docs.github.com/en/actions/using-github-hosted-runners/about-github-hosted-runners/about-github-hosted-runners#standard-github-hosted-runners-for-public-repositories
+name: "Autotools: clang"
+
+on: [push]
+
+jobs:
+  build:
+
+    runs-on: ubuntu-24.04
+
+    steps:
+    - uses: actions/checkout@v1
+    - name: Build
+      run: |
+        sudo apt update
+        sudo apt install libxml2-dev libglibmm-2.68-dev mm-common clang docbook-xsl
+        export CXX=clang++
+        ./autogen.sh --enable-warnings=fatal
+        make
+    - name: Test
+      run: make check
+    - name: Distcheck
+      run: |
+        # distcheck runs configure again so we need to specify CXX again.
+        export CXX=clang++
+        make distcheck
