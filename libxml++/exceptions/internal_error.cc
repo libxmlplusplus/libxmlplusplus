@@ -7,8 +7,7 @@ internal_error::internal_error(const ustring& message)
 {
 }
 
-internal_error::~internal_error() noexcept
-{}
+internal_error::~internal_error() noexcept = default;
 
 void internal_error::raise() const
 {
