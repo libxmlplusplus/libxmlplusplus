@@ -186,7 +186,7 @@ ustring TextReader::get_value() const
 ustring TextReader::get_xml_lang() const
 {
   return propertyreader->String(
-      xmlTextReaderXmlLang(impl_));
+      xmlTextReaderXmlLang(impl_), true);
 }
 
 TextReader::ReadState TextReader::get_read_state() const
@@ -221,7 +221,8 @@ ustring TextReader::get_attribute(
     const ustring& namespaceURI) const
 {
   return propertyreader->String(
-      xmlTextReaderGetAttributeNs(impl_, (const xmlChar *)localName.c_str(), (const xmlChar *)namespaceURI.c_str()), true);
+      xmlTextReaderGetAttributeNs(impl_, (const xmlChar *)localName.c_str(),
+      (const xmlChar *)namespaceURI.c_str()), true);
 }
 
 ustring TextReader::lookup_namespace(
