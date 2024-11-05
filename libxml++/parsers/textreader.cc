@@ -186,7 +186,7 @@ Glib::ustring TextReader::get_value() const
 Glib::ustring TextReader::get_xml_lang() const
 {
   return propertyreader->String(
-      xmlTextReaderXmlLang(impl_));
+      xmlTextReaderXmlLang(impl_), true);
 }
 
 TextReader::xmlReadState TextReader::get_read_state() const
