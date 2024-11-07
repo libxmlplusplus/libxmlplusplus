@@ -304,6 +304,8 @@ class TextReader: public NonCopyable
 
     LIBXMLPP_API
     void setup_exceptions();
+    //TODO: When we can break ABI, change on_libxml_error() to
+    // static void on_libxml_error(void* userData, const xmlError* error);
     LIBXMLPP_API
     static void on_libxml_error(void * arg, const char *msg, int severity,
                               void * locator);

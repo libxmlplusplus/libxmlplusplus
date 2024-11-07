@@ -6,6 +6,43 @@
 
 #include <libxml/xmlreader.h>
 
+namespace
+{
+//TODO: When we can break ABI, change on_libxml_error(), and change ErrorFuncType to
+// using ErrorFuncType = void (*)(void* userData, const xmlError* error);
+// C++ linkage
+using ErrorFuncType = void (*)(void* arg, const char* msg, int severity, void* locator);
+ErrorFuncType p_callback_error;
+
+extern "C"
+{
+static void c_callback_error(void* userData, const xmlError* error)
+{
+  const Glib::ustring msg = xmlpp::format_xml_error(error);
+
+  // Compute severity as in libxml2's xmlreader.c file,
+  // static (i.e. private) function xmlTextReaderStructuredRelay().
+  xmlParserSeverities severity{};
+  switch (error->domain)
+  {
+  case XML_FROM_VALID:
+  case XML_FROM_DTD:
+    severity = (error->level == XML_ERR_WARNING) ?
+      XML_PARSER_SEVERITY_VALIDITY_WARNING :
+      XML_PARSER_SEVERITY_VALIDITY_ERROR;
+    break;
+  default:
+    severity = (error->level == XML_ERR_WARNING) ?
+      XML_PARSER_SEVERITY_WARNING :
+      XML_PARSER_SEVERITY_ERROR;
+    break;
+  }
+  p_callback_error(userData, msg.c_str(), severity, nullptr);
+}
+
+} // extern "C"
+} // anonymous namespace
+
 namespace xmlpp
 {
 
@@ -346,20 +383,16 @@ bool TextReader::is_valid() const
 
 void TextReader::setup_exceptions()
 {
-  xmlTextReaderErrorFunc func = nullptr;
-  void* arg = nullptr;
-
-  // We respect any other error handlers already setup:
-  xmlTextReaderGetErrorHandler(impl_, &func, &arg);
-  if(!func)
-  {
-     func = (xmlTextReaderErrorFunc)&TextReader::on_libxml_error;
-     xmlTextReaderSetErrorHandler(impl_, func, this);
-  }
+  p_callback_error = &on_libxml_error;
+  xmlTextReaderSetStructuredErrorHandler(impl_, &c_callback_error, this);
 }
 
 void TextReader::on_libxml_error(void* arg, const char* msg, int severity, void* /* locator */)
 {
+  //TODO: Change this function when we can break ABI.
+  // It was created when setup_exceptions() called xmlTextReaderSetErrorHandler()
+  // instead of xmlTextReaderSetStructuredErrorHandler().
+
   auto ths = static_cast<TextReader*>(arg);
   ths->severity_ = severity;
   ths->error_ = msg ? msg : "unknown parse error";
