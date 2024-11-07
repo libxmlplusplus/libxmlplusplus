@@ -5,6 +5,7 @@
 #include <libxml++/document.h>
 
 #include <libxml/xmlreader.h>
+#include <libxml/xmlversion.h>
 
 namespace
 {
@@ -16,7 +17,11 @@ ErrorFuncType p_callback_error;
 
 extern "C"
 {
+#if LIBXML_VERSION >= 21200
 static void c_callback_error(void* userData, const xmlError* error)
+#else
+static void c_callback_error(void* userData, xmlError* error)
+#endif
 {
   const xmlpp::ustring msg = xmlpp::format_xml_error(error);
 
