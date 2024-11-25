@@ -1,5 +1,3 @@
-// -*- C++ -*-
-
 /* main.cc
  *
  * Copyright (C) 2002 The libxml++ development team
@@ -19,15 +17,9 @@
  * Software Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
  */
 
-#ifdef HAVE_CONFIG_H
-#include <config.h>
-#endif
-
 #include <libxml++/libxml++.h>
-#include <libxml++/parsers/textreader.h>
-
+#include <cstdlib>
 #include <iostream>
-#include <stdlib.h>
 
 struct indent {
   int depth_;
@@ -40,6 +32,12 @@ std::ostream & operator<<(std::ostream & o, indent const & in)
   {
     o << "  ";
   }
+  return o;
+}
+
+std::ostream& operator<<(std::ostream& o, const std::optional<Glib::ustring>& s)
+{
+  o << s.value_or("{[(no value)]}");
   return o;
 }
 
@@ -57,16 +55,18 @@ int main(int /* argc */, char** /* argv */)
     {
       int depth = reader.get_depth();
       std::cout << indent(depth) << "--- node ---" << std::endl;
-      std::cout << indent(depth) << "name: " << reader.get_name() << std::endl;
+      std::cout << indent(depth) << "name: " << reader.get_name2() << std::endl;
       std::cout << indent(depth) << "depth: " << reader.get_depth() << std::endl;
 
       if(reader.has_attributes())
       {
         std::cout << indent(depth) << "attributes: " << std::endl;
+        std::cout << indent(depth) << "attribute 0: " << reader.get_attribute2(0) << std::endl;
+        std::cout << indent(depth) << "attribute 9: " << reader.get_attribute2(9) << std::endl;
         reader.move_to_first_attribute();
         do
         {
-          std::cout << indent(depth) << "  " << reader.get_name() << ": " << reader.get_value() << std::endl;
+          std::cout << indent(depth) << "  " << reader.get_name2() << ": " << reader.get_value2() << std::endl;
         } while(reader.move_to_next_attribute());
         reader.move_to_element();
       }
@@ -75,11 +75,7 @@ int main(int /* argc */, char** /* argv */)
         std::cout << indent(depth) << "no attributes" << std::endl;
       }
 
-      if(reader.has_value())
-        std::cout << indent(depth) << "value: '" << reader.get_value() << "'" << std::endl;
-      else
-        std::cout << indent(depth) << "novalue" << std::endl;
-
+      std::cout << indent(depth) << "value: '" << reader.get_value2() << "'" << std::endl;
     }
   }
   catch(const std::exception& e)
@@ -89,4 +85,3 @@ int main(int /* argc */, char** /* argv */)
   }
   return EXIT_SUCCESS;
 }
-

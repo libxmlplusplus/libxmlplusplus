@@ -63,6 +63,7 @@ public:
   char Char(int value);
   Glib::ustring String(xmlChar* value, bool free = false);
   Glib::ustring String(xmlChar const* value);
+  std::optional<Glib::ustring> OptString(xmlChar* value);
 
   TextReader & owner_;
 };
@@ -115,6 +116,7 @@ bool TextReader::read()
       xmlTextReaderRead(impl_));
 }
 
+#ifndef LIBXMLXX_DISABLE_DEPRECATED
 Glib::ustring TextReader::read_inner_xml()
 {
   return propertyreader->String(
@@ -132,6 +134,22 @@ Glib::ustring TextReader::read_string()
   return propertyreader->String(
       xmlTextReaderReadString(impl_), true);
 }
+#endif // LIBXMLXX_DISABLE_DEPRECATED
+
+std::optional<Glib::ustring> TextReader::read_inner_xml2()
+{
+  return propertyreader->OptString(xmlTextReaderReadInnerXml(impl_));
+}
+
+std::optional<Glib::ustring> TextReader::read_outer_xml2()
+{
+  return propertyreader->OptString(xmlTextReaderReadOuterXml(impl_));
+}
+
+std::optional<Glib::ustring> TextReader::read_string2()
+{
+  return propertyreader->OptString(xmlTextReaderReadString(impl_));
+}
 
 bool TextReader::read_attribute_value()
 {
@@ -145,10 +163,17 @@ int TextReader::get_attribute_count() const
       xmlTextReaderAttributeCount(impl_));
 }
 
+#ifndef LIBXMLXX_DISABLE_DEPRECATED
 Glib::ustring TextReader::get_base_uri() const
 {
   return propertyreader->String(
       xmlTextReaderBaseUri(impl_), true);
+}
+#endif // LIBXMLXX_DISABLE_DEPRECATED
+
+std::optional<Glib::ustring> TextReader::get_base_uri2() const
+{
+  return propertyreader->OptString(xmlTextReaderBaseUri(impl_));
 }
 
 int TextReader::get_depth() const
@@ -181,6 +206,7 @@ bool TextReader::is_empty_element() const
       xmlTextReaderIsEmptyElement(impl_));
 }
 
+#ifndef LIBXMLXX_DISABLE_DEPRECATED
 Glib::ustring TextReader::get_local_name() const
 {
   return propertyreader->String(
@@ -198,6 +224,22 @@ Glib::ustring TextReader::get_namespace_uri() const
   return propertyreader->String(
       xmlTextReaderNamespaceUri(impl_), true);
 }
+#endif // LIBXMLXX_DISABLE_DEPRECATED
+
+std::optional<Glib::ustring> TextReader::get_local_name2() const
+{
+  return propertyreader->OptString(xmlTextReaderLocalName(impl_));
+}
+
+std::optional<Glib::ustring> TextReader::get_name2() const
+{
+  return propertyreader->OptString(xmlTextReaderName(impl_));
+}
+
+std::optional<Glib::ustring> TextReader::get_namespace_uri2() const
+{
+  return propertyreader->OptString(xmlTextReaderNamespaceUri(impl_));
+}
 
 TextReader::NodeType TextReader::get_node_type() const
 {
@@ -207,10 +249,17 @@ TextReader::NodeType TextReader::get_node_type() const
   return static_cast<NodeType>(result);
 }
 
+#ifndef LIBXMLXX_DISABLE_DEPRECATED
 Glib::ustring TextReader::get_prefix() const
 {
   return propertyreader->String(
       xmlTextReaderPrefix(impl_), true);
+}
+#endif // LIBXMLXX_DISABLE_DEPRECATED
+
+std::optional<Glib::ustring> TextReader::get_prefix2() const
+{
+  return propertyreader->OptString(xmlTextReaderPrefix(impl_));
 }
 
 char TextReader::get_quote_char() const
@@ -219,6 +268,7 @@ char TextReader::get_quote_char() const
       xmlTextReaderQuoteChar(impl_));
 }
 
+#ifndef LIBXMLXX_DISABLE_DEPRECATED
 Glib::ustring TextReader::get_value() const
 {
   return propertyreader->String(
@@ -229,6 +279,17 @@ Glib::ustring TextReader::get_xml_lang() const
 {
   return propertyreader->String(
       xmlTextReaderXmlLang(impl_), true);
+}
+#endif // LIBXMLXX_DISABLE_DEPRECATED
+
+std::optional<Glib::ustring> TextReader::get_value2() const
+{
+  return propertyreader->OptString(xmlTextReaderValue(impl_));
+}
+
+std::optional<Glib::ustring> TextReader::get_xml_lang2() const
+{
+  return propertyreader->OptString(xmlTextReaderXmlLang(impl_));
 }
 
 TextReader::ReadState TextReader::get_read_state() const
@@ -245,6 +306,7 @@ void TextReader::close()
     check_for_exceptions();
 }
 
+#ifndef LIBXMLXX_DISABLE_DEPRECATED
 Glib::ustring TextReader::get_attribute(int number) const
 {
   return propertyreader->String(
@@ -263,7 +325,8 @@ Glib::ustring TextReader::get_attribute(
     const Glib::ustring& namespaceURI) const
 {
   return propertyreader->String(
-      xmlTextReaderGetAttributeNs(impl_, (const xmlChar *)localName.c_str(), (const xmlChar *)namespaceURI.c_str()), true);
+      xmlTextReaderGetAttributeNs(impl_, (const xmlChar *)localName.c_str(),
+      (const xmlChar *)namespaceURI.c_str()), true);
 }
 
 Glib::ustring TextReader::lookup_namespace(
@@ -271,6 +334,33 @@ Glib::ustring TextReader::lookup_namespace(
 {
   return propertyreader->String(
       xmlTextReaderLookupNamespace(impl_, (const xmlChar *)prefix.c_str()), true);
+}
+#endif // LIBXMLXX_DISABLE_DEPRECATED
+
+std::optional<Glib::ustring> TextReader::get_attribute2(int number) const
+{
+  return propertyreader->OptString(xmlTextReaderGetAttributeNo(impl_, number));
+}
+
+std::optional<Glib::ustring> TextReader::get_attribute2(const Glib::ustring& name) const
+{
+  return propertyreader->OptString(
+    xmlTextReaderGetAttribute(impl_, (const xmlChar*)name.c_str()));
+}
+
+std::optional<Glib::ustring> TextReader::get_attribute2(
+    const Glib::ustring& localName,
+    const Glib::ustring& namespaceURI) const
+{
+  return propertyreader->OptString(
+      xmlTextReaderGetAttributeNs(impl_, (const xmlChar*)localName.c_str(),
+      (const xmlChar *)namespaceURI.c_str()));
+}
+
+std::optional<Glib::ustring> TextReader::lookup_namespace2(const Glib::ustring& prefix) const
+{
+  return propertyreader->OptString(xmlTextReaderLookupNamespace(
+    impl_, prefix.empty() ? nullptr : (const xmlChar*)prefix.c_str()));
 }
 
 bool TextReader::move_to_attribute(int number)
@@ -464,6 +554,18 @@ Glib::ustring TextReader::PropertyReader::String(xmlChar const* value)
     return Glib::ustring();
 
   return (const char*)value;
+}
+
+std::optional<Glib::ustring> TextReader::PropertyReader::OptString(xmlChar* value)
+{
+  owner_.check_for_exceptions();
+
+  if (!value)
+    return {};
+
+  std::optional<Glib::ustring> result = (char*)value;
+  xmlFree(value);
+  return result;
 }
 
 } // namespace xmlpp
