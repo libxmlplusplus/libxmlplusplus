@@ -13,12 +13,15 @@
 #include "libxml++/ustring.h"
 
 #include <memory>
+#include <optional>
 
 extern "C"
 {
   struct _xmlTextReader;
 }
 
+//TODO: When we can break ABI/API, remove deprecated methods
+// and rename all xyz2() to xyz().
 namespace xmlpp
 {
 
@@ -115,10 +118,12 @@ class TextReader: public NonCopyable
      */
     LIBXMLPP_API bool read();
 
+#ifndef LIBXMLXX_DISABLE_DEPRECATED
     /** Reads the contents of the current node, including child nodes and markup.
      * @return A ustring containing the XML content, or an empty ustring if the current node is neither an element nor attribute, or has no child nodes.
      * @throws xmlpp::parse_error
      * @throws xmlpp::validity_error
+     * @deprecated 5.6: Use read_inner_xml2() instead.
      */
     LIBXMLPP_API ustring read_inner_xml();
 
@@ -126,6 +131,7 @@ class TextReader: public NonCopyable
      * @return A ustring containing the XML content, or an empty ustring if the current node is neither an element nor attribute.
      * @throws xmlpp::parse_error
      * @throws xmlpp::validity_error
+     * @deprecated 5.6: Use read_outer_xml2() instead.
      */
     LIBXMLPP_API ustring read_outer_xml();
 
@@ -133,8 +139,37 @@ class TextReader: public NonCopyable
      * @return A ustring containing the contents of the Element or Text node, or an empty ustring if the reader is positioned on any other type of node.
      * @throws xmlpp::parse_error
      * @throws xmlpp::validity_error
+     * @deprecated 5.6: Use read_string2() instead.
      */
     LIBXMLPP_API ustring read_string();
+#endif // LIBXMLXX_DISABLE_DEPRECATED
+
+    /** Reads the contents of the current node, including child nodes and markup.
+     * @return A std::optional<ustring> containing the XML content, or no value if
+     *         the current node is neither an element nor attribute, or has no child nodes.
+     * @throws xmlpp::parse_error
+     * @throws xmlpp::validity_error
+     * @newin{5,6}
+     */
+    LIBXMLPP_API std::optional<ustring> read_inner_xml2();
+
+    /** Reads the current node and its contents, including child nodes and markup.
+     * @return A std::optional<ustring> containing the XML content, or no value if
+     *         the current node is neither an element nor attribute.
+     * @throws xmlpp::parse_error
+     * @throws xmlpp::validity_error
+     * @newin{5,6}
+     */
+    LIBXMLPP_API std::optional<ustring> read_outer_xml2();
+
+    /** Reads the contents of an element or a text node as a string.
+     * @return A std::optional<ustring> containing the contents of the Element or Text node,
+     *         or no value if the reader is positioned on any other type of node.
+     * @throws xmlpp::parse_error
+     * @throws xmlpp::validity_error
+     * @newin{5,6}
+     */
+    LIBXMLPP_API std::optional<ustring> read_string2();
 
     /** Parses an attribute value into one or more Text and EntityReference nodes.
      * @return A bool where true indicates the attribute value was parsed, and false indicates the reader was not positioned on an attribute node or all the attribute values have been read.
@@ -153,10 +188,23 @@ class TextReader: public NonCopyable
     LIBXMLPP_API
     int get_attribute_count() const;
 
+#ifndef LIBXMLXX_DISABLE_DEPRECATED
     /** Gets the base Uniform Resource Identifier (URI) of the current node.
      * @return The base URI of the current node or an empty ustring if not available.
+     * @throws xmlpp::parse_error
+     * @throws xmlpp::validity_error
+     * @deprecated 5.6: Use get_base_uri2() instead.
      */
     LIBXMLPP_API ustring get_base_uri() const;
+#endif // LIBXMLXX_DISABLE_DEPRECATED
+
+    /** Gets the base Uniform Resource Identifier (URI) of the current node.
+     * @return The base URI of the current node, or no value if not available.
+     * @throws xmlpp::parse_error
+     * @throws xmlpp::validity_error
+     * @newin{5,6}
+     */
+    LIBXMLPP_API std::optional<ustring> get_base_uri2() const;
 
     /** Gets the depth of the current node in the XML document.
      * @return The depth of the current node in the XML document, or -1 in case of error.
@@ -188,9 +236,51 @@ class TextReader: public NonCopyable
     LIBXMLPP_API
     bool is_empty_element() const;
 
+#ifndef LIBXMLXX_DISABLE_DEPRECATED
+    /** Gets the local name of the node.
+     * @return The local name of the node, or an empty ustring if not available.
+     * @throws xmlpp::parse_error
+     * @throws xmlpp::validity_error
+     * @deprecated 5.6: Use get_local_name2() instead.
+     */
     LIBXMLPP_API ustring get_local_name() const;
+
+    /** Gets the qualified name of the node, equal to Prefix:LocalName.
+     * @return The qualified name of the node, or an empty ustring if not available.
+     * @throws xmlpp::parse_error
+     * @throws xmlpp::validity_error
+     * @deprecated 5.6: Use get_name2() instead.
+     */
     LIBXMLPP_API ustring get_name() const;
+
+    /** Gets the URI defining the namespace associated with the node.
+     * @return The namespace URI, or an empty ustring if not available.
+     * @deprecated 5.6: Use get_namespace_uri2() instead.
+     */
     LIBXMLPP_API ustring get_namespace_uri() const;
+#endif // LIBXMLXX_DISABLE_DEPRECATED
+
+    /** Gets the local name of the node.
+     * @return The local name of the node, or no value if not available.
+     * @throws xmlpp::parse_error
+     * @throws xmlpp::validity_error
+     * @newin{5,6}
+     */
+    LIBXMLPP_API std::optional<ustring> get_local_name2() const;
+
+    /** Gets the qualified name of the node, equal to Prefix:LocalName.
+     * @return The qualified name of the node, or no value if not available.
+     * @throws xmlpp::parse_error
+     * @throws xmlpp::validity_error
+     * @newin{5,6}
+     */
+    LIBXMLPP_API std::optional<ustring> get_name2() const;
+
+    /** Gets the URI defining the namespace associated with the node.
+     * @return The namespace URI, or no value if not available.
+     * @newin{5,6}
+     */
+    LIBXMLPP_API std::optional<ustring> get_namespace_uri2() const;
 
     /** Get the node type of the current node.
      * @returns The xmlpp::TextReader::NodeType of the current node.
@@ -202,10 +292,19 @@ class TextReader: public NonCopyable
     LIBXMLPP_API
     NodeType get_node_type() const;
 
+#ifndef LIBXMLXX_DISABLE_DEPRECATED
     /** Get the namespace prefix associated with the current node.
      * @returns The namespace prefix, or an empty string if not available.
+     * @deprecated 5.6: Use get_prefix2() instead.
      */
     LIBXMLPP_API ustring get_prefix() const;
+#endif // LIBXMLXX_DISABLE_DEPRECATED
+
+    /** Get the namespace prefix associated with the current node.
+     * @returns The namespace prefix, or no value if not available.
+     * @newin{5,6}
+     */
+    LIBXMLPP_API std::optional<ustring> get_prefix2() const;
 
     /** Get the quotation mark character used to enclose the value of an attribute.
      * @returns Returns " or ' and -1 in case of error.
@@ -213,25 +312,131 @@ class TextReader: public NonCopyable
     LIBXMLPP_API
     char get_quote_char() const;
 
+#ifndef LIBXMLXX_DISABLE_DEPRECATED
+    /** Gets the text value of the node.
+     * @return The text value, or an empty ustring if not available.
+     * @throws xmlpp::parse_error
+     * @throws xmlpp::validity_error
+     * @deprecated 5.6: Use get_value2() instead.
+     */
     LIBXMLPP_API ustring get_value() const;
-    LIBXMLPP_API ustring get_xml_lang() const;
 
+    /** Gets the xml:lang scope within which the node resides.
+     * @return The xml:lang value, or an empty ustring if not available.
+     * @deprecated 5.6: Use get_xml_lang2() instead.
+     */
+    LIBXMLPP_API ustring get_xml_lang() const;
+#endif // LIBXMLXX_DISABLE_DEPRECATED
+
+    /** Gets the text value of the node.
+     * @return The text value, or no value if not available.
+     * @throws xmlpp::parse_error
+     * @throws xmlpp::validity_error
+     * @newin{5,6}
+     */
+    LIBXMLPP_API std::optional<ustring> get_value2() const;
+
+    /** Gets the xml:lang scope within which the node resides.
+     * @return The xml:lang value, or no value if not available.
+     * @newin{5,6}
+     */
+    LIBXMLPP_API std::optional<ustring> get_xml_lang2() const;
+
+    /** Gets the read state of the reader.
+     * @return The state value, or xmlpp::TextReader::ReadState::InternalError in case of error.
+     */
     LIBXMLPP_API
     ReadState get_read_state() const;
 
     LIBXMLPP_API void close();
 
+#ifndef LIBXMLXX_DISABLE_DEPRECATED
+    /** Gets the value of the attribute with the specified index relative to the containing element.
+     * @param number The zero-based index of the attribute relative to the containing element.
+     * @return The value of the specified attribute, or an empty ustring in case of error.
+     * @throws xmlpp::parse_error
+     * @throws xmlpp::validity_error
+     * @deprecated 5.6: Use get_attribute2(int) const instead.
+     */
     LIBXMLPP_API
     ustring get_attribute(int number) const;
+
+    /** Gets the value of the attribute with the specified qualified name.
+     * @param name The qualified name of the attribute.
+     * @return The value of the specified attribute, or an empty ustring in case of error.
+     * @throws xmlpp::parse_error
+     * @throws xmlpp::validity_error
+     * @deprecated 5.6: Use get_attribute2(const ustring&) const instead.
+     */
     LIBXMLPP_API
     ustring get_attribute(const ustring& name) const;
+
+    /** Gets the value of the specified attribute.
+     * @param local_name The local name of the attribute.
+     * @param ns_uri The namespace URI of the attribute.
+     * @return The value of the specified attribute, or an empty ustring in case of error.
+     * @throws xmlpp::parse_error
+     * @throws xmlpp::validity_error
+     * @deprecated 5.6: Use get_attribute2(const ustring&, const ustring&) const instead.
+     */
     LIBXMLPP_API
     ustring get_attribute(const ustring& local_name, const ustring& ns_uri) const;
 
-    // TODO InputBuffer GetRemainder;
-
+    /** Resolves a namespace prefix in the scope of the current element.
+     * @param prefix The prefix whose namespace URI is to be resolved.
+     *        To return the default namespace, specify an empty string.
+     * @return The the namespace URI to which the prefix maps, or an empty ustring in case of error.
+     * @throws xmlpp::parse_error
+     * @throws xmlpp::validity_error
+     * @deprecated 5.6: Use lookup_namespace2() instead.
+     */
     LIBXMLPP_API
     ustring lookup_namespace(const ustring& prefix) const;
+#endif // LIBXMLXX_DISABLE_DEPRECATED
+
+    /** Gets the value of the attribute with the specified index relative to the containing element.
+     * @param number The zero-based index of the attribute relative to the containing element.
+     * @return The value of the specified attribute, or no value in case of error.
+     * @throws xmlpp::parse_error
+     * @throws xmlpp::validity_error
+     * @newin{5,6}
+     */
+    LIBXMLPP_API
+    std::optional<ustring> get_attribute2(int number) const;
+
+    /** Gets the value of the attribute with the specified qualified name.
+     * @param name The qualified name of the attribute.
+     * @return The value of the specified attribute, or no value in case of error.
+     * @throws xmlpp::parse_error
+     * @throws xmlpp::validity_error
+     * @newin{5,6}
+     */
+    LIBXMLPP_API
+    std::optional<ustring> get_attribute2(const ustring& name) const;
+
+    /** Gets the value of the specified attribute.
+     * @param local_name The local name of the attribute.
+     * @param ns_uri The namespace URI of the attribute.
+     * @return The value of the specified attribute, or no value in case of error.
+     * @throws xmlpp::parse_error
+     * @throws xmlpp::validity_error
+     * @newin{5,6}
+     */
+    LIBXMLPP_API
+    std::optional<ustring> get_attribute2(const ustring& local_name, const ustring& ns_uri) const;
+
+    // TODO InputBuffer GetRemainder;
+
+    /** Resolves a namespace prefix in the scope of the current element.
+     * @param prefix The prefix whose namespace URI is to be resolved.
+     *        To return the default namespace, specify an empty string.
+     * @return The the namespace URI to which the prefix maps, or no value in case of error.
+     * @throws xmlpp::parse_error
+     * @throws xmlpp::validity_error
+     * @newin{5,6}
+     */
+    LIBXMLPP_API
+    std::optional<ustring> lookup_namespace2(const ustring& prefix) const;
 
     LIBXMLPP_API
     bool move_to_attribute(int number);
