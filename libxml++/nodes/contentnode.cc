@@ -16,8 +16,7 @@ ContentNode::ContentNode(xmlNode* node)
 : Node(node)
 {}
 
-ContentNode::~ContentNode()
-{}
+ContentNode::~ContentNode() = default;
 
 ustring ContentNode::get_content() const
 {
