@@ -9,6 +9,7 @@
 
 #include <libxml++/noncopyable.h>
 #include <glibmm/ustring.h>
+#include <optional>
 #include <string>
 #include <memory> // std::unique_ptr
 
@@ -117,9 +118,43 @@ public:
    */
   LIBXMLPP_API void parse_stream(std::istream& in);
 
+#ifndef LIBXMLXX_DISABLE_DEPRECATED
+  /** Get the name of the DTD.
+   * @return The name of the DTD.
+   * @deprecated 4.4: Use get_name2() instead.
+   */
   LIBXMLPP_API Glib::ustring get_name() const;
+
+  /** Get the external identifier for PUBLIC DTD.
+   * @return The external identifier for PUBLIC DTD.
+   * @deprecated 4.4: Use get_external_id2() instead.
+   */
   LIBXMLPP_API Glib::ustring get_external_id() const;
+
+  /** Get the URI for a SYSTEM or PUBLIC DTD.
+   * @return The URI for a SYSTEM or PUBLIC DTD.
+   * @deprecated 4.4: Use get_system_id2() instead.
+   */
   LIBXMLPP_API Glib::ustring get_system_id() const;
+#endif // LIBXMLXX_DISABLE_DEPRECATED
+
+  /** Get the name of the DTD.
+   * @return The name of the DTD, if any, else no value.
+   * @newin{4,4}
+   */
+  LIBXMLPP_API std::optional<Glib::ustring> get_name2() const;
+
+  /** Get the external identifier for PUBLIC DTD.
+   * @return The external identifier for PUBLIC DTD, if any, else no value.
+   * @newin{4,4}
+   */
+  LIBXMLPP_API std::optional<Glib::ustring> get_external_id2() const;
+
+  /** Get the URI for a SYSTEM or PUBLIC DTD.
+   * @return The URI for a SYSTEM or PUBLIC DTD, if any, else no value.
+   * @newin{4,4}
+   */
+  LIBXMLPP_API std::optional<Glib::ustring> get_system_id2() const;
 
   /** Access the underlying libxml implementation.
    */

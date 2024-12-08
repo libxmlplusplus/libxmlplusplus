@@ -34,6 +34,22 @@ Glib::ustring AttributeNode::get_value() const
   return retn;
 }
 
+std::optional<Glib::ustring> AttributeNode::get_value2() const
+{
+  xmlChar* value = nullptr;
+  if (cobj()->ns && cobj()->ns->href)
+    value = xmlGetNsProp(cobj()->parent, cobj()->name, cobj()->ns->href);
+  else
+    value = xmlGetNoNsProp(cobj()->parent, cobj()->name);
+
+  if (!value)
+    return {};
+
+  std::optional<Glib::ustring> result = (const char*)value;
+  xmlFree(value);
+  return result;
+}
+
 void AttributeNode::set_value(const Glib::ustring& value)
 {
   if (cobj()->ns)

@@ -16,13 +16,15 @@
  * License along with this library. If not, see <http://www.gnu.org/licenses/>.
  */
 
-#ifdef HAVE_CONFIG_H
-#include <config.h>
-#endif
-
 #include <libxml++/libxml++.h>
 #include <iostream>
 #include <stdlib.h>
+
+std::ostream& operator<<(std::ostream& o, const std::optional<Glib::ustring>& s)
+{
+  o << s.value_or("{[(no value)]}");
+  return o;
+}
 
 void print_node(const xmlpp::Node* node, unsigned int indentation = 0)
 {
@@ -36,14 +38,14 @@ void print_node(const xmlpp::Node* node, unsigned int indentation = 0)
   if (nodeText && nodeText->is_white_space())
     return;
 
-  const auto nodename = node->get_name();
+  const auto nodename = node->get_name2();
 
-  if (!nodeText && !nodeComment && !nodename.empty()) //Let's not say "name: text".
+  if (!nodeText && !nodeComment && nodename) //Let's not say "name: text".
   {
-    const auto namespace_prefix = node->get_namespace_prefix();
+    const auto namespace_prefix = node->get_namespace_prefix2();
 
     std::cout << indent << "Node name = ";
-    if (!namespace_prefix.empty())
+    if (namespace_prefix)
       std::cout << namespace_prefix << ":";
     std::cout << nodename << std::endl;
   }
@@ -55,15 +57,15 @@ void print_node(const xmlpp::Node* node, unsigned int indentation = 0)
   //Treat the various node types differently:
   if (nodeText)
   {
-    std::cout << indent << "text = \"" << nodeText->get_content() << "\"" << std::endl;
+    std::cout << indent << "text = \"" << nodeText->get_content2() << "\"" << std::endl;
   }
   else if (nodeComment)
   {
-    std::cout << indent << "comment = " << nodeComment->get_content() << std::endl;
+    std::cout << indent << "comment = " << nodeComment->get_content2() << std::endl;
   }
   else if (nodeContent)
   {
-    std::cout << indent << "content = " << nodeContent->get_content() << std::endl;
+    std::cout << indent << "content = " << nodeContent->get_content2() << std::endl;
   }
   else if (const xmlpp::Element* nodeElement = dynamic_cast<const xmlpp::Element*>(node))
   {
@@ -73,18 +75,18 @@ void print_node(const xmlpp::Node* node, unsigned int indentation = 0)
     //Print attributes:
     for (const auto& attribute : nodeElement->get_attributes())
     {
-      const auto namespace_prefix = attribute->get_namespace_prefix();
+      const auto namespace_prefix = attribute->get_namespace_prefix2();
 
       std::cout << indent << "  Attribute ";
-      if (!namespace_prefix.empty())
+      if (namespace_prefix)
         std::cout << namespace_prefix  << ":";
-      std::cout << attribute->get_name() << " = " << attribute->get_value() << std::endl;
+      std::cout << attribute->get_name2() << " = " << attribute->get_value2() << std::endl;
     }
 
     const auto attribute = nodeElement->get_attribute("title");
     if (attribute)
     {
-      std::cout << indent << "title = " << attribute->get_value() << std::endl;
+      std::cout << indent << "title = " << attribute->get_value2() << std::endl;
     }
   }
   else if (dynamic_cast<const xmlpp::XIncludeStart*>(node))

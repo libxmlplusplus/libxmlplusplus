@@ -406,9 +406,18 @@ Node* Node::import_node(const Node* node, bool recursive)
   return static_cast<Node*>(added_node->_private);
 }
 
+#ifndef LIBXMLXX_DISABLE_DEPRECATED
 Glib::ustring Node::get_name() const
 {
   return impl_->name ? (const char*)impl_->name : "";
+}
+#endif // LIBXMLXX_DISABLE_DEPRECATED
+
+std::optional<Glib::ustring> Node::get_name2() const
+{
+  if (!impl_->name)
+    return {};
+  return (const char*)impl_->name;
 }
 
 void Node::set_name(const Glib::ustring& name)
@@ -432,12 +441,24 @@ const xmlNode* Node::cobj() const noexcept
   return impl_;
 }
 
+#ifndef LIBXMLXX_DISABLE_DEPRECATED
 Glib::ustring Node::get_path() const
 {
   xmlChar* path = xmlGetNodePath(impl_);
   Glib::ustring retn = path ? (char*)path : "";
   xmlFree(path);
   return retn;
+}
+#endif // LIBXMLXX_DISABLE_DEPRECATED
+
+std::optional<Glib::ustring> Node::get_path2() const
+{
+  xmlChar* path = xmlGetNodePath(impl_);
+  if (!path)
+    return {};
+  std::optional<Glib::ustring> result = (char*)path;
+  xmlFree(path);
+  return result;
 }
 
 Node::NodeSet Node::find(const Glib::ustring& xpath)
@@ -505,11 +526,23 @@ Glib::ustring Node::eval_to_string(const Glib::ustring& xpath, const PrefixNsMap
   return eval_common_to_string(xpath, &namespaces, result_type, impl_);
 }
 
+#ifndef LIBXMLXX_DISABLE_DEPRECATED
 Glib::ustring Node::get_namespace_prefix() const
 {
-  if(impl_->type == XML_DOCUMENT_NODE ||
-     impl_->type == XML_HTML_DOCUMENT_NODE ||
-     impl_->type == XML_ENTITY_DECL)
+  return get_namespace_prefix2().value_or("");
+}
+
+Glib::ustring Node::get_namespace_uri() const
+{
+  return get_namespace_uri2().value_or("");
+}
+#endif // LIBXMLXX_DISABLE_DEPRECATED
+
+std::optional<Glib::ustring> Node::get_namespace_prefix2() const
+{
+  if (impl_->type == XML_DOCUMENT_NODE ||
+      impl_->type == XML_HTML_DOCUMENT_NODE ||
+      impl_->type == XML_ENTITY_DECL)
   {
     //impl_ is actually of type xmlDoc or xmlEntity, instead of just xmlNode.
     //libxml does not always use GObject-style inheritance, so xmlDoc and
@@ -517,22 +550,24 @@ Glib::ustring Node::get_namespace_prefix() const
     //Therefore, a call to impl_->ns would be invalid.
     //This can be an issue when calling this method on a Node returned by Node::find().
     //See the TODO comment on Document, suggesting that Document should derive from Node.
+    return {};
+  }
 
-    return Glib::ustring();
-  }
-  else if (impl_->type == XML_ATTRIBUTE_DECL)
+  if (impl_->type == XML_ATTRIBUTE_DECL)
   {
-    //impl_ is actually of type xmlAttribute, instead of just xmlNode.
-    const xmlAttribute* const attr = reinterpret_cast<const xmlAttribute*>(impl_);
-    return attr->prefix ? (const char*)attr->prefix : "";
+    // impl_ is actually of type xmlAttribute, instead of just xmlNode.
+    auto attr = reinterpret_cast<const xmlAttribute*>(impl_);
+    if (!attr->prefix)
+      return {};
+    return (const char*)attr->prefix;
   }
-  else if(impl_->ns && impl_->ns->prefix)
-    return (char*)impl_->ns->prefix;
-  else
-    return Glib::ustring();
+
+  if (!(impl_->ns && impl_->ns->prefix))
+    return {};
+  return (const char*)impl_->ns->prefix;
 }
 
-Glib::ustring Node::get_namespace_uri() const
+std::optional<Glib::ustring> Node::get_namespace_uri2() const
 {
   if(impl_->type == XML_DOCUMENT_NODE ||
      impl_->type == XML_HTML_DOCUMENT_NODE ||
@@ -545,14 +580,12 @@ Glib::ustring Node::get_namespace_uri() const
     //Therefore, a call to impl_->ns would be invalid.
     //This can be an issue when calling this method on a Node returned by Node::find().
     //See the TODO comment on Document, suggesting that Document should derived from Node.
-
-    return Glib::ustring();
+    return {};
   }
 
-  if(impl_->ns && impl_->ns->href)
-    return (char*)impl_->ns->href;
-  else
-    return Glib::ustring();
+  if (!(impl_->ns && impl_->ns->href))
+    return {};
+  return (const char*)impl_->ns->href;
 }
 
 void Node::set_namespace(const Glib::ustring& ns_prefix)

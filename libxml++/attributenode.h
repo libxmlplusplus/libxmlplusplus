@@ -34,8 +34,15 @@ public:
 
   /** Get the value of this attribute.
    * @returns The attribute's value.
+   * @deprecated 4.4: Use get_value2() instead.
    */
   Glib::ustring get_value() const override;
+
+  /** Get the value of this attribute.
+   * @returns The attribute's value, or no value if the attribute has no value.
+   * @newin{4,4}
+   */
+  std::optional<Glib::ustring> get_value2() const;
 
   /** Set the value of this attribute.
    *

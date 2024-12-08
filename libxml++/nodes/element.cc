@@ -91,10 +91,21 @@ const Attribute* Element::get_attribute(const Glib::ustring& name,
   return const_cast<Element*>(this)->get_attribute(name, ns_prefix);
 }
 
+#ifndef LIBXMLXX_DISABLE_DEPRECATED
 Glib::ustring Element::get_attribute_value(const Glib::ustring& name, const Glib::ustring& ns_prefix) const
 {
   const auto attr = get_attribute(name, ns_prefix);
   return attr ? attr->get_value() : Glib::ustring();
+}
+#endif // LIBXMLXX_DISABLE_DEPRECATED
+
+std::optional<Glib::ustring> Element::get_attribute_value2(
+  const Glib::ustring& name, const Glib::ustring& ns_prefix) const
+{
+  const auto attr = get_attribute(name, ns_prefix);
+  if (!attr)
+    return {};
+  return attr->get_value2();
 }
 
 Attribute* Element::set_attribute(const Glib::ustring& name, const Glib::ustring& value,

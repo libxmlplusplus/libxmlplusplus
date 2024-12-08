@@ -17,6 +17,7 @@
 #include <libxml++/dtd.h>
 
 #include <string>
+#include <optional>
 #include <ostream>
 
 /* std::string or Glib::ustring in function prototypes in libxml++?
@@ -92,10 +93,22 @@ public:
 
   LIBXMLPP_API ~Document() override;
 
-  /** @return The encoding used in the source from which the document has been loaded.
+#ifndef LIBXMLXX_DISABLE_DEPRECATED
+  /** Get the encoding used in the source from which the document has been loaded.
+   * @return The encoding used in the source from which the document has been loaded.
+   * @deprecated 4.4: Use get_encoding2() instead.
    */
   LIBXMLPP_API
   Glib::ustring get_encoding() const;
+#endif // LIBXMLXX_DISABLE_DEPRECATED
+
+  /** Get the encoding used in the source from which the document has been loaded.
+   * @return The encoding used in the source from which the document has been loaded,
+   *         if any, else no value.
+   * @newin{4,4}
+   */
+  LIBXMLPP_API
+  std::optional<Glib::ustring> get_encoding2() const;
 
   /** Get the internal subset of this document.
    * @returns A pointer to the DTD, or <tt>nullptr</tt> if not found.

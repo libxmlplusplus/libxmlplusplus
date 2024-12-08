@@ -29,18 +29,37 @@ public:
   explicit EntityDeclaration(_xmlNode* node);
   ~EntityDeclaration() override;
 
+#ifndef LIBXMLXX_DISABLE_DEPRECATED
   /** Get the text with character references (like "&#xdf;") resolved.
    * If the entity declaration does not contain any reference to another entity,
    * this is the text that an entity reference would have resolved to, if the XML
    * document had been parsed with Parser::set_substitute_entities(true).
    * @returns The text with character references unescaped.
+   * @deprecated 4.4: Use get_resolved_text2() instead.
    */
   Glib::ustring get_resolved_text() const;
 
   /** Get the text as read from the XML or DTD file.
    * @returns The escaped text.
+   * @deprecated 5.6: Use get_original_text2() instead.
    */
   Glib::ustring get_original_text() const;
+#endif // LIBXMLXX_DISABLE_DEPRECATED
+
+  /** Get the text with character references (like "&#xdf;") resolved.
+   * If the entity declaration does not contain any reference to another entity,
+   * this is the text that an entity reference would have resolved to, if the XML
+   * document had been parsed with Parser::set_substitute_entities(true).
+   * @returns The text with character references unescaped, if any, else no value.
+   * @newin{4,4}
+   */
+  std::optional<Glib::ustring> get_resolved_text2() const;
+
+  /** Get the text as read from the XML or DTD file.
+   * @returns The escaped text, if any, else no value.
+   * @newin{4,4}
+   */
+  std::optional<Glib::ustring> get_original_text2() const;
 
   ///Access the underlying libxml implementation.
   _xmlEntity* cobj() noexcept;

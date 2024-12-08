@@ -17,10 +17,6 @@
  * Software Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
  */
 
-#ifdef HAVE_CONFIG_H
-#include <config.h>
-#endif
-
 #include "../testutilities.h"
 #include <libxml++/libxml++.h>
 #include <iostream>
@@ -38,7 +34,7 @@ void print_node(const xmlpp::Node* node, bool substitute_entities, unsigned int 
     const auto nodeText = dynamic_cast<const xmlpp::TextNode*>(node);
     if (nodeText && !nodeText->is_white_space())
     {
-      std::cout << indent << "text = " << CatchConvertError(nodeText->get_content()) << std::endl;
+      std::cout << indent << "text = " << CatchConvertError(nodeText->get_content2()) << std::endl;
     }
   }
   else
@@ -47,9 +43,9 @@ void print_node(const xmlpp::Node* node, bool substitute_entities, unsigned int 
     const auto nodeEntityReference = dynamic_cast<const xmlpp::EntityReference*>(node);
     if (nodeEntityReference)
     {
-      std::cout << indent << "entity reference name = " << CatchConvertError(nodeEntityReference->get_name()) << std::endl;
-      std::cout << indent << "  resolved text = " << CatchConvertError(nodeEntityReference->get_resolved_text()) << std::endl;
-      std::cout << indent << "  original text = " << CatchConvertError(nodeEntityReference->get_original_text()) << std::endl;
+      std::cout << indent << "entity reference name = " << CatchConvertError(nodeEntityReference->get_name2()) << std::endl;
+      std::cout << indent << "  resolved text = " << CatchConvertError(nodeEntityReference->get_resolved_text2()) << std::endl;
+      std::cout << indent << "  original text = " << CatchConvertError(nodeEntityReference->get_original_text2()) << std::endl;
     }
   } // end if (substitute_entities)
 

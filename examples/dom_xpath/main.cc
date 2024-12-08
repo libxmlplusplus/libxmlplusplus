@@ -17,13 +17,15 @@
  * Software Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
  */
 
-#ifdef HAVE_CONFIG_H
-#include <config.h>
-#endif
-
 #include <cstdlib>
 #include <iostream>
 #include <libxml++/libxml++.h>
+
+std::ostream& operator<<(std::ostream& o, const std::optional<Glib::ustring>& s)
+{
+  o << s.value_or("{[(no value)]}");
+  return o;
+}
 
 Glib::ustring result_type_to_ustring(xmlpp::XPathResultType result_type)
 {
@@ -45,7 +47,7 @@ void print_nodeset(const xmlpp::Node::const_NodeSet& set)
   // Print the structural paths and the values:
   for(const auto& child : set)
   {
-    std::cout << " " << child->get_path();
+    std::cout << " " << child->get_path2();
 
     auto attribute = dynamic_cast<const xmlpp::Attribute*>(child);
     if (attribute)
@@ -53,18 +55,18 @@ void print_nodeset(const xmlpp::Node::const_NodeSet& set)
 
     auto content_node = dynamic_cast<const xmlpp::ContentNode*>(child);
     if (content_node)
-      std::cout << ", content=\"" << content_node->get_content() << "\"";
+      std::cout << ", content=\"" << content_node->get_content2() << "\"";
 
     auto entity_reference = dynamic_cast<const xmlpp::EntityReference*>(child);
     if (entity_reference)
-      std::cout << ", text=\"" << entity_reference->get_original_text() << "\"";
+      std::cout << ", text=\"" << entity_reference->get_original_text2() << "\"";
 
     auto element = dynamic_cast<const xmlpp::Element*>(child);
     if (element)
     {
       auto text_node = element->get_first_child_text();
       if (text_node)
-        std::cout << ", first_child_text=\"" << text_node->get_content() << "\"";
+        std::cout << ", first_child_text=\"" << text_node->get_content2() << "\"";
     }
     std::cout << std::endl;
   }

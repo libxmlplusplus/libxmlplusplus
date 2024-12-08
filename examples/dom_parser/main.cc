@@ -17,10 +17,6 @@
  * Software Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
  */
 
-#ifdef HAVE_CONFIG_H
-#include <config.h>
-#endif
-
 #include "../testutilities.h"
 #include <libxml++/libxml++.h>
 #include <iostream>
@@ -38,14 +34,14 @@ void print_node(const xmlpp::Node* node, unsigned int indentation = 0)
   if(nodeText && nodeText->is_white_space()) //Let's ignore the indenting - you don't always want to do this.
     return;
 
-  const auto nodename = node->get_name();
+  const auto nodename = node->get_name2();
 
-  if(!nodeText && !nodeComment && !nodename.empty()) //Let's not say "name: text".
+  if(!nodeText && !nodeComment && nodename) //Let's not say "name: text".
   {
-    const auto namespace_prefix = node->get_namespace_prefix();
+    const auto namespace_prefix = node->get_namespace_prefix2();
 
     std::cout << indent << "Node name = ";
-    if(!namespace_prefix.empty())
+    if(namespace_prefix)
       std::cout << CatchConvertError(namespace_prefix) << ":";
     std::cout << CatchConvertError(nodename) << std::endl;
   }
@@ -57,15 +53,15 @@ void print_node(const xmlpp::Node* node, unsigned int indentation = 0)
   //Treat the various node types differently:
   if(nodeText)
   {
-    std::cout << indent << "text = \"" << CatchConvertError(nodeText->get_content()) << "\"" << std::endl;
+    std::cout << indent << "text = \"" << CatchConvertError(nodeText->get_content2()) << "\"" << std::endl;
   }
   else if(nodeComment)
   {
-    std::cout << indent << "comment = " << CatchConvertError(nodeComment->get_content()) << std::endl;
+    std::cout << indent << "comment = " << CatchConvertError(nodeComment->get_content2()) << std::endl;
   }
   else if(nodeContent)
   {
-    std::cout << indent << "content = " << CatchConvertError(nodeContent->get_content()) << std::endl;
+    std::cout << indent << "content = " << CatchConvertError(nodeContent->get_content2()) << std::endl;
   }
   else if(const xmlpp::Element* nodeElement = dynamic_cast<const xmlpp::Element*>(node))
   {
@@ -77,13 +73,13 @@ void print_node(const xmlpp::Node* node, unsigned int indentation = 0)
     //Print attributes:
     for (const auto& attribute : nodeElement->get_attributes())
     {
-      const auto namespace_prefix = attribute->get_namespace_prefix();
+      const auto namespace_prefix = attribute->get_namespace_prefix2();
 
       std::cout << indent << "  Attribute ";
-      if(!namespace_prefix.empty())
+      if(namespace_prefix)
         std::cout << CatchConvertError(namespace_prefix) << ":";
-      std::cout << CatchConvertError(attribute->get_name()) << " = "
-                << CatchConvertError(attribute->get_value()) << std::endl;
+      std::cout << CatchConvertError(attribute->get_name2()) << " = "
+                << CatchConvertError(attribute->get_value2()) << std::endl;
     }
 
     const auto attribute = nodeElement->get_attribute("title");
@@ -94,7 +90,7 @@ void print_node(const xmlpp::Node* node, unsigned int indentation = 0)
         std::cout << "AttributeNode ";
       else if (dynamic_cast<const xmlpp::AttributeDeclaration*>(attribute))
         std::cout << "AttributeDeclaration ";
-      std::cout << "title = " << CatchConvertError(attribute->get_value()) << std::endl;
+      std::cout << "title = " << CatchConvertError(attribute->get_value2()) << std::endl;
     }
   }
 

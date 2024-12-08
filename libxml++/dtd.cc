@@ -105,6 +105,7 @@ void Dtd::parse_stream(std::istream& in)
   pimpl_->is_dtd_owner = true;
 }
 
+#ifndef LIBXMLXX_DISABLE_DEPRECATED
 Glib::ustring Dtd::get_name() const
 {
   return (pimpl_->dtd && pimpl_->dtd->name) ? (const char*)pimpl_->dtd->name : "";
@@ -118,6 +119,28 @@ Glib::ustring Dtd::get_external_id() const
 Glib::ustring Dtd::get_system_id() const
 {
   return (pimpl_->dtd && pimpl_->dtd->SystemID) ? (const char*)pimpl_->dtd->SystemID : "";
+}
+#endif // LIBXMLXX_DISABLE_DEPRECATED
+
+std::optional<Glib::ustring> Dtd::get_name2() const
+{
+  if (!(pimpl_->dtd && pimpl_->dtd->name))
+    return {};
+  return (const char*)pimpl_->dtd->name;
+}
+
+std::optional<Glib::ustring> Dtd::get_external_id2() const
+{
+  if (!(pimpl_->dtd && pimpl_->dtd->ExternalID))
+    return {};
+  return (const char*)pimpl_->dtd->ExternalID;
+}
+
+std::optional<Glib::ustring> Dtd::get_system_id2() const
+{
+  if (!(pimpl_->dtd && pimpl_->dtd->SystemID))
+    return {};
+  return (const char*)pimpl_->dtd->SystemID;
 }
 
 _xmlDtd* Dtd::cobj() noexcept

@@ -18,6 +18,7 @@
 
 #include <glibmm/ustring.h>
 #include <iostream>
+#include <optional>
 
 // CatchConvertError is identical to Glib::ustring, except that
 // std::ostream& operator<<(std::ostream&, const CatchConvertError&)
@@ -38,6 +39,10 @@ class CatchConvertError : public Glib::ustring
 public:
   explicit CatchConvertError(const Glib::ustring& str)
   : Glib::ustring(str)
+  { }
+  explicit CatchConvertError(const std::optional<Glib::ustring>& opt_str,
+    const Glib::ustring& default_value = "{[(no value)]}")
+  : Glib::ustring(opt_str.value_or(default_value))
   { }
 };
 

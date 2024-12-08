@@ -28,7 +28,7 @@ void print_node(const xmlpp::Node* node, unsigned int indentation = 0)
 {
   std::cout << std::endl; //Separate nodes by an empty line.
 
-  std::cout << "Node name = " << node->get_name() << std::endl;
+  std::cout << "Node name = " << node->get_name2().value_or("{[(no name)]}") << std::endl;
 
   //Recurse through child nodes:
   for(const auto& child : node->get_children())

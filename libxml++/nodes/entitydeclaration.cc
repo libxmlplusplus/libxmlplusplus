@@ -17,6 +17,7 @@ EntityDeclaration::EntityDeclaration(xmlNode* node)
 EntityDeclaration::~EntityDeclaration()
 {}
 
+#ifndef LIBXMLXX_DISABLE_DEPRECATED
 Glib::ustring EntityDeclaration::get_resolved_text() const
 {
   return cobj()->content ? (const char*)cobj()->content : "";
@@ -25,6 +26,21 @@ Glib::ustring EntityDeclaration::get_resolved_text() const
 Glib::ustring EntityDeclaration::get_original_text() const
 {
   return cobj()->orig ? (const char*)cobj()->orig : "";
+}
+#endif // LIBXMLXX_DISABLE_DEPRECATED
+
+std::optional<Glib::ustring> EntityDeclaration::get_resolved_text2() const
+{
+  if (!cobj()->content)
+    return {};
+  return (const char*)cobj()->content;
+}
+
+std::optional<Glib::ustring> EntityDeclaration::get_original_text2() const
+{
+  if (!cobj()->orig)
+    return {};
+  return (const char*)cobj()->orig;
 }
 
 xmlEntity* EntityDeclaration::cobj() noexcept
