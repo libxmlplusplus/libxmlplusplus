@@ -33,8 +33,16 @@ public:
 
   /** Get the default value of this attribute.
    * @returns The attribute's default value.
+   * @deprecated 5.6: Use get_value2() instead.
    */
   ustring get_value() const override;
+
+  /** Get the default value of this attribute.
+   * @returns The attribute's default value, or not value if the attribute
+   *          has no default value.
+   * @newin{5,6}
+   */
+  std::optional<ustring> get_value2() const;
 
   ///Access the underlying libxml implementation.
   _xmlAttribute* cobj() noexcept;

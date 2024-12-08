@@ -107,7 +107,7 @@ int main()
 
     {
       auto doc = parser.get_document();
-      assert(doc->get_root_node()->get_name() == "root");
+      assert(doc->get_root_node()->get_name2() == "root");
     }
 
     {
@@ -120,7 +120,7 @@ int main()
       }
       assert(buf.underflow_calls + buf.uflow_calls < 3);
       auto doc = parser.get_document();
-      assert(doc->get_root_node()->get_name() == "root");
+      assert(doc->get_root_node()->get_name2() == "root");
     }
   }
   { // Check SaxParser works well with normal and custom istreams.

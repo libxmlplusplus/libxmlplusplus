@@ -34,6 +34,22 @@ ustring AttributeNode::get_value() const
   return retn;
 }
 
+std::optional<ustring> AttributeNode::get_value2() const
+{
+  xmlChar* value = nullptr;
+  if (cobj()->ns && cobj()->ns->href)
+    value = xmlGetNsProp(cobj()->parent, cobj()->name, cobj()->ns->href);
+  else
+    value = xmlGetNoNsProp(cobj()->parent, cobj()->name);
+
+  if (!value)
+    return {};
+
+  std::optional<ustring> result = (const char*)value;
+  xmlFree(value);
+  return result;
+}
+
 void AttributeNode::set_value(const ustring& value)
 {
   if (cobj()->ns)

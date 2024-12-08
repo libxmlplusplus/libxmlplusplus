@@ -7,11 +7,13 @@
 #ifndef __LIBXMLPP_ATTRIBUTE_H
 #define __LIBXMLPP_ATTRIBUTE_H
 
-
 #include "libxml++/ustring.h"
-
 #include <libxml++/nodes/node.h>
+#include <optional>
 
+//TODO: When we can break API/ABI, remove get_value(), rename get_value2()
+// to get_value(), make it virtual. Do the same in AttributeDeclaration and
+// AttributeNmode.
 namespace xmlpp
 {
 
@@ -26,8 +28,15 @@ public:
 
   /** Get the value of this attribute.
    * @returns The attribute's value.
+   * @deprecated 5.6: Use get_value2() instead.
    */
   virtual ustring get_value() const = 0;
+
+  /** Get the value of this attribute.
+   * @returns The attribute's value, or no value if the attribute has no value.
+   * @newin{5,6}
+   */
+  std::optional<ustring> get_value2() const;
 };
 
 } // namespace xmlpp

@@ -12,6 +12,7 @@
 #include "libxml++/ustring.h"
 #include <list>
 #include <map>
+#include <optional>
 #include <vector>
 #include <variant>
 
@@ -68,10 +69,19 @@ public:
    */
   ~Node() override;
 
+#ifndef LIBXMLXX_DISABLE_DEPRECATED
   /** Get the name of this node.
    * @returns The node's name.
+   * @deprecated 5.6: Use get_name2() instead.
    */
   ustring get_name() const;
+#endif // LIBXMLXX_DISABLE_DEPRECATED
+
+  /** Get the name of this node.
+   * @returns The node's name, if any, else no value.
+   * @newin{5,6}
+   */
+  std::optional<ustring> get_name2() const;
 
   /** Set the name of this node.
    * @param name The new name for the node.
@@ -85,15 +95,31 @@ public:
    */
   void set_namespace(const ustring& ns_prefix);
 
+#ifndef LIBXMLXX_DISABLE_DEPRECATED
   /** Get the namespace prefix of this node.
    * @returns The node's namespace prefix. Can be an empty string.
+   * @deprecated 5.6: Use get_namespace_prefix2() instead.
    */
   ustring get_namespace_prefix() const;
 
   /** Get the namespace URI of this node.
    * @returns The node's namespace URI. Can be an empty string.
+   * @deprecated 5.6: Use get_namespace_uri2() instead.
    */
   ustring get_namespace_uri() const;
+#endif // LIBXMLXX_DISABLE_DEPRECATED
+
+  /** Get the namespace prefix of this node.
+   * @returns The node's namespace prefix, or no value if the node has no namespace prefix.
+   * @newin{5,6}
+   */
+  std::optional<ustring> get_namespace_prefix2() const;
+
+  /** Get the namespace URI of this node.
+   * @returns The node's namespace URI, or no value if the node has no namespace URI.
+   * @newin{5,6}
+   */
+  std::optional<ustring> get_namespace_uri2() const;
 
   /** Discover at what line number this node occurs in the XML file.
    * @returns The line number.
@@ -187,11 +213,19 @@ public:
    */
   Node* import_node(const Node* node, bool recursive = true);
 
-
+#ifndef LIBXMLXX_DISABLE_DEPRECATED
   /** Get the XPath of this node.
    * @result The XPath of the node.
+   * @deprecated 5.6: Use get_path2() instead.
    */
   ustring get_path() const;
+#endif // LIBXMLXX_DISABLE_DEPRECATED
+
+  /** Get the XPath of this node.
+   * @result The XPath of the node, or no value in case of error.
+   * @newin{5,6}
+   */
+  std::optional<ustring> get_path2() const;
 
   /** Find nodes from an XPath expression.
    * @param xpath The XPath of the nodes.

@@ -34,8 +34,15 @@ public:
 
   /** Get the value of this attribute.
    * @returns The attribute's value.
+   * @deprecated 5.6: Use get_value2() instead.
    */
   ustring get_value() const override;
+
+  /** Get the value of this attribute.
+   * @returns The attribute's value, or no value if the attribute has no value.
+   * @newin{5,6}
+   */
+  std::optional<ustring> get_value2() const;
 
   /** Set the value of this attribute.
    *

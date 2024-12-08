@@ -17,10 +17,6 @@
  * Software Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
  */
 
-#ifdef HAVE_CONFIG_H
-#include <config.h>
-#endif
-
 #include <cstdlib>
 #include <iostream>
 #include <libxml++/libxml++.h>
@@ -28,7 +24,6 @@
 int
 main(int /* argc */, char** /* argv */)
 {
-
   try
   {
     xmlpp::Document document;
@@ -64,7 +59,7 @@ main(int /* argc */, char** /* argv */)
 
     auto whole = document.write_to_string();
     std::cout << "XML built at runtime: " << std::endl << whole << std::endl;
-    std::cout << "namespace of root node: " << nodeRoot->get_namespace_uri() << std::endl;
+    std::cout << "namespace of root node: " << nodeRoot->get_namespace_uri2().value_or("{[(no URI)]}") << std::endl;
   }
   catch(const std::exception& ex)
   {

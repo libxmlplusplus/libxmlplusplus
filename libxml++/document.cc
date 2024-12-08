@@ -194,6 +194,7 @@ Document::~Document()
   xmlFreeDoc(impl_);
 }
 
+#ifndef LIBXMLXX_DISABLE_DEPRECATED
 ustring Document::get_encoding() const
 {
   ustring encoding;
@@ -201,6 +202,14 @@ ustring Document::get_encoding() const
     encoding = (const char*)impl_->encoding;
 
   return encoding;
+}
+#endif // LIBXMLXX_DISABLE_DEPRECATED
+
+std::optional<ustring> Document::get_encoding2() const
+{
+  if (!impl_->encoding)
+    return {};
+  return (const char*)impl_->encoding;
 }
 
 Dtd* Document::get_internal_subset() const

@@ -79,16 +79,27 @@ public:
   const Attribute* get_attribute(const ustring& name,
                                  const ustring& ns_prefix = ustring()) const;
 
+#ifndef LIBXMLXX_DISABLE_DEPRECATED
   /** Get the value of the attribute with this name, and optionally with this namespace.
    * For finer control, you might use get_attribute() and use the methods of the Attribute class.
    * @param name The name of the attribute whose value will be retrieved.
    * @param ns_prefix Namespace prefix.
    * @return The text value of the attribute, or an empty string if no such attribute was found.
-   *
-   * @newin{2,20}
+   * @deprecated 5.6: Use get_attribute_value2() instead.
    */
   ustring get_attribute_value(const ustring& name,
                                     const ustring& ns_prefix = ustring()) const;
+#endif // LIBXMLXX_DISABLE_DEPRECATED
+
+  /** Get the value of the attribute with this name, and optionally with this namespace.
+   * For finer control, you might use get_attribute() and use the methods of the Attribute class.
+   * @param name The name of the attribute whose value will be retrieved.
+   * @param ns_prefix Namespace prefix.
+   * @return The text value of the attribute, or no value if no such attribute was found.
+   * @newin{5,6}
+   */
+  std::optional<ustring> get_attribute_value2(const ustring& name,
+                                    const ustring& ns_prefix = {}) const;
 
   /** Set the value of the attribute with this name, and optionally with this namespace.
    * A matching attribute will be added if no matching attribute already exists.

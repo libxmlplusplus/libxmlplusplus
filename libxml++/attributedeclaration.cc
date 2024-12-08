@@ -22,6 +22,13 @@ AttributeDeclaration::~AttributeDeclaration()
 
 ustring AttributeDeclaration::get_value() const
 {
+  return cobj()->defaultValue ? (const char*)cobj()->defaultValue : "";
+}
+
+std::optional<ustring> AttributeDeclaration::get_value2() const
+{
+  if (!cobj()->defaultValue)
+    return {};
   return (const char*)cobj()->defaultValue;
 }
 

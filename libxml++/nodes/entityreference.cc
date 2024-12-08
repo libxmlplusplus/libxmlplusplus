@@ -18,6 +18,7 @@ EntityReference::EntityReference(xmlNode* node)
 EntityReference::~EntityReference()
 {}
 
+#ifndef LIBXMLXX_DISABLE_DEPRECATED
 ustring EntityReference::get_resolved_text() const
 {
   ustring result;
@@ -48,10 +49,33 @@ ustring EntityReference::get_original_text() const
       if(pch)
         result = (const char*)pch;
   }
-
   return result;
 }
+#endif // LIBXMLXX_DISABLE_DEPRECATED
 
+std::optional<ustring> EntityReference::get_resolved_text2() const
+{
+  // Get the child xmlEntity node (there should only be 1).
+  auto cChild = cobj()->children;
+  if (!(cChild && cChild->type == XML_ENTITY_DECL))
+    return {};
+  auto cEntity = (xmlEntity*)cChild;
+  if (!cEntity->content)
+    return {};
+  return (const char*)cEntity->content;
+}
+
+std::optional<ustring> EntityReference::get_original_text2() const
+{
+  // Get the child xmlEntity node (there should only be 1).
+  auto cChild = cobj()->children;
+  if (!(cChild && cChild->type == XML_ENTITY_DECL))
+    return {};
+  auto cEntity = (xmlEntity*)cChild;
+  if (!cEntity->orig)
+    return {};
+  return (const char*)cEntity->orig;
+}
 
 } //namespace xmlpp
 

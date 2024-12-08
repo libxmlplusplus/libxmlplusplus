@@ -20,11 +20,22 @@ public:
   explicit ContentNode(_xmlNode* node);
   ~ContentNode() override;
 
+#ifndef LIBXMLXX_DISABLE_DEPRECATED
   /** Get the text of this content node.
    * @returns The text. Note that the 5 predefined entities (&amp;, &quot;, &lt;, &gt;, &apos;)
    * are always resolved, so this content will show their human-readable equivalents.
+   * @deprecated 5.6: Use get_content2() instead.
    */
   ustring get_content() const;
+#endif // LIBXMLXX_DISABLE_DEPRECATED
+
+  /** Get the text of this content node.
+   * @returns The text, or no value if this node has no text. Note that the 5
+   * predefined entities (&amp;, &quot;, &lt;, &gt;, &apos;) are always resolved,
+   * so this content will show their human-readable equivalents.
+   * @newin{5,6}
+   */
+  std::optional<ustring> get_content2() const;
 
   /** Set the text of this content node
    * @param content The text. This must be unescaped, meaning that the predefined entities will be created for you where necessary.

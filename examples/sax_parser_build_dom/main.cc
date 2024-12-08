@@ -19,10 +19,6 @@
  * Software Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
  */
 
-#ifdef HAVE_CONFIG_H
-#include <config.h>
-#endif
-
 #include <cstdlib>
 #include <fstream>
 #include <iostream>
@@ -55,7 +51,7 @@ main(int argc, char* argv[])
 
     // Use the custom DOM
     auto element = doc.get_root();
-    std::cout << "root's name is \"" << element->get_name() << "\"" << std::endl;
+    std::cout << "root's name is \"" << element->get_name2().value_or("{[(no name)]}") << "\"" << std::endl;
     auto nl = element->find("//path[@style != '']");
     if(!nl.empty())
     {

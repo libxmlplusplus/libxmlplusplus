@@ -17,14 +17,16 @@
  * Software Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
  */
 
-#ifdef HAVE_CONFIG_H
-#include <config.h>
-#endif
-
 #include <libxml++/libxml++.h>
 #include <iostream>
 #include <fstream>
 #include <cstdlib>
+
+std::ostream& operator<<(std::ostream& o, const std::optional<xmlpp::ustring>& s)
+{
+  o << s.value_or("{[(no value)]}");
+  return o;
+}
 
 void print_node(const xmlpp::Node* node, bool substitute_entities, unsigned int indentation = 0)
 {
@@ -37,7 +39,7 @@ void print_node(const xmlpp::Node* node, bool substitute_entities, unsigned int 
     const auto nodeText = dynamic_cast<const xmlpp::TextNode*>(node);
     if (nodeText && !nodeText->is_white_space())
     {
-      std::cout << indent << "text = " << nodeText->get_content() << std::endl;
+      std::cout << indent << "text = " << nodeText->get_content2() << std::endl;
     }
   }
   else
@@ -46,9 +48,9 @@ void print_node(const xmlpp::Node* node, bool substitute_entities, unsigned int 
     const auto nodeEntityReference = dynamic_cast<const xmlpp::EntityReference*>(node);
     if (nodeEntityReference)
     {
-      std::cout << indent << "entity reference name = " << nodeEntityReference->get_name() << std::endl;
-      std::cout << indent << "  resolved text = " << nodeEntityReference->get_resolved_text() << std::endl;
-      std::cout << indent << "  original text = " << nodeEntityReference->get_original_text() << std::endl;
+      std::cout << indent << "entity reference name = " << nodeEntityReference->get_name2() << std::endl;
+      std::cout << indent << "  resolved text = " << nodeEntityReference->get_resolved_text2() << std::endl;
+      std::cout << indent << "  original text = " << nodeEntityReference->get_original_text2() << std::endl;
     }
   } // end if (substitute_entities)
 

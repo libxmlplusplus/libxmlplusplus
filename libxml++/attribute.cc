@@ -5,6 +5,8 @@
  */
 
 #include "libxml++/attribute.h"
+#include "libxml++/attributedeclaration.h"
+#include "libxml++/attributenode.h"
 
 #include <libxml/tree.h>
 
@@ -18,6 +20,17 @@ Attribute::Attribute(xmlNode* node)
 
 Attribute::~Attribute()
 {
+}
+
+std::optional<ustring> Attribute::get_value2() const
+{
+  auto attr_decl = dynamic_cast<const AttributeDeclaration*>(this);
+  if (attr_decl)
+    return attr_decl->get_value2();
+  auto attr_node = dynamic_cast<const AttributeNode*>(this);
+  if (attr_node)
+    return attr_node->get_value2();
+  return {};
 }
 
 } //namespace xmlpp

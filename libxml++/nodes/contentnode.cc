@@ -19,6 +19,7 @@ ContentNode::ContentNode(xmlNode* node)
 ContentNode::~ContentNode()
 {}
 
+#ifndef LIBXMLXX_DISABLE_DEPRECATED
 ustring ContentNode::get_content() const
 {
   if(cobj()->type == XML_ELEMENT_NODE)
@@ -27,6 +28,18 @@ ustring ContentNode::get_content() const
   }
 
   return cobj()->content ? (char*)cobj()->content : "";
+}
+#endif // LIBXMLXX_DISABLE_DEPRECATED
+
+std::optional<ustring> ContentNode::get_content2() const
+{
+  if (cobj()->type == XML_ELEMENT_NODE)
+    throw internal_error("this node type doesn't have content");
+
+  if (!cobj()->content)
+    return {};
+
+  return (char*)cobj()->content;
 }
 
 void ContentNode::set_content(const ustring& content)
