@@ -39,7 +39,8 @@ foreach ex : example_programs
   exe_file = executable(ex_name, ex_sources,
     dependencies: xmlxx_own_dep,
     implicit_include_directories: false,
-    build_by_default: build_examples
+    build_by_default: build_examples,
+    install: false,
   )
 
   if build_examples

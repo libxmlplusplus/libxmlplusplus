@@ -300,7 +300,9 @@ configure_file(
   input: xmlxxconfig_h_meson,
   output: 'libxml++config.h',
   configuration: pkg_conf_data,
+  install: true,
   install_dir: install_includeconfigdir,
+  install_tag: 'devel',
 )
 
 subdir('MSVC_NMake/libxml++')
