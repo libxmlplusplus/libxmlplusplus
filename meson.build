@@ -7,8 +7,7 @@ project('libxml++', 'cpp',
     'cpp_std=c++11',
     'warning_level=1',
   ],
-  meson_version: '>= 0.55.0', # required for meson.add_dist_script(python3, ...)
-                              # and meson.add_install_script(python3, ...)
+  meson_version: '>= 0.60.0', # required for install_tag keyword argument.
 )
 
 xmlxx_api_version = '3.0'
@@ -38,10 +37,9 @@ macos_darwin_versions = [
   '@0@.@1@'.format(libtool_soversion[0] + 1, libtool_soversion[1])
 ]
 
-# Use these instead of meson.source_root() and meson.build_root() in subdirectories.
-# source_root() and build_root() are not useful, if this is a subproject.
-project_source_root = meson.current_source_dir()
-project_build_root = meson.current_build_dir()
+# Source and build root directories of the current (sub)project.
+project_source_root = meson.project_source_root()
+project_build_root = meson.project_build_root()
 
 cpp_compiler = meson.get_compiler('cpp')
 is_msvc = cpp_compiler.get_id() == 'msvc'
@@ -389,7 +387,9 @@ configure_file(
   input: 'libxml++.pc.in',
   output: xmlxx_pcname + '.pc',
   configuration: pkg_conf_data,
+  install: true,
   install_dir: install_pkgconfigdir,
+  install_tag: 'devel',
 )
 
 xmlxxconfig_h_meson = files('libxml++config.h.meson')
@@ -398,11 +398,10 @@ configure_file(
   input: xmlxxconfig_h_meson,
   output: 'libxml++config.h',
   configuration: pkg_conf_data,
+  install: true,
   install_dir: install_includeconfigdir,
+  install_tag: 'devel',
 )
-
-# add_dist_script() is not allowed in a subproject if meson.version() < 0.58.0.
-can_add_dist_script = not meson.is_subproject() or meson.version().version_compare('>= 0.58.0')
 
 subdir('MSVC_NMake/libxml++')
 subdir('libxml++')
@@ -411,26 +410,24 @@ subdir('tests')
 subdir('docs/reference')
 subdir('docs/manual')
 
-if can_add_dist_script
-  # Add a ChangeLog file to the distribution directory.
-  meson.add_dist_script(
-    python3, dist_changelog_py,
-    project_source_root,
-  )
+# Add a ChangeLog file to the distribution directory.
+meson.add_dist_script(
+  python3, dist_changelog_py,
+  project_source_root,
+)
 
-  # Don't distribute these files and directories.
-  dont_distribute = [
-    '.github',
-  ]
-  # Add build scripts to the distribution directory, and delete .gitignore
-  # files and an empty $MESON_PROJECT_DIST_ROOT/build/ directory.
-  meson.add_dist_script(
-    python3, dist_build_scripts_py,
-    project_source_root,
-    'untracked' / 'build_scripts',
-    dont_distribute,
-  )
-endif
+# Don't distribute these files and directories.
+dont_distribute = [
+  '.github',
+]
+# Add build scripts to the distribution directory, and delete .gitignore
+# files and an empty $MESON_PROJECT_DIST_ROOT/build/ directory.
+meson.add_dist_script(
+  python3, dist_build_scripts_py,
+  project_source_root,
+  'untracked' / 'build_scripts',
+  dont_distribute,
+)
 
 if meson.is_subproject()
   pkgconfig_vars = {
