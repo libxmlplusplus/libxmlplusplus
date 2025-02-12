@@ -1,7 +1,7 @@
 # docs/manual
 
 # input: install_datadir, xmlxx_pcname, tutorial_custom_cmd_py, python3,
-#        build_documentation, book_name, can_add_dist_script, xsltproc
+#        build_documentation, book_name, xsltproc
 # output: can_parse_and_validate, build_pdf_by_default, can_build_pdf,
 #         install_tutorialdir, build_manual_opt, build_manual
 
@@ -72,7 +72,8 @@ custom_target('manual_html',
   ],
   build_by_default: true,
   install: true,
-  install_dir: install_tutorialdir
+  install_dir: install_tutorialdir,
+  install_tag: 'doc',
 )
 
 if can_parse_and_validate
@@ -106,13 +107,11 @@ if can_build_pdf
   )
 endif
 
-if can_add_dist_script
-  # Distribute built files.
-  meson.add_dist_script(
-    python3, tutorial_custom_cmd_py, 'dist_doc',
-    doc_dist_dir,
-    meson.current_build_dir(),
-    meson.current_build_dir() / 'libxml++.xml',
-    meson.current_build_dir() / 'libxml++.pdf',
-  )
-endif
+# Distribute built files.
+meson.add_dist_script(
+  python3, tutorial_custom_cmd_py, 'dist_doc',
+  doc_dist_dir,
+  meson.current_build_dir(),
+  meson.current_build_dir() / 'libxml++.xml',
+  meson.current_build_dir() / 'libxml++.pdf',
+)
