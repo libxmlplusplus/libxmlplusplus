@@ -67,9 +67,7 @@ namespace xmlpp
     }
   }
 
-  OutputBuffer::~OutputBuffer()
-  {
-  }
+  OutputBuffer::~OutputBuffer() = default;
 
   bool OutputBuffer::on_close()
   {

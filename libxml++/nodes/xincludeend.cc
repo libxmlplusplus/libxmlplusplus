@@ -26,7 +26,6 @@ XIncludeEnd::XIncludeEnd(xmlNode* node)
 : Node(node)
 {}
 
-XIncludeEnd::~XIncludeEnd()
-{}
+XIncludeEnd::~XIncludeEnd() = default;
 
 } //namespace xmlpp
