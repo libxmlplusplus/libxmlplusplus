@@ -6,6 +6,7 @@
  */
 
 // xmlKeepBlanksDefault() is deprecated since libxml2 2.12.0.
+// xmlIndentTreeOutput is deprecated since libxml2 2.15.0.
 // Ignore deprecations here.
 #define XML_DEPRECATED
 
