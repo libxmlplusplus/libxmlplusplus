@@ -38,7 +38,9 @@ don't have access to the newer glibmm-2.68 ABI (glibmm version 2.68.0 or higher)
 ## Download
 
 You can download libxml++ from [GitHub releases](https://github.com/libxmlplusplus/libxmlplusplus/releases/)
-or the [GNOME download site](https://download.gnome.org/sources/libxml++/).
+(since 2.42.0, 3.2.0, 4.0.0 and 5.0.0)
+or the [GNOME download site](https://download.gnome.org/sources/libxml++/)
+(until 2.42.3, 3.2.5, 4.2.0 and 5.4.0).
 
 ## Required Libraries
 
