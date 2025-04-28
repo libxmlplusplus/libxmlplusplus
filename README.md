@@ -26,7 +26,7 @@ Web site
  - https://libxmlplusplus.github.io/libxmlplusplus/
 
 Download location
- - https://download.gnome.org/sources/libxml++/
+ - https://download.gnome.org/sources/libxml++/ (until 5.4.0)
  - https://github.com/libxmlplusplus/libxmlplusplus/releases/
 
 Reference documentation
