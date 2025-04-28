@@ -7,6 +7,10 @@
  * which should be included with libxml++ as the file COPYING.
  */
 
+// xmlIndentTreeOutput is deprecated since libxml2 2.15.0.
+// Ignore deprecations here.
+#define XML_DEPRECATED
+
 #include <libxml++/document.h>
 #include <libxml++/dtd.h>
 #include <libxml++/nodes/element.h>
