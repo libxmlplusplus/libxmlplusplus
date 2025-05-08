@@ -10,12 +10,8 @@
 namespace xmlpp
 {
 
-NonCopyable::NonCopyable() noexcept
-{
-}
+NonCopyable::NonCopyable() noexcept = default;
 
-NonCopyable::~NonCopyable()
-{
-}
+NonCopyable::~NonCopyable() = default;
 
 } //namespace xmlpp

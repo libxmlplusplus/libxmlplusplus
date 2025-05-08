@@ -34,9 +34,7 @@ Parser::Parser(xmlpp::Document& document)
   set_substitute_entities(true);
 }
 
-Parser::~Parser()
-{
-}
+Parser::~Parser() = default;
 
 void Parser::on_start_element(const xmlpp::ustring& name,
                                    const AttributeList& attributes)
