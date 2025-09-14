@@ -61,7 +61,7 @@ public:
   int Int(int value);
   bool Bool(int value);
   char Char(int value);
-  ustring String(xmlChar* value, bool free = false);
+  ustring String(xmlChar* value, bool should_free = false);
   ustring String(xmlChar const* value);
   std::optional<ustring> OptString(xmlChar* value);
 
@@ -531,7 +531,7 @@ char TextReader::PropertyReader::Char(int value)
   return value;
 }
 
-ustring TextReader::PropertyReader::String(xmlChar* value, bool free)
+ustring TextReader::PropertyReader::String(xmlChar* value, bool should_free)
 {
   owner_.check_for_exceptions();
 
@@ -540,7 +540,7 @@ ustring TextReader::PropertyReader::String(xmlChar* value, bool free)
 
   ustring result = (char *)value;
 
-  if(free)
+  if(should_free)
     xmlFree(value);
 
   return result;
