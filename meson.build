@@ -2,7 +2,7 @@
 
 project('libxml++', 'cpp',
   version: '5.4.0',
-  license: 'LGPLv2.1+',
+  license: 'LGPL-2.1-or-later',
   default_options: [
     'warning_level=1',
     'cpp_std=c++17',
