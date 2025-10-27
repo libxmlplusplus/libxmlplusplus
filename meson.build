@@ -116,68 +116,8 @@ xml2_req = '>= @0@'.format(xml2_min_ver)
 xml2_dep = dependency(
   ['libxml-2.0', 'LibXml2'],
   version: xml2_req,
-  required: host_machine.system() != 'windows'
+  fallback: ['libxml2']
 )
-
-# Setup CMake subproject for use, if needed
-if not xml2_dep.found()
-  cmake = import('cmake')
-  opt_var = cmake.subproject_options()
-  build_shared = get_option('default_library') != 'static'
-  iconv_dep = dependency('iconv', required: false)
-  icu_i18n_dep = dependency('icu-i18n', required: false)
-  if not icu_i18n_dep.found()
-    icu_i18n_dep = dependency('ICU',
-                              components: 'in',
-                              required: false)
-  endif
-  icu_uc_dep = dependency('icu-uc', required: false)
-  if not icu_uc_dep.found()
-    icu_uc_dep = dependency('ICU',
-                            components: 'uc',
-                            required: false)
-  endif
-  lzma_dep = dependency('liblzma', required: false)
-  thread_dep = dependency('threads', required: false)
-  zlib_dep = dependency('zlib', required: false)
-  winsock_dep = cpp_compiler.find_library('ws2_32', required: false)
-  bcrypt_dep = cpp_compiler.find_library('bcrypt', required: false)
-  cmake_build_type = get_option('buildtype')
-  if get_option('buildtype') == 'debugoptimized'
-    cmake_build_type = 'RelWithDebInfo'
-  elif get_option('buildtype') == 'minsize'
-    cmake_build_type = 'MinSizeRel'
-  elif get_option('buildtype') == 'plain'
-    cmake_build_type = ''
-  endif
-  opt_var.add_cmake_defines({
-    'BUILD_SHARED_LIBS': build_shared,
-    'CMAKE_BUILD_TYPE': cmake_build_type,
-    'CMAKE_MSVC_RUNTIME_LIBRARY': '',
-    'CMAKE_C_FLAGS_INIT': '',
-    'CMAKE_C_FLAGS_DEBUG': '',
-    'CMAKE_C_FLAGS_RELEASE': '',
-    'CMAKE_C_FLAGS_RELWITHDEBINFO': '',
-    'CMAKE_C_FLAGS_MINSIZEREL': '',
-    'LIBXML2_WITH_HTTP': host_machine.system() != 'windows' or winsock_dep.found(),
-    'LIBXML2_WITH_ICONV': iconv_dep.found(),
-    'LIBXML2_WITH_ICU': icu_i18n_dep.found() and icu_uc_dep.found(),
-    'LIBXML2_WITH_LZMA': lzma_dep.found(),
-    'LIBXML2_WITH_PYTHON': false,
-    'LIBXML2_WITH_TESTS': build_tests,
-    'LIBXML2_WITH_THREADS': thread_dep.found(),
-    'LIBXML2_WITH_ZLIB': zlib_dep.found(),
-  })
-  xml2_sp = cmake.subproject('libxml2_cmake', options: opt_var)
-  xml2_dep = xml2_sp.dependency('LibXml2')
-endif
-
-xml2_is_subproject = xml2_dep.type_name() == 'internal'
-
-if xml2_is_subproject and build_tests
-  test('testchar', xml2_sp.target('testchar'))
-  test('testdict', xml2_sp.target('testdict'))
-endif
 
 glibmm_dep = dependency('glibmm-2.@0@'.format(glibmm_req_minor_ver), version: glibmm_req)
 
@@ -186,7 +126,7 @@ libxml2_lib_pkgconfig = []
 
 # Put libxml-2.0 in the 'Requires:' section in the generated pkg-config file if
 # we found it by pkg-config
-if xml2_dep.type_name() == 'pkgconfig'
+if xml2_dep.type_name() == 'pkgconfig' or xml2_dep.type_name() == 'internal'
   xmlxx_pc_requires += ['libxml-2.0' + xml2_req]
 else
   libxml2_lib_pkgconfig += [xml2_dep.get_variable(

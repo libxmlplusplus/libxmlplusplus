@@ -2,7 +2,6 @@
 
 # Input: xmlxx_build_dep, xmlxx_pcname, xmlxx_libversion, xmlxx_api_version,
 #        install_includedir, xmlxx_rc, xmlxx_libname, macos_darwin_versions,
-#        xml2_is_subproject, winsock_dep, bcrypt_dep,
 #        xmlxx_pc_requires, libxml2_lib_pkgconfig
 # Output: source_h_files, xmlxx_own_dep
 
@@ -102,10 +101,6 @@ if host_machine.system() == 'windows'
   windows = import('windows')
   xmlxx_res = windows.compile_resources(xmlxx_rc)
   extra_xmlxx_objects += xmlxx_res
-
-  if xml2_is_subproject
-    xmlxx_all_deps += [winsock_dep, bcrypt_dep]
-  endif
 endif
 
 extra_include_dirs = ['..']
