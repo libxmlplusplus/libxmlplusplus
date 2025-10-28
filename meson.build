@@ -321,6 +321,7 @@ meson.add_dist_script(
 
 # Don't distribute these files and directories.
 dont_distribute = [
+  'tools/test_scripts',
   'libxmlplusplus.doap',
   '.github',
 ]
