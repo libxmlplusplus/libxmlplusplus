@@ -11,8 +11,7 @@ exception::exception(const ustring& message)
 {
 }
 
-exception::~exception() noexcept
-{}
+exception::~exception() noexcept = default;
 
 const char* exception::what() const noexcept
 {
