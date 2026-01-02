@@ -6,21 +6,23 @@ required and only 15.7.x or later had adequate `C++-17` support.
 * Install libxml2 from https://xmlsoft.org/, either via Windows binaries or
 building from source, using NMake or CMake.  It is strongly recommended, if
 building libxml2 from source, that Visual Studio 2015 or later is used.
-* Add libxml2's include path to `%INCLUDE%` and its library path to `%LIB%`, or
-placing the dependencies like the following:
+* For locating libxml2, do one of the following:
+  * Add libxml2's include path to `%INCLUDE%` and its library path to `%LIB%`, for NMake
+  or Meson
+  * See the following NMake and Meson sections for finding the libxml2 and dependent libraries.
+  * Or, Place the libxml2 installation like the following, and pass in `PREFIX=$(prefix)` for NMake:
 ```
-$(some_dir_1)\include
+$(prefix)\include
    |
    --libxml2\libxml\*.h
-   |
-   --(headers of libraries libxml2 depends on, such as ZLib, liblzma...)
 
-$(some_dir_2)\lib
+$(prefix)\lib
    |
    --libxml2.lib
    |
-   --(.lib's of libraries that libxml2 depends on, such as ZLib, liblzma)
+   --(.lib's of libraries that libxml2 depends on, such as ZLib, liblzma, if libxml2 is a static build)
 ```
+
 * You need libxml2's DLL and all of its dependent DLLs in `%PATH%` if linking
 against a DLL build of libxml2 in order to run the tests.
 
@@ -54,11 +56,15 @@ rebuilding items using libxml++ is inconvenient):
 cd $(srcroot)\MSVC_NMake
 # Run "nmake /f Makefile.vc" to see to see what options are supported by
 # the NMake Makefiles
-# INCLUDEDIR is by default $(PREFIX)\include, and LIBDIR is by default
+# BASE_INCLUDEDIR is by default $(PREFIX)\include, and BASE_LIBDIR is by default
 # $(PREFIX)\lib. PREFIX is by default $(srcroot)\..\vs$(VSVER\$(Platform).
 # $(some_dir_1) and $(some_dir_2) refer to the sample layout listed above.
+# LIBXML2_INCLUDEDIR is by default $(BASE_INCLUDEDIR); the libxml2 headers will
+# be searched for in $(LIBXML2_INCLUDEDIR)\libxml2.
+# LIBXML2_LIBDIR is by default $(BASE_LIBDIR); if libxml2 is a static build its
+# dependent libraries should be placed in $(BASE_LIBDIR)
 
-nmake /f Makefile.vc CFG=[debug|release] [PREFIX=...] [INCLUDEDIR=$(some_dir_1)\include] [LIBDIR=$(some_dir_2)\lib]
+nmake /f Makefile.vc CFG=[debug|release] [other_options]
 ```
 * The following targets are supported (only DLL builds are supported out of the
 box with the NMake Makefiles):
@@ -73,7 +79,9 @@ For Visual Studio builds, it is also recommended that CMake is installed and can
 be found in `%PATH%`, so that it can help with finding an installed libxml2, or
 build libxml2 alongside with libxml++ if it is not previously installed. If
 libxml2 is installed, you will most probably need to add its include directory
-to `%INCLUDE%` and its library path to `%LIB%`, as described earlier.
+to `%INCLUDE%` and its library path to `%LIB%`, as described earlier, or use
+`--cmake-prefix-path` to point to libxml2's installation directory or
+`--pkg-config-path` to point to where your libxml2's pkg-config files can be found.
 
 
 Cedric Gustin
