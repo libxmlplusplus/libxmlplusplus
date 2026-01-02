@@ -64,10 +64,12 @@ rebuilding items using libxml++ is inconvenient):
     * 2017: `VSVER=15`, `xml++-vc141-4_0.[dll|pdb|lib]`
     * 2019: `VSVER=16`, `xml++-vc142-4_0.[dll|pdb|lib]`
     * 2022: `VSVER=17`, `xml++-vc143-4_0.[dll|pdb|lib]`
+    * 2026: `VSVER=18`, `xml++-vc145-4_0.[dll|pdb|lib]`
   * Meson:
     * 2017: `VSVER=15`, `xml++-vc141-4.0-1[dll|pdb]`, `xml++-vc141-4.0.lib`
     * 2019: `VSVER=16`, `xml++-vc142-4.0-1[dll|pdb]`, `xml++-vc142-4.0.lib`
     * 2022: `VSVER=17`, `xml++-vc143-4.0-1[dll|pdb]`, `xml++-vc143-4.0.lib`
+    * 2026: `VSVER=18`, `xml++-vc145-4.0-1[dll|pdb]`, `xml++-vc145-4.0.lib`
 
 
 ### NMake Builds
