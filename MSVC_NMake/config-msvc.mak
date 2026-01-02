@@ -14,6 +14,7 @@ LIBXMLXX_MINOR_VERSION = 0
 
 OUTDIR = vs$(VSVER)\$(CFG)\$(PLAT)
 DEPS_MKFILE = deps-vs$(VSVER)-$(PLAT)-$(CFG).mak
+BUILD_SNIPPET_MKFILE = libxmlxx-vs$(VSVER)-$(PLAT)-$(CFG).mak
 
 !if "$(CFG)" == "debug" || "$(CFG)" == "Debug"
 DEBUG_SUFFIX = -d
