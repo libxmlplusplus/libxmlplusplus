@@ -14,43 +14,43 @@
 # $<
 # <<
 
-{..\libxml++\}.cc{vs$(VSVER)\$(CFG)\$(PLAT)\libxmlxx\}.obj::
-	@if not exist vs$(VSVER)\$(CFG)\$(PLAT)\libxmlxx\ md vs$(VSVER)\$(CFG)\$(PLAT)\libxmlxx
-	$(CXX) $(LIBXMLXX_CFLAGS) $(CFLAGS_NOGL) /Fovs$(VSVER)\$(CFG)\$(PLAT)\libxmlxx\ /Fdvs$(VSVER)\$(CFG)\$(PLAT)\libxmlxx\ /c @<<
+{..\libxml++\}.cc{$(OUTDIR)\libxmlxx\}.obj::
+	@if not exist $(OUTDIR)\libxmlxx\ md $(OUTDIR)\libxmlxx
+	$(CXX) $(CFLAGS) $(LIBXMLXX_CFLAGS) $(LIBXMLXX_INCLUDES) /Fo$(OUTDIR)\libxmlxx\ /Fd$(OUTDIR)\libxmlxx\ /c @<<
 $<
 <<
 
-{..\libxml++\exceptions\}.cc{vs$(VSVER)\$(CFG)\$(PLAT)\libxmlxx\}.obj::
-	@if not exist vs$(VSVER)\$(CFG)\$(PLAT)\libxmlxx\ md vs$(VSVER)\$(CFG)\$(PLAT)\libxmlxx
-	$(CXX) $(LIBXMLXX_CFLAGS) $(CFLAGS_NOGL) /Fovs$(VSVER)\$(CFG)\$(PLAT)\libxmlxx\ /Fdvs$(VSVER)\$(CFG)\$(PLAT)\libxmlxx\ /c @<<
+{..\libxml++\exceptions\}.cc{$(OUTDIR)\libxmlxx\}.obj::
+	@if not exist $(OUTDIR)\libxmlxx\ md $(OUTDIR)\libxmlxx
+	$(CXX) $(CFLAGS) $(LIBXMLXX_CFLAGS) $(LIBXMLXX_INCLUDES) /Fo$(OUTDIR)\libxmlxx\ /Fd$(OUTDIR)\libxmlxx\ /c @<<
 $<
 <<
 
-{..\libxml++\io\}.cc{vs$(VSVER)\$(CFG)\$(PLAT)\libxmlxx\}.obj::
-	@if not exist vs$(VSVER)\$(CFG)\$(PLAT)\libxmlxx\ md vs$(VSVER)\$(CFG)\$(PLAT)\libxmlxx
-	$(CXX) $(LIBXMLXX_CFLAGS) $(CFLAGS_NOGL) /Fovs$(VSVER)\$(CFG)\$(PLAT)\libxmlxx\ /Fdvs$(VSVER)\$(CFG)\$(PLAT)\libxmlxx\ /c @<<
+{..\libxml++\io\}.cc{$(OUTDIR)\libxmlxx\}.obj::
+	@if not exist $(OUTDIR)\libxmlxx\ md $(OUTDIR)\libxmlxx
+	$(CXX) $(CFLAGS) $(LIBXMLXX_CFLAGS) $(LIBXMLXX_INCLUDES) /Fo$(OUTDIR)\libxmlxx\ /Fd$(OUTDIR)\libxmlxx\ /c @<<
 $<
 <<
 
-{..\libxml++\nodes\}.cc{vs$(VSVER)\$(CFG)\$(PLAT)\libxmlxx\}.obj::
-	@if not exist vs$(VSVER)\$(CFG)\$(PLAT)\libxmlxx\ md vs$(VSVER)\$(CFG)\$(PLAT)\libxmlxx
-	$(CXX) $(LIBXMLXX_CFLAGS) $(CFLAGS_NOGL) /Fovs$(VSVER)\$(CFG)\$(PLAT)\libxmlxx\ /Fdvs$(VSVER)\$(CFG)\$(PLAT)\libxmlxx\ /c @<<
+{..\libxml++\nodes\}.cc{$(OUTDIR)\libxmlxx\}.obj::
+	@if not exist $(OUTDIR)\libxmlxx\ md $(OUTDIR)\libxmlxx
+	$(CXX) $(CFLAGS) $(LIBXMLXX_CFLAGS) $(LIBXMLXX_INCLUDES) /Fo$(OUTDIR)\libxmlxx\ /Fd$(OUTDIR)\libxmlxx\ /c @<<
 $<
 <<
 
-{..\libxml++\parsers\}.cc{vs$(VSVER)\$(CFG)\$(PLAT)\libxmlxx\}.obj::
-	@if not exist vs$(VSVER)\$(CFG)\$(PLAT)\libxmlxx\ md vs$(VSVER)\$(CFG)\$(PLAT)\libxmlxx
-	$(CXX) $(LIBXMLXX_CFLAGS) $(CFLAGS_NOGL) /Fovs$(VSVER)\$(CFG)\$(PLAT)\libxmlxx\ /Fdvs$(VSVER)\$(CFG)\$(PLAT)\libxmlxx\ /c @<<
+{..\libxml++\parsers\}.cc{$(OUTDIR)\libxmlxx\}.obj::
+	@if not exist $(OUTDIR)\libxmlxx\ md $(OUTDIR)\libxmlxx
+	$(CXX) $(CFLAGS) $(LIBXMLXX_CFLAGS) $(LIBXMLXX_INCLUDES) /Fo$(OUTDIR)\libxmlxx\ /Fd$(OUTDIR)\libxmlxx\ /c @<<
 $<
 <<
 
-{..\libxml++\validators\}.cc{vs$(VSVER)\$(CFG)\$(PLAT)\libxmlxx\}.obj::
-	@if not exist vs$(VSVER)\$(CFG)\$(PLAT)\libxmlxx\ md vs$(VSVER)\$(CFG)\$(PLAT)\libxmlxx
-	$(CXX) $(LIBXMLXX_CFLAGS) $(CFLAGS_NOGL) /Fovs$(VSVER)\$(CFG)\$(PLAT)\libxmlxx\ /Fdvs$(VSVER)\$(CFG)\$(PLAT)\libxmlxx\ /c @<<
+{..\libxml++\validators\}.cc{$(OUTDIR)\libxmlxx\}.obj::
+	@if not exist $(OUTDIR)\libxmlxx\ md $(OUTDIR)\libxmlxx
+	$(CXX) $(CFLAGS) $(LIBXMLXX_CFLAGS) $(LIBXMLXX_INCLUDES) /Fo$(OUTDIR)\libxmlxx\ /Fd$(OUTDIR)\libxmlxx\ /c @<<
 $<
 <<
 
-{.\libxml++\}.rc{vs$(VSVER)\$(CFG)\$(PLAT)\libxmlxx\}.res:
+{.\libxml++\}.rc{$(OUTDIR)\libxmlxx\}.res:
 	@if not exist $(@D)\ md $(@D)
 	rc /fo$@ $<
 
@@ -65,7 +65,7 @@ $(LIBXMLXX_LIB): $(LIBXMLXX_DLL)
 # <<
 # 	@-if exist $@.manifest mt /manifest $@.manifest /outputresource:$@;2
 $(LIBXMLXX_DLL): $(libxmlxx_OBJS)
-	link /DLL $(LDFLAGS_NOLTCG) $(GLIBMM_LIB) $(LIBXML2_LIBS) $(GOBJECT_LIBS) $(LIBSIGC_LIB) /implib:$(LIBXMLXX_LIB) -out:$@ @<<
+	link /DLL $(LDFLAGS) $(DEP_LDFLAGS) /implib:$(LIBXMLXX_LIB) -out:$@ @<<
 $(libxmlxx_OBJS)
 <<
 	@-if exist $@.manifest mt /manifest $@.manifest /outputresource:$@;2
@@ -79,19 +79,19 @@ $(libxmlxx_OBJS)
 # 	@-if exist $@.manifest mt /manifest $@.manifest /outputresource:$@;1
 
 clean:
-	@-del /f /q vs$(VSVER)\$(CFG)\$(PLAT)\*.exe
-	@-del /f /q vs$(VSVER)\$(CFG)\$(PLAT)\*.dll
-	@-del /f /q vs$(VSVER)\$(CFG)\$(PLAT)\*.pdb
-	@-del /f /q vs$(VSVER)\$(CFG)\$(PLAT)\*.ilk
-	@-del /f /q vs$(VSVER)\$(CFG)\$(PLAT)\*.exp
-	@-del /f /q vs$(VSVER)\$(CFG)\$(PLAT)\*.lib
-	@-del /f /q vs$(VSVER)\$(CFG)\$(PLAT)\libxmlxx-tests\*.obj
-	@-del /f /q vs$(VSVER)\$(CFG)\$(PLAT)\libxmlxx-tests\*.pdb
-	@-del /f /q vs$(VSVER)\$(CFG)\$(PLAT)\libxmlxx-examples\*.obj
-	@-del /f /q vs$(VSVER)\$(CFG)\$(PLAT)\libxmlxx-examples\*.pdb
-	@-del /f /q vs$(VSVER)\$(CFG)\$(PLAT)\libxmlxx\*.res
-	@-del /f /q vs$(VSVER)\$(CFG)\$(PLAT)\libxmlxx\*.obj
-	@-del /f /q vs$(VSVER)\$(CFG)\$(PLAT)\libxmlxx\*.pdb
-	@-rd vs$(VSVER)\$(CFG)\$(PLAT)\libxmlxx-tests
-	@-rd vs$(VSVER)\$(CFG)\$(PLAT)\libxmlxx-examples
-	@-rd vs$(VSVER)\$(CFG)\$(PLAT)\libxmlxx
+	@-del /f /q $(OUTDIR)\*.exe
+	@-del /f /q $(OUTDIR)\*.dll
+	@-del /f /q $(OUTDIR)\*.pdb
+	@-del /f /q $(OUTDIR)\*.ilk
+	@-del /f /q $(OUTDIR)\*.exp
+	@-del /f /q $(OUTDIR)\*.lib
+	@-del /f /q $(OUTDIR)\libxmlxx-tests\*.obj
+	@-del /f /q $(OUTDIR)\libxmlxx-tests\*.pdb
+	@-del /f /q $(OUTDIR)\libxmlxx-examples\*.obj
+	@-del /f /q $(OUTDIR)\libxmlxx-examples\*.pdb
+	@-del /f /q $(OUTDIR)\libxmlxx\*.res
+	@-del /f /q $(OUTDIR)\libxmlxx\*.obj
+	@-del /f /q $(OUTDIR)\libxmlxx\*.pdb
+	@-rd $(OUTDIR)\libxmlxx-tests
+	@-rd $(OUTDIR)\libxmlxx-examples
+	@-rd $(OUTDIR)\libxmlxx
