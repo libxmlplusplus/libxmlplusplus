@@ -38,10 +38,10 @@ NULL=
 !if [call create-lists.bat header libxmlxx.mak libxmlxx_OBJS]
 !endif
 
-!if [for %c in ($(cc_sources)) do @if "%~xc" == ".cc" @call create-lists.bat file libxmlxx.mak vs^$(VSVER)\^$(CFG)\^$(PLAT)\libxmlxx\%~nc.obj]
+!if [for %c in ($(cc_sources)) do @if "%~xc" == ".cc" @call create-lists.bat file libxmlxx.mak ^$^(OUTDIR^)\libxmlxx\%~nc.obj]
 !endif
 
-!if [@call create-lists.bat file libxmlxx.mak vs^$(VSVER)\^$(CFG)\^$(PLAT)\libxmlxx\libxml++.res]
+!if [@call create-lists.bat file libxmlxx.mak ^$^(OUTDIR^)\libxmlxx\libxml++.res]
 !endif
 
 !if [call create-lists.bat footer libxmlxx.mak]
@@ -56,19 +56,19 @@ NULL=
 !if [call create-lists.bat footer libxmlxx.mak]
 !endif
 
-!if [for %d in (examples tests) do @call create-lists.bat header libxmlxx.mak libxmlxx_%d & @(for /f %t in ('dir /ad /b ..\%d') do @call create-lists.bat file libxmlxx.mak vs$(VSVER)\$(CFG)\$(PLAT)\%t.exe) & @call create-lists.bat footer libxmlxx.mak]
+!if [for %d in (examples tests) do @call create-lists.bat header libxmlxx.mak libxmlxx_%d & @(for /f %t in ('dir /ad /b ..\%d') do @call create-lists.bat file libxmlxx.mak $(OUTDIR)\%t.exe) & @call create-lists.bat footer libxmlxx.mak]
 !endif
 
-!if [for %d in (examples tests) do @for /f %t in ('dir /ad /b ..\%d') do @call create-lists.bat header libxmlxx.mak %t_OBJS & @(for %s in (..\%d\%t\*.cc) do @call create-lists.bat file libxmlxx.mak vs$(VSVER)\$(CFG)\$(PLAT)\libxmlxx-%d\%t-%~ns.obj) & @call create-lists.bat footer libxmlxx.mak]
+!if [for %d in (examples tests) do @for /f %t in ('dir /ad /b ..\%d') do @call create-lists.bat header libxmlxx.mak %t_OBJS & @(for %s in (..\%d\%t\*.cc) do @call create-lists.bat file libxmlxx.mak $(OUTDIR)\libxmlxx-%d\%t-%~ns.obj) & @call create-lists.bat footer libxmlxx.mak]
 !endif
 
 !if [echo.>>libxmlxx.mak]
 !endif
 
-!if [for %d in (examples tests) do @for /f %t in ('dir /ad /b ..\%d') do @for %s in (..\%d\%t\*.cc) do @echo vs^$(VSVER)\^$(CFG)\^$(PLAT)\libxmlxx-%d\%t-%~ns.obj: %s>>libxmlxx.mak & @echo. if not exist ^$(@D)\ md ^$(@D)>>libxmlxx.mak & @echo.	^$(CXX) ^$(LIBXMLXX_EX_CFLAGS) ^$(CFLAGS) /Fo^$(@D)\%t-%~ns.obj /Fd^$(@D)\ ^$** /c>>libxmlxx.mak & @echo.>>libxmlxx.mak]
+!if [for %d in (examples tests) do @for /f %t in ('dir /ad /b ..\%d') do @for %s in (..\%d\%t\*.cc) do @echo ^$^(OUTDIR^)\libxmlxx-%d\%t-%~ns.obj: %s>>libxmlxx.mak & @echo. if not exist ^$(@D)\ md ^$(@D)>>libxmlxx.mak & @echo.	^$(CXX) ^$(CFLAGS) ^$(LIBXMLXX_EX_CFLAGS) ^$(LIBXMLXX_INCLUDES) /Fo^$(@D)\%t-%~ns.obj /Fd^$(@D)\ ^$** /c>>libxmlxx.mak & @echo.>>libxmlxx.mak]
 !endif
 
-!if [for %d in (examples tests) do @for /f %t in ('dir /ad /b ..\%d') do @echo vs^$(VSVER)\^$(CFG)\^$(PLAT)\%t.exe: ^$(LIBXMLXX_LIB) ^$(%t_OBJS)>>libxmlxx.mak & @echo.	link ^$(LDFLAGS) ^$** ^$(LIBXML2_LIBS) /out:^$@>>libxmlxx.mak & @echo.>>libxmlxx.mak]
+!if [for %d in (examples tests) do @for /f %t in ('dir /ad /b ..\%d') do @echo ^$^(OUTDIR^)\%t.exe: ^$(LIBXMLXX_LIB) ^$(%t_OBJS)>>libxmlxx.mak & @echo.	link ^$(LDFLAGS) ^$** ^$(DEP_LDFLAGS) /out:^$@>>libxmlxx.mak & @echo.>>libxmlxx.mak]
 !endif
 
 !if [echo.>>libxmlxx.mak]
