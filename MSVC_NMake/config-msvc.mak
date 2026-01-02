@@ -11,6 +11,7 @@ BASE_LIBDIR = $(PREFIX)\lib
 # Please do not change anything beneath this line unless maintaining the NMake Makefiles
 OUTDIR = vs$(VSVER)\$(CFG)\$(PLAT)
 DEPS_MKFILE = deps-vs$(VSVER)-$(PLAT)-$(CFG).mak
+BUILD_SNIPPET_MKFILE = libxmlxx-vs$(VSVER)-$(PLAT)-$(CFG).mak
 
 LIBXMLXX_MAJOR_VERSION = 4
 LIBXMLXX_MINOR_VERSION = 0
