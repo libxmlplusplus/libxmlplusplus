@@ -63,13 +63,15 @@ to follow what is done in other C++ libraries such as Boost (use
 `USE_COMPAT_LIBS=1` in the NMake commandline to override, recommended only if
 rebuilding items using libxml++ is inconvenient):
   * NMake:
-    * 2017: `VSVER=15`, `xml++-vc141-3_2.[dll|pdb|lib]`
-    * 2019: `VSVER=16`, `xml++-vc142-3_2.[dll|pdb|lib]`
-    * 2022: `VSVER=17`, `xml++-vc143-3_2.[dll|pdb|lib]`
+    * 2017: `VSVER=15`, `xml++-vc141-3_0.[dll|pdb|lib]`
+    * 2019: `VSVER=16`, `xml++-vc142-3_0.[dll|pdb|lib]`
+    * 2022: `VSVER=17`, `xml++-vc143-3_0.[dll|pdb|lib]`
+    * 2026: `VSVER=18`, `xml++-vc145-3_0.[dll|pdb|lib]`
   * Meson:
     * 2017: `VSVER=15`, `xml++-vc141-3.0-1[dll|pdb]`, `xml++-vc141-3.0.lib`
     * 2019: `VSVER=16`, `xml++-vc142-3.0-1[dll|pdb]`, `xml++-vc142-3.0.lib`
     * 2022: `VSVER=17`, `xml++-vc143-3.0-1[dll|pdb]`, `xml++-vc143-3.0.lib`
+    * 2026: `VSVER=18`, `xml++-vc145-3.0-1[dll|pdb]`, `xml++-vc145-3.0.lib`
 
 
 ### NMake Builds
