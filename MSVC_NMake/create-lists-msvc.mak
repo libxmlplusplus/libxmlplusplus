@@ -35,46 +35,46 @@ NULL=
 
 # For libxml++
 
-!if [call create-lists.bat header libxmlxx.mak libxmlxx_OBJS]
+!if [call create-lists.bat header $(BUILD_SNIPPET_MKFILE) libxmlxx_OBJS]
 !endif
 
-!if [for %c in ($(cc_sources)) do @if "%~xc" == ".cc" @call create-lists.bat file libxmlxx.mak ^$^(OUTDIR^)\libxmlxx\%~nc.obj]
+!if [for %c in ($(cc_sources)) do @if "%~xc" == ".cc" @call create-lists.bat file $(BUILD_SNIPPET_MKFILE) ^$^(OUTDIR^)\libxmlxx\%~nc.obj]
 !endif
 
-!if [@call create-lists.bat file libxmlxx.mak ^$^(OUTDIR^)\libxmlxx\libxml++.res]
+!if [@call create-lists.bat file $(BUILD_SNIPPET_MKFILE) ^$^(OUTDIR^)\libxmlxx\libxml++.res]
 !endif
 
-!if [call create-lists.bat footer libxmlxx.mak]
+!if [call create-lists.bat footer $(BUILD_SNIPPET_MKFILE)]
 !endif
 
-!if [call create-lists.bat header libxmlxx.mak libxmlxx_real_hdrs]
+!if [call create-lists.bat header $(BUILD_SNIPPET_MKFILE) libxmlxx_real_hdrs]
 !endif
 
-!if [for %c in ($(h_sources_public:/=\)) do @call create-lists.bat file libxmlxx.mak ..\libxml++\%c]
+!if [for %c in ($(h_sources_public:/=\)) do @call create-lists.bat file $(BUILD_SNIPPET_MKFILE) ..\libxml++\%c]
 !endif
 
-!if [call create-lists.bat footer libxmlxx.mak]
+!if [call create-lists.bat footer $(BUILD_SNIPPET_MKFILE)]
 !endif
 
-!if [for %d in (examples tests) do @call create-lists.bat header libxmlxx.mak libxmlxx_%d & @(for /f %t in ('dir /ad /b ..\%d') do @call create-lists.bat file libxmlxx.mak $(OUTDIR)\%t.exe) & @call create-lists.bat footer libxmlxx.mak]
+!if [for %d in (examples tests) do @call create-lists.bat header $(BUILD_SNIPPET_MKFILE) libxmlxx_%d & @(for /f %t in ('dir /ad /b ..\%d') do @call create-lists.bat file $(BUILD_SNIPPET_MKFILE) $(OUTDIR)\%t.exe) & @call create-lists.bat footer $(BUILD_SNIPPET_MKFILE)]
 !endif
 
-!if [for %d in (examples tests) do @for /f %t in ('dir /ad /b ..\%d') do @call create-lists.bat header libxmlxx.mak %t_OBJS & @(for %s in (..\%d\%t\*.cc) do @call create-lists.bat file libxmlxx.mak $(OUTDIR)\libxmlxx-%d\%t-%~ns.obj) & @call create-lists.bat footer libxmlxx.mak]
+!if [for %d in (examples tests) do @for /f %t in ('dir /ad /b ..\%d') do @call create-lists.bat header $(BUILD_SNIPPET_MKFILE) %t_OBJS & @(for %s in (..\%d\%t\*.cc) do @call create-lists.bat file $(BUILD_SNIPPET_MKFILE) $(OUTDIR)\libxmlxx-%d\%t-%~ns.obj) & @call create-lists.bat footer $(BUILD_SNIPPET_MKFILE)]
 !endif
 
-!if [echo.>>libxmlxx.mak]
+!if [echo.>>$(BUILD_SNIPPET_MKFILE)]
 !endif
 
-!if [for %d in (examples tests) do @for /f %t in ('dir /ad /b ..\%d') do @for %s in (..\%d\%t\*.cc) do @echo ^$^(OUTDIR^)\libxmlxx-%d\%t-%~ns.obj: %s>>libxmlxx.mak & @echo. if not exist ^$(@D)\ md ^$(@D)>>libxmlxx.mak & @echo.	^$(CXX) ^$(CFLAGS) ^$(LIBXMLXX_EX_CFLAGS) ^$(LIBXMLXX_INCLUDES) /Fo^$(@D)\%t-%~ns.obj /Fd^$(@D)\ ^$** /c>>libxmlxx.mak & @echo.>>libxmlxx.mak]
+!if [for %d in (examples tests) do @for /f %t in ('dir /ad /b ..\%d') do @for %s in (..\%d\%t\*.cc) do @echo ^$^(OUTDIR^)\libxmlxx-%d\%t-%~ns.obj: %s>>$(BUILD_SNIPPET_MKFILE) & @echo. if not exist ^$(@D)\ md ^$(@D)>>$(BUILD_SNIPPET_MKFILE) & @echo.	^$(CXX) ^$(CFLAGS) ^$(LIBXMLXX_EX_CFLAGS) ^$(LIBXMLXX_INCLUDES) /Fo^$(@D)\%t-%~ns.obj /Fd^$(@D)\ ^$** /c>>$(BUILD_SNIPPET_MKFILE) & @echo.>>$(BUILD_SNIPPET_MKFILE)]
 !endif
 
-!if [for %d in (examples tests) do @for /f %t in ('dir /ad /b ..\%d') do @echo ^$^(OUTDIR^)\%t.exe: ^$(LIBXMLXX_LIB) ^$(%t_OBJS)>>libxmlxx.mak & @echo.	link ^$(LDFLAGS) ^$** ^$(DEP_LDFLAGS) /out:^$@>>libxmlxx.mak & @echo.>>libxmlxx.mak]
+!if [for %d in (examples tests) do @for /f %t in ('dir /ad /b ..\%d') do @echo ^$^(OUTDIR^)\%t.exe: ^$(LIBXMLXX_LIB) ^$(%t_OBJS)>>$(BUILD_SNIPPET_MKFILE) & @echo.	link ^$(LDFLAGS) ^$** ^$(DEP_LDFLAGS) /out:^$@>>$(BUILD_SNIPPET_MKFILE) & @echo.>>$(BUILD_SNIPPET_MKFILE)]
 !endif
 
-!if [echo.>>libxmlxx.mak]
+!if [echo.>>$(BUILD_SNIPPET_MKFILE)]
 !endif
 
-!include libxmlxx.mak
+!include $(BUILD_SNIPPET_MKFILE)
 
-!if [del /f /q libxmlxx.mak]
+!if [del /f /q $(BUILD_SNIPPET_MKFILE)]
 !endif
