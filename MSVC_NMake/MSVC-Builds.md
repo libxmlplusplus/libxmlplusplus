@@ -2,15 +2,12 @@ Building libxml++ with Visual Studio 2015 or later
 -
 
 * You will need Visual Studio 2015 (MSVC 14.0) or later, as `C++-11` is
-required; Visual Studio 2013 may work with glibmm-2.50.x or earlier, but is not 
-tested; Visual Studio 2012 and earlier are not supported.
+required; Visual Studio 2013 and earlier are not supported.
 
 ### Notes on dependencies
 * Install libxml2 from https://xmlsoft.org/, either via Windows binaries or
 building from source, using NMake or CMake.  It is strongly recommended, if
-building libxml2 from source, that Visual Studio 2015 or later is used (unless
-attempting to build with Visual Studio 2013, where building libxml2 with Visual
-Studio 2013 is required).
+building libxml2 from source, that Visual Studio 2015 or later is used.
 * Install the latest Win32 GTK+ Development files from ftp://ftp.gnome.org/pub/GNOME/binaries/win32/gtk+/, or build GLib from source
 or obtain GLib with vcpkg.
 * You will need the `C++-11` versions of glibmm and libsigc++, which are
@@ -18,7 +15,7 @@ glibmm up to glibmm-2.66.x and libsigc++-2.x.
 * Add GLib's/glibmm's, libsigc++'s and libxml2's include path to `%INCLUDE%` 
 and its library path to `%LIB%`, or placing the dependencies like the following,
 note that for libsigc++ and glibmm the library naming conventions will be like
-the one used for libxml++, listed in the next sections (replace `vc14x` with `vc120` with Visual Studio 2013):
+the one used for libxml++, listed in the next sections:
 ```
 $(some_dir_1)\include
    |
@@ -64,17 +61,17 @@ to follow what is done in other C++ libraries such as Boost (use
 `USE_COMPAT_LIBS=1` in the NMake commandline to override, recommended only if
 rebuilding items using libxml++ is inconvenient):
   * NMake:
-    * 2013: `VSVER=12`, `xml++-vc120-2_6.[dll|pdb|lib]`
     * 2015: `VSVER=14`, `xml++-vc140-2_6.[dll|pdb|lib]`
     * 2017: `VSVER=15`, `xml++-vc141-2_6.[dll|pdb|lib]`
     * 2019: `VSVER=16`, `xml++-vc142-2_6.[dll|pdb|lib]`
     * 2022: `VSVER=17`, `xml++-vc143-2_6.[dll|pdb|lib]`
+    * 2026: `VSVER=18`, `xml++-vc145-2_6.[dll|pdb|lib]`
   * Meson:
-    * 2013: `VSVER=12`, `xml++-2.6-2.[dll|pdb]`, `xml++-2.6.lib`
     * 2015: `VSVER=14`, `xml++-2.6-2.[dll|pdb]`, `xml++-2.6.lib`
     * 2017: `VSVER=15`, `xml++-vc141-2.6-2.[dll|pdb]`, `xml++-vc141-2.6.lib`
     * 2019: `VSVER=16`, `xml++-vc142-2.6-2.[dll|pdb]`, `xml++-vc142-2.6.lib`
     * 2022: `VSVER=17`, `xml++-vc143-2.6-2.[dll|pdb]`, `xml++-vc143-2.6.lib`
+    * 2026: `VSVER=18`, `xml++-vc145-2.6-2.[dll|pdb]`, `xml++-vc145-2.6.lib`
 
 
 ### NMake Builds
