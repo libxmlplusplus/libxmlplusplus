@@ -20,7 +20,8 @@ jobs:
         sudo apt install libxml2-dev libxml2-utils docbook5-xml docbook-xsl libglibmm-2.4-dev mm-common clang meson ninja-build python3-setuptools --yes
         export CC=clang
         export CXX=clang++
-        meson setup -Dwarnings=fatal -Dwarning_level=3 -Dwerror=true _build
+        # Can't use -Dwarnings=fatal and -Dwerror=true because of std::auto_ptr.
+        meson setup -Dwarnings=max -Dwarning_level=3 -Dwerror=false _build
         cd _build
         meson compile
     - name: Test
