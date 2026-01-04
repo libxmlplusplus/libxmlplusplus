@@ -1,0 +1,30 @@
+# 2026-01-04: ubuntu-latest = ubuntu-24.04
+# See https://docs.github.com/en/actions/concepts/runners/github-hosted-runners
+# and https://github.com/actions/runner-images
+name: "Autotools: clang"
+
+on: [push]
+
+jobs:
+  build:
+
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v1
+    - name: Build
+      run: |
+        sudo apt update
+        sudo apt install libxml2-dev libglibmm-2.4-dev mm-common clang docbook-xsl
+        export CC=clang
+        export CXX=clang++
+        ./autogen.sh --enable-warnings=fatal
+        make
+    - name: Test
+      run: make check
+    - name: Distcheck
+      run: |
+        # distcheck runs configure again so we need to specify CC and CXX again.
+        export CC=clang
+        export CXX=clang++
+        make distcheck
