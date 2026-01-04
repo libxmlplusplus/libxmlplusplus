@@ -1,11 +1,14 @@
-name: "meson: windows 2022"
+# 2026-01-04: windows-latest = windows-2025
+# See https://docs.github.com/en/actions/concepts/runners/github-hosted-runners
+# and https://github.com/actions/runner-images
+name: "Meson: MSVC"
 
 on: [push, workflow_dispatch]
 
 jobs:
   build:
 
-    runs-on: windows-2022
+    runs-on: windows-latest
 
     steps:
       - uses: actions/checkout@v3
@@ -23,7 +26,7 @@ jobs:
         run: meson setup --warnlevel 3 -Dlibxml2:warning_level=0 --werror -Dlibxml2:werror=false -Dlibxml2:python=disabled -Dlibxml2:iconv=disabled -Dmaintainer-mode=false _build
 
       - name: Compile
-        run: ninja -C _build
+        run: meson compile -C _build
 
       - name: Test
         run: meson test -C _build
@@ -32,7 +35,7 @@ jobs:
         run: meson setup --warnlevel 3 -Dlibxml2:warning_level=0 --werror -Dlibxml2:werror=false -Dlibxml2:python=disabled -Dlibxml2:iconv=disabled --default-library static -Dmaintainer-mode=false _build_static
 
       - name: Compile static
-        run: ninja -C _build_static
+        run: meson compile -C _build_static
 
       - name: Test static
         run: meson test -C _build_static
