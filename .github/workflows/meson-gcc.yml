@@ -1,5 +1,6 @@
-# 2024-09-25: ubuntu-latest = ubuntu-22.04
-# See https://docs.github.com/en/actions/using-github-hosted-runners/about-github-hosted-runners/about-github-hosted-runners#standard-github-hosted-runners-for-public-repositories
+# 2026-01-04: ubuntu-latest = ubuntu-24.04
+# See https://docs.github.com/en/actions/concepts/runners/github-hosted-runners
+# and https://github.com/actions/runner-images
 name: "Meson: gcc"
 
 on: [push]
@@ -7,7 +8,7 @@ on: [push]
 jobs:
   build:
 
-    runs-on: ubuntu-24.04
+    runs-on: ubuntu-latest
 
     steps:
     - uses: actions/checkout@v1
