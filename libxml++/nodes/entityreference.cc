@@ -15,8 +15,7 @@ EntityReference::EntityReference(xmlNode* node)
 : Node(node)
 {}
 
-EntityReference::~EntityReference()
-{}
+EntityReference::~EntityReference() = default;
 
 #ifndef LIBXMLXX_DISABLE_DEPRECATED
 ustring EntityReference::get_resolved_text() const

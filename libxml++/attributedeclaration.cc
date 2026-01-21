@@ -16,9 +16,7 @@ AttributeDeclaration::AttributeDeclaration(xmlNode* node)
 {
 }
 
-AttributeDeclaration::~AttributeDeclaration()
-{
-}
+AttributeDeclaration::~AttributeDeclaration() = default;
 
 ustring AttributeDeclaration::get_value() const
 {

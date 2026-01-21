@@ -44,9 +44,9 @@ namespace xmlpp
 
 struct RelaxNGSchema::Impl
 {
-  Impl() noexcept : schema(nullptr) {}
+  Impl() noexcept = default;
 
-  _xmlRelaxNG* schema;
+  _xmlRelaxNG *schema{nullptr};
 };
 
 

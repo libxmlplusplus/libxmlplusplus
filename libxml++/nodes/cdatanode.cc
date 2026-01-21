@@ -15,7 +15,6 @@ CdataNode::CdataNode(xmlNode* node)
 : ContentNode(node)
 {}
 
-CdataNode::~CdataNode()
-{}
+CdataNode::~CdataNode() = default;
 
 } //namespace xmlpp

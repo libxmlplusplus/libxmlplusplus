@@ -17,10 +17,10 @@ namespace xmlpp
 
 struct Dtd::Impl
 {
-  Impl() noexcept : dtd(nullptr), is_dtd_owner(false) {}
+  Impl() noexcept = default;
 
-  _xmlDtd* dtd;
-  bool is_dtd_owner;
+  _xmlDtd *dtd{nullptr};
+  bool is_dtd_owner{false};
 };
 
 Dtd::Dtd()
