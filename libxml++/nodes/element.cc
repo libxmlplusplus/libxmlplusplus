@@ -150,8 +150,11 @@ void Element::remove_attribute(const ustring& name, const ustring& ns_prefix)
   // xmlHasNsProp() seaches both for an attribute node in the element node
   // and for an attribute declaration in the DTD.
   // xmlUnsetProp() or xmlUnsetNsProp() won't delete an attribute declaration.
+  xmlNs* ns = nullptr;
+  if (!ns_prefix.empty())
+    ns = xmlSearchNs(cobj()->doc, cobj(), (const xmlChar*)ns_prefix.c_str());
   auto attr = xmlHasNsProp(cobj(), (const xmlChar*)name.c_str(),
-    ns_prefix.empty() ? nullptr : (const xmlChar*)ns_prefix.c_str());
+   (const xmlChar*)(ns ? ns->href : nullptr));
   if (!attr || attr->type == XML_ATTRIBUTE_DECL)
     return;
 
@@ -165,7 +168,6 @@ void Element::remove_attribute(const ustring& name, const ustring& ns_prefix)
   }
   else
   {
-    auto ns = xmlSearchNs(cobj()->doc, cobj(), (const xmlChar*)ns_prefix.c_str());
     if (ns)
     {
       // *this has an attribute with the specified name and namespace.
