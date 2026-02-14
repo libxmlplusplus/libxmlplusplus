@@ -159,19 +159,16 @@ Document::Init::Init()
   xmlInitParser(); //Not always necessary, but necessary for thread safety.
 }
 
-Document::Init::~Init() noexcept
-{
-  //We don't call this because it breaks libxml generally and should only be
-  //called at the very end of a process, such as at the end of a main().
-  //libxml might still be used by the application, so we don't want to break
-  //that.
-  //This is important even here, which usually happens only when the library
-  //is unloaded, because that might happen during normal application use,
-  //if the application does dynamic library loading, for instance to load
-  //plugins.
-  //See http://xmlsoft.org/html/libxml-parser.html#xmlCleanupParser
-  //xmlCleanupParser(); //As per xmlInitParser(), or memory leak will happen.
-}
+//We don't call this because it breaks libxml generally and should only be
+//called at the very end of a process, such as at the end of a main().
+//libxml might still be used by the application, so we don't want to break
+//that.
+//This is important even here, which usually happens only when the library
+//is unloaded, because that might happen during normal application use,
+//if the application does dynamic library loading, for instance to load
+//plugins.
+//See http://xmlsoft.org/html/libxml-parser.html#xmlCleanupParser
+//xmlCleanupParser(); //As per xmlInitParser(), or memory leak will happen.
 
 Document::Init Document::init_;
 

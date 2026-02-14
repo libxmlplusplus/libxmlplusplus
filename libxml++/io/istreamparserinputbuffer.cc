@@ -17,9 +17,7 @@ namespace xmlpp
   {
   }
 
-  IStreamParserInputBuffer::~IStreamParserInputBuffer()
-  {
-  }
+  IStreamParserInputBuffer::~IStreamParserInputBuffer() = default;
 
   int IStreamParserInputBuffer::do_read(
       char * buffer,

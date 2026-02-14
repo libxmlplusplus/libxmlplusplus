@@ -15,7 +15,6 @@ ProcessingInstructionNode::ProcessingInstructionNode(xmlNode* node)
 : ContentNode(node)
 {}
 
-ProcessingInstructionNode::~ProcessingInstructionNode()
-{}
+ProcessingInstructionNode::~ProcessingInstructionNode() = default;
 
 } //namespace xmlpp

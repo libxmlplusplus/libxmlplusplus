@@ -22,9 +22,7 @@
 namespace xmlpp
 {
 
-SchemaValidatorBase::SchemaValidatorBase() noexcept
-{
-}
+SchemaValidatorBase::SchemaValidatorBase() noexcept = default;
 
 SchemaValidatorBase::~SchemaValidatorBase()
 {

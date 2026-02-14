@@ -70,7 +70,7 @@ class Document : public NonCopyable
   {
   public:
     Init();
-    ~Init() noexcept;
+    ~Init() noexcept = default;
   };
 
   friend class SaxParser;
