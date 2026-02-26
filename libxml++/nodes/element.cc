@@ -404,7 +404,7 @@ void Element::set_namespace_declaration(const Glib::ustring& ns_uri, const Glib:
       throw exception("Could not add namespace declaration with URI=" + ns_uri +
                       ", prefix=" + ns_prefix);
   }
-  if (ns_prefix == get_namespace_prefix())
+  if (ns_prefix == get_namespace_prefix2().value_or(""))
   {
     // Assign namespace directly if the prefix equals the node's own namespace prefix.
     // This is not done by xmlNewNs(). (See https://bugzilla.gnome.org/show_bug.cgi?id=737682)

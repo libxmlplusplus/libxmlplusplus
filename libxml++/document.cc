@@ -360,12 +360,12 @@ Glib::ustring Document::write_to_string_formatted(const Glib::ustring& encoding)
 
 void Document::write_to_stream(std::ostream& output, const Glib::ustring& encoding)
 {
-  do_write_to_stream(output, encoding.empty()?get_encoding():encoding, false);
+  do_write_to_stream(output, encoding.empty() ? get_encoding2().value_or("") : encoding, false);
 }
 
 void Document::write_to_stream_formatted(std::ostream& output, const Glib::ustring& encoding)
 {
-  do_write_to_stream(output, encoding.empty()?get_encoding():encoding, true);
+  do_write_to_stream(output, encoding.empty() ? get_encoding2().value_or("") : encoding, true);
 }
 
 void Document::do_write_to_file(
