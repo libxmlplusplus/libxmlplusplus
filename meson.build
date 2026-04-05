@@ -195,8 +195,10 @@ glibmm_dep = dependency('glibmm-2.@0@'.format(glibmm_req_minor_ver), version: gl
 xmlxx_requires = []
 libxml2_lib_pkgconfig = ''
 
-# Put libxml-2.0 in the 'Requires:' section in the generated pkg-config file if
-# we found it by pkg-config
+# Requires/Libs or Requires.private/Libs.private?
+# See https://people.freedesktop.org/~dbn/pkg-config-guide.html, FAQ
+# Put libxml-2.0 in the 'Requires.private:' section in the generated pkg-config
+# file, if we found it by pkg-config, else in the 'Libs.private:' section.
 if xml2_dep.type_name() == 'pkgconfig'
   xmlxx_requires += ['libxml-2.0', xml2_req]
 else
@@ -206,7 +208,8 @@ else
   )
 endif
 
-# ...Then put glibmm-2.x in the 'Requires:' section in the generated pkg-config file
+# ...Then put glibmm-2.x in the 'Requires.private:' section in the generated
+# pkg-config file
 xmlxx_requires += ['glibmm-2.@0@'.format(glibmm_req_minor_ver), glibmm_req]
 
 xmlxx_requires = ' '.join(xmlxx_requires)
