@@ -132,6 +132,8 @@ pc_uninstalled_variables = [
   'docdir=${prefix}/docs',
 ] + pc_common_variables
 
+# Requires/Libs or Requires.private/Libs.private?
+# See https://people.freedesktop.org/~dbn/pkg-config-guide.html, FAQ
 pkg_config.generate(xmlxx_library,
   filebase: xmlxx_pcname,
   variables: pc_variables,
@@ -139,8 +141,8 @@ pkg_config.generate(xmlxx_library,
   name: meson.project_name(),
   description: 'C++ wrapper for libxml2',
   url: 'https://libxmlplusplus.github.io/libxmlplusplus/',
-  requires: xmlxx_pc_requires,
-  libraries: libxml2_lib_pkgconfig,
+  requires_private: xmlxx_pc_requires,
+  libraries_private: libxml2_lib_pkgconfig,
   subdirs: [xmlxx_pcname],
   extra_cflags: ['-I${libdir}/' + xmlxx_pcname + '/include'],
 )
