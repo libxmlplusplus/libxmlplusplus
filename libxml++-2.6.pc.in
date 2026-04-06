@@ -14,7 +14,8 @@ Name: libxml++
 Description: C++ wrapper for libxml
 Version: @PACKAGE_VERSION@
 URL: https://libxmlplusplus.github.io/libxmlplusplus/
-Requires.private: @LIBXMLXX_MODULES@
+Requires: @LIBXMLXX_PUBLIC_MODULES@
+Requires.private: @LIBXMLXX_PRIVATE_MODULES@
 Libs: -L${libdir} -lxml++@MSVC_TOOLSET_VER@-@LIBXMLXX_API_VERSION@
 Libs.private: @LIBXML2_LIB_NO_PKGCONFIG@
 Cflags: -I${includedir}/@LIBXMLXX_MODULE_NAME@ -I${libdir}/@LIBXMLXX_MODULE_NAME@/include

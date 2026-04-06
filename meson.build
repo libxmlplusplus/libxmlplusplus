@@ -192,7 +192,7 @@ endif
 glibmm_req_minor_ver = '4'
 glibmm_dep = dependency('glibmm-2.@0@'.format(glibmm_req_minor_ver), version: glibmm_req)
 
-xmlxx_requires = []
+xmlxx_pc_requires_private = []
 libxml2_lib_pkgconfig = ''
 
 # Requires/Libs or Requires.private/Libs.private?
@@ -200,7 +200,7 @@ libxml2_lib_pkgconfig = ''
 # Put libxml-2.0 in the 'Requires.private:' section in the generated pkg-config
 # file, if we found it by pkg-config, else in the 'Libs.private:' section.
 if xml2_dep.type_name() == 'pkgconfig'
-  xmlxx_requires += ['libxml-2.0', xml2_req]
+  xmlxx_pc_requires_private += ['libxml-2.0', xml2_req]
 else
   libxml2_lib_pkgconfig = xml2_dep.get_variable(
     cmake:         'LIBXML2_LIBRARIES',
@@ -208,11 +208,12 @@ else
   )
 endif
 
-# ...Then put glibmm-2.x in the 'Requires.private:' section in the generated
-# pkg-config file
-xmlxx_requires += ['glibmm-2.@0@'.format(glibmm_req_minor_ver), glibmm_req]
+# ...Then put glibmm-2.x in the 'Requires:' section in the generated pkg-config file
+xmlxx_pc_requires_public = ['glibmm-2.@0@'.format(glibmm_req_minor_ver), glibmm_req]
 
-xmlxx_requires = ' '.join(xmlxx_requires)
+# Must be at least one blank before and after '>=' in the pkg-config file.
+xmlxx_pc_requires_public = ' '.join(xmlxx_pc_requires_public)
+xmlxx_pc_requires_private = ' '.join(xmlxx_pc_requires_private)
 
 # Make sure we link to libxml-2.0 and glibmm
 xmlxx_build_dep = [xml2_dep, glibmm_dep]
@@ -364,7 +365,8 @@ pkg_conf_data.set('PACKAGE_TARNAME', meson.project_name())
 pkg_conf_data.set('PACKAGE_VERSION', meson.project_version())
 pkg_conf_data.set('LIBXMLXX_MODULE_NAME', xmlxx_pcname)
 pkg_conf_data.set('LIBXMLXX_API_VERSION', xmlxx_api_version)
-pkg_conf_data.set('LIBXMLXX_MODULES', xmlxx_requires)
+pkg_conf_data.set('LIBXMLXX_PUBLIC_MODULES', xmlxx_pc_requires_public)
+pkg_conf_data.set('LIBXMLXX_PRIVATE_MODULES', xmlxx_pc_requires_private)
 pkg_conf_data.set('LIBXML2_LIB_NO_PKGCONFIG', libxml2_lib_pkgconfig)
 pkg_conf_data.set('MSVC_TOOLSET_VER', msvc14x_toolset_ver)
 
