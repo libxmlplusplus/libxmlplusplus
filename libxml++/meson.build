@@ -2,7 +2,7 @@
 
 # Input: xmlxx_build_dep, xmlxx_pcname, xmlxx_libversion, xmlxx_api_version,
 #        install_includedir, xmlxx_rc, xmlxx_libname, macos_darwin_versions,
-#        xmlxx_pc_requires, libxml2_lib_pkgconfig
+#        xmlxx_pc_requires_public, xmlxx_pc_requires_private, libxml2_lib_pkgconfig
 # Output: source_h_files, xmlxx_own_dep
 
 # There are no built source files in libxml++-4.0.
@@ -141,7 +141,8 @@ pkg_config.generate(xmlxx_library,
   name: meson.project_name(),
   description: 'C++ wrapper for libxml2',
   url: 'https://libxmlplusplus.github.io/libxmlplusplus/',
-  requires_private: xmlxx_pc_requires,
+  requires: xmlxx_pc_requires_public,
+  requires_private: xmlxx_pc_requires_private,
   libraries_private: libxml2_lib_pkgconfig,
   subdirs: [xmlxx_pcname],
   extra_cflags: ['-I${libdir}/' + xmlxx_pcname + '/include'],

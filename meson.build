@@ -121,13 +121,13 @@ xml2_dep = dependency(
 
 glibmm_dep = dependency('glibmm-2.@0@'.format(glibmm_req_minor_ver), version: glibmm_req)
 
-xmlxx_pc_requires = []
+xmlxx_pc_requires_private = []
 libxml2_lib_pkgconfig = []
 
 # Put libxml-2.0 in the 'Requires.private:' section in the generated pkg-config
 # file, if we found it by pkg-config, else in the 'Libs.private:' section.
 if xml2_dep.type_name() == 'pkgconfig' or xml2_dep.type_name() == 'internal'
-  xmlxx_pc_requires += ['libxml-2.0' + xml2_req]
+  xmlxx_pc_requires_private += ['libxml-2.0' + xml2_req]
 else
   libxml2_lib_pkgconfig += [xml2_dep.get_variable(
     cmake:         'LIBXML2_LIBRARIES',
@@ -135,9 +135,8 @@ else
   )]
 endif
 
-# ...Then put glibmm-2.x in the 'Requires.private:' section in the generated
-# pkg-config file
-xmlxx_pc_requires += ['glibmm-2.@0@'.format(glibmm_req_minor_ver) + glibmm_req]
+# ...Then put glibmm-2.x in the 'Requires:' section in the generated pkg-config file
+xmlxx_pc_requires_public = ['glibmm-2.@0@'.format(glibmm_req_minor_ver) + glibmm_req]
 
 # Make sure we link to libxml-2.0 and glibmm
 xmlxx_build_dep = [xml2_dep, glibmm_dep]
