@@ -1,3 +1,28 @@
+4.4.1 (stable) 2026-05-13
+
+* Element::remove_attribute(): Fix the call to xmlHasNsProp()
+  (gaston68cz) Issue #79
+
+* pkg-config file: List libxml-2.0 in Requires.private instead of Requires
+  (Kjell Ahlstedt) Issue #80 (Ryan Carsten Schmidt)
+
+Documentation:
+* MSVC_NMake/MSVC-Builds.md: Mention Visual Studio 2026
+* Visual Studio builds: Update build information
+  (Chun-wei Fan) Pull request #76
+* Describe how to use libxml++ with meson
+  (Kjell Ahlstedt)
+
+Build:
+* Meson and NMake builds: Distinguish Visual Studio 2026 builds
+  from Visual Studio 2022 builds
+* NMake Makefiles: Consolidate items and add flexibility
+* NMake Makefiles: Make build process more robust
+  (Chun-wei Fan) Pull request #76
+* Fix build with build-deprecated-api=false
+  (Kjell Ahlstedt)
+
+
 4.4.0 (stable) 2025-10-28
 
 This release and future releases will not store tarballs at
