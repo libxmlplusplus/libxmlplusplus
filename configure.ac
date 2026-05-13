@@ -1,6 +1,6 @@
 ## This file is part of libxml++.
 
-AC_INIT([libxml++], [2.42.3],
+AC_INIT([libxml++], [2.42.4],
         [https://github.com/libxmlplusplus/libxmlplusplus/issues],
         [libxml++], [https://libxmlplusplus.github.io/libxmlplusplus/])
 AC_PREREQ([2.59])

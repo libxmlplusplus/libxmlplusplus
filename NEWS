@@ -1,3 +1,49 @@
+2.42.4 (stable) 2026-05-13
+
+This release and future releases will not store tarballs at
+download.gnome.org/sources/. Only modules with source code at
+gitlab.gnome.org/GNOME/ can store tarballs there now.
+Tarballs of libxmlplusplus are now stored only at
+github.com/libxmlplusplus/libxmlplusplus/releases/.
+
+* Parser: Ignore deprecation of xmlParserCtxt members
+* TextReader::get_xml_lang(): Fix memory leak
+* Document: Ignore deprecation of xmlIndentTreeOutput
+  (Kjell Ahlstedt)
+* Element::remove_attribute(): Fix the call to xmlHasNsProp()
+  (gaston68cz) Issue #79
+* TextReader: Fix naming clash with macOS macro
+  (Ruoyu Zhong) Pull request #74
+
+* pkg-config file: List libxml-2.0 in Requires.private instead of Requires
+  (Kjell Ahlstedt) Issue #80 (Ryan Carsten Schmidt)
+
+Documentation:
+* Don't link to removed parts of gnome.org
+  (Kjell Ahlstedt)
+* Remove obsolete FSF (Free Software Foundation) address
+  (Tom spot Callaway) Pull request #72
+* Describe download locations in more detail.
+  Releases will not be stored at download.gnome.org/sources/
+* Describe how to use libxml++ with meson
+  (Kjell Ahlstedt)
+* MSVC_NMake/MSVC-Builds.md: Mention Visual Studio 2026
+* Visual Studio builds: Update build information
+  (Chun-wei Fan) Pull request #78
+
+Meson build:
+* Require python3 >= 3.7. That's what Meson requires.
+* Require meson >= 0.60
+* Use the Python installation that Meson uses.
+  See merge request glibmm!67
+  (Kjell Ahlstedt)
+* Meson and NMake builds: Distinguish Visual Studio 2026 builds
+  from Visual Studio 2022 builds
+* NMake Makefiles: Consolidate items and add flexibility
+* NMake Makefiles: Make build process more robust
+  (Chun-wei Fan) Pull request #78
+
+
 2.42.3 (stable):
 
 Documentation:
