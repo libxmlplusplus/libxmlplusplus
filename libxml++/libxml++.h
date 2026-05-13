@@ -37,8 +37,27 @@
  * @code
  * g++ program.cc -o program `pkg-config --cflags --libs libxml++-4.0`
  * @endcode
- * If your version of g++ is not C++17-compliant be default,
+ * If your version of g++ is not C++17-compliant by default,
  * add the @c -std=c++17 option.
+ *
+ * @subsection meson Using Meson
+ *
+ * If using <a href="https://mesonbuild.com/">Meson</a>, include the following
+ * in @c meson.build:
+ * @code
+ * xmlpp_dep = dependency('libxml++-4.0')
+ * program_name = 'program'
+ * cpp_sources = [ 'program.cc' ]
+ * executable(program_name,
+ *   cpp_sources,
+ *   dependencies: xmlpp_dep
+ * )
+ * @endcode
+ *
+ * Your @c dependencies: keyword argument should also mention any other libraries
+ * that you need to use.
+ *
+ * @subsection autotools Using Autotools
  *
  * Alternatively, if using autoconf, use the following in @c configure.ac:
  * @code
@@ -50,6 +69,8 @@
  * program_CPPFLAGS = $(LIBXMLXX_CFLAGS)
  * program_LDADD = $(LIBXMLXX_LIBS)
  * @endcode
+ * Your @c PKG_CHECK_MODULES() call should also mention any other libraries that
+ * you need to use via pkg-config.
  */
 #include <libxml++/exceptions/internal_error.h>
 #include <libxml++/exceptions/parse_error.h>
