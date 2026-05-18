@@ -430,6 +430,7 @@ meson.add_dist_script(
 # Don't distribute these files and directories.
 dont_distribute = [
   'libxmlplusplus.doap',
+  '.github',
 ]
 # Add build scripts to the distribution directory, and delete .gitignore
 # files and an empty $MESON_PROJECT_DIST_ROOT/build/ directory.
