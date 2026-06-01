@@ -255,7 +255,7 @@ protected:
   static void callback_error_or_warning(bool is_parser, bool is_error, void* ctx,
                                         const char* msg, va_list var_args);
 
-  _xmlParserCtxt* context_;
+  _xmlParserCtxt *context_{nullptr};
   std::unique_ptr<exception> exception_;
 
 private:

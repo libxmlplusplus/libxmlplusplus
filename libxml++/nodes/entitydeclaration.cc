@@ -14,8 +14,7 @@ EntityDeclaration::EntityDeclaration(xmlNode* node)
 : ContentNode(node)
 {}
 
-EntityDeclaration::~EntityDeclaration()
-{}
+EntityDeclaration::~EntityDeclaration() = default;
 
 #ifndef LIBXMLXX_DISABLE_DEPRECATED
 ustring EntityDeclaration::get_resolved_text() const

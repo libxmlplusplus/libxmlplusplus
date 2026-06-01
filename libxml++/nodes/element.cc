@@ -33,8 +33,7 @@ Element::Element(xmlNode* node)
 : Node(node)
 {}
 
-Element::~Element()
-{}
+Element::~Element() = default;
 
 Element::AttributeList Element::get_attributes()
 {

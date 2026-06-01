@@ -15,8 +15,7 @@ CommentNode::CommentNode(xmlNode* node)
 : ContentNode(node)
 {}
 
-CommentNode::~CommentNode()
-{}
+CommentNode::~CommentNode() = default;
 
 } //namespace xmlpp
 

@@ -26,11 +26,11 @@ namespace xmlpp
 
 struct XsdValidator::Impl
 {
-  Impl() noexcept : schema(nullptr), is_schema_owner(false), context(nullptr) {}
+  Impl() noexcept = default;
 
-  XsdSchema* schema;
-  bool is_schema_owner;
-  _xmlSchemaValidCtxt* context;
+  XsdSchema *schema{nullptr};
+  bool is_schema_owner{false};
+  _xmlSchemaValidCtxt *context{nullptr};
 };
 
 

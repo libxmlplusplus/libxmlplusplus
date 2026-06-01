@@ -16,8 +16,7 @@ ContentNode::ContentNode(xmlNode* node)
 : Node(node)
 {}
 
-ContentNode::~ContentNode()
-{}
+ContentNode::~ContentNode() = default;
 
 #ifndef LIBXMLXX_DISABLE_DEPRECATED
 ustring ContentNode::get_content() const

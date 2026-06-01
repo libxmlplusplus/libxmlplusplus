@@ -26,7 +26,6 @@ XIncludeStart::XIncludeStart(xmlNode* node)
 : Node(node)
 {}
 
-XIncludeStart::~XIncludeStart()
-{}
+XIncludeStart::~XIncludeStart() = default;
 
 } //namespace xmlpp

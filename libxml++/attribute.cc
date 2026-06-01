@@ -18,9 +18,7 @@ Attribute::Attribute(xmlNode* node)
 {
 }
 
-Attribute::~Attribute()
-{
-}
+Attribute::~Attribute() = default;
 
 std::optional<ustring> Attribute::get_value2() const
 {

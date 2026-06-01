@@ -45,13 +45,9 @@ xmlpp::exception* MyException::clone() const
  * MySaxParser implementation
  */
 
-MySaxParser::MySaxParser()
-{
-}
+MySaxParser::MySaxParser() = default;
 
-MySaxParser::~MySaxParser()
-{
-}
+MySaxParser::~MySaxParser() = default;
 
 void MySaxParser::on_start_document()
 {

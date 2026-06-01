@@ -16,9 +16,7 @@ AttributeNode::AttributeNode(xmlNode* node)
 {
 }
 
-AttributeNode::~AttributeNode()
-{
-}
+AttributeNode::~AttributeNode() = default;
 
 ustring AttributeNode::get_value() const
 {
