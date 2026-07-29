@@ -2,7 +2,8 @@
 
 # Input: xmlxx_build_dep, xmlxx_pcname, xmlxx_libversion, xmlxx_api_version,
 #        install_includedir, xmlxx_rc, xmlxx_libname, macos_darwin_versions,
-#        xml2_is_subproject, winsock_dep, bcrypt_dep
+#        xml2_is_subproject, winsock_dep, bcrypt_dep, pkgconfig,
+#        base_pkgconfig_vars, base_pkgconfig_uninstalled_vars, glibmm_dep
 # Output: source_h_files, xmlxx_own_dep
 
 # There are no built source files in libxml++-2.6.
@@ -128,4 +129,16 @@ xmlxx_own_dep = declare_dependency(
   link_with: xmlxx_library,
   include_directories: extra_include_dirs,
   dependencies: xmlxx_all_deps
+)
+
+pkgconfig.generate(xmlxx_library,
+  filebase: xmlxx_pcname,
+  variables: base_pkgconfig_vars,
+  uninstalled_variables: base_pkgconfig_uninstalled_vars,
+  name: meson.project_name(),
+  description: 'C++ wrapper for libxml',
+  url: 'https://libxmlplusplus.github.io/libxmlplusplus/reference/html/',
+  subdirs: [xmlxx_pcname],
+  extra_cflags: ['-I${libdir}/@0@/include'.format(xmlxx_pcname)],
+  requires: glibmm_dep,
 )
