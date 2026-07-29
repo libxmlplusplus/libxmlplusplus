@@ -11,7 +11,7 @@ project('libxml++', 'cpp',
 )
 
 xmlxx_api_version = '3.0'
-xmlxx_pcname = meson.project_name() + '-' + xmlxx_api_version
+xmlxx_pcname = '@0@-@1@'.format(meson.project_name(), xmlxx_api_version)
 
 xmlxx_version_array = meson.project_version().split('.')
 xmlxx_major_version = xmlxx_version_array[0].to_int()
@@ -46,6 +46,21 @@ is_msvc = cpp_compiler.get_id() == 'msvc'
 
 # Use the Python installation that Meson uses. Its version is >= 3.7.
 python3 = import('python').find_installation()
+pkgconfig = import('pkgconfig')
+common_pkgconfig_vars = [
+  'htmlrefpub=https://libxmlplusplus.github.io/libxmlplusplus/reference/html/',
+]
+base_pkgconfig_vars = [
+  'exec_prefix=${prefix}',
+  'datarootdir=${prefix}/share',
+  'datadir=${datarootdir}',
+  'docdir=${datarootdir}/doc/@0@'.format(xmlxx_pcname),
+  'doxytagfile=${docdir}/reference/@0@.tag'.format(xmlxx_pcname),
+  'htmlrefdir=${docdir}/reference/html',
+] + common_pkgconfig_vars
+base_pkgconfig_uninstalled_vars = [
+  'doxytagfile=${prefix}/docs/reference/@0@.tag'.format(xmlxx_pcname),
+] + common_pkgconfig_vars
 
 # Do we build from a git repository?
 # Suppose we do if and only if the meson.build file is tracked by git.
@@ -192,29 +207,6 @@ endif
 glibmm_req_minor_ver = '4'
 glibmm_dep = dependency('glibmm-2.@0@'.format(glibmm_req_minor_ver), version: glibmm_req)
 
-xmlxx_pc_requires_private = []
-libxml2_lib_pkgconfig = ''
-
-# Requires/Libs or Requires.private/Libs.private?
-# See https://people.freedesktop.org/~dbn/pkg-config-guide.html, FAQ
-# Put libxml-2.0 in the 'Requires.private:' section in the generated pkg-config
-# file, if we found it by pkg-config, else in the 'Libs.private:' section.
-if xml2_dep.type_name() == 'pkgconfig'
-  xmlxx_pc_requires_private += ['libxml-2.0', xml2_req]
-else
-  libxml2_lib_pkgconfig = xml2_dep.get_variable(
-    cmake:         'LIBXML2_LIBRARIES',
-    default_value: 'LibXml2.lib',
-  )
-endif
-
-# ...Then put glibmm-2.x in the 'Requires:' section in the generated pkg-config file
-xmlxx_pc_requires_public = ['glibmm-2.@0@'.format(glibmm_req_minor_ver), glibmm_req]
-
-# Must be at least one blank before and after '>=' in the pkg-config file.
-xmlxx_pc_requires_public = ' '.join(xmlxx_pc_requires_public)
-xmlxx_pc_requires_private = ' '.join(xmlxx_pc_requires_private)
-
 # Make sure we link to libxml-2.0 and glibmm
 xmlxx_build_dep = [xml2_dep, glibmm_dep]
 
@@ -354,21 +346,8 @@ endif
 
 # Configure files
 pkg_conf_data = configuration_data()
-pkg_conf_data.set('prefix', install_prefix)
-pkg_conf_data.set('exec_prefix', '${prefix}')
-pkg_conf_data.set('libdir', '${exec_prefix}' / install_libdir)
-pkg_conf_data.set('datarootdir', '${prefix}' / install_datadir)
-pkg_conf_data.set('datadir', '${datarootdir}')
-pkg_conf_data.set('includedir', '${prefix}' / install_includedir)
 pkg_conf_data.set('PACKAGE_NAME', meson.project_name()) # MSVC_NMake/libxml++/libxml++.rc
-pkg_conf_data.set('PACKAGE_TARNAME', meson.project_name())
 pkg_conf_data.set('PACKAGE_VERSION', meson.project_version())
-pkg_conf_data.set('LIBXMLXX_MODULE_NAME', xmlxx_pcname)
-pkg_conf_data.set('LIBXMLXX_API_VERSION', xmlxx_api_version)
-pkg_conf_data.set('LIBXMLXX_PUBLIC_MODULES', xmlxx_pc_requires_public)
-pkg_conf_data.set('LIBXMLXX_PRIVATE_MODULES', xmlxx_pc_requires_private)
-pkg_conf_data.set('LIBXML2_LIB_NO_PKGCONFIG', libxml2_lib_pkgconfig)
-pkg_conf_data.set('MSVC_TOOLSET_VER', msvc14x_toolset_ver)
 
 if not build_deprecated_api
   pkg_conf_data.set('LIBXMLXX_DISABLE_DEPRECATED', 1)
@@ -390,15 +369,6 @@ if cpp_compiler.get_argument_syntax() == 'msvc'
     error('Static builds are not supported by MSVC-style builds')
   endif
 endif
-
-configure_file(
-  input: 'libxml++.pc.in',
-  output: xmlxx_pcname + '.pc',
-  configuration: pkg_conf_data,
-  install: true,
-  install_dir: install_pkgconfigdir,
-  install_tag: 'devel',
-)
 
 xmlxxconfig_h_meson = files('libxml++config.h.meson')
 install_includeconfigdir = install_libdir / xmlxx_pcname / 'include'
